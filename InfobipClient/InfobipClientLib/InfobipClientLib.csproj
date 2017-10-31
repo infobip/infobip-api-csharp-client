@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{95264B1B-6EFA-4791-A75F-481464FD5CD3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>InfobipClientLib</RootNamespace>
+    <AssemblyName>InfobipClientLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="infobip\api\client\GetAccountBalance.cs" />
+    <Compile Include="infobip\api\client\GetBulks.cs" />
+    <Compile Include="infobip\api\client\GetBulkStatus.cs" />
+    <Compile Include="infobip\api\client\GetNumberContextLogs.cs" />
+    <Compile Include="infobip\api\client\GetReceivedMessages.cs" />
+    <Compile Include="infobip\api\client\GetReceivedSmsLogs.cs" />
+    <Compile Include="infobip\api\client\GetSentSmsDeliveryReports.cs" />
+    <Compile Include="infobip\api\client\GetSentSmsLogs.cs" />
+    <Compile Include="infobip\api\client\LogEndTag.cs" />
+    <Compile Include="infobip\api\client\ManageBulkStatus.cs" />
+    <Compile Include="infobip\api\client\NumberContextNotify.cs" />
+    <Compile Include="infobip\api\client\NumberContextQuery.cs" />
+    <Compile Include="infobip\api\client\PreviewSms.cs" />
+    <Compile Include="infobip\api\client\RescheduleBulk.cs" />
+    <Compile Include="infobip\api\client\SendMultipleBinarySms.cs" />
+    <Compile Include="infobip\api\client\SendMultipleSmsBinaryAdvanced.cs" />
+    <Compile Include="infobip\api\client\SendMultipleSmsTextual.cs" />
+    <Compile Include="infobip\api\client\SendMultipleTextualSmsAdvanced.cs" />
+    <Compile Include="infobip\api\client\SendSingleBinarySms.cs" />
+    <Compile Include="infobip\api\client\SendSingleTextualSms.cs" />
+    <Compile Include="infobip\api\config\ApiKeyAuthConfiguration.cs" />
+    <Compile Include="infobip\api\config\BasicAuthConfiguration.cs" />
+    <Compile Include="infobip\api\config\Configuration.cs" />
+    <Compile Include="infobip\api\config\FormattedDate.cs" />
+    <Compile Include="infobip\api\config\HttpClientProvider.cs" />
+    <Compile Include="infobip\api\config\IbssoAuthConfiguration.cs" />
+    <Compile Include="infobip\api\model\account\AccountBalance.cs" />
+    <Compile Include="infobip\api\model\conversion\EndTagResponse.cs" />
+    <Compile Include="infobip\api\model\Destination.cs" />
+    <Compile Include="infobip\api\model\Error.cs" />
+    <Compile Include="infobip\api\model\error\ApiErrorResponse.cs" />
+    <Compile Include="infobip\api\model\error\InfobipApiException.cs" />
+    <Compile Include="infobip\api\model\error\RequestError.cs" />
+    <Compile Include="infobip\api\model\error\ServiceException.cs" />
+    <Compile Include="infobip\api\model\nc\logs\GetNumberContextLogsExecuteContext.cs" />
+    <Compile Include="infobip\api\model\nc\logs\NumberContextLog.cs" />
+    <Compile Include="infobip\api\model\nc\logs\NumberContextLogsResponse.cs" />
+    <Compile Include="infobip\api\model\nc\Network.cs" />
+    <Compile Include="infobip\api\model\nc\notify\NumberContextRequest.cs" />
+    <Compile Include="infobip\api\model\nc\notify\NumberContextResponse.cs" />
+    <Compile Include="infobip\api\model\nc\notify\NumberContextResponseDetails.cs" />
+    <Compile Include="infobip\api\model\nc\query\NumberContextRequest.cs" />
+    <Compile Include="infobip\api\model\nc\query\NumberContextResponse.cs" />
+    <Compile Include="infobip\api\model\nc\query\NumberContextResponseDetails.cs" />
+    <Compile Include="infobip\api\model\Price.cs" />
+    <Compile Include="infobip\api\model\sms\mo\logs\GetReceivedSmsLogsExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mo\logs\MOLog.cs" />
+    <Compile Include="infobip\api\model\sms\mo\logs\MOLogsResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mo\reports\GetReceivedMessagesExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mo\reports\MOReport.cs" />
+    <Compile Include="infobip\api\model\sms\mo\reports\MOReportResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\BulkRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\BulkResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\GetBulksExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\RescheduleBulkExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\status\BulkStatus.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\status\BulkStatusResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\status\GetBulkStatusExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\status\ManageBulkStatusExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\bulks\status\UpdateStatusRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\logs\GetSentSmsLogsExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\logs\SMSLog.cs" />
+    <Compile Include="infobip\api\model\sms\mt\logs\SMSLogsResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\reports\GetSentSmsDeliveryReportsExecuteContext.cs" />
+    <Compile Include="infobip\api\model\sms\mt\reports\SMSReport.cs" />
+    <Compile Include="infobip\api\model\sms\mt\reports\SMSReportResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\binary\BinaryContent.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\binary\SMSAdvancedBinaryRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\binary\SMSBinaryRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\binary\SMSMultiBinaryRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\DeliveryDay.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\DeliveryTime.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\DeliveryTimeWindow.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\Language.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\Message.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\preview\Configuration.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\preview\Preview.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\preview\PreviewRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\preview\PreviewResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\SMSResponse.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\SMSResponseDetails.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\textual\SMSAdvancedTextualRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\textual\SMSMultiTextualRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\textual\SMSTextualRequest.cs" />
+    <Compile Include="infobip\api\model\sms\mt\send\Tracking.cs" />
+    <Compile Include="infobip\api\model\Status.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
