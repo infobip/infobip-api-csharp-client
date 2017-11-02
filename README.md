@@ -21,6 +21,9 @@ Manual dependency management
 If you choose not to use the NuGet Package Manager, you can also clone this repository and reference the
 InfobipClientLib project directly. Another way would be to build it in a .dll file, place it wherever you
 like in your project and reference it that way.
+If, on the other hand, you do not want to deal with this repository, you can download the NuGet package manually
+from the [dedicated NuGet site](https://www.nuget.org/packages/Infobip.Api.Client/), open it in a file archiving
+program and extract the .dll file from the lib directory.
 
 Examples
 ---------
