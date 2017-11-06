@@ -1,16 +1,16 @@
-using InfobipClient.infobip.api.config;
-using InfobipClient.infobip.api.model.error;
+using Infobip.Api.Config;
+using Infobip.Api.Model.Exception;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
-using InfobipClient.infobip.api.model.conversion;
+using Infobip.Api.Model.Conversion;
 
-
-namespace InfobipClient.infobip.api.client
+namespace Infobip.Api.Client
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -19,6 +19,8 @@ namespace InfobipClient.infobip.api.client
     {
         private static string path = "/ct/1/log/end/{messageId}";
 
+        private Config.Configuration configuration;
+
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
@@ -26,31 +28,32 @@ namespace InfobipClient.infobip.api.client
             DateFormatString = "yyyy-MM-ddTHH:mm:ss.FFFK"
         };
 
-        private HttpClient client;
-
-        public LogEndTag(config.Configuration configuration)
+        public LogEndTag(Config.Configuration configuration)
         {
-            client = HttpClientProvider.GetHttpClient(configuration);
+            this.configuration = configuration;
         }
 
-        public EndTagResponse Execute(string messageId)
+        public async Task<EndTagResponse> ExecuteAsync(string messageId)
         {
-            string endpoint = path;
-            endpoint = endpoint.Replace("{messageId}", HttpUtility.UrlEncode(messageId));
-
-            var response = client.PostAsync(endpoint, null).Result;
-            string contents = response.Content.ReadAsStringAsync().Result;
-
-            if (response.IsSuccessStatusCode)
+            using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                return JsonConvert.DeserializeObject<EndTagResponse>(contents, Settings);
-            }
-            else
-            {
-                throw new InfobipApiException(
-                    response.StatusCode,
-                    JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
-                );
+                string endpoint = path;
+                endpoint = endpoint.Replace("{messageId}", HttpUtility.UrlEncode(messageId));
+
+                var response = await client.PostAsync(endpoint, null);
+                string contents = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<EndTagResponse>(contents, Settings);
+                }
+                else
+                {
+                    throw new InfobipApiException(
+                        response.StatusCode,
+                        JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
+                    );
+                }
             }
         }
 

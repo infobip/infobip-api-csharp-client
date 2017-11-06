@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace InfobipClient.infobip.api.model.sms.mt.bulks.status
+namespace Infobip.Api.Model.Sms.Mt.Bulks.Status
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -12,18 +12,6 @@ namespace InfobipClient.infobip.api.model.sms.mt.bulks.status
         [JsonProperty("bulkId")]
         public string BulkId { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var thisClass = obj as GetBulkStatusExecuteContext;
-            return thisClass != null &&
-                EqualityComparer<string>.Default.Equals(BulkId, thisClass.BulkId);
-        }
 
-        public override int GetHashCode()
-        {
-            var hashCode = -1559463931;
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(BulkId);
-            return hashCode;
-        }
     }
 }

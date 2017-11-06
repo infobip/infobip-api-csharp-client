@@ -1,22 +1,22 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.sms.mt.send;
-using InfobipClient.infobip.api.model.sms.mt.send.textual;
+﻿using Infobip.Api.Model.Sms.Mt.Send;
+using Infobip.Api.Model.Sms.Mt.Send.Textual;
 using System;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class SingleTextualSmsExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
-            string messageId = SendSingleTextualSms();
+            string messageId = await SendSingleTextualSmsAsync();
 
             System.Threading.Thread.Sleep(2000);
 
-            GetSmsReport(messageId);
+            await GetSmsReportAsync(messageId);
         }
 
-        private static string SendSingleTextualSms()
+        private static async Task<string> SendSingleTextualSmsAsync()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Sending single textual message...");
@@ -28,7 +28,7 @@ namespace InfobipClientExamples.examples
                 To = TO_LIST,
                 Text = MESSAGE_TEXT
             };
-            SMSResponse smsResponse = smsClient.Execute(request);
+            SMSResponse smsResponse = await smsClient.ExecuteAsync(request);
 
             Console.WriteLine("Sending single textual message complete.");
 

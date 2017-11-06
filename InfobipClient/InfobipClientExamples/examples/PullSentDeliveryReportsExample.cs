@@ -1,12 +1,13 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.sms.mt.reports;
+﻿using Infobip.Api.Model.Sms.Mt.Reports;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class PullSentDeliveryReportsExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             GetSentSmsDeliveryReports client = new GetSentSmsDeliveryReports(BASIC_AUTH_CONFIGURATION);
 
@@ -17,11 +18,11 @@ namespace InfobipClientExamples.examples
                 Limit = 10
             };
 
-            SMSReportResponse response = client.Execute(context);
+            SMSReportResponse response = await client.ExecuteAsync(context);
 
-            if (response.Results.Count < 1)
+            if (!response.Results.Any())
             {
-                Console.WriteLine("No logs to display.");
+                Console.WriteLine("No reports to display.");
                 return;
             }
 

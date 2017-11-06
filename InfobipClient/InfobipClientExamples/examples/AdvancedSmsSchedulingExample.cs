@@ -1,24 +1,24 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model;
-using InfobipClient.infobip.api.model.sms.mt.bulks;
-using InfobipClient.infobip.api.model.sms.mt.bulks.status;
-using InfobipClient.infobip.api.model.sms.mt.send;
-using InfobipClient.infobip.api.model.sms.mt.send.textual;
+﻿using Infobip.Api.Model;
+using Infobip.Api.Model.Sms.Mt.Bulks;
+using Infobip.Api.Model.Sms.Mt.Bulks.Status;
+using Infobip.Api.Model.Sms.Mt.Send;
+using Infobip.Api.Model.Sms.Mt.Send.Textual;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class AdvancedSmsSchedulingExample : Example
     {
         private static DateTimeOffset NOW = new DateTimeOffset(DateTime.Now);
 
-        public override void RunExample()
+        public async override Task RunExampleAsync()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Sending scheduled fully featured textual message...");
 
-            SMSResponse smsResponse = SendScheduledMessage();
+            SMSResponse smsResponse = await SendScheduledMessageAsync();
             String bulkId = smsResponse.BulkId;
             SMSResponseDetails sentMessageInfo = smsResponse.Messages[0];
 
@@ -34,23 +34,27 @@ namespace InfobipClientExamples.examples
 
             System.Threading.Thread.Sleep(1000);
 
-            BulkResponse bulkResponse = GetBulk(bulkId);
+            BulkResponse bulkResponse = await GetBulkAsync(bulkId);
             Console.WriteLine("Fetched scheduling date.");
             Console.WriteLine("Bulk ID: " + bulkResponse.BulkId);
             Console.WriteLine("SendAt: " + bulkResponse.SendAt);
             Console.WriteLine("-------------------------------");
 
-            RescheduleMessage(bulkId);
+            RescheduleMessageAsync(bulkId);
             Console.WriteLine("Rescheduling message.");
             Console.WriteLine("-------------------------------");
 
-            bulkResponse = GetBulk(bulkId);
+            System.Threading.Thread.Sleep(1000);
+
+            bulkResponse = await GetBulkAsync(bulkId);
             Console.WriteLine("Fetched scheduling date after rescheduling.");
             Console.WriteLine("Bulk ID: " + bulkResponse.BulkId);
             Console.WriteLine("SendAt: " + bulkResponse.SendAt);
             Console.WriteLine("-------------------------------");
 
-            BulkStatusResponse statusResponse = GetBulkStatus(bulkId);
+            System.Threading.Thread.Sleep(1000);
+
+            BulkStatusResponse statusResponse = await GetBulkStatusAsync(bulkId);
             Console.WriteLine("Fetched bulk status.");
             Console.WriteLine("Bulk status: " + statusResponse.Status);
             Console.WriteLine("-------------------------------");
@@ -60,9 +64,9 @@ namespace InfobipClientExamples.examples
                 Console.WriteLine("Fetched bulk is in PENDING status, attempting to cancel bulk.");
                 Console.WriteLine("-------------------------------");
 
-                CancelBulkStatus(bulkId);
+                CancelBulkStatusAsync(bulkId);
 
-                statusResponse = GetBulkStatus(bulkId);
+                statusResponse = await GetBulkStatusAsync(bulkId);
                 Console.WriteLine("Fetched bulk status after cancelation.");
                 Console.WriteLine("Bulk status: " + statusResponse.Status);
             }
@@ -74,7 +78,7 @@ namespace InfobipClientExamples.examples
             Console.WriteLine("-------------------------------");
         }
 
-        private static SMSResponse SendScheduledMessage()
+        private static async Task<SMSResponse> SendScheduledMessageAsync()
         {
             SendMultipleTextualSmsAdvanced smsClient = new SendMultipleTextualSmsAdvanced(BASIC_AUTH_CONFIGURATION);
 
@@ -98,38 +102,38 @@ namespace InfobipClientExamples.examples
                 Messages = new List<Message>(1) { message }
             };
 
-            return smsClient.Execute(request);
+            return await smsClient.ExecuteAsync(request);
         }
 
-        private static BulkResponse GetBulk(string bulkId)
+        private static async Task<BulkResponse> GetBulkAsync(string bulkId)
         {
             GetBulksExecuteContext context = new GetBulksExecuteContext{ BulkId = bulkId };
 
-            return new GetBulks(BASIC_AUTH_CONFIGURATION).Execute(context);
+            return await new GetBulks(BASIC_AUTH_CONFIGURATION).ExecuteAsync(context);
         }
 
-        private static void RescheduleMessage(String bulkId)
+        private static async void RescheduleMessageAsync(String bulkId)
         {
             DateTimeOffset sendAt = NOW.AddMinutes(30);
             BulkRequest rescheduleRequest = new BulkRequest{ SendAt = sendAt };
             RescheduleBulkExecuteContext context = new RescheduleBulkExecuteContext { BulkId = bulkId };
 
-            new RescheduleBulk(BASIC_AUTH_CONFIGURATION).Execute(context, rescheduleRequest);
+            await new RescheduleBulk(BASIC_AUTH_CONFIGURATION).ExecuteAsync(context, rescheduleRequest);
         }
 
-        private static BulkStatusResponse GetBulkStatus(String bulkId)
+        private static async Task<BulkStatusResponse> GetBulkStatusAsync(String bulkId)
         {
             GetBulkStatusExecuteContext context = new GetBulkStatusExecuteContext { BulkId = bulkId };
 
-            return new GetBulkStatus(BASIC_AUTH_CONFIGURATION).Execute(context);
+            return await new GetBulkStatus(BASIC_AUTH_CONFIGURATION).ExecuteAsync(context);
         }
 
-        private static void CancelBulkStatus(String bulkId)
+        private static async void CancelBulkStatusAsync(String bulkId)
         {
             UpdateStatusRequest updateStatusRequest = new UpdateStatusRequest { Status = BulkStatus.CANCELED };
             ManageBulkStatusExecuteContext context = new ManageBulkStatusExecuteContext { BulkId = bulkId };
 
-            new ManageBulkStatus(BASIC_AUTH_CONFIGURATION).Execute(context, updateStatusRequest);
+            await new ManageBulkStatus(BASIC_AUTH_CONFIGURATION).ExecuteAsync(context, updateStatusRequest);
         }
     }
 }

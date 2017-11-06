@@ -1,11 +1,9 @@
-using System;
 using System.Net;
 
-namespace InfobipClient.infobip.api.model.error
+namespace Infobip.Api.Model.Exception
 {
-	public class InfobipApiException: Exception
+	public class InfobipApiException: System.Exception
 	{
-
 		public ApiErrorResponse ApiErrorResponse { get; }
 		public HttpStatusCode StatusCode { get; }
 

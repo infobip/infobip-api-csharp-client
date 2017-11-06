@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace InfobipClient.infobip.api.model.error
+namespace Infobip.Api.Model.Exception
 {
     public class RequestError
     {

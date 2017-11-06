@@ -1,18 +1,18 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.conversion;
+﻿using Infobip.Api.Model.Conversion;
 using System;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class LogEndTagExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             LogEndTag client = new LogEndTag(BASIC_AUTH_CONFIGURATION);
 
             string messageId = "MESSAGE-ID";
 
-            EndTagResponse response = client.Execute(messageId);
+            EndTagResponse response = await client.ExecuteAsync(messageId);
             
             Console.WriteLine("ProcessKey: " + response.ProcessKey);
         }

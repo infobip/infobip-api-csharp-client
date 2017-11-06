@@ -1,20 +1,19 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.account;
+﻿using Infobip.Api.Model.Account;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class GetAccountBalanceExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             GetAccountBalance client = new GetAccountBalance(BASIC_AUTH_CONFIGURATION);
 
-            AccountBalance accountBalance = client.Execute();
-
+            AccountBalance accountBalance = await client.ExecuteAsync();
             Console.WriteLine("Account balance: ");
-            Console.WriteLine(JsonConvert.SerializeObject(accountBalance, new JsonSerializerSettings{ Formatting = Formatting.Indented }));
+            Console.WriteLine(JsonConvert.SerializeObject(accountBalance, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
     }
 }

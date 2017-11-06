@@ -1,12 +1,13 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.nc.query;
+﻿using Infobip.Api.Model.Nc.Query;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class NumberContextQueryExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             NumberContextQuery client = new NumberContextQuery(BASIC_AUTH_CONFIGURATION);
 
@@ -15,9 +16,9 @@ namespace InfobipClientExamples.examples
                 To = TO_LIST
             };
 
-            NumberContextResponse response = client.Execute(request);
+            NumberContextResponse response = await client.ExecuteAsync(request);
 
-            if (response.Results.Count < 1)
+            if (!response.Results.Any())
             {
                 Console.WriteLine("No details to display.");
                 return;

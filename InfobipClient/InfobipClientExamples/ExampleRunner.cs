@@ -1,6 +1,4 @@
-﻿using InfobipClientExamples.examples;
-
-namespace InfobipClientExamples
+﻿namespace Infobip.Api.Client.Examples
 {
     class ExampleRunner
     {
@@ -8,31 +6,31 @@ namespace InfobipClientExamples
         {
             // Uncomment an example to run it
 
-            //new AdvancedSmsDeliveryTimeWindowExample().RunExample();
-            //new AdvancedSmsExample().RunExample();
-            //new AdvancedSmsFlashExample().RunExample();
-            //new AdvancedSmsLanguageExample().RunExample();
-            //new AdvancedSmsNotifyExample().RunExample();
-            //new AdvancedSmsSchedulingExample().RunExample();
-            //new AdvancedSmsTrackingExample().RunExample();
+            //new AdvancedSmsDeliveryTimeWindowExample().RunExampleAsync().Wait();
+            //new AdvancedSmsExample().RunExampleAsync().Wait();
+            //new AdvancedSmsFlashExample().RunExampleAsync().Wait();
+            //new AdvancedSmsLanguageExample().RunExampleAsync().Wait();
+            //new AdvancedSmsNotifyExample().RunExampleAsync().Wait();
+            new AdvancedSmsSchedulingExample().RunExampleAsync().Wait();
+            //new AdvancedSmsTrackingExample().RunExampleAsync().Wait();
 
-            //new GetAccountBalanceExample().RunExample();
+            //new GetAccountBalanceExample().RunExampleAsync().Wait();
 
-            //new GetInboxLogsExample().RunExample();
-            //new GetSentLogsDeliveredExample().RunExample();
-            //new GetSentLogsExample().RunExample();
+            //new GetInboxLogsExample().RunExampleAsync().Wait();
+            //new GetSentLogsDeliveredExample().RunExampleAsync().Wait();
+            //new GetSentLogsExample().RunExampleAsync().Wait();
 
-            //new LogEndTagExample().RunExample();
+            //new LogEndTagExample().RunExampleAsync().Wait();
 
-            //new NumberContextNotifyExample().RunExample();
-            //new NumberContextQueryExample().RunExample();
+            //new NumberContextNotifyExample().RunExampleAsync().Wait();
+            //new NumberContextQueryExample().RunExampleAsync().Wait();
 
-            //new PullInboxDeliveryReportsExample().RunExample();
-            //new PullSentDeliveryReportsExample().RunExample();
+            //new PullInboxDeliveryReportsExample().RunExampleAsync().Wait();
+            //new PullSentDeliveryReportsExample().RunExampleAsync().Wait();
 
-            //new SingleTextualSmsExample().RunExample();
+            //new SingleTextualSmsExample().RunExampleAsync().Wait();
 
-            //new SmsPreviewExample().RunExample();
+            //new SmsPreviewExample().RunExampleAsync().Wait();
         }
     }
 }

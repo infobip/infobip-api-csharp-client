@@ -1,10 +1,10 @@
-using InfobipClient.infobip.api.model.nc;
+using Infobip.Api.Model.Nc;
 using System.Collections.Generic;
-using InfobipClient.infobip.api.model;
 using Newtonsoft.Json;
 using System;
+using Infobip.Api.Model;
 
-namespace InfobipClient.infobip.api.model.nc.query
+namespace Infobip.Api.Model.Nc.Query
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -44,38 +44,6 @@ namespace InfobipClient.infobip.api.model.nc.query
         [JsonProperty("status")]
         public Status Status { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var thisClass = obj as NumberContextResponseDetails;
-            return thisClass != null &&
-                EqualityComparer<bool?>.Default.Equals(Ported, thisClass.Ported) &&
-                EqualityComparer<bool?>.Default.Equals(Roaming, thisClass.Roaming) &&
-                EqualityComparer<string>.Default.Equals(MccMnc, thisClass.MccMnc) &&
-                EqualityComparer<Network>.Default.Equals(RoamingNetwork, thisClass.RoamingNetwork) &&
-                EqualityComparer<Network>.Default.Equals(PortedNetwork, thisClass.PortedNetwork) &&
-                EqualityComparer<string>.Default.Equals(To, thisClass.To) &&
-                EqualityComparer<string>.Default.Equals(Imsi, thisClass.Imsi) &&
-                EqualityComparer<string>.Default.Equals(ServingMSC, thisClass.ServingMSC) &&
-                EqualityComparer<Error>.Default.Equals(Error, thisClass.Error) &&
-                EqualityComparer<Network>.Default.Equals(OriginalNetwork, thisClass.OriginalNetwork) &&
-                EqualityComparer<Status>.Default.Equals(Status, thisClass.Status);
-        }
 
-        public override int GetHashCode()
-        {
-            var hashCode = -1559463931;
-            hashCode = hashCode * -1521134295 +  EqualityComparer<bool?>.Default.GetHashCode(Ported);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<bool?>.Default.GetHashCode(Roaming);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(MccMnc);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<Network>.Default.GetHashCode(RoamingNetwork);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<Network>.Default.GetHashCode(PortedNetwork);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(To);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(Imsi);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(ServingMSC);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<Error>.Default.GetHashCode(Error);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<Network>.Default.GetHashCode(OriginalNetwork);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<Status>.Default.GetHashCode(Status);
-            return hashCode;
-        }
     }
 }

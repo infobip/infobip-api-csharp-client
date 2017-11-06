@@ -1,24 +1,24 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model;
-using InfobipClient.infobip.api.model.sms.mt.send;
-using InfobipClient.infobip.api.model.sms.mt.send.textual;
+﻿using Infobip.Api.Model;
+using Infobip.Api.Model.Sms.Mt.Send;
+using Infobip.Api.Model.Sms.Mt.Send.Textual;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class AdvancedSmsDeliveryTimeWindowExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
-            string messageId = AdvancedSms();
+            string messageId = await AdvancedSmsAsync();
 
             System.Threading.Thread.Sleep(3000);
 
-            GetSmsReport(messageId);
+            await GetSmsReportAsync(messageId);
         }
 
-        private static string AdvancedSms()
+        private static async Task<string> AdvancedSmsAsync()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Sending fully featured textual message with delivery time window...");
@@ -35,7 +35,7 @@ namespace InfobipClientExamples.examples
                 From = FROM,
                 Destinations = new List<Destination>(1) { destination },
                 Text = "Advanced message example",
-                DeliveryTimeWindow = generateDeliveryTimeWindow()
+                DeliveryTimeWindow = GenerateDeliveryTimeWindow()
             };
 
             SMSAdvancedTextualRequest request = new SMSAdvancedTextualRequest
@@ -43,7 +43,7 @@ namespace InfobipClientExamples.examples
                 Messages = new List<Message>(1) { message }
             };
 
-            SMSResponse smsResponse = smsClient.Execute(request);
+            SMSResponse smsResponse = await smsClient.ExecuteAsync(request);
 
             Console.WriteLine("Sending fully featured textual message with delivery time window complete.");
 
@@ -57,7 +57,7 @@ namespace InfobipClientExamples.examples
             return sentMessageInfo.MessageId;
         }
 
-        private static DeliveryTimeWindow generateDeliveryTimeWindow()
+        private static DeliveryTimeWindow GenerateDeliveryTimeWindow()
         {
             DeliveryTime deliveryTimeFrom = new DeliveryTime
             {

@@ -1,4 +1,4 @@
-namespace InfobipClient.infobip.api.model.sms.mt.bulks.status
+namespace Infobip.Api.Model.Sms.Mt.Bulks.Status
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!

@@ -1,10 +1,11 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.config;
-using InfobipClient.infobip.api.model.sms.mt.reports;
+﻿using Infobip.Api.Config;
+using Infobip.Api.Model.Sms.Mt.Reports;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     abstract class Example
     {
@@ -21,9 +22,9 @@ namespace InfobipClientExamples.examples
 
         protected static readonly string NOTIFY_URL = "https://notify.me";
 
-        public abstract void RunExample();
+        public abstract Task RunExampleAsync();
 
-        protected static void GetSmsReport(string messageId)
+        protected static async Task<SMSReportResponse> GetSmsReportAsync(string messageId)
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Fetching report...");
@@ -33,16 +34,22 @@ namespace InfobipClientExamples.examples
             {
                 MessageId = messageId
             };
-            SMSReportResponse response = reportsClient.Execute(context);
+            SMSReportResponse response = await reportsClient.ExecuteAsync(context);
 
-            if (response.Results.Count < 1)
+            if (!response.Results.Any())
             {
                 Console.WriteLine("No report to fetch.");
-                return;
+                return new SMSReportResponse();
             }
-
             Console.WriteLine("Fetching report complete.");
+            
+            PrintFirstReportDetails(response);
 
+            return response;
+        }
+
+        protected static void PrintFirstReportDetails(SMSReportResponse response)
+        {
             SMSReport report = response.Results[0];
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Message ID: " + report.MessageId);

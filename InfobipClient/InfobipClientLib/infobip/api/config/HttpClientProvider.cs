@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Net.Http;
 
-namespace InfobipClient.infobip.api.config
+namespace Infobip.Api.Config
 {
     public class HttpClientProvider
     {
-        private static ConcurrentDictionary<Configuration, HttpClient> clients = new ConcurrentDictionary<Configuration, HttpClient>();
-
         public static HttpClient GetHttpClient(Configuration configuration)
-        {
-            return clients.GetOrAdd(configuration, CreateClient);
-        }
-
-        private static HttpClient CreateClient(Configuration configuration)
         {
             HttpClient client = new HttpClient
             {

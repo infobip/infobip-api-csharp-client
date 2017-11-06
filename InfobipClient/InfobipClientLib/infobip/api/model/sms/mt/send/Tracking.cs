@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace InfobipClient.infobip.api.model.sms.mt.send
+namespace Infobip.Api.Model.Sms.Mt.Send
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -18,22 +18,6 @@ namespace InfobipClient.infobip.api.model.sms.mt.send
         [JsonProperty("type")]
         public string Type { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var thisClass = obj as Tracking;
-            return thisClass != null &&
-                EqualityComparer<string>.Default.Equals(ProcessKey, thisClass.ProcessKey) &&
-                EqualityComparer<string>.Default.Equals(Track, thisClass.Track) &&
-                EqualityComparer<string>.Default.Equals(Type, thisClass.Type);
-        }
 
-        public override int GetHashCode()
-        {
-            var hashCode = -1559463931;
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(ProcessKey);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(Track);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(Type);
-            return hashCode;
-        }
     }
 }

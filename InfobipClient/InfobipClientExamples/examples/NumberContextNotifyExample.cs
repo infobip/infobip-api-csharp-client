@@ -1,12 +1,13 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.nc.notify;
+﻿using Infobip.Api.Model.Nc.Notify;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class NumberContextNotifyExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             NumberContextNotify client = new NumberContextNotify(BASIC_AUTH_CONFIGURATION);
 
@@ -16,9 +17,9 @@ namespace InfobipClientExamples.examples
                 NotifyUrl = NOTIFY_URL
             };
 
-            NumberContextResponse response = client.Execute(request);
+            NumberContextResponse response = await client.ExecuteAsync(request);
 
-            if (response.Results.Count < 1)
+            if (!response.Results.Any())
             {
                 Console.WriteLine("No details to display.");
                 return;

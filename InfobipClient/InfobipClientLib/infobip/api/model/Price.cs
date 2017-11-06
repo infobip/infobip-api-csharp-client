@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace InfobipClient.infobip.api.model
+namespace Infobip.Api.Model
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -18,22 +18,6 @@ namespace InfobipClient.infobip.api.model
         [JsonProperty("currency")]
         public string Currency { get; set; }
 
-        public override bool Equals(object obj)
-        {
-            var thisClass = obj as Price;
-            return thisClass != null &&
-                EqualityComparer<decimal?>.Default.Equals(PricePerLookup, thisClass.PricePerLookup) &&
-                EqualityComparer<decimal?>.Default.Equals(PricePerMessage, thisClass.PricePerMessage) &&
-                EqualityComparer<string>.Default.Equals(Currency, thisClass.Currency);
-        }
 
-        public override int GetHashCode()
-        {
-            var hashCode = -1559463931;
-            hashCode = hashCode * -1521134295 +  EqualityComparer<decimal?>.Default.GetHashCode(PricePerLookup);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<decimal?>.Default.GetHashCode(PricePerMessage);
-            hashCode = hashCode * -1521134295 +  EqualityComparer<string>.Default.GetHashCode(Currency);
-            return hashCode;
-        }
     }
 }

@@ -1,13 +1,13 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.sms.mt.send.preview;
+﻿using Infobip.Api.Model.Sms.Mt.Send.Preview;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class SmsPreviewExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             PreviewSms previewClient = new PreviewSms(BASIC_AUTH_CONFIGURATION);
 
@@ -18,7 +18,7 @@ namespace InfobipClientExamples.examples
                 Transliteration = "TURKISH"
             };
 
-            PreviewResponse response = previewClient.Execute(request);
+            PreviewResponse response = await previewClient.ExecuteAsync(request);
 
             Console.WriteLine("Original text: ");
             Console.WriteLine("\t" + response.OriginalText);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace InfobipClient.infobip.api.config
+﻿namespace Infobip.Api.Config
 {
     public abstract class Configuration
     {
@@ -9,23 +7,5 @@ namespace InfobipClient.infobip.api.config
         public int ReadTimeout { get; set; } = 10000;
 
         abstract public string GetAuthorizationHeader();
-
-        public override bool Equals(object obj)
-        {
-            var configuration = obj as Configuration;
-            return configuration != null &&
-                   BaseUrl == configuration.BaseUrl &&
-                   ConnectionTimeout == configuration.ConnectionTimeout &&
-                   ReadTimeout == configuration.ReadTimeout;
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 251280853;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BaseUrl);
-            hashCode = hashCode * -1521134295 + ConnectionTimeout.GetHashCode();
-            hashCode = hashCode * -1521134295 + ReadTimeout.GetHashCode();
-            return hashCode;
-        }
     }
 }

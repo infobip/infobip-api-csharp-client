@@ -1,24 +1,24 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model;
-using InfobipClient.infobip.api.model.sms.mt.send;
-using InfobipClient.infobip.api.model.sms.mt.send.textual;
+﻿using Infobip.Api.Model;
+using Infobip.Api.Model.Sms.Mt.Send;
+using Infobip.Api.Model.Sms.Mt.Send.Textual;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class AdvancedSmsTrackingExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
-            string messageId = AdvancedSms();
+            string messageId = await AdvancedSmsAsync();
 
             System.Threading.Thread.Sleep(2000);
 
-            GetSmsReport(messageId);
+            await GetSmsReportAsync(messageId);
         }
 
-        private static string AdvancedSms()
+        private static async Task<string> AdvancedSmsAsync()
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Sending fully featured textual message with tracking...");
@@ -48,7 +48,7 @@ namespace InfobipClientExamples.examples
                 Tracking = tracking
             };
 
-            SMSResponse smsResponse = smsClient.Execute(request);
+            SMSResponse smsResponse = await smsClient.ExecuteAsync(request);
 
             Console.WriteLine("Sending fully featured textual message with tracking complete.");
 

@@ -42,25 +42,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExampleRunner.cs" />
-    <Compile Include="examples\AdvancedSmsDeliveryTimeWindowExample.cs" />
-    <Compile Include="examples\AdvancedSmsExample.cs" />
-    <Compile Include="examples\AdvancedSmsFlashExample.cs" />
-    <Compile Include="examples\AdvancedSmsLanguageExample.cs" />
-    <Compile Include="examples\AdvancedSmsNotifyExample.cs" />
-    <Compile Include="examples\AdvancedSmsSchedulingExample.cs" />
-    <Compile Include="examples\AdvancedSmsTrackingExample.cs" />
-    <Compile Include="examples\Example.cs" />
-    <Compile Include="examples\GetAccountBalanceExample.cs" />
-    <Compile Include="examples\GetInboxLogsExample.cs" />
-    <Compile Include="examples\GetSentLogsDeliveredExample.cs" />
-    <Compile Include="examples\GetSentLogsExample.cs" />
-    <Compile Include="examples\LogEndTagExample.cs" />
-    <Compile Include="examples\NumberContextNotifyExample.cs" />
-    <Compile Include="examples\NumberContextQueryExample.cs" />
-    <Compile Include="examples\PullInboxDeliveryReportsExample.cs" />
-    <Compile Include="examples\PullSentDeliveryReportsExample.cs" />
-    <Compile Include="examples\SingleTextualSmsExample.cs" />
-    <Compile Include="examples\SmsPreviewExample.cs" />
+    <Compile Include="Examples\AdvancedSmsDeliveryTimeWindowExample.cs" />
+    <Compile Include="Examples\AdvancedSmsExample.cs" />
+    <Compile Include="Examples\AdvancedSmsFlashExample.cs" />
+    <Compile Include="Examples\AdvancedSmsLanguageExample.cs" />
+    <Compile Include="Examples\AdvancedSmsNotifyExample.cs" />
+    <Compile Include="Examples\AdvancedSmsSchedulingExample.cs" />
+    <Compile Include="Examples\AdvancedSmsTrackingExample.cs" />
+    <Compile Include="Examples\Example.cs" />
+    <Compile Include="Examples\GetAccountBalanceExample.cs" />
+    <Compile Include="Examples\GetInboxLogsExample.cs" />
+    <Compile Include="Examples\GetSentLogsDeliveredExample.cs" />
+    <Compile Include="Examples\GetSentLogsExample.cs" />
+    <Compile Include="Examples\LogEndTagExample.cs" />
+    <Compile Include="Examples\NumberContextNotifyExample.cs" />
+    <Compile Include="Examples\NumberContextQueryExample.cs" />
+    <Compile Include="Examples\PullInboxDeliveryReportsExample.cs" />
+    <Compile Include="Examples\PullSentDeliveryReportsExample.cs" />
+    <Compile Include="Examples\SingleTextualSmsExample.cs" />
+    <Compile Include="Examples\SmsPreviewExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

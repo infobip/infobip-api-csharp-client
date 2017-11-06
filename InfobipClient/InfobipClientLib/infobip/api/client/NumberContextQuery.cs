@@ -1,15 +1,15 @@
-using InfobipClient.infobip.api.config;
-using InfobipClient.infobip.api.model.error;
+using Infobip.Api.Config;
+using Infobip.Api.Model.Exception;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
-using InfobipClient.infobip.api.model.nc.query;
-
-namespace InfobipClient.infobip.api.client
+using Infobip.Api.Model.Nc.Query;
+namespace Infobip.Api.Client
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -18,6 +18,8 @@ namespace InfobipClient.infobip.api.client
     {
         private static string path = "/number/1/query";
 
+        private Config.Configuration configuration;
+
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
@@ -25,33 +27,34 @@ namespace InfobipClient.infobip.api.client
             DateFormatString = "yyyy-MM-ddTHH:mm:ss.FFFK"
         };
 
-        private HttpClient client;
-
-        public NumberContextQuery(config.Configuration configuration)
+        public NumberContextQuery(Config.Configuration configuration)
         {
-            client = HttpClientProvider.GetHttpClient(configuration);
+            this.configuration = configuration;
         }
 
-        public NumberContextResponse Execute(NumberContextRequest bodyObject)
+        public async Task<NumberContextResponse> ExecuteAsync(NumberContextRequest bodyObject)
         {
-            string endpoint = path;
-
-            string requestJson = JsonConvert.SerializeObject(bodyObject, Settings);
-            HttpContent content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-
-            var response = client.PostAsync(endpoint, content).Result;
-            string contents = response.Content.ReadAsStringAsync().Result;
-
-            if (response.IsSuccessStatusCode)
+            using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                return JsonConvert.DeserializeObject<NumberContextResponse>(contents, Settings);
-            }
-            else
-            {
-                throw new InfobipApiException(
-                    response.StatusCode,
-                    JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
-                );
+                string endpoint = path;
+
+                string requestJson = JsonConvert.SerializeObject(bodyObject, Settings);
+                HttpContent content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(endpoint, content);
+                string contents = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<NumberContextResponse>(contents, Settings);
+                }
+                else
+                {
+                    throw new InfobipApiException(
+                        response.StatusCode,
+                        JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
+                    );
+                }
             }
         }
 

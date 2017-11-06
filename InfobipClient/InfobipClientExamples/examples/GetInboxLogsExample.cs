@@ -1,12 +1,13 @@
-﻿using InfobipClient.infobip.api.client;
-using InfobipClient.infobip.api.model.sms.mo.logs;
+﻿using Infobip.Api.Model.Sms.Mo.Logs;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace InfobipClientExamples.examples
+namespace Infobip.Api.Client.Examples
 {
     class GetInboxLogsExample : Example
     {
-        public override void RunExample()
+        public override async Task RunExampleAsync()
         {
             GetReceivedSmsLogs client = new GetReceivedSmsLogs(BASIC_AUTH_CONFIGURATION);
             GetReceivedSmsLogsExecuteContext context = new GetReceivedSmsLogsExecuteContext()
@@ -17,9 +18,9 @@ namespace InfobipClientExamples.examples
                 Limit = 10,
                 Keyword = null
             };
-            MOLogsResponse response = client.Execute(context);
+            MOLogsResponse response = await client.ExecuteAsync(context);
 
-            if (response.Results.Count < 1)
+            if (!response.Results.Any())
             {
                 Console.WriteLine("No logs to display.");
                 return;

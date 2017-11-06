@@ -1,16 +1,16 @@
-using InfobipClient.infobip.api.config;
-using InfobipClient.infobip.api.model.error;
+using Infobip.Api.Config;
+using Infobip.Api.Model.Exception;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
-using InfobipClient.infobip.api.model.sms.mo.reports;
+using Infobip.Api.Model.Sms.Mo.Reports;
 
-
-namespace InfobipClient.infobip.api.client
+namespace Infobip.Api.Client
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -19,6 +19,8 @@ namespace InfobipClient.infobip.api.client
     {
         private static string path = "/sms/1/inbox/reports";
 
+        private Config.Configuration configuration;
+
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
@@ -26,45 +28,52 @@ namespace InfobipClient.infobip.api.client
             DateFormatString = "yyyy-MM-ddTHH:mm:ss.FFFK"
         };
 
-        private HttpClient client;
-
-        public GetReceivedMessages(config.Configuration configuration)
+        public GetReceivedMessages(Config.Configuration configuration)
         {
-            client = HttpClientProvider.GetHttpClient(configuration);
+            this.configuration = configuration;
         }
 
-        public MOReportResponse Execute(GetReceivedMessagesExecuteContext context)
+        public async Task<MOReportResponse> ExecuteAsync(GetReceivedMessagesExecuteContext context)
         {
-            NameValueCollection queryParameters = HttpUtility.ParseQueryString(string.Empty);
-            SetQueryParamIfNotNull(queryParameters, "limit", context.Limit);
-
-            string queryString = queryParameters.ToString();
-            string endpoint = path + "?" + queryString;
-
-            var response = client.GetAsync(endpoint).Result;
-            string contents = response.Content.ReadAsStringAsync().Result;
-
-            if (response.IsSuccessStatusCode)
+            using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                return JsonConvert.DeserializeObject<MOReportResponse>(contents, Settings);
-            }
-            else
-            {
-                throw new InfobipApiException(
-                    response.StatusCode,
-                    JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
-                );
+                NameValueCollection queryParameters = HttpUtility.ParseQueryString(string.Empty);
+                SetQueryParamIfNotNull(queryParameters, "limit", context.Limit);
+
+                string queryString = queryParameters.ToString();
+                string endpoint = path + "?" + queryString;
+
+                var response = await client.GetAsync(endpoint);
+                string contents = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<MOReportResponse>(contents, Settings);
+                }
+                else
+                {
+                    throw new InfobipApiException(
+                        response.StatusCode,
+                        JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
+                    );
+                }
             }
         }
 
         private void SetQueryParamIfNotNull(NameValueCollection queryParameters, string key, object value)
         {
-            if (value != null) queryParameters[key] = value.ToString();
+            if (value != null)
+            {
+                queryParameters[key] = value.ToString();
+            }
         }
 
         private void SetQueryParamIfNotNull(NameValueCollection queryParameters, string key, object[] values)
         {
-            if (values != null && values.Length > 0) queryParameters[key] = string.Join(",", values);
+            if (values != null && values.Length > 0)
+            {
+                queryParameters[key] = string.Join(",", values);
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace InfobipClient.infobip.api.model.sms.mt.reports
+namespace Infobip.Api.Model.Sms.Mt.Reports
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -12,18 +12,6 @@ namespace InfobipClient.infobip.api.model.sms.mt.reports
         [JsonProperty("results")]
         public List<SMSReport> Results { get; set; } = new List<SMSReport>();
 
-        public override bool Equals(object obj)
-        {
-            var thisClass = obj as SMSReportResponse;
-            return thisClass != null &&
-                EqualityComparer<List<SMSReport>>.Default.Equals(Results, thisClass.Results);
-        }
 
-        public override int GetHashCode()
-        {
-            var hashCode = -1559463931;
-            hashCode = hashCode * -1521134295 +  EqualityComparer<List<SMSReport>>.Default.GetHashCode(Results);
-            return hashCode;
-        }
     }
 }

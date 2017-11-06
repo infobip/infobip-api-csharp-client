@@ -1,16 +1,16 @@
-using InfobipClient.infobip.api.config;
-using InfobipClient.infobip.api.model.error;
+using Infobip.Api.Config;
+using Infobip.Api.Model.Exception;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
-using InfobipClient.infobip.api.model.account;
+using Infobip.Api.Model.Account;
 
-
-namespace InfobipClient.infobip.api.client
+namespace Infobip.Api.Client
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!
@@ -19,6 +19,8 @@ namespace InfobipClient.infobip.api.client
     {
         private static string path = "/account/1/balance";
 
+        private Config.Configuration configuration;
+
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
@@ -26,30 +28,31 @@ namespace InfobipClient.infobip.api.client
             DateFormatString = "yyyy-MM-ddTHH:mm:ss.FFFK"
         };
 
-        private HttpClient client;
-
-        public GetAccountBalance(config.Configuration configuration)
+        public GetAccountBalance(Config.Configuration configuration)
         {
-            client = HttpClientProvider.GetHttpClient(configuration);
+            this.configuration = configuration;
         }
 
-        public AccountBalance Execute()
+        public async Task<AccountBalance> ExecuteAsync()
         {
-            string endpoint = path;
-
-            var response = client.GetAsync(endpoint).Result;
-            string contents = response.Content.ReadAsStringAsync().Result;
-
-            if (response.IsSuccessStatusCode)
+            using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                return JsonConvert.DeserializeObject<AccountBalance>(contents, Settings);
-            }
-            else
-            {
-                throw new InfobipApiException(
-                    response.StatusCode,
-                    JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
-                );
+                string endpoint = path;
+
+                var response = await client.GetAsync(endpoint);
+                string contents = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return JsonConvert.DeserializeObject<AccountBalance>(contents, Settings);
+                }
+                else
+                {
+                    throw new InfobipApiException(
+                        response.StatusCode,
+                        JsonConvert.DeserializeObject<ApiErrorResponse>(contents, Settings)
+                    );
+                }
             }
         }
 

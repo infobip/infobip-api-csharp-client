@@ -1,4 +1,4 @@
-namespace InfobipClient.infobip.api.model.sms.mt.send
+namespace Infobip.Api.Model.Sms.Mt.Send
 {
     /// <summary>
     /// This is a generated class and is not intended for modification!

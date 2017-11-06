@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace InfobipClient.infobip.api.config
+namespace Infobip.Api.Config
 {
     public class FormattedDate
     {
