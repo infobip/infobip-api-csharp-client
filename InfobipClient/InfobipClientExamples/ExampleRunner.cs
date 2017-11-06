@@ -11,7 +11,7 @@
             //new AdvancedSmsFlashExample().RunExampleAsync().Wait();
             //new AdvancedSmsLanguageExample().RunExampleAsync().Wait();
             //new AdvancedSmsNotifyExample().RunExampleAsync().Wait();
-            new AdvancedSmsSchedulingExample().RunExampleAsync().Wait();
+            //new AdvancedSmsSchedulingExample().RunExampleAsync().Wait();
             //new AdvancedSmsTrackingExample().RunExampleAsync().Wait();
 
             //new GetAccountBalanceExample().RunExampleAsync().Wait();
