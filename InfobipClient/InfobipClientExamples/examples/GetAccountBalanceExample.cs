@@ -13,7 +13,7 @@ namespace Infobip.Api.Client.Examples
 
             AccountBalance accountBalance = await client.ExecuteAsync();
             Console.WriteLine("Account balance: ");
-            Console.WriteLine(JsonConvert.SerializeObject(accountBalance, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+            Console.WriteLine(JsonConvert.SerializeObject(accountBalance, new JsonSerializerSettings { Formatting = Formatting.Indented } ));
         }
     }
 }
