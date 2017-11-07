@@ -13,7 +13,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Preview
         public string OriginalText { get; set; }
 
         [JsonProperty("previews")]
-        public List<Preview> Previews { get; set; } = new List<Preview>();
+        public List<Preview> Previews { get; set; }
 
 
     }

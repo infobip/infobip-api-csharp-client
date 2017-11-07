@@ -13,7 +13,7 @@ namespace Infobip.Api.Model.Nc.Notify
         public string BulkId { get; set; }
 
         [JsonProperty("results")]
-        public List<NumberContextResponseDetails> Results { get; set; } = new List<NumberContextResponseDetails>();
+        public List<NumberContextResponseDetails> Results { get; set; }
 
 
     }

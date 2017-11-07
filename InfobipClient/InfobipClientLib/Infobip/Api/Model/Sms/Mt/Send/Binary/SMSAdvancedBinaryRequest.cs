@@ -14,7 +14,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Binary
         public string BulkId { get; set; }
 
         [JsonProperty("messages")]
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<Message> Messages { get; set; }
 
         [JsonProperty("tracking")]
         public Tracking Tracking { get; set; }

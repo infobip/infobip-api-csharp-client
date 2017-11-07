@@ -16,7 +16,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send
         public string TrackingProcessKey { get; set; }
 
         [JsonProperty("messages")]
-        public List<SMSResponseDetails> Messages { get; set; } = new List<SMSResponseDetails>();
+        public List<SMSResponseDetails> Messages { get; set; }
 
 
     }

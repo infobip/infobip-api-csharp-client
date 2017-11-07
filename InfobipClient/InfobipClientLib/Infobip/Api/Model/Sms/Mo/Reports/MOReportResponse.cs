@@ -16,7 +16,7 @@ namespace Infobip.Api.Model.Sms.Mo.Reports
         public int PendingMessageCount { get; set; }
 
         [JsonProperty("results")]
-        public List<MOReport> Results { get; set; } = new List<MOReport>();
+        public List<MOReport> Results { get; set; }
 
 
     }

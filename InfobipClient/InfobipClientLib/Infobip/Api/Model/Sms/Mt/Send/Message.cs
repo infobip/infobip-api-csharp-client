@@ -14,7 +14,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send
         public string CampaignId { get; set; }
 
         [JsonProperty("destinations")]
-        public List<Destination> Destinations { get; set; } = new List<Destination>();
+        public List<Destination> Destinations { get; set; }
 
         [JsonProperty("language")]
         public Language Language { get; set; }
@@ -47,7 +47,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send
         public string From { get; set; }
 
         [JsonProperty("to")]
-        public List<string> To { get; set; } = new List<string>();
+        public List<string> To { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

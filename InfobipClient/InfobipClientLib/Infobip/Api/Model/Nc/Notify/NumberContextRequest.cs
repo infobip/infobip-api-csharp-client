@@ -13,7 +13,7 @@ namespace Infobip.Api.Model.Nc.Notify
         public string NotifyUrl { get; set; }
 
         [JsonProperty("to")]
-        public List<string> To { get; set; } = new List<string>();
+        public List<string> To { get; set; }
 
         [JsonProperty("notifyContentType")]
         public string NotifyContentType { get; set; }

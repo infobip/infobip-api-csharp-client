@@ -13,7 +13,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Textual
         public string BulkId { get; set; }
 
         [JsonProperty("messages")]
-        public List<Message> Messages { get; set; } = new List<Message>();
+        public List<Message> Messages { get; set; }
 
 
     }

@@ -10,7 +10,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send
     public class DeliveryTimeWindow
     {
         [JsonProperty("days")]
-        public List<DeliveryDay> Days { get; set; } = new List<DeliveryDay>();
+        public List<DeliveryDay> Days { get; set; }
 
         [JsonProperty("from")]
         public DeliveryTime From { get; set; }

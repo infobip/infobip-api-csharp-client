@@ -10,7 +10,7 @@ namespace Infobip.Api.Model.Nc.Query
     public class NumberContextRequest
     {
         [JsonProperty("to")]
-        public List<string> To { get; set; } = new List<string>();
+        public List<string> To { get; set; }
 
 
     }

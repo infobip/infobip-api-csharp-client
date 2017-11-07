@@ -19,7 +19,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Textual
         public string From { get; set; }
 
         [JsonProperty("to")]
-        public List<string> To { get; set; } = new List<string>();
+        public List<string> To { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

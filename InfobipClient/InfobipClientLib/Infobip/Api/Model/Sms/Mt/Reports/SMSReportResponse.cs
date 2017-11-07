@@ -10,7 +10,7 @@ namespace Infobip.Api.Model.Sms.Mt.Reports
     public class SMSReportResponse
     {
         [JsonProperty("results")]
-        public List<SMSReport> Results { get; set; } = new List<SMSReport>();
+        public List<SMSReport> Results { get; set; }
 
 
     }

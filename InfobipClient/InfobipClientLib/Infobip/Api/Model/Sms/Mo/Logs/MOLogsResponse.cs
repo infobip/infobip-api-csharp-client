@@ -10,7 +10,7 @@ namespace Infobip.Api.Model.Sms.Mo.Logs
     public class MOLogsResponse
     {
         [JsonProperty("results")]
-        public List<MOLog> Results { get; set; } = new List<MOLog>();
+        public List<MOLog> Results { get; set; }
 
 
     }

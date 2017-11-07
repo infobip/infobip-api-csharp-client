@@ -10,7 +10,7 @@ namespace Infobip.Api.Model.Nc.Logs
     public class NumberContextLogsResponse
     {
         [JsonProperty("results")]
-        public List<NumberContextLog> Results { get; set; } = new List<NumberContextLog>();
+        public List<NumberContextLog> Results { get; set; }
 
 
     }
