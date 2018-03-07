@@ -11,38 +11,38 @@ namespace Infobip.Api.Model.Nc.Query
     /// </summary>
     public class NumberContextResponseDetails
     {
-        [JsonProperty("ported")]
-        public bool? Ported { get; set; }
-
-        [JsonProperty("roaming")]
-        public bool? Roaming { get; set; }
+        [JsonProperty("to")]
+        public string To { get; set; }
 
         [JsonProperty("mccMnc")]
         public string MccMnc { get; set; }
 
-        [JsonProperty("roamingNetwork")]
-        public Network RoamingNetwork { get; set; }
-
-        [JsonProperty("portedNetwork")]
-        public Network PortedNetwork { get; set; }
-
-        [JsonProperty("to")]
-        public string To { get; set; }
-
         [JsonProperty("imsi")]
         public string Imsi { get; set; }
-
-        [JsonProperty("servingMSC")]
-        public string ServingMSC { get; set; }
-
-        [JsonProperty("error")]
-        public Error Error { get; set; }
 
         [JsonProperty("originalNetwork")]
         public Network OriginalNetwork { get; set; }
 
+        [JsonProperty("ported")]
+        public bool? Ported { get; set; }
+
+        [JsonProperty("portedNetwork")]
+        public Network PortedNetwork { get; set; }
+
+        [JsonProperty("roaming")]
+        public bool? Roaming { get; set; }
+
+        [JsonProperty("roamingNetwork")]
+        public Network RoamingNetwork { get; set; }
+
+        [JsonProperty("servingMSC")]
+        public string ServingMSC { get; set; }
+
         [JsonProperty("status")]
         public Status Status { get; set; }
+
+        [JsonProperty("error")]
+        public Error Error { get; set; }
 
 
     }

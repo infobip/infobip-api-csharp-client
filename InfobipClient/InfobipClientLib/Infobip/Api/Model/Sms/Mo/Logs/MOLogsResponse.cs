@@ -1,3 +1,4 @@
+using Infobip.Api.Model.Sms.Mo.Logs;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +11,7 @@ namespace Infobip.Api.Model.Sms.Mo.Logs
     public class MOLogsResponse
     {
         [JsonProperty("results")]
-        public List<MOLog> Results { get; set; }
+        public IList<MOLog> Results { get; set; }
 
 
     }

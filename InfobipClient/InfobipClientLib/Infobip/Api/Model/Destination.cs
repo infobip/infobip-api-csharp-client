@@ -9,11 +9,11 @@ namespace Infobip.Api.Model
     /// </summary>
     public class Destination
     {
-        [JsonProperty("messageId")]
-        public string MessageId { get; set; }
-
         [JsonProperty("to")]
         public string To { get; set; }
+
+        [JsonProperty("messageId")]
+        public string MessageId { get; set; }
 
 
     }

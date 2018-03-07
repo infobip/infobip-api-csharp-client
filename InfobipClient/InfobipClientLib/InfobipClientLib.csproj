@@ -10,6 +10,7 @@
     <AssemblyName>InfobipClientLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,32 +41,53 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infobip\Api\Client\AddDestination.cs" />
+    <Compile Include="Infobip\Api\Client\CreateScenario.cs" />
     <Compile Include="Infobip\Api\Client\GetAccountBalance.cs" />
     <Compile Include="Infobip\Api\Client\GetBulks.cs" />
     <Compile Include="Infobip\Api\Client\GetBulkStatus.cs" />
+    <Compile Include="Infobip\Api\Client\GetCampaignDetails.cs" />
+    <Compile Include="Infobip\Api\Client\GetCampaigns.cs" />
     <Compile Include="Infobip\Api\Client\GetNumberContextLogs.cs" />
+    <Compile Include="Infobip\Api\Client\GetOmniLogs.cs" />
+    <Compile Include="Infobip\Api\Client\GetOMNIReports.cs" />
     <Compile Include="Infobip\Api\Client\GetReceivedMessages.cs" />
     <Compile Include="Infobip\Api\Client\GetReceivedSmsLogs.cs" />
+    <Compile Include="Infobip\Api\Client\GetScenarios.cs" />
     <Compile Include="Infobip\Api\Client\GetSentSmsDeliveryReports.cs" />
     <Compile Include="Infobip\Api\Client\GetSentSmsLogs.cs" />
+    <Compile Include="Infobip\Api\Client\GetSpecificScenario.cs" />
     <Compile Include="Infobip\Api\Client\LogEndTag.cs" />
     <Compile Include="Infobip\Api\Client\ManageBulkStatus.cs" />
     <Compile Include="Infobip\Api\Client\NumberContextNotify.cs" />
     <Compile Include="Infobip\Api\Client\NumberContextQuery.cs" />
     <Compile Include="Infobip\Api\Client\PreviewSms.cs" />
     <Compile Include="Infobip\Api\Client\RescheduleBulk.cs" />
+    <Compile Include="Infobip\Api\Client\SendAdvancedOmniMessage.cs" />
     <Compile Include="Infobip\Api\Client\SendMultipleBinarySms.cs" />
     <Compile Include="Infobip\Api\Client\SendMultipleSmsBinaryAdvanced.cs" />
     <Compile Include="Infobip\Api\Client\SendMultipleSmsTextual.cs" />
     <Compile Include="Infobip\Api\Client\SendMultipleTextualSmsAdvanced.cs" />
+    <Compile Include="Infobip\Api\Client\SendSimpleOmniMessage.cs" />
     <Compile Include="Infobip\Api\Client\SendSingleBinarySms.cs" />
     <Compile Include="Infobip\Api\Client\SendSingleTextualSms.cs" />
+    <Compile Include="Infobip\Api\Client\UpdateScenario.cs" />
     <Compile Include="Infobip\Api\Config\ApiKeyAuthConfiguration.cs" />
     <Compile Include="Infobip\Api\Config\BasicAuthConfiguration.cs" />
     <Compile Include="Infobip\Api\Config\Configuration.cs" />
     <Compile Include="Infobip\Api\Config\FormattedDate.cs" />
+    <Compile Include="Infobip\Api\Config\FormattedDateConverter.cs" />
     <Compile Include="Infobip\Api\Config\HttpClientProvider.cs" />
     <Compile Include="Infobip\Api\Config\IbssoAuthConfiguration.cs" />
+    <Compile Include="Infobip\Api\Config\TimeUnit.cs" />
     <Compile Include="Infobip\Api\Model\Account\AccountBalance.cs" />
     <Compile Include="Infobip\Api\Model\Conversion\EndTagResponse.cs" />
     <Compile Include="Infobip\Api\Model\Destination.cs" />
@@ -83,6 +106,45 @@
     <Compile Include="Infobip\Api\Model\Nc\Query\NumberContextRequest.cs" />
     <Compile Include="Infobip\Api\Model\Nc\Query\NumberContextResponse.cs" />
     <Compile Include="Infobip\Api\Model\Nc\Query\NumberContextResponseDetails.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\Campaign.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\CampaignsResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\Destination.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\Destinations.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\Gender.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Campaign\GetCampaignsExecuteContext.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Destination.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Error.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Logs\GetOmniLogsExecuteContext.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Logs\OmniLog.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Logs\OmniLogsResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\OmniChannel.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Price.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Reports\GetOMNIReportsExecuteContext.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Reports\OMNIReport.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Reports\OMNIReportsResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Scenarios\GetScenariosExecuteContext.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Scenarios\Scenario.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Scenarios\ScenariosResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Scenarios\Step.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\EmailData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\FacebookData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\FacebookDataType.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\Language.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\LineData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\LineDataType.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\NotificationOptions.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\OmniAdvancedRequest.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\OmniResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\OmniResponseDetails.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\OmniSimpleRequest.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\ParsecoData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\PushData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\SmsData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\ViberData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\VKontakteData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Send\VoiceData.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\Status.cs" />
+    <Compile Include="Infobip\Api\Model\Omni\To.cs" />
     <Compile Include="Infobip\Api\Model\Price.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mo\Logs\GetReceivedSmsLogsExecuteContext.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mo\Logs\MOLog.cs" />
@@ -125,14 +187,6 @@
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Textual\SMSTextualRequest.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Tracking.cs" />
     <Compile Include="Infobip\Api\Model\Status.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

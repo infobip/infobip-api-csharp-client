@@ -5,7 +5,7 @@ namespace Infobip.Api.Config
 {
     public class FormattedDate
     {
-        private readonly DateTimeOffset date;
+        public DateTimeOffset date { get; }
 
         public FormattedDate(DateTimeOffset date)
         {

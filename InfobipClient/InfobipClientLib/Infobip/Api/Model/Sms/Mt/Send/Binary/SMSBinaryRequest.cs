@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Infobip.Api.Model.Sms.Mt.Send.Binary;
 using System;
 
 namespace Infobip.Api.Model.Sms.Mt.Send.Binary
@@ -9,20 +10,20 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Binary
     /// </summary>
     public class SMSBinaryRequest
     {
-        [JsonProperty("operatorClientId")]
-        public string OperatorClientId { get; set; }
-
-        [JsonProperty("campaignId")]
-        public string CampaignId { get; set; }
-
-        [JsonProperty("binary")]
-        public BinaryContent Binary { get; set; }
-
         [JsonProperty("from")]
         public string From { get; set; }
 
         [JsonProperty("to")]
-        public List<string> To { get; set; }
+        public IList<string> To { get; set; }
+
+        [JsonProperty("binary")]
+        public BinaryContent Binary { get; set; }
+
+        [JsonProperty("campaignId")]
+        public string CampaignId { get; set; }
+
+        [JsonProperty("operatorClientId")]
+        public string OperatorClientId { get; set; }
 
 
     }

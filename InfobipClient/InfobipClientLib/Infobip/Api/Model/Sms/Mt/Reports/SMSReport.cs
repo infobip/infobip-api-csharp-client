@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Infobip.Api.Config;
 using System;
 using Infobip.Api.Model;
 
@@ -10,23 +11,29 @@ namespace Infobip.Api.Model.Sms.Mt.Reports
     /// </summary>
     public class SMSReport
     {
-        [JsonProperty("doneAt")]
-        public DateTimeOffset DoneAt { get; set; }
-
-        [JsonProperty("smsCount")]
-        public int? SmsCount { get; set; }
+        [JsonProperty("bulkId")]
+        public string BulkId { get; set; }
 
         [JsonProperty("messageId")]
         public string MessageId { get; set; }
 
+        [JsonProperty("to")]
+        public string To { get; set; }
+
+        [JsonProperty("from")]
+        public string From { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
+
         [JsonProperty("sentAt")]
-        public DateTimeOffset SentAt { get; set; }
+        public FormattedDate SentAt { get; set; }
 
-        [JsonProperty("error")]
-        public Error Error { get; set; }
+        [JsonProperty("doneAt")]
+        public FormattedDate DoneAt { get; set; }
 
-        [JsonProperty("bulkId")]
-        public string BulkId { get; set; }
+        [JsonProperty("smsCount")]
+        public int? SmsCount { get; set; }
 
         [JsonProperty("mccMnc")]
         public string MccMnc { get; set; }
@@ -34,20 +41,14 @@ namespace Infobip.Api.Model.Sms.Mt.Reports
         [JsonProperty("price")]
         public Price Price { get; set; }
 
-        [JsonProperty("callbackData")]
-        public string CallbackData { get; set; }
-
-        [JsonProperty("from")]
-        public string From { get; set; }
-
-        [JsonProperty("to")]
-        public string To { get; set; }
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
-
         [JsonProperty("status")]
         public Status Status { get; set; }
+
+        [JsonProperty("error")]
+        public Error Error { get; set; }
+
+        [JsonProperty("callbackData")]
+        public string CallbackData { get; set; }
 
 
     }

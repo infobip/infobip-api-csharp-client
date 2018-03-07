@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Infobip.Api.Config;
 using System;
 
 namespace Infobip.Api.Model.Sms.Mt.Bulks
@@ -10,7 +11,7 @@ namespace Infobip.Api.Model.Sms.Mt.Bulks
     public class BulkRequest
     {
         [JsonProperty("sendAt")]
-        public DateTimeOffset SendAt { get; set; }
+        public FormattedDate SendAt { get; set; }
 
 
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Sms.Mt.Send;
 using Newtonsoft.Json;
 using System;
 
@@ -16,7 +17,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send
         public string TrackingProcessKey { get; set; }
 
         [JsonProperty("messages")]
-        public List<SMSResponseDetails> Messages { get; set; }
+        public IList<SMSResponseDetails> Messages { get; set; }
 
 
     }

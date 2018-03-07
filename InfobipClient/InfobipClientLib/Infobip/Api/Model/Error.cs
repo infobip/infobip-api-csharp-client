@@ -9,14 +9,14 @@ namespace Infobip.Api.Model
     /// </summary>
     public class Error
     {
+        [JsonProperty("groupId")]
+        public int? GroupId { get; set; }
+
         [JsonProperty("groupName")]
         public string GroupName { get; set; }
 
-        [JsonProperty("permanent")]
-        public bool? Permanent { get; set; }
-
-        [JsonProperty("groupId")]
-        public int? GroupId { get; set; }
+        [JsonProperty("id")]
+        public int? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -24,8 +24,8 @@ namespace Infobip.Api.Model
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("id")]
-        public int? Id { get; set; }
+        [JsonProperty("permanent")]
+        public bool? Permanent { get; set; }
 
 
     }

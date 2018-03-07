@@ -31,6 +31,8 @@
             //new SingleTextualSmsExample().RunExampleAsync().Wait();
 
             //new SmsPreviewExample().RunExampleAsync().Wait();
+
+            //new AdvancedOmniMessageExample().RunExampleAsync().Wait();
         }
     }
 }

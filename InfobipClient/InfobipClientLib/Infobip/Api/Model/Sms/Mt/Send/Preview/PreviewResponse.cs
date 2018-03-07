@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Sms.Mt.Send.Preview;
 using Newtonsoft.Json;
 using System;
 
@@ -13,7 +14,7 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Preview
         public string OriginalText { get; set; }
 
         [JsonProperty("previews")]
-        public List<Preview> Previews { get; set; }
+        public IList<Preview> Previews { get; set; }
 
 
     }

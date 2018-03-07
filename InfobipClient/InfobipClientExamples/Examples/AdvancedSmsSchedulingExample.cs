@@ -3,6 +3,7 @@ using Infobip.Api.Model.Sms.Mt.Bulks;
 using Infobip.Api.Model.Sms.Mt.Bulks.Status;
 using Infobip.Api.Model.Sms.Mt.Send;
 using Infobip.Api.Model.Sms.Mt.Send.Textual;
+using Infobip.Api.Config;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -94,7 +95,7 @@ namespace Infobip.Api.Client.Examples
                 From = FROM,
                 Destinations = new List<Destination>(1) { destination },
                 Text = "Advanced scheduled message example",
-                SendAt = sendAt
+                SendAt = new FormattedDate(sendAt)
             };
 
             SMSAdvancedTextualRequest request = new SMSAdvancedTextualRequest
@@ -115,7 +116,7 @@ namespace Infobip.Api.Client.Examples
         private static async void RescheduleMessageAsync(String bulkId)
         {
             DateTimeOffset sendAt = NOW.AddMinutes(30);
-            BulkRequest rescheduleRequest = new BulkRequest{ SendAt = sendAt };
+            BulkRequest rescheduleRequest = new BulkRequest{ SendAt = new FormattedDate(sendAt) };
             RescheduleBulkExecuteContext context = new RescheduleBulkExecuteContext { BulkId = bulkId };
 
             await new RescheduleBulk(BASIC_AUTH_CONFIGURATION).ExecuteAsync(context, rescheduleRequest);

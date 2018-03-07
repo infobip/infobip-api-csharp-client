@@ -10,17 +10,17 @@ namespace Infobip.Api.Model.Sms.Mo.Logs
     /// </summary>
     public class GetReceivedSmsLogsExecuteContext
     {
+        [JsonProperty("keyword")]
+        public string Keyword { get; set; }
+
+        [JsonProperty("to")]
+        public string To { get; set; }
+
         [JsonProperty("limit")]
         public int? Limit { get; set; }
 
         [JsonProperty("receivedSince")]
         public FormattedDate ReceivedSince { get; set; }
-
-        [JsonProperty("to")]
-        public string To { get; set; }
-
-        [JsonProperty("keyword")]
-        public string Keyword { get; set; }
 
         [JsonProperty("receivedUntil")]
         public FormattedDate ReceivedUntil { get; set; }

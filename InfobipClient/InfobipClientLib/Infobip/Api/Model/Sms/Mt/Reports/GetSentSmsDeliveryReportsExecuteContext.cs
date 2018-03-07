@@ -9,14 +9,14 @@ namespace Infobip.Api.Model.Sms.Mt.Reports
     /// </summary>
     public class GetSentSmsDeliveryReportsExecuteContext
     {
+        [JsonProperty("messageId")]
+        public string MessageId { get; set; }
+
         [JsonProperty("bulkId")]
         public string BulkId { get; set; }
 
         [JsonProperty("limit")]
         public int? Limit { get; set; }
-
-        [JsonProperty("messageId")]
-        public string MessageId { get; set; }
 
 
     }

@@ -9,11 +9,11 @@ namespace Infobip.Api.Model
     /// </summary>
     public class Price
     {
-        [JsonProperty("pricePerLookup")]
-        public decimal? PricePerLookup { get; set; }
-
         [JsonProperty("pricePerMessage")]
         public decimal? PricePerMessage { get; set; }
+
+        [JsonProperty("pricePerLookup")]
+        public decimal? PricePerLookup { get; set; }
 
         [JsonProperty("currency")]
         public string Currency { get; set; }

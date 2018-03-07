@@ -13,9 +13,9 @@ namespace Infobip.Api.Client.Examples
             GetReceivedSmsLogsExecuteContext context = new GetReceivedSmsLogsExecuteContext()
             {
                 To = null,
+                Limit = 10,
                 ReceivedSince = null,
                 ReceivedUntil = null,
-                Limit = 10,
                 Keyword = null
             };
             MOLogsResponse response = await client.ExecuteAsync(context);

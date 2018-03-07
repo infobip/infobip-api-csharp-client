@@ -1,5 +1,6 @@
 ﻿using Infobip.Api.Config;
 using Infobip.Api.Model.Sms.Mt.Reports;
+using Infobip.Api.Model.Omni.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Infobip.Api.Client.Examples
         protected static readonly BasicAuthConfiguration BASIC_AUTH_CONFIGURATION = new BasicAuthConfiguration(BASE_URL, USERNAME, PASSWORD);
 
         protected static readonly string FROM = "InfoSMS";
-        protected static readonly string TO = "PHONE";
+        protected static readonly string TO = "451965782149";
         protected static readonly List<string> TO_LIST = new List<string>(1) { "PHONE" };
         protected static readonly string MESSAGE_TEXT = "This is an example message sent via C# example lib.";
 
@@ -53,11 +54,44 @@ namespace Infobip.Api.Client.Examples
             SMSReport report = response.Results[0];
             Console.WriteLine("-------------------------------");
             Console.WriteLine("Message ID: " + report.MessageId);
-            Console.WriteLine("Sent at: " + report.SentAt.ToLocalTime());
+            Console.WriteLine("Sent at: " + report.SentAt);
             Console.WriteLine("Receiver: " + report.To);
             Console.WriteLine("Status: " + report.Status.Name);
             Console.WriteLine("Price: " + report.Price.PricePerMessage + " " + report.Price.Currency);
             Console.WriteLine("-------------------------------");
+        }
+        
+        protected static async Task<OMNIReportsResponse> GetOmniReportAsync(string bulkId)
+        {
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("Fetching reports...");
+
+            GetOMNIReports omniReportsClient = new GetOMNIReports(BASIC_AUTH_CONFIGURATION);
+            GetOMNIReportsExecuteContext context = new GetOMNIReportsExecuteContext
+            {
+                BulkId = bulkId
+            };
+            OMNIReportsResponse response = await omniReportsClient.ExecuteAsync(context);
+
+            if (!response.Results.Any())
+            {
+                Console.WriteLine("No report to fetch.");
+                return new OMNIReportsResponse();
+            }
+            Console.WriteLine("Fetching report complete.");
+
+            foreach (OMNIReport report in response.Results)
+            {
+                Console.WriteLine("-------------------------------");
+                Console.WriteLine("Message ID: " + report.MessageId);
+                Console.WriteLine("Sent at: " + report.SentAt);
+                Console.WriteLine("Channel: " + report.Channel);
+                Console.WriteLine("Status: " + report.Status.Name);
+                Console.WriteLine("Price: " + report.Price.PricePerMessage + " " + report.Price.Currency);
+                Console.WriteLine("-------------------------------");
+            }
+
+            return response;
         }
     }
 }

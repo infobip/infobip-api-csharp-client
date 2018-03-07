@@ -10,17 +10,17 @@ namespace Infobip.Api.Model.Sms.Mt.Send
     /// </summary>
     public class SMSResponseDetails
     {
-        [JsonProperty("smsCount")]
-        public int? SmsCount { get; set; }
-
-        [JsonProperty("messageId")]
-        public string MessageId { get; set; }
-
         [JsonProperty("to")]
         public string To { get; set; }
 
         [JsonProperty("status")]
         public Status Status { get; set; }
+
+        [JsonProperty("smsCount")]
+        public int? SmsCount { get; set; }
+
+        [JsonProperty("messageId")]
+        public string MessageId { get; set; }
 
 
     }

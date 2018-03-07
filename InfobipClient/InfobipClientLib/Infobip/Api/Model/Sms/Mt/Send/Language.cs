@@ -9,11 +9,11 @@ namespace Infobip.Api.Model.Sms.Mt.Send
     /// </summary>
     public class Language
     {
-        [JsonProperty("lockingShift")]
-        public bool? LockingShift { get; set; }
-
         [JsonProperty("singleShift")]
         public bool? SingleShift { get; set; }
+
+        [JsonProperty("lockingShift")]
+        public bool? LockingShift { get; set; }
 
         [JsonProperty("languageCode")]
         public string LanguageCode { get; set; }

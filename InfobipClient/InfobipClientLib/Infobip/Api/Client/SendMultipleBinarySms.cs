@@ -25,7 +25,7 @@ namespace Infobip.Api.Client
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.DateTimeOffset,
-            DateFormatString = "yyyy-MM-ddTHH:mm:ss.FFFK"
+            Converters = new List<JsonConverter>(1) { new FormattedDateConverter() }
         };
 
         public SendMultipleBinarySms(Config.Configuration configuration)

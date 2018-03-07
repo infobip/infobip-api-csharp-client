@@ -10,23 +10,8 @@ namespace Infobip.Api.Model.Nc.Logs
     /// </summary>
     public class GetNumberContextLogsExecuteContext
     {
-        [JsonProperty("generalStatus")]
-        public string GeneralStatus { get; set; }
-
-        [JsonProperty("mnc")]
-        public string Mnc { get; set; }
-
         [JsonProperty("sentUntil")]
         public FormattedDate SentUntil { get; set; }
-
-        [JsonProperty("bulkId")]
-        public string[] BulkId { get; set; }
-
-        [JsonProperty("sentSince")]
-        public FormattedDate SentSince { get; set; }
-
-        [JsonProperty("limit")]
-        public int? Limit { get; set; }
 
         [JsonProperty("messageId")]
         public string[] MessageId { get; set; }
@@ -34,8 +19,23 @@ namespace Infobip.Api.Model.Nc.Logs
         [JsonProperty("to")]
         public string To { get; set; }
 
+        [JsonProperty("generalStatus")]
+        public string GeneralStatus { get; set; }
+
+        [JsonProperty("sentSince")]
+        public FormattedDate SentSince { get; set; }
+
         [JsonProperty("mcc")]
         public string Mcc { get; set; }
+
+        [JsonProperty("limit")]
+        public int? Limit { get; set; }
+
+        [JsonProperty("bulkId")]
+        public string[] BulkId { get; set; }
+
+        [JsonProperty("mnc")]
+        public string Mnc { get; set; }
 
 
     }
