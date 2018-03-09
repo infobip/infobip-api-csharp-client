@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Sms.Mt.Reports;
 using Newtonsoft.Json;
 using System;
 
@@ -10,7 +11,7 @@ namespace Infobip.Api.Model.Sms.Mt.Reports
     public class SMSReportResponse
     {
         [JsonProperty("results")]
-        public List<SMSReport> Results { get; set; }
+        public IList<SMSReport> Results { get; set; }
 
 
     }

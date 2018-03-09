@@ -10,14 +10,14 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Textual
     /// </summary>
     public class SMSAdvancedTextualRequest
     {
-        [JsonProperty("bulkId")]
-        public string BulkId { get; set; }
-
-        [JsonProperty("messages")]
-        public List<Message> Messages { get; set; }
-
         [JsonProperty("tracking")]
         public Tracking Tracking { get; set; }
+
+        [JsonProperty("messages")]
+        public IList<Message> Messages { get; set; }
+
+        [JsonProperty("bulkId")]
+        public string BulkId { get; set; }
 
 
     }

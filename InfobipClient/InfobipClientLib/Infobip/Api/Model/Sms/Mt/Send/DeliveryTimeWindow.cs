@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Sms.Mt.Send;
 using Newtonsoft.Json;
 using System;
 
@@ -9,14 +10,14 @@ namespace Infobip.Api.Model.Sms.Mt.Send
     /// </summary>
     public class DeliveryTimeWindow
     {
-        [JsonProperty("days")]
-        public List<DeliveryDay> Days { get; set; }
-
         [JsonProperty("from")]
         public DeliveryTime From { get; set; }
 
         [JsonProperty("to")]
         public DeliveryTime To { get; set; }
+
+        [JsonProperty("days")]
+        public IList<DeliveryDay> Days { get; set; }
 
 
     }

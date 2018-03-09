@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Infobip.Api.Config;
 using System;
 
 namespace Infobip.Api.Model.Sms.Mo.Logs
@@ -9,12 +10,6 @@ namespace Infobip.Api.Model.Sms.Mo.Logs
     /// </summary>
     public class MOLog
     {
-        [JsonProperty("cleanText")]
-        public string CleanText { get; set; }
-
-        [JsonProperty("smsCount")]
-        public int? SmsCount { get; set; }
-
         [JsonProperty("messageId")]
         public string MessageId { get; set; }
 
@@ -27,11 +22,17 @@ namespace Infobip.Api.Model.Sms.Mo.Logs
         [JsonProperty("text")]
         public string Text { get; set; }
 
+        [JsonProperty("cleanText")]
+        public string CleanText { get; set; }
+
         [JsonProperty("keyword")]
         public string Keyword { get; set; }
 
         [JsonProperty("receivedAt")]
-        public DateTimeOffset ReceivedAt { get; set; }
+        public FormattedDate ReceivedAt { get; set; }
+
+        [JsonProperty("smsCount")]
+        public int? SmsCount { get; set; }
 
 
     }

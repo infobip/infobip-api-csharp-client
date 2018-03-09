@@ -9,17 +9,17 @@ namespace Infobip.Api.Model.Nc
     /// </summary>
     public class Network
     {
-        [JsonProperty("countryPrefix")]
-        public string CountryPrefix { get; set; }
-
         [JsonProperty("networkName")]
         public string NetworkName { get; set; }
+
+        [JsonProperty("networkPrefix")]
+        public string NetworkPrefix { get; set; }
 
         [JsonProperty("countryName")]
         public string CountryName { get; set; }
 
-        [JsonProperty("networkPrefix")]
-        public string NetworkPrefix { get; set; }
+        [JsonProperty("countryPrefix")]
+        public string CountryPrefix { get; set; }
 
 
     }

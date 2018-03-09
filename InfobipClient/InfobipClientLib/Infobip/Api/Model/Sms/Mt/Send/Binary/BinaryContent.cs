@@ -9,11 +9,11 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Binary
     /// </summary>
     public class BinaryContent
     {
-        [JsonProperty("dataCoding")]
-        public int? DataCoding { get; set; }
-
         [JsonProperty("hex")]
         public string Hex { get; set; }
+
+        [JsonProperty("dataCoding")]
+        public int? DataCoding { get; set; }
 
         [JsonProperty("esmClass")]
         public int? EsmClass { get; set; }

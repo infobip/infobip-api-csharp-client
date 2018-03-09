@@ -9,11 +9,11 @@ namespace Infobip.Api.Model.Nc.Notify
     /// </summary>
     public class NumberContextRequest
     {
+        [JsonProperty("to")]
+        public IList<string> To { get; set; }
+
         [JsonProperty("notifyUrl")]
         public string NotifyUrl { get; set; }
-
-        [JsonProperty("to")]
-        public List<string> To { get; set; }
 
         [JsonProperty("notifyContentType")]
         public string NotifyContentType { get; set; }

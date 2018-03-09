@@ -9,14 +9,17 @@ namespace Infobip.Api.Model.Sms.Mt.Send
     /// </summary>
     public class Tracking
     {
-        [JsonProperty("processKey")]
-        public string ProcessKey { get; set; }
-
         [JsonProperty("track")]
         public string Track { get; set; }
 
+        [JsonProperty("processKey")]
+        public string ProcessKey { get; set; }
+
         [JsonProperty("type")]
         public string Type { get; set; }
+
+        [JsonProperty("baseUrl")]
+        public string BaseUrl { get; set; }
 
 
     }

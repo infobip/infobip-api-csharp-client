@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Sms.Mt.Bulks.Status;
 using Newtonsoft.Json;
 using System;
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
+using Infobip.Api.Model.Nc.Logs;
 
 namespace Infobip.Api.Model.Nc.Logs
 {
@@ -10,7 +11,7 @@ namespace Infobip.Api.Model.Nc.Logs
     public class NumberContextLogsResponse
     {
         [JsonProperty("results")]
-        public List<NumberContextLog> Results { get; set; }
+        public IList<NumberContextLog> Results { get; set; }
 
 
     }

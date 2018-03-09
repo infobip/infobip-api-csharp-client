@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Infobip.Api.Model.Nc.Notify;
 using Newtonsoft.Json;
 using System;
 
@@ -9,11 +10,11 @@ namespace Infobip.Api.Model.Nc.Notify
     /// </summary>
     public class NumberContextResponse
     {
+        [JsonProperty("results")]
+        public IList<NumberContextResponseDetails> Results { get; set; }
+
         [JsonProperty("bulkId")]
         public string BulkId { get; set; }
-
-        [JsonProperty("results")]
-        public List<NumberContextResponseDetails> Results { get; set; }
 
 
     }

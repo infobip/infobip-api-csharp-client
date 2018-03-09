@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Infobip.Api.Config;
 using System;
 using Infobip.Api.Model;
 
@@ -10,18 +11,6 @@ namespace Infobip.Api.Model.Sms.Mo.Reports
     /// </summary>
     public class MOReport
     {
-        [JsonProperty("cleanText")]
-        public string CleanText { get; set; }
-
-        [JsonProperty("smsCount")]
-        public int SmsCount { get; set; }
-
-        [JsonProperty("price")]
-        public Price Price { get; set; }
-
-        [JsonProperty("callbackData")]
-        public string CallbackData { get; set; }
-
         [JsonProperty("messageId")]
         public string MessageId { get; set; }
 
@@ -34,11 +23,23 @@ namespace Infobip.Api.Model.Sms.Mo.Reports
         [JsonProperty("text")]
         public string Text { get; set; }
 
+        [JsonProperty("cleanText")]
+        public string CleanText { get; set; }
+
         [JsonProperty("keyword")]
         public string Keyword { get; set; }
 
         [JsonProperty("receivedAt")]
-        public DateTimeOffset ReceivedAt { get; set; }
+        public FormattedDate ReceivedAt { get; set; }
+
+        [JsonProperty("smsCount")]
+        public int SmsCount { get; set; }
+
+        [JsonProperty("price")]
+        public Price Price { get; set; }
+
+        [JsonProperty("callbackData")]
+        public string CallbackData { get; set; }
 
 
     }

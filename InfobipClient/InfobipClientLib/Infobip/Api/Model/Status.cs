@@ -9,11 +9,14 @@ namespace Infobip.Api.Model
     /// </summary>
     public class Status
     {
+        [JsonProperty("groupId")]
+        public int? GroupId { get; set; }
+
         [JsonProperty("groupName")]
         public string GroupName { get; set; }
 
-        [JsonProperty("groupId")]
-        public int? GroupId { get; set; }
+        [JsonProperty("id")]
+        public int? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -23,9 +26,6 @@ namespace Infobip.Api.Model
 
         [JsonProperty("action")]
         public string Action { get; set; }
-
-        [JsonProperty("id")]
-        public int? Id { get; set; }
 
 
     }
