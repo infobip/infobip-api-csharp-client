@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Infobip.Api.Client</id>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <title>Infobip API C# Client Library</title>
     <authors>Infobip</authors>
     <owners>Infobip</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/infobip/infobip-api-csharp-client</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Infobip API C# Client Library</description>
-    <releaseNotes>Initial package release, supporting all main API features.</releaseNotes>
+    <releaseNotes>Added OMNI API support</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>infobip sms api client</tags>
 	<dependencies>
