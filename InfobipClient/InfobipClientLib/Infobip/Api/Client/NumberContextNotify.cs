@@ -7,8 +7,8 @@ using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Infobip.Api.Model.Nc.Notify;
+
 namespace Infobip.Api.Client
 {
     /// <summary>

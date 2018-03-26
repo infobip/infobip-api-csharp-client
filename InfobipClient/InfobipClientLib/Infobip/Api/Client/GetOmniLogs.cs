@@ -7,8 +7,8 @@ using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Infobip.Api.Model.Omni.Logs;
+using Infobip.Extensions;
 
 namespace Infobip.Api.Client
 {
@@ -37,7 +37,7 @@ namespace Infobip.Api.Client
         {
             using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                NameValueCollection queryParameters = HttpUtility.ParseQueryString(string.Empty);
+                NameValueCollection queryParameters = new NameValueCollection();
                 SetQueryParamIfNotNull(queryParameters, "from", context.From);
                 SetQueryParamIfNotNull(queryParameters, "to", context.To);
                 SetQueryParamIfNotNull(queryParameters, "bulkId", context.BulkId);
@@ -50,7 +50,7 @@ namespace Infobip.Api.Client
                 SetQueryParamIfNotNull(queryParameters, "mcc", context.Mcc);
                 SetQueryParamIfNotNull(queryParameters, "mnc", context.Mnc);
 
-                string queryString = queryParameters.ToString();
+                string queryString = queryParameters.ToQueryString();
                 string endpoint = path + "?" + queryString;
 
                 var response = await client.GetAsync(endpoint);

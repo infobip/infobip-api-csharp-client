@@ -1,6 +1,9 @@
-﻿namespace Infobip.Api.Client.Examples
+﻿using System;
+using Infobip.Api.Client.Examples;
+
+namespace InfobipClientExamples
 {
-    class ExampleRunner
+    class Program
     {
         static void Main(string[] args)
         {

@@ -7,8 +7,8 @@ using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Infobip.Api.Model.Omni.Campaign;
+using Infobip.Extensions;
 
 namespace Infobip.Api.Client
 {
@@ -37,11 +37,11 @@ namespace Infobip.Api.Client
         {
             using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
-                NameValueCollection queryParameters = HttpUtility.ParseQueryString(string.Empty);
+                NameValueCollection queryParameters = new NameValueCollection();
                 SetQueryParamIfNotNull(queryParameters, "limit", context.Limit);
                 SetQueryParamIfNotNull(queryParameters, "page", context.Page);
 
-                string queryString = queryParameters.ToString();
+                string queryString = queryParameters.ToQueryString();
                 string endpoint = path + "?" + queryString;
 
                 var response = await client.GetAsync(endpoint);

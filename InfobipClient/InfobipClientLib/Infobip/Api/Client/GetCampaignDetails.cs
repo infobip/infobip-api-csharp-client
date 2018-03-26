@@ -7,8 +7,8 @@ using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Infobip.Api.Model.Omni.Campaign;
+using System.Net;
 
 namespace Infobip.Api.Client
 {
@@ -38,7 +38,7 @@ namespace Infobip.Api.Client
             using (var client = HttpClientProvider.GetHttpClient(configuration))
             {
                 string endpoint = path;
-                endpoint = endpoint.Replace("{campaignKey}", HttpUtility.UrlEncode(campaignKey));
+                endpoint = endpoint.Replace("{campaignKey}", WebUtility.UrlEncode(campaignKey));
 
                 var response = await client.GetAsync(endpoint);
                 string contents = await response.Content.ReadAsStringAsync();

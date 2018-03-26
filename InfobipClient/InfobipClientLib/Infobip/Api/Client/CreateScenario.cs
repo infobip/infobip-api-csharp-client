@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Infobip.Api.Model.Omni.Scenarios;
 namespace Infobip.Api.Client
 {
