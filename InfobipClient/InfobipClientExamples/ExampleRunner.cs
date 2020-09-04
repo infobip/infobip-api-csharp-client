@@ -13,6 +13,7 @@
             //new AdvancedSmsNotifyExample().RunExampleAsync().Wait();
             //new AdvancedSmsSchedulingExample().RunExampleAsync().Wait();
             //new AdvancedSmsTrackingExample().RunExampleAsync().Wait();
+            //new AdvancedSmsIndiaDltExample().RunExampleAsync().Wait();
 
             //new GetAccountBalanceExample().RunExampleAsync().Wait();
 

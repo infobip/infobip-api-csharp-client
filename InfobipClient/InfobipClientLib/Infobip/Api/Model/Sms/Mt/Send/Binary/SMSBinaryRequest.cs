@@ -25,6 +25,9 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Binary
         [JsonProperty("operatorClientId")]
         public string OperatorClientId { get; set; }
 
+        [JsonProperty("regional")]
+        public RegionalOptions Regional { get; set; }
+
 
     }
 }

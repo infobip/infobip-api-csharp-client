@@ -54,6 +54,7 @@
     <Compile Include="Examples\NumberContextQueryExample.cs" />
     <Compile Include="Examples\PullInboxDeliveryReportsExample.cs" />
     <Compile Include="Examples\PullSentDeliveryReportsExample.cs" />
+    <Compile Include="Examples\AdvancedSmsIndiaDltExample.cs" />
     <Compile Include="Examples\SingleTextualSmsExample.cs" />
     <Compile Include="Examples\SmsPreviewExample.cs" />
   </ItemGroup>

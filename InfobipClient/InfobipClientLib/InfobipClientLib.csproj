@@ -174,12 +174,14 @@
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\DeliveryDay.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\DeliveryTime.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\DeliveryTimeWindow.cs" />
+    <Compile Include="Infobip\Api\Model\Sms\Mt\Send\IndiaDltOptions.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Language.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Message.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Preview\Configuration.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Preview\Preview.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Preview\PreviewRequest.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Preview\PreviewResponse.cs" />
+    <Compile Include="Infobip\Api\Model\Sms\Mt\Send\RegionalOptions.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\SMSResponse.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\SMSResponseDetails.cs" />
     <Compile Include="Infobip\Api\Model\Sms\Mt\Send\Textual\SMSAdvancedTextualRequest.cs" />
