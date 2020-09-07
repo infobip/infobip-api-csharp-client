@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Infobip API C# Client Library</description>
     <releaseNotes>Added India DLT parameters support</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2020</copyright>
     <tags>infobip sms api client</tags>
 	<dependencies>
 		<dependency id="Newtonsoft.Json" version="10.0.3" />
