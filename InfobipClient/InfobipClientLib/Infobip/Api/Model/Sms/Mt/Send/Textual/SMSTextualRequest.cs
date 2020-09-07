@@ -27,6 +27,8 @@ namespace Infobip.Api.Model.Sms.Mt.Send.Textual
         [JsonProperty("transliteration")]
         public string Transliteration { get; set; }
 
+        [JsonProperty("regional")]
+        public RegionalOptions Regional { get; set; }
 
     }
 }
