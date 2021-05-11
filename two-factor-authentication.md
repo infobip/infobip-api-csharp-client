@@ -3,9 +3,9 @@ Initialize 2FA API client:
 ```csharp
     var configuration = new Configuration()
     {
-        BasePath = URL_BASE_PATH,
-        ApiKeyPrefix = new Dictionary<string, string> { { "Authorization", API_KEY_PREFIX } },
-        ApiKey = new Dictionary<string, string> { { "Authorization", API_KEY } }
+        BasePath = "<put your base URL here>",
+        ApiKeyPrefix = "<put API key prefix here (App/Basic/IBSSO/Bearer)>",
+        ApiKey = "<put your API key here>"
     };
     
     var tfaApi = new TfaApi(configuration);
