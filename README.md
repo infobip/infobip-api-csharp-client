@@ -1,44 +1,198 @@
-Infobip API C# client
-======================
+# Infobip API C# Client
 
-Prerequisites
---------------
+[![NuGet](https://badgen.net/nuget/v/Infobip.Api.Client?icon=nuget)](https://www.nuget.org/packages/Infobip.Api.Client)
+[![MIT License](https://badgen.net/github/license/infobip/infobip-api-csharp-client)](https://opensource.org/licenses/MIT)
 
-.NET framework 4.5 or above is required to use this library.
+This is a C# Client for Infobip API and you can use it as a dependency to add [Infobip APIs][apidocs] to your application.
+To use this, you'll need an Infobip account. If not already having one, you can create a [free trial][freetrial] account [here][signup].
 
-Installation
--------------
+Built on top of [OpenAPI Specification](https://swagger.io/specification/), powered by [OpenAPI Generator](https://openapi-generator.tech/).
 
-It is recommended that you install the Infobip API C# client via NuGet Package Manager. Simply search the
-Manager for "Infobip API C# client" and install it in your project to be able to access its features.
-Additional instructions on how to access and use the NuGet Package Manager and install a package are available
-on the [official Microsoft documentation page](https://docs.microsoft.com/en-us/nuget/tools/package-manager-ui).
+<img src="https://udesigncss.com/wp-content/uploads/2020/01/Infobip-logo-transparent.png" height="124px" alt="Infobip" />
 
+#### Table of contents:
+* [Documentation](#documentation)
+* [General Info](#general-info)
+* [Installation](#installation)
+* [Quickstart](#quickstart)
+* [Ask for help](#ask-for-help)
 
-Manual dependency management
------------------------------
+## Documentation
 
-If you choose not to use the NuGet Package Manager, you can also clone this repository and reference the
-InfobipClientLib project directly. Another way would be to build it in a .dll file, place it wherever you
-like in your project and reference it that way.
-If, on the other hand, you do not want to deal with this repository, you can download the NuGet package manually
-from the [dedicated NuGet site](https://www.nuget.org/packages/Infobip.Api.Client/), open it in a file archiving
-program and extract the .dll file from the lib directory.
+Infobip API Documentation can be found [here][apidocs].
 
-Examples
----------
+## General Info
+For `Infobip.Api.Client` versioning we use [Semantic Versioning][semver] scheme.
 
-The Infobip API C# client solution also comes with the InfobipClientExamples project, where you can see, test,
-change and run examples of some of the common uses of the Infobip API. For more details, please refer to the
-[official documentation](https://dev.infobip.com/).
+Published under [MIT License][license].
 
-Running examples
------------------
+[.NET Standard 2.0](https://github.com/dotnet/standard/blob/master/docs/versions/netstandard2.0.md) is targeted for usage of this library.
 
-The examples can be run by uncommenting them in the ExampleRunner class and running it. Before that, make sure
-to type in your credentials and desired phone number(s) destination(s) into the Example class.
+## Installation
+Recommended way of library usage is to install it via [NuGet Package Manager](https://www.nuget.org/downloads).
 
-License
---------
+#### Package Manager UI
+Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Client` package and install the latest version to your project.
 
-This library is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+#### Package Manager Console
+Alternatively, also within Visual Studio, use the Package Manager Console command:
+
+    Install-Package Infobip.Api.Client -Version 2.0.0
+
+#### .NET CLI
+If you are used to .NET CLI, the following command is going to be sufficient for you:
+
+    dotnet add package Infobip.Api.Client --version 2.0.0
+
+### Package reference
+Including the package directly into project file is also valid option.
+
+    <PackageReference Include="Infobip.Api.Client" Version="2.0.0" />
+
+## Quickstart
+
+#### Initialize the Client
+
+We support multiple authentication methods, e.g. you can use [API Key Header](https://www.infobip.com/docs/essentials/api-authentication#api-key-header). In this case value for `ApiKeyPrefix` in example below will be `App`.
+
+To see your base URL, log in to the [Infobip API Resource][apidocs] hub with your Infobip credentials.
+
+```csharp
+    var configuration = new Configuration()
+    {
+        BasePath = "<put your base URL here>",
+        ApiKeyPrefix = "<put API key prefix here (App/Basic/IBSSO/Bearer)>",
+        ApiKey = "<put your API key here>"
+    };
+    
+    var sendSmsApi = new SendSmsApi(configuration);
+```
+
+Since library is utilizing the `HttpClient` behind the scene for handling the HTTP calls you can provide your own instance of `HttpClient` to `SendSmsApi` constructor and have a control over its lifecycle.
+```csharp
+    var sendSmsApi = new SendSmsApi(myHttpClientInstance, configuration);
+```
+
+#### Send an SMS
+Simple example for sending an SMS message.
+
+```csharp
+    var smsMessage = new SmsTextualMessage()
+    {
+        From = "InfoSMS",
+        Destinations = new List<SmsDestination>()
+        {
+            new SmsDestination(to: "41793026727")
+        },
+        Text = "This is a dummy SMS message sent using Infobip.Api.Client"
+    };
+
+    var smsRequest = new SmsAdvancedTextualRequest()
+    {
+        Messages = new List<SmsTextualMessage>() { smsMessage }
+    };
+```
+Send the message and inspect the `ApiException` for more information in case of failure.
+You can get the HTTP status code from `ErrorCode` property, and more details about error from `ErrorContent` property.
+```csharp
+    try
+    {
+        var smsResponse = sendSmsApi.SendSmsMessage(smsRequest);
+
+        System.Diagnostics.Debug.WriteLine($"Status: {smsResponse.Messages.First().Status}");
+    }
+    catch (ApiException apiException)
+    {
+        var errorCode = apiException.ErrorCode;
+        var errorHeaders = apiException.Headers;
+        var errorContent = apiException.ErrorContent;
+    }
+```
+
+Additionally, from the successful response (`SmsResponse` object) you can pull out the `bulkId` and `messageId`(s) and use them to fetch a delivery report for given message or bulk.
+Bulk ID will be received only when you send a message to more than one destination address or multiple messages in a single request.
+
+```csharp
+    string bulkId = smsResponse.BulkId;
+    string messageId = smsResponse.Messages.First().MessageId;
+```
+
+#### Receive sent SMS report
+For each SMS that you send out, we can send you a message delivery report in real time. All you need to do is specify your endpoint when sending SMS in `notifyUrl` field of `SmsTextualMessage`, or subscribe for reports by contacting our support team.
+e.g. `https://{yourDomain}/delivery-reports`
+
+You can use data models from the library and the pre-configured `Newtonsoft.Json` serializer (version 12.0.3).
+
+Example of webhook implementation:
+
+```csharp
+    [HttpPost("api/sms/delivery-reports")]
+    public IActionResult ReceiveDeliveryReport([FromBody] SmsDeliveryResult deliveryResult)
+    {
+        foreach (var result in deliveryResult.Results)
+        {
+            System.Diagnostics.Debug.WriteLine($"{result.MessageId} - {result.Status.Name}");
+        }
+        return Ok();
+    }
+```
+If you prefer to use your own serializer, please pay attention to the supported [date format](https://www.infobip.com/docs/essentials/integration-best-practices#date-formats).
+Library is using custom date format string `yyyy-MM-ddTHH:mm:ss.fffzzzz` when serializing dates. This format does not exactly match the format from our documentation above, but it is the closest possible. This format produces the time zone offset value with `:` as time separator, but our backend services will deserialize it correctly.
+
+#### Fetching delivery reports
+If you are for any reason unable to receive real time delivery reports on your endpoint, you can use `messageId` or `bulkId` to fetch them.
+Each request will return a batch of delivery reports - only once.
+
+```csharp
+    int numberOfReportsLimit = 10;
+    var smsDeliveryResult = sendSmsApi.GetOutboundSmsMessageDeliveryReports(bulkId, messageId, numberOfReportsLimit);
+    foreach (var smsReport in smsDeliveryResult.Results)
+    {
+        Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}")
+    }
+```
+
+#### Unicode & SMS preview
+Infobip API supports Unicode characters and automatically detects encoding. Unicode and non-standard GSM characters use additional space, avoid unpleasant surprises and check how different message configurations will affect your message text, number of characters and message parts.
+
+```csharp
+    var smsPreviewRequest = new SmsPreviewRequest()
+    {
+        Text = "Let's see how many characters will remain unused in this message."
+    };
+
+    var smsPreviewResponse = sendSmsApi.PreviewSmsMessage(smsPreviewRequest);
+```
+
+#### Receive incoming SMS
+If you want to receive SMS messages from your subscribers we can have them delivered to you in real time. When you buy and configure a number capable of receiving SMS, specify your endpoint as explained [here](https://www.infobip.com/docs/api#channels/sms/receive-inbound-sms-messages).
+e.g. `https://{yourDomain}/incoming-sms`.
+
+Example of webhook implementation:
+
+```csharp
+    [HttpPost("api/sms/incoming-sms")]
+    public IActionResult ReceiveSms([FromBody] SmsInboundMessageResult smsInboundMessageResult)
+    {
+        foreach (var result in smsInboundMessageResult.Results)
+        {
+            System.Diagnostics.Debug.WriteLine($"{result.From} - {result.CleanText}");
+        }
+        return Ok();
+    }
+```
+#### Two-Factor Authentication (2FA)
+For 2FA quick start guide please check [these examples](two-factor-authentication.md).
+
+## Ask for help
+
+Feel free to open issues on the repository for any issue or feature request. As per pull requests, for details check the `CONTRIBUTING` [file][contributing] related to it - in short, we will not merge any pull requests, this code is auto-generated.
+
+If it is, however, something that requires our imminent attention feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
+
+[apidocs]: https://www.infobip.com/docs/api
+[freetrial]: https://www.infobip.com/docs/freetrial
+[signup]: https://www.infobip.com/signup
+[semver]: https://semver.org
+[license]: LICENSE
+[contributing]: CONTRIBUTING.md
