@@ -191,7 +191,7 @@ Feel free to open issues on the repository for any issue or feature request. As 
 If it is, however, something that requires our imminent attention feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
 
 [apidocs]: https://www.infobip.com/docs/api
-[freetrial]: https://www.infobip.com/docs/freetrial
+[freetrial]: https://www.infobip.com/docs/essentials/free-trial
 [signup]: https://www.infobip.com/signup
 [semver]: https://semver.org
 [license]: LICENSE
