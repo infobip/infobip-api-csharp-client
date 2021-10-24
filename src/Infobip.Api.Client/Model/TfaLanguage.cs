@@ -107,23 +107,33 @@ namespace Infobip.Api.Client.Model
         [EnumMember(Value = "fi")] Fi = 15,
 
         /// <summary>
+        ///     Enum Hr for value: hr
+        /// </summary>
+        [EnumMember(Value = "hr")] Hr = 16,
+
+        /// <summary>
+        ///     Enum Sl for value: sl
+        /// </summary>
+        [EnumMember(Value = "sl")] Sl = 17,
+
+        /// <summary>
         ///     Enum PtPt for value: pt-pt
         /// </summary>
-        [EnumMember(Value = "pt-pt")] PtPt = 16,
+        [EnumMember(Value = "pt-pt")] PtPt = 18,
 
         /// <summary>
         ///     Enum PtBr for value: pt-br
         /// </summary>
-        [EnumMember(Value = "pt-br")] PtBr = 17,
+        [EnumMember(Value = "pt-br")] PtBr = 19,
 
         /// <summary>
         ///     Enum ZhCn for value: zh-cn
         /// </summary>
-        [EnumMember(Value = "zh-cn")] ZhCn = 18,
+        [EnumMember(Value = "zh-cn")] ZhCn = 20,
 
         /// <summary>
         ///     Enum ZhTw for value: zh-tw
         /// </summary>
-        [EnumMember(Value = "zh-tw")] ZhTw = 19
+        [EnumMember(Value = "zh-tw")] ZhTw = 21
     }
 }

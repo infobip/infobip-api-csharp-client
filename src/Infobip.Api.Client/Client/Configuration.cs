@@ -33,7 +33,7 @@ namespace Infobip.Api.Client
         /// </summary>
         public static readonly ExceptionFactory DefaultExceptionFactory = (methodName, response) =>
         {
-            var status = (int) response.StatusCode;
+            var status = (int)response.StatusCode;
             if (status >= 400)
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.ErrorText),
@@ -53,8 +53,8 @@ namespace Infobip.Api.Client
             string report = "C# SDK (Infobip.Api.Client) Debug Report:\n";
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version + "\n";
-            report += "    Version of the API: 1.0.106\n";
-            report += "    SDK Package Version: 2.0.0\n";
+            report += "    Version of the API: 1.0.277\n";
+            report += "    SDK Package Version: 2.1.0\n";
 
             return report;
         }
@@ -105,7 +105,7 @@ namespace Infobip.Api.Client
         ///     Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "2.0.0";
+        public const string Version = "2.1.0";
 
         /// <summary>
         ///     Identifier for ISO 8601 DateTime Format
@@ -157,7 +157,7 @@ namespace Infobip.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = "infobip-api-client-csharp/2.0.0";
+            UserAgent = "infobip-api-client-csharp/2.1.0";
             BasePath = "http://localhost";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = null;
@@ -166,8 +166,8 @@ namespace Infobip.Api.Client
             {
                 new Dictionary<string, object>
                 {
-                    {"url", ""},
-                    {"description", "No description provided"}
+                    { "url", "" },
+                    { "description", "No description provided" }
                 }
             };
 
@@ -398,26 +398,26 @@ namespace Infobip.Api.Client
             if (inputVariables == null) inputVariables = new Dictionary<string, string>();
 
             IReadOnlyDictionary<string, object> server = Servers[index];
-            string url = (string) server["url"];
+            string url = (string)server["url"];
 
             // go through variable and assign a value
-            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>) server["variables"])
+            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
             {
                 IReadOnlyDictionary<string, object> serverVariables =
-                    (IReadOnlyDictionary<string, object>) variable.Value;
+                    (IReadOnlyDictionary<string, object>)variable.Value;
 
                 if (inputVariables.ContainsKey(variable.Key))
                 {
-                    if (((List<string>) serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
                         url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
                     else
                         throw new InvalidOperationException(
-                            $"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>) serverVariables["enum_values"]}");
+                            $"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
                 }
                 else
                 {
                     // use default value
-                    url = url.Replace("{" + variable.Key + "}", (string) serverVariables["default_value"]);
+                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                 }
             }
 

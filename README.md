@@ -3,12 +3,12 @@
 [![NuGet](https://badgen.net/nuget/v/Infobip.Api.Client?icon=nuget)](https://www.nuget.org/packages/Infobip.Api.Client)
 [![MIT License](https://badgen.net/github/license/infobip/infobip-api-csharp-client)](https://opensource.org/licenses/MIT)
 
-This is a C# Client for Infobip API and you can use it as a dependency to add [Infobip APIs][apidocs] to your application.
-To use this, you'll need an Infobip account. If not already having one, you can create a [free trial][freetrial] account [here][signup].
+This is a C# Client for [Infobip API][apidocs] and you can use it as a dependency in your application.
+To use this library you'll need an Infobip account. You can create a [free trial][freetrial] account [here][signup].
 
-Built on top of [OpenAPI Specification](https://swagger.io/specification/), powered by [OpenAPI Generator](https://openapi-generator.tech/).
+The library is built on top of [OpenAPI Specification](https://swagger.io/specification/) and powered by [OpenAPI Generator](https://openapi-generator.tech/).
 
-<img src="https://udesigncss.com/wp-content/uploads/2020/01/Infobip-logo-transparent.png" height="124px" alt="Infobip" />
+<img src="https://udesigncss.com/wp-content/uploads/2020/01/Infobip-logo-transparent.png" height="48px" alt="Infobip" />
 
 #### Table of contents:
 * [Documentation](#documentation)
@@ -37,25 +37,26 @@ Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Clie
 #### Package Manager Console
 Alternatively, also within Visual Studio, use the Package Manager Console command:
 
-    Install-Package Infobip.Api.Client -Version 2.0.0
+    Install-Package Infobip.Api.Client -Version 2.1.0
 
 #### .NET CLI
 If you are used to .NET CLI, the following command is going to be sufficient for you:
 
-    dotnet add package Infobip.Api.Client --version 2.0.0
+    dotnet add package Infobip.Api.Client --version 2.1.0
 
 ### Package reference
 Including the package directly into project file is also valid option.
 
-    <PackageReference Include="Infobip.Api.Client" Version="2.0.0" />
+    <PackageReference Include="Infobip.Api.Client" Version="2.1.0" />
 
 ## Quickstart
 
 #### Initialize the Client
 
-We support multiple authentication methods, e.g. you can use [API Key Header](https://www.infobip.com/docs/essentials/api-authentication#api-key-header). In this case value for `ApiKeyPrefix` in example below will be `App`.
-
-To see your base URL, log in to the [Infobip API Resource][apidocs] hub with your Infobip credentials.
+Before initializing client we have to prepare `Configuration` object for handling authentication.
+We support multiple authentication methods, e.g. you can use [API Key Header][authentication-apikey].
+In this case value for `ApiKeyPrefix` in example below will be `App`.
+To see your base URL, log in to the [Infobip API Resource][apidocs] hub with your Infobip account.
 
 ```csharp
     var configuration = new Configuration()
@@ -64,8 +65,11 @@ To see your base URL, log in to the [Infobip API Resource][apidocs] hub with you
         ApiKeyPrefix = "<put API key prefix here (App/Basic/IBSSO/Bearer)>",
         ApiKey = "<put your API key here>"
     };
-    
-    var sendSmsApi = new SendSmsApi(configuration);
+```
+
+Next step is to initialize the API client. In this case we're instantiating the SMS API client.
+```csharp
+var sendSmsApi = new SendSmsApi(configuration);
 ```
 
 Since library is utilizing the `HttpClient` behind the scene for handling the HTTP calls you can provide your own instance of `HttpClient` to `SendSmsApi` constructor and have a control over its lifecycle.
@@ -74,7 +78,7 @@ Since library is utilizing the `HttpClient` behind the scene for handling the HT
 ```
 
 #### Send an SMS
-Simple example for sending an SMS message.
+Here's a simple example for sending an SMS message. First prepare the message by creating an instance of `SmsAdvancedTextualRequest` and its nested objects.
 
 ```csharp
     var smsMessage = new SmsTextualMessage()
@@ -92,8 +96,10 @@ Simple example for sending an SMS message.
         Messages = new List<SmsTextualMessage>() { smsMessage }
     };
 ```
-Send the message and inspect the `ApiException` for more information in case of failure.
+
+Now we can send the message using client instantiated before and inspect the `ApiException` for more information in case of failure.
 You can get the HTTP status code from `ErrorCode` property, and more details about error from `ErrorContent` property.
+
 ```csharp
     try
     {
@@ -136,7 +142,7 @@ Example of webhook implementation:
         return Ok();
     }
 ```
-If you prefer to use your own serializer, please pay attention to the supported [date format](https://www.infobip.com/docs/essentials/integration-best-practices#date-formats).
+If you prefer to use your own serializer, please pay attention to the supported [date format][datetimeformat].
 Library is using custom date format string `yyyy-MM-ddTHH:mm:ss.fffzzzz` when serializing dates. This format does not exactly match the format from our documentation above, but it is the closest possible. This format produces the time zone offset value with `:` as time separator, but our backend services will deserialize it correctly.
 
 #### Fetching delivery reports
@@ -154,6 +160,7 @@ Each request will return a batch of delivery reports - only once.
 
 #### Unicode & SMS preview
 Infobip API supports Unicode characters and automatically detects encoding. Unicode and non-standard GSM characters use additional space, avoid unpleasant surprises and check how different message configurations will affect your message text, number of characters and message parts.
+Use the preview SMS message functionality to verify those details as demonstrated below.
 
 ```csharp
     var smsPreviewRequest = new SmsPreviewRequest()
@@ -165,8 +172,8 @@ Infobip API supports Unicode characters and automatically detects encoding. Unic
 ```
 
 #### Receive incoming SMS
-If you want to receive SMS messages from your subscribers we can have them delivered to you in real time. When you buy and configure a number capable of receiving SMS, specify your endpoint as explained [here](https://www.infobip.com/docs/api#channels/sms/receive-inbound-sms-messages).
-e.g. `https://{yourDomain}/incoming-sms`.
+If you want to receive SMS messages from your subscribers we can have them delivered to you in real time.
+When you buy and configure a number capable of receiving SMS, specify your endpoint as explained [here][receive-inbound-sms] e.g. `https://{yourDomain}/incoming-sms`.
 
 Example of webhook implementation:
 
@@ -184,11 +191,15 @@ Example of webhook implementation:
 #### Two-Factor Authentication (2FA)
 For 2FA quick start guide please check [these examples](two-factor-authentication.md).
 
+#### Send email
+For send email quick start guide please check [these examples](email.md).
+
 ## Ask for help
 
-Feel free to open issues on the repository for any issue or feature request. As per pull requests, for details check the `CONTRIBUTING` [file][contributing] related to it - in short, we will not merge any pull requests, this code is auto-generated.
+Feel free to open issues on the repository for any issue or feature request. 
+Check the `CONTRIBUTING` [file][contributing] for details about contributions - in short, we will not merge any pull requests since this code is auto-generated.
 
-If it is, however, something that requires our imminent attention feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
+However, if you find something that requires our imminent attention feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
 
 [apidocs]: https://www.infobip.com/docs/api
 [freetrial]: https://www.infobip.com/docs/essentials/free-trial
@@ -196,3 +207,6 @@ If it is, however, something that requires our imminent attention feel free to c
 [semver]: https://semver.org
 [license]: LICENSE
 [contributing]: CONTRIBUTING.md
+[authentication-apikey]: https://www.infobip.com/docs/essentials/api-authentication#api-key-header
+[datetimeformat]: https://www.infobip.com/docs/essentials/integration-best-practices#date-formats
+[receive-inbound-sms]: https://www.infobip.com/docs/api#channels/sms/receive-inbound-sms-messages

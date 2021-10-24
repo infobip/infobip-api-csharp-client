@@ -245,7 +245,7 @@ namespace Infobip.Api.Client
         /// <param name="index">The zero-based index in array at which copying begins.</param>
         public void CopyTo(Array array, int index)
         {
-            ((ICollection) _dictionary).CopyTo(array, index);
+            ((ICollection)_dictionary).CopyTo(array, index);
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Infobip.Api.Client
                 }
                 else
                 {
-                    list = new List<TValue> {value};
+                    list = new List<TValue> { value };
                     if (!TryAdd(key, list))
                         throw new InvalidOperationException("Could not add value to Multimap.");
                 }

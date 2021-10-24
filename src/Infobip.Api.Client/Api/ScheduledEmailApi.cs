@@ -27,104 +27,105 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IScheduledSmsApiSync : IApiAccessor
+    public interface IScheduledEmailApiSync : IApiAccessor
     {
         #region Synchronous Operations
 
         /// <summary>
-        ///     Get scheduled SMS messages
+        ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
-        ///     See the status and the scheduled time of your SMS messages.
+        ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>SmsBulkResponse</returns>
-        SmsBulkResponse GetScheduledSmsMessages(string bulkId);
+        /// <returns>EmailBulkStatusResponse</returns>
+        EmailBulkStatusResponse GetScheduledEmailStatuses(string bulkId);
 
         /// <summary>
-        ///     Get scheduled SMS messages
+        ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
-        ///     See the status and the scheduled time of your SMS messages.
+        ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>ApiResponse of SmsBulkResponse</returns>
-        ApiResponse<SmsBulkResponse> GetScheduledSmsMessagesWithHttpInfo(string bulkId);
+        /// <returns>ApiResponse of EmailBulkStatusResponse</returns>
+        ApiResponse<EmailBulkStatusResponse> GetScheduledEmailStatusesWithHttpInfo(string bulkId);
 
         /// <summary>
-        ///     Get scheduled SMS messages status
+        ///     Get sent email bulks
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages.
+        ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>SmsBulkStatusResponse</returns>
-        SmsBulkStatusResponse GetScheduledSmsMessagesStatus(string bulkId);
+        /// <returns>EmailBulkScheduleResponse</returns>
+        EmailBulkScheduleResponse GetScheduledEmails(string bulkId);
 
         /// <summary>
-        ///     Get scheduled SMS messages status
+        ///     Get sent email bulks
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages.
+        ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
-        ApiResponse<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusWithHttpInfo(string bulkId);
+        /// <returns>ApiResponse of EmailBulkScheduleResponse</returns>
+        ApiResponse<EmailBulkScheduleResponse> GetScheduledEmailsWithHttpInfo(string bulkId);
 
         /// <summary>
-        ///     Reschedule SMS messages
+        ///     Reschedule Email messages
         /// </summary>
         /// <remarks>
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <returns>SmsBulkResponse</returns>
-        SmsBulkResponse RescheduleSmsMessages(string bulkId, SmsBulkRequest smsBulkRequest = default);
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <returns>EmailBulkRescheduleResponse</returns>
+        EmailBulkRescheduleResponse RescheduleEmails(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest);
 
         /// <summary>
-        ///     Reschedule SMS messages
+        ///     Reschedule Email messages
         /// </summary>
         /// <remarks>
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <returns>ApiResponse of SmsBulkResponse</returns>
-        ApiResponse<SmsBulkResponse> RescheduleSmsMessagesWithHttpInfo(string bulkId,
-            SmsBulkRequest smsBulkRequest = default);
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <returns>ApiResponse of EmailBulkRescheduleResponse</returns>
+        ApiResponse<EmailBulkRescheduleResponse> RescheduleEmailsWithHttpInfo(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest);
 
         /// <summary>
-        ///     Update scheduled SMS messages status
+        ///     Update scheduled Email messages status
         /// </summary>
         /// <remarks>
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
-        /// <returns>SmsBulkStatusResponse</returns>
-        SmsBulkStatusResponse UpdateScheduledSmsMessagesStatus(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default);
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <returns>EmailBulkUpdateStatusResponse</returns>
+        EmailBulkUpdateStatusResponse UpdateScheduledEmailStatuses(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest);
 
         /// <summary>
-        ///     Update scheduled SMS messages status
+        ///     Update scheduled Email messages status
         /// </summary>
         /// <remarks>
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
-        /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
-        ApiResponse<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusWithHttpInfo(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default);
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <returns>ApiResponse of EmailBulkUpdateStatusResponse</returns>
+        ApiResponse<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesWithHttpInfo(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest);
 
         #endregion Synchronous Operations
     }
@@ -132,118 +133,120 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IScheduledSmsApiAsync : IApiAccessor
+    public interface IScheduledEmailApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
 
         /// <summary>
-        ///     Get scheduled SMS messages
+        ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
-        ///     See the status and the scheduled time of your SMS messages.
+        ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkResponse</returns>
-        Task<SmsBulkResponse> GetScheduledSmsMessagesAsync(string bulkId,
+        /// <returns>Task of EmailBulkStatusResponse</returns>
+        Task<EmailBulkStatusResponse> GetScheduledEmailStatusesAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Get scheduled SMS messages
+        ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
-        ///     See the status and the scheduled time of your SMS messages.
+        ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
-        Task<ApiResponse<SmsBulkResponse>> GetScheduledSmsMessagesWithHttpInfoAsync(string bulkId,
+        /// <returns>Task of ApiResponse (EmailBulkStatusResponse)</returns>
+        Task<ApiResponse<EmailBulkStatusResponse>> GetScheduledEmailStatusesWithHttpInfoAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Get scheduled SMS messages status
+        ///     Get sent email bulks
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages.
+        ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkStatusResponse</returns>
-        Task<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusAsync(string bulkId,
+        /// <returns>Task of EmailBulkScheduleResponse</returns>
+        Task<EmailBulkScheduleResponse> GetScheduledEmailsAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Get scheduled SMS messages status
+        ///     Get sent email bulks
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages.
+        ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
-        Task<ApiResponse<SmsBulkStatusResponse>> GetScheduledSmsMessagesStatusWithHttpInfoAsync(string bulkId,
+        /// <returns>Task of ApiResponse (EmailBulkScheduleResponse)</returns>
+        Task<ApiResponse<EmailBulkScheduleResponse>> GetScheduledEmailsWithHttpInfoAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Reschedule SMS messages
+        ///     Reschedule Email messages
         /// </summary>
         /// <remarks>
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
+        /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkResponse</returns>
-        Task<SmsBulkResponse> RescheduleSmsMessagesAsync(string bulkId, SmsBulkRequest smsBulkRequest = default,
+        /// <returns>Task of EmailBulkRescheduleResponse</returns>
+        Task<EmailBulkRescheduleResponse> RescheduleEmailsAsync(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Reschedule SMS messages
+        ///     Reschedule Email messages
         /// </summary>
         /// <remarks>
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
+        /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
-        Task<ApiResponse<SmsBulkResponse>> RescheduleSmsMessagesWithHttpInfoAsync(string bulkId,
-            SmsBulkRequest smsBulkRequest = default, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        ///     Update scheduled SMS messages status
-        /// </summary>
-        /// <remarks>
-        ///     Change status or completely cancel sending of scheduled messages.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkStatusResponse</returns>
-        Task<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusAsync(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default,
+        /// <returns>Task of ApiResponse (EmailBulkRescheduleResponse)</returns>
+        Task<ApiResponse<EmailBulkRescheduleResponse>> RescheduleEmailsWithHttpInfoAsync(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Update scheduled SMS messages status
+        ///     Update scheduled Email messages status
         /// </summary>
         /// <remarks>
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
-        Task<ApiResponse<SmsBulkStatusResponse>> UpdateScheduledSmsMessagesStatusWithHttpInfoAsync(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default,
+        /// <returns>Task of EmailBulkUpdateStatusResponse</returns>
+        Task<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesAsync(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        ///     Update scheduled Email messages status
+        /// </summary>
+        /// <remarks>
+        ///     Change status or completely cancel sending of scheduled messages.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailBulkUpdateStatusResponse)</returns>
+        Task<ApiResponse<EmailBulkUpdateStatusResponse>> UpdateScheduledEmailStatusesWithHttpInfoAsync(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest,
             CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion Asynchronous Operations
@@ -252,32 +255,32 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IScheduledSmsApi : IScheduledSmsApiSync, IScheduledSmsApiAsync
+    public interface IScheduledEmailApi : IScheduledEmailApiSync, IScheduledEmailApiAsync
     {
     }
 
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class ScheduledSmsApi : IScheduledSmsApi
+    public class ScheduledEmailApi : IScheduledEmailApi
     {
         private ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public ScheduledSmsApi() : this((string)null)
+        public ScheduledEmailApi() : this((string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public ScheduledSmsApi(string basePath)
+        public ScheduledEmailApi(string basePath)
         {
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
@@ -290,12 +293,12 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class using Configuration object.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ScheduledSmsApi(Configuration configuration)
+        public ScheduledEmailApi(Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
@@ -310,7 +313,7 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -319,12 +322,12 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ScheduledSmsApi(HttpClient client) : this(client, (string)null)
+        public ScheduledEmailApi(HttpClient client) : this(client, (string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
@@ -335,7 +338,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ScheduledSmsApi(HttpClient client, string basePath)
+        public ScheduledEmailApi(HttpClient client, string basePath)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
 
@@ -350,7 +353,7 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
@@ -360,7 +363,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ScheduledSmsApi(HttpClient client, Configuration configuration)
+        public ScheduledEmailApi(HttpClient client, Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -376,18 +379,18 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ScheduledSmsApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
+        public ScheduledEmailApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
@@ -395,7 +398,7 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public ScheduledSmsApi(HttpClient client, HttpClientHandler handler, string basePath)
+        public ScheduledEmailApi(HttpClient client, HttpClientHandler handler, string basePath)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -411,14 +414,14 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ScheduledSmsApi(HttpClient client, HttpClientHandler handler, Configuration configuration)
+        public ScheduledEmailApi(HttpClient client, HttpClientHandler handler, Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -435,14 +438,14 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ScheduledSmsApi" /> class
+        ///     Initializes a new instance of the <see cref="ScheduledEmailApi" /> class
         ///     using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ScheduledSmsApi(ISynchronousClient client, IAsynchronousClient asyncClient,
+        public ScheduledEmailApi(ISynchronousClient client, IAsynchronousClient asyncClient,
             IReadableConfiguration configuration)
         {
             Client = client ?? throw new ArgumentNullException(nameof(client));
@@ -496,29 +499,29 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See the status and the scheduled time of your SMS messages.
+        ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>SmsBulkResponse</returns>
-        public SmsBulkResponse GetScheduledSmsMessages(string bulkId)
+        /// <returns>EmailBulkStatusResponse</returns>
+        public EmailBulkStatusResponse GetScheduledEmailStatuses(string bulkId)
         {
-            var localVarResponse = GetScheduledSmsMessagesWithHttpInfo(bulkId);
+            var localVarResponse = GetScheduledEmailStatusesWithHttpInfo(bulkId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See the status and the scheduled time of your SMS messages.
+        ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <returns>ApiResponse of SmsBulkResponse</returns>
-        public ApiResponse<SmsBulkResponse> GetScheduledSmsMessagesWithHttpInfo(string bulkId)
+        /// <returns>ApiResponse of EmailBulkStatusResponse</returns>
+        public ApiResponse<EmailBulkStatusResponse> GetScheduledEmailStatusesWithHttpInfo(string bulkId)
         {
             // verify the required parameter 'bulkId' is set
             if (bulkId == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->GetScheduledSmsMessages");
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->GetScheduledEmailStatuses");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -529,170 +532,7 @@ namespace Infobip.Api.Client.Api
             // to determine the Accept header
             string[] accepts =
             {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-
-            // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-
-            // make the HTTP request
-            var localVarResponse = Client.Get<SmsBulkResponse>("/sms/1/bulks", localVarRequestOptions, Configuration);
-
-            Exception exception = ExceptionFactory?.Invoke("GetScheduledSmsMessages", localVarResponse);
-            if (exception != null) throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Get scheduled SMS messages See the status and the scheduled time of your SMS messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkResponse</returns>
-        public async Task<SmsBulkResponse> GetScheduledSmsMessagesAsync(string bulkId,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            ApiResponse<SmsBulkResponse> localVarResponse =
-                await GetScheduledSmsMessagesWithHttpInfoAsync(bulkId, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Get scheduled SMS messages See the status and the scheduled time of your SMS messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
-        public async Task<ApiResponse<SmsBulkResponse>> GetScheduledSmsMessagesWithHttpInfoAsync(string bulkId,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // verify the required parameter 'bulkId' is set
-            if (bulkId == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->GetScheduledSmsMessages");
-
-
-            var localVarRequestOptions = new RequestOptions();
-
-            string[] contentTypes =
-            {
-            };
-
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-
-            // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-
-            // make the HTTP request
-
-            var localVarResponse = await AsynchronousClient
-                .GetAsync<SmsBulkResponse>("/sms/1/bulks", localVarRequestOptions, Configuration, cancellationToken)
-                .ConfigureAwait(false);
-
-            Exception exception = ExceptionFactory?.Invoke("GetScheduledSmsMessages", localVarResponse);
-            if (exception != null) throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <returns>SmsBulkStatusResponse</returns>
-        public SmsBulkStatusResponse GetScheduledSmsMessagesStatus(string bulkId)
-        {
-            var localVarResponse = GetScheduledSmsMessagesStatusWithHttpInfo(bulkId);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
-        public ApiResponse<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusWithHttpInfo(string bulkId)
-        {
-            // verify the required parameter 'bulkId' is set
-            if (bulkId == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->GetScheduledSmsMessagesStatus");
-
-            var localVarRequestOptions = new RequestOptions();
-
-            string[] contentTypes =
-            {
-            };
-
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
+                "application/json"
             };
 
             var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -726,43 +566,43 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Get<SmsBulkStatusResponse>("/sms/1/bulks/status", localVarRequestOptions, Configuration);
+                Client.Get<EmailBulkStatusResponse>("/email/1/bulks/status", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetScheduledSmsMessagesStatus", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("GetScheduledEmailStatuses", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages.
+        ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkStatusResponse</returns>
-        public async Task<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusAsync(string bulkId,
+        /// <returns>Task of EmailBulkStatusResponse</returns>
+        public async Task<EmailBulkStatusResponse> GetScheduledEmailStatusesAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            ApiResponse<SmsBulkStatusResponse> localVarResponse =
-                await GetScheduledSmsMessagesStatusWithHttpInfoAsync(bulkId, cancellationToken).ConfigureAwait(false);
+            ApiResponse<EmailBulkStatusResponse> localVarResponse =
+                await GetScheduledEmailStatusesWithHttpInfoAsync(bulkId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages.
+        ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
-        public async Task<ApiResponse<SmsBulkStatusResponse>> GetScheduledSmsMessagesStatusWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (EmailBulkStatusResponse)</returns>
+        public async Task<ApiResponse<EmailBulkStatusResponse>> GetScheduledEmailStatusesWithHttpInfoAsync(
             string bulkId, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'bulkId' is set
             if (bulkId == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->GetScheduledSmsMessagesStatus");
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->GetScheduledEmailStatuses");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -774,8 +614,7 @@ namespace Infobip.Api.Client.Api
             // to determine the Accept header
             string[] accepts =
             {
-                "application/json",
-                "application/xml"
+                "application/json"
             };
 
 
@@ -811,56 +650,50 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<SmsBulkStatusResponse>("/sms/1/bulks/status", localVarRequestOptions, Configuration,
+                .GetAsync<EmailBulkStatusResponse>("/email/1/bulks/status", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetScheduledSmsMessagesStatus", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("GetScheduledEmailStatuses", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time for sending scheduled messages.
+        ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <returns>SmsBulkResponse</returns>
-        public SmsBulkResponse RescheduleSmsMessages(string bulkId, SmsBulkRequest smsBulkRequest = default)
+        /// <returns>EmailBulkScheduleResponse</returns>
+        public EmailBulkScheduleResponse GetScheduledEmails(string bulkId)
         {
-            var localVarResponse = RescheduleSmsMessagesWithHttpInfo(bulkId, smsBulkRequest);
+            var localVarResponse = GetScheduledEmailsWithHttpInfo(bulkId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time for sending scheduled messages.
+        ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <returns>ApiResponse of SmsBulkResponse</returns>
-        public ApiResponse<SmsBulkResponse> RescheduleSmsMessagesWithHttpInfo(string bulkId,
-            SmsBulkRequest smsBulkRequest = default)
+        /// <returns>ApiResponse of EmailBulkScheduleResponse</returns>
+        public ApiResponse<EmailBulkScheduleResponse> GetScheduledEmailsWithHttpInfo(string bulkId)
         {
             // verify the required parameter 'bulkId' is set
             if (bulkId == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->RescheduleSmsMessages");
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->GetScheduledEmails");
 
             var localVarRequestOptions = new RequestOptions();
 
             string[] contentTypes =
             {
-                "application/json",
-                "application/xml"
             };
 
             // to determine the Accept header
             string[] accepts =
             {
-                "application/json",
-                "application/xml"
+                "application/json"
             };
 
             var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -871,182 +704,6 @@ namespace Infobip.Api.Client.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-            localVarRequestOptions.Data = smsBulkRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-
-            // make the HTTP request
-            var localVarResponse = Client.Put<SmsBulkResponse>("/sms/1/bulks", localVarRequestOptions, Configuration);
-
-            Exception exception = ExceptionFactory?.Invoke("RescheduleSmsMessages", localVarResponse);
-            if (exception != null) throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Reschedule SMS messages Change the date and time for sending scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkResponse</returns>
-        public async Task<SmsBulkResponse> RescheduleSmsMessagesAsync(string bulkId,
-            SmsBulkRequest smsBulkRequest = default, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            ApiResponse<SmsBulkResponse> localVarResponse =
-                await RescheduleSmsMessagesWithHttpInfoAsync(bulkId, smsBulkRequest, cancellationToken)
-                    .ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Reschedule SMS messages Change the date and time for sending scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="smsBulkRequest"> (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
-        public async Task<ApiResponse<SmsBulkResponse>> RescheduleSmsMessagesWithHttpInfoAsync(string bulkId,
-            SmsBulkRequest smsBulkRequest = default, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // verify the required parameter 'bulkId' is set
-            if (bulkId == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->RescheduleSmsMessages");
-
-
-            var localVarRequestOptions = new RequestOptions();
-
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-            localVarRequestOptions.Data = smsBulkRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-
-            // make the HTTP request
-
-            var localVarResponse = await AsynchronousClient
-                .PutAsync<SmsBulkResponse>("/sms/1/bulks", localVarRequestOptions, Configuration, cancellationToken)
-                .ConfigureAwait(false);
-
-            Exception exception = ExceptionFactory?.Invoke("RescheduleSmsMessages", localVarResponse);
-            if (exception != null) throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Update scheduled SMS messages status Change status or completely cancel sending of scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
-        /// <returns>SmsBulkStatusResponse</returns>
-        public SmsBulkStatusResponse UpdateScheduledSmsMessagesStatus(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default)
-        {
-            var localVarResponse = UpdateScheduledSmsMessagesStatusWithHttpInfo(bulkId, smsUpdateStatusRequest);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Update scheduled SMS messages status Change status or completely cancel sending of scheduled messages.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
-        /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
-        public ApiResponse<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusWithHttpInfo(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default)
-        {
-            // verify the required parameter 'bulkId' is set
-            if (bulkId == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->UpdateScheduledSmsMessagesStatus");
-
-            var localVarRequestOptions = new RequestOptions();
-
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-            localVarRequestOptions.Data = smsUpdateStatusRequest;
 
             // authentication (APIKeyHeader) required
             if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
@@ -1070,63 +727,55 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Put<SmsBulkStatusResponse>("/sms/1/bulks/status", localVarRequestOptions, Configuration);
+                Client.Get<EmailBulkScheduleResponse>("/email/1/bulks", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateScheduledSmsMessagesStatus", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("GetScheduledEmails", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change status or completely cancel sending of scheduled messages.
+        ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsBulkStatusResponse</returns>
-        public async Task<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusAsync(string bulkId,
-            SmsUpdateStatusRequest smsUpdateStatusRequest = default,
+        /// <returns>Task of EmailBulkScheduleResponse</returns>
+        public async Task<EmailBulkScheduleResponse> GetScheduledEmailsAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            ApiResponse<SmsBulkStatusResponse> localVarResponse =
-                await UpdateScheduledSmsMessagesStatusWithHttpInfoAsync(bulkId, smsUpdateStatusRequest,
-                    cancellationToken).ConfigureAwait(false);
+            ApiResponse<EmailBulkScheduleResponse> localVarResponse =
+                await GetScheduledEmailsWithHttpInfoAsync(bulkId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change status or completely cancel sending of scheduled messages.
+        ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId"></param>
-        /// <param name="smsUpdateStatusRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
-        public async Task<ApiResponse<SmsBulkStatusResponse>> UpdateScheduledSmsMessagesStatusWithHttpInfoAsync(
-            string bulkId, SmsUpdateStatusRequest smsUpdateStatusRequest = default,
+        /// <returns>Task of ApiResponse (EmailBulkScheduleResponse)</returns>
+        public async Task<ApiResponse<EmailBulkScheduleResponse>> GetScheduledEmailsWithHttpInfoAsync(string bulkId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'bulkId' is set
             if (bulkId == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'bulkId' when calling ScheduledSmsApi->UpdateScheduledSmsMessagesStatus");
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->GetScheduledEmails");
 
 
             var localVarRequestOptions = new RequestOptions();
 
             string[] contentTypes =
             {
-                "application/json",
-                "application/xml"
             };
 
             // to determine the Accept header
             string[] accepts =
             {
-                "application/json",
-                "application/xml"
+                "application/json"
             };
 
 
@@ -1138,7 +787,6 @@ namespace Infobip.Api.Client.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
-            localVarRequestOptions.Data = smsUpdateStatusRequest;
 
             // authentication (APIKeyHeader) required
             if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
@@ -1163,10 +811,379 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .PutAsync<SmsBulkStatusResponse>("/sms/1/bulks/status", localVarRequestOptions, Configuration,
+                .GetAsync<EmailBulkScheduleResponse>("/email/1/bulks", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateScheduledSmsMessagesStatus", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("GetScheduledEmails", localVarResponse);
+            if (exception != null) throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Reschedule Email messages Change the date and time for sending scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <returns>EmailBulkRescheduleResponse</returns>
+        public EmailBulkRescheduleResponse RescheduleEmails(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest)
+        {
+            var localVarResponse = RescheduleEmailsWithHttpInfo(bulkId, emailBulkRescheduleRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Reschedule Email messages Change the date and time for sending scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <returns>ApiResponse of EmailBulkRescheduleResponse</returns>
+        public ApiResponse<EmailBulkRescheduleResponse> RescheduleEmailsWithHttpInfo(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest)
+        {
+            // verify the required parameter 'bulkId' is set
+            if (bulkId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->RescheduleEmails");
+
+            // verify the required parameter 'emailBulkRescheduleRequest' is set
+            if (emailBulkRescheduleRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailBulkRescheduleRequest' when calling ScheduledEmailApi->RescheduleEmails");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string[] contentTypes =
+            {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] accepts =
+            {
+                "application/json"
+            };
+
+            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
+            if (localVarContentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
+            localVarRequestOptions.Data = emailBulkRescheduleRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (Basic) required
+            // http basic authentication required
+            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
+                localVarRequestOptions.HeaderParameters.Add("Authorization",
+                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
+            // authentication (IBSSOTokenHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (OAuth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+
+            // make the HTTP request
+            var localVarResponse =
+                Client.Put<EmailBulkRescheduleResponse>("/email/1/bulks", localVarRequestOptions, Configuration);
+
+            Exception exception = ExceptionFactory?.Invoke("RescheduleEmails", localVarResponse);
+            if (exception != null) throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Reschedule Email messages Change the date and time for sending scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailBulkRescheduleResponse</returns>
+        public async Task<EmailBulkRescheduleResponse> RescheduleEmailsAsync(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            ApiResponse<EmailBulkRescheduleResponse> localVarResponse =
+                await RescheduleEmailsWithHttpInfoAsync(bulkId, emailBulkRescheduleRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Reschedule Email messages Change the date and time for sending scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkRescheduleRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailBulkRescheduleResponse)</returns>
+        public async Task<ApiResponse<EmailBulkRescheduleResponse>> RescheduleEmailsWithHttpInfoAsync(string bulkId,
+            EmailBulkRescheduleRequest emailBulkRescheduleRequest,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'bulkId' is set
+            if (bulkId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->RescheduleEmails");
+
+            // verify the required parameter 'emailBulkRescheduleRequest' is set
+            if (emailBulkRescheduleRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailBulkRescheduleRequest' when calling ScheduledEmailApi->RescheduleEmails");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string[] contentTypes =
+            {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] accepts =
+            {
+                "application/json"
+            };
+
+
+            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
+            if (localVarContentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
+            localVarRequestOptions.Data = emailBulkRescheduleRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (Basic) required
+            // http basic authentication required
+            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
+                localVarRequestOptions.HeaderParameters.Add("Authorization",
+                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
+            // authentication (IBSSOTokenHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (OAuth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PutAsync<EmailBulkRescheduleResponse>("/email/1/bulks", localVarRequestOptions, Configuration,
+                    cancellationToken).ConfigureAwait(false);
+
+            Exception exception = ExceptionFactory?.Invoke("RescheduleEmails", localVarResponse);
+            if (exception != null) throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <returns>EmailBulkUpdateStatusResponse</returns>
+        public EmailBulkUpdateStatusResponse UpdateScheduledEmailStatuses(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest)
+        {
+            var localVarResponse = UpdateScheduledEmailStatusesWithHttpInfo(bulkId, emailBulkUpdateStatusRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <returns>ApiResponse of EmailBulkUpdateStatusResponse</returns>
+        public ApiResponse<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesWithHttpInfo(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest)
+        {
+            // verify the required parameter 'bulkId' is set
+            if (bulkId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->UpdateScheduledEmailStatuses");
+
+            // verify the required parameter 'emailBulkUpdateStatusRequest' is set
+            if (emailBulkUpdateStatusRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailBulkUpdateStatusRequest' when calling ScheduledEmailApi->UpdateScheduledEmailStatuses");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string[] contentTypes =
+            {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] accepts =
+            {
+                "application/json"
+            };
+
+            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
+            if (localVarContentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
+            localVarRequestOptions.Data = emailBulkUpdateStatusRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (Basic) required
+            // http basic authentication required
+            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
+                localVarRequestOptions.HeaderParameters.Add("Authorization",
+                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
+            // authentication (IBSSOTokenHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (OAuth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+
+            // make the HTTP request
+            var localVarResponse =
+                Client.Put<EmailBulkUpdateStatusResponse>("/email/1/bulks/status", localVarRequestOptions,
+                    Configuration);
+
+            Exception exception = ExceptionFactory?.Invoke("UpdateScheduledEmailStatuses", localVarResponse);
+            if (exception != null) throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailBulkUpdateStatusResponse</returns>
+        public async Task<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesAsync(string bulkId,
+            EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            ApiResponse<EmailBulkUpdateStatusResponse> localVarResponse =
+                await UpdateScheduledEmailStatusesWithHttpInfoAsync(bulkId, emailBulkUpdateStatusRequest,
+                    cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="bulkId"></param>
+        /// <param name="emailBulkUpdateStatusRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailBulkUpdateStatusResponse)</returns>
+        public async Task<ApiResponse<EmailBulkUpdateStatusResponse>> UpdateScheduledEmailStatusesWithHttpInfoAsync(
+            string bulkId, EmailBulkUpdateStatusRequest emailBulkUpdateStatusRequest,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'bulkId' is set
+            if (bulkId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'bulkId' when calling ScheduledEmailApi->UpdateScheduledEmailStatuses");
+
+            // verify the required parameter 'emailBulkUpdateStatusRequest' is set
+            if (emailBulkUpdateStatusRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailBulkUpdateStatusRequest' when calling ScheduledEmailApi->UpdateScheduledEmailStatuses");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string[] contentTypes =
+            {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] accepts =
+            {
+                "application/json"
+            };
+
+
+            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
+            if (localVarContentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "bulkId", bulkId));
+            localVarRequestOptions.Data = emailBulkUpdateStatusRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (Basic) required
+            // http basic authentication required
+            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
+                localVarRequestOptions.HeaderParameters.Add("Authorization",
+                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
+            // authentication (IBSSOTokenHeader) required
+            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
+                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                    localVarRequestOptions.HeaderParameters.Add("Authorization",
+                        Configuration.GetApiKeyWithPrefix("Authorization"));
+            // authentication (OAuth2) required
+            // oauth required
+            if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PutAsync<EmailBulkUpdateStatusResponse>("/email/1/bulks/status", localVarRequestOptions, Configuration,
+                    cancellationToken).ConfigureAwait(false);
+
+            Exception exception = ExceptionFactory?.Invoke("UpdateScheduledEmailStatuses", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;

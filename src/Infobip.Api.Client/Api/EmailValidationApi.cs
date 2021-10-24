@@ -27,35 +27,32 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IReceiveSmsApiSync : IApiAccessor
+    public interface IEmailValidationApiSync : IApiAccessor
     {
         #region Synchronous Operations
 
         /// <summary>
-        ///     Get inbound SMS messages
+        ///     Validate email addresses
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS at the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The following
-        ///     API request will return only new messages that arrived since the last API request.
+        ///     Run validation to identify poor quality emails to clean up your recipient list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
-        /// <returns>SmsInboundMessageResult</returns>
-        SmsInboundMessageResult GetInboundSmsMessages(int? limit = default(int?));
+        /// <param name="emailValidationRequest"> (optional)</param>
+        /// <returns>EmailValidationResponse</returns>
+        EmailValidationResponse ValidateEmailAddresses(EmailValidationRequest emailValidationRequest = default);
 
         /// <summary>
-        ///     Get inbound SMS messages
+        ///     Validate email addresses
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS at the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The following
-        ///     API request will return only new messages that arrived since the last API request.
+        ///     Run validation to identify poor quality emails to clean up your recipient list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
-        /// <returns>ApiResponse of SmsInboundMessageResult</returns>
-        ApiResponse<SmsInboundMessageResult> GetInboundSmsMessagesWithHttpInfo(int? limit = default(int?));
+        /// <param name="emailValidationRequest"> (optional)</param>
+        /// <returns>ApiResponse of EmailValidationResponse</returns>
+        ApiResponse<EmailValidationResponse> ValidateEmailAddressesWithHttpInfo(
+            EmailValidationRequest emailValidationRequest = default);
 
         #endregion Synchronous Operations
     }
@@ -63,38 +60,36 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IReceiveSmsApiAsync : IApiAccessor
+    public interface IEmailValidationApiAsync : IApiAccessor
     {
         #region Asynchronous Operations
 
         /// <summary>
-        ///     Get inbound SMS messages
+        ///     Validate email addresses
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS at the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The following
-        ///     API request will return only new messages that arrived since the last API request.
+        ///     Run validation to identify poor quality emails to clean up your recipient list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
+        /// <param name="emailValidationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsInboundMessageResult</returns>
-        Task<SmsInboundMessageResult> GetInboundSmsMessagesAsync(int? limit = default(int?),
+        /// <returns>Task of EmailValidationResponse</returns>
+        Task<EmailValidationResponse> ValidateEmailAddressesAsync(
+            EmailValidationRequest emailValidationRequest = default,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Get inbound SMS messages
+        ///     Validate email addresses
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS at the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The following
-        ///     API request will return only new messages that arrived since the last API request.
+        ///     Run validation to identify poor quality emails to clean up your recipient list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
+        /// <param name="emailValidationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsInboundMessageResult)</returns>
-        Task<ApiResponse<SmsInboundMessageResult>> GetInboundSmsMessagesWithHttpInfoAsync(int? limit = default(int?),
+        /// <returns>Task of ApiResponse (EmailValidationResponse)</returns>
+        Task<ApiResponse<EmailValidationResponse>> ValidateEmailAddressesWithHttpInfoAsync(
+            EmailValidationRequest emailValidationRequest = default,
             CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion Asynchronous Operations
@@ -103,32 +98,32 @@ namespace Infobip.Api.Client.Api
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public interface IReceiveSmsApi : IReceiveSmsApiSync, IReceiveSmsApiAsync
+    public interface IEmailValidationApi : IEmailValidationApiSync, IEmailValidationApiAsync
     {
     }
 
     /// <summary>
     ///     Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public class ReceiveSmsApi : IReceiveSmsApi
+    public class EmailValidationApi : IEmailValidationApi
     {
         private ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public ReceiveSmsApi() : this((string)null)
+        public EmailValidationApi() : this((string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public ReceiveSmsApi(string basePath)
+        public EmailValidationApi(string basePath)
         {
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
@@ -141,12 +136,12 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class using Configuration object.
         /// </summary>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ReceiveSmsApi(Configuration configuration)
+        public EmailValidationApi(Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
@@ -161,7 +156,7 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -170,12 +165,12 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ReceiveSmsApi(HttpClient client) : this(client, (string)null)
+        public EmailValidationApi(HttpClient client) : this(client, (string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="basePath">The target service's base path in URL format.</param>
@@ -186,7 +181,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ReceiveSmsApi(HttpClient client, string basePath)
+        public EmailValidationApi(HttpClient client, string basePath)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
 
@@ -201,7 +196,7 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
@@ -211,7 +206,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ReceiveSmsApi(HttpClient client, Configuration configuration)
+        public EmailValidationApi(HttpClient client, Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -227,18 +222,18 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ReceiveSmsApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
+        public EmailValidationApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
@@ -246,7 +241,7 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        public ReceiveSmsApi(HttpClient client, HttpClientHandler handler, string basePath)
+        public EmailValidationApi(HttpClient client, HttpClientHandler handler, string basePath)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -262,14 +257,14 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class using Configuration object.
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class using Configuration object.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <param name="configuration">An instance of Configuration.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public ReceiveSmsApi(HttpClient client, HttpClientHandler handler, Configuration configuration)
+        public EmailValidationApi(HttpClient client, HttpClientHandler handler, Configuration configuration)
         {
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -286,14 +281,14 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ReceiveSmsApi" /> class
+        ///     Initializes a new instance of the <see cref="EmailValidationApi" /> class
         ///     using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ReceiveSmsApi(ISynchronousClient client, IAsynchronousClient asyncClient,
+        public EmailValidationApi(ISynchronousClient client, IAsynchronousClient asyncClient,
             IReadableConfiguration configuration)
         {
             Client = client ?? throw new ArgumentNullException(nameof(client));
@@ -347,33 +342,32 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS at the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The following API request will return only new messages that arrived since the last API request.
+        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
-        /// <returns>SmsInboundMessageResult</returns>
-        public SmsInboundMessageResult GetInboundSmsMessages(int? limit = default(int?))
+        /// <param name="emailValidationRequest"> (optional)</param>
+        /// <returns>EmailValidationResponse</returns>
+        public EmailValidationResponse ValidateEmailAddresses(EmailValidationRequest emailValidationRequest = default)
         {
-            var localVarResponse = GetInboundSmsMessagesWithHttpInfo(limit);
+            var localVarResponse = ValidateEmailAddressesWithHttpInfo(emailValidationRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS at the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The following API request will return only new messages that arrived since the last API request.
+        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
-        /// <returns>ApiResponse of SmsInboundMessageResult</returns>
-        public ApiResponse<SmsInboundMessageResult> GetInboundSmsMessagesWithHttpInfo(int? limit = default(int?))
+        /// <param name="emailValidationRequest"> (optional)</param>
+        /// <returns>ApiResponse of EmailValidationResponse</returns>
+        public ApiResponse<EmailValidationResponse> ValidateEmailAddressesWithHttpInfo(
+            EmailValidationRequest emailValidationRequest = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
             string[] contentTypes =
             {
+                "application/json",
+                "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
@@ -390,8 +384,7 @@ namespace Infobip.Api.Client.Api
             var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (limit != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
+            localVarRequestOptions.Data = emailValidationRequest;
 
             // authentication (APIKeyHeader) required
             if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
@@ -415,47 +408,48 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Get<SmsInboundMessageResult>("/sms/1/inbox/reports", localVarRequestOptions, Configuration);
+                Client.Post<EmailValidationResponse>("/email/2/validation", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetInboundSmsMessages", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("ValidateEmailAddresses", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS at the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The following API request will return only new messages that arrived since the last API request.
+        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
+        /// <param name="emailValidationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsInboundMessageResult</returns>
-        public async Task<SmsInboundMessageResult> GetInboundSmsMessagesAsync(int? limit = default(int?),
+        /// <returns>Task of EmailValidationResponse</returns>
+        public async Task<EmailValidationResponse> ValidateEmailAddressesAsync(
+            EmailValidationRequest emailValidationRequest = default,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            ApiResponse<SmsInboundMessageResult> localVarResponse =
-                await GetInboundSmsMessagesWithHttpInfoAsync(limit, cancellationToken).ConfigureAwait(false);
+            ApiResponse<EmailValidationResponse> localVarResponse =
+                await ValidateEmailAddressesWithHttpInfoAsync(emailValidationRequest, cancellationToken)
+                    .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS at the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The following API request will return only new messages that arrived since the last API request.
+        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="limit">Maximal number of received messages that will be returned. (optional)</param>
+        /// <param name="emailValidationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsInboundMessageResult)</returns>
-        public async Task<ApiResponse<SmsInboundMessageResult>> GetInboundSmsMessagesWithHttpInfoAsync(
-            int? limit = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>Task of ApiResponse (EmailValidationResponse)</returns>
+        public async Task<ApiResponse<EmailValidationResponse>> ValidateEmailAddressesWithHttpInfoAsync(
+            EmailValidationRequest emailValidationRequest = default,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var localVarRequestOptions = new RequestOptions();
 
             string[] contentTypes =
             {
+                "application/json",
+                "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
@@ -473,8 +467,7 @@ namespace Infobip.Api.Client.Api
             var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (limit != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
+            localVarRequestOptions.Data = emailValidationRequest;
 
             // authentication (APIKeyHeader) required
             if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
@@ -499,10 +492,10 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<SmsInboundMessageResult>("/sms/1/inbox/reports", localVarRequestOptions, Configuration,
+                .PostAsync<EmailValidationResponse>("/email/2/validation", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetInboundSmsMessages", localVarResponse);
+            Exception exception = ExceptionFactory?.Invoke("ValidateEmailAddresses", localVarResponse);
             if (exception != null) throw exception;
 
             return localVarResponse;

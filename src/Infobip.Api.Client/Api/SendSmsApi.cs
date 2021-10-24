@@ -38,7 +38,7 @@ namespace Infobip.Api.Client.Api
         ///     If you are for any reason unable to receive real time delivery reports on your endpoint, you can use this API
         ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
         ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request.
+        ///     API request in the last 48 hours.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -55,7 +55,7 @@ namespace Infobip.Api.Client.Api
         ///     If you are for any reason unable to receive real time delivery reports on your endpoint, you can use this API
         ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
         ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request.
+        ///     API request in the last 48 hours.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -69,9 +69,9 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. See
-        ///     [message delivery reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify
-        ///     message delivery.
+        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. Logs
+        ///     are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -105,9 +105,9 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. See
-        ///     [message delivery reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify
-        ///     message delivery.
+        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. Logs
+        ///     are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -228,7 +228,7 @@ namespace Infobip.Api.Client.Api
         ///     If you are for any reason unable to receive real time delivery reports on your endpoint, you can use this API
         ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
         ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request.
+        ///     API request in the last 48 hours.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -247,7 +247,7 @@ namespace Infobip.Api.Client.Api
         ///     If you are for any reason unable to receive real time delivery reports on your endpoint, you can use this API
         ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
         ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request.
+        ///     API request in the last 48 hours.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -263,9 +263,9 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. See
-        ///     [message delivery reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify
-        ///     message delivery.
+        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. Logs
+        ///     are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -301,9 +301,9 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. See
-        ///     [message delivery reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify
-        ///     message delivery.
+        ///     You should use this method for displaying logs in the user interface or for some other less frequent usage. Logs
+        ///     are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -443,7 +443,7 @@ namespace Infobip.Api.Client.Api
         ///     Initializes a new instance of the <see cref="SendSmsApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public SendSmsApi() : this((string) null)
+        public SendSmsApi() : this((string)null)
         {
         }
 
@@ -457,7 +457,7 @@ namespace Infobip.Api.Client.Api
         {
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(Configuration.BasePath);
             Client = ApiClient;
@@ -495,7 +495,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public SendSmsApi(HttpClient client) : this(client, (string) null)
+        public SendSmsApi(HttpClient client) : this(client, (string)null)
         {
         }
 
@@ -517,7 +517,7 @@ namespace Infobip.Api.Client.Api
 
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(client, Configuration.BasePath);
             Client = ApiClient;
@@ -558,7 +558,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public SendSmsApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string) null)
+        public SendSmsApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
         {
         }
 
@@ -578,7 +578,7 @@ namespace Infobip.Api.Client.Api
 
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(client, handler, Configuration.BasePath);
             Client = ApiClient;
@@ -675,7 +675,7 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real time delivery reports on
         ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
         ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request.
+        ///     reports that arrived since the last API request in the last 48 hours.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -693,7 +693,7 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real time delivery reports on
         ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
         ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request.
+        ///     reports that arrived since the last API request in the last 48 hours.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -764,7 +764,7 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real time delivery reports on
         ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
         ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request.
+        ///     reports that arrived since the last API request in the last 48 hours.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -786,7 +786,7 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real time delivery reports on
         ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
         ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request.
+        ///     reports that arrived since the last API request in the last 48 hours.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">ID of bulk which delivery report is requested. (optional)</param>
@@ -860,8 +860,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get outbound SMS message logs You should use this method for displaying logs in the user interface or for some
-        ///     other less frequent usage. See [message delivery
-        ///     reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify message delivery.
+        ///     other less frequent usage. Logs are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -898,8 +898,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get outbound SMS message logs You should use this method for displaying logs in the user interface or for some
-        ///     other less frequent usage. See [message delivery
-        ///     reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify message delivery.
+        ///     other less frequent usage. Logs are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -1002,8 +1002,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get outbound SMS message logs You should use this method for displaying logs in the user interface or for some
-        ///     other less frequent usage. See [message delivery
-        ///     reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify message delivery.
+        ///     other less frequent usage. Logs are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>
@@ -1043,8 +1043,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get outbound SMS message logs You should use this method for displaying logs in the user interface or for some
-        ///     other less frequent usage. See [message delivery
-        ///     reports](#communication-channels/sms/get-sent-sms-delivery-reports) if your use case is to verify message delivery.
+        ///     other less frequent usage. Logs are available for the last 48 hours. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="from">Sender address. (optional)</param>

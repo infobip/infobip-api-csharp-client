@@ -85,13 +85,13 @@ namespace Infobip.Api.Client
         {
             if (obj != null && obj is AbstractOpenAPISchema)
                 // the object to be serialized is an oneOf/anyOf schema
-                return ((AbstractOpenAPISchema) obj).ToJson();
+                return ((AbstractOpenAPISchema)obj).ToJson();
             return JsonConvert.SerializeObject(obj, _serializerSettings);
         }
 
         public T Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T) Deserialize(response, typeof(T));
+            var result = (T)Deserialize(response, typeof(T));
             return result;
         }
 
@@ -395,7 +395,7 @@ namespace Infobip.Api.Client
 
         private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
-            var result = (T) responseData;
+            var result = (T)responseData;
             string rawContent = response.Content.ToString();
             if (!response.IsSuccessStatusCode)
                 rawContent = response.Content.ReadAsStringAsync().Result;
@@ -501,9 +501,9 @@ namespace Infobip.Api.Client
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
-                responseData = (T) typeof(T).GetMethod("FromJson")?.Invoke(null, new object[] {response.Content});
+                responseData = (T)typeof(T).GetMethod("FromJson")?.Invoke(null, new object[] { response.Content });
             else if (typeof(T).Name == "Stream") // for binary response
-                responseData = (T) (object) await response.Content.ReadAsStreamAsync();
+                responseData = (T)(object)await response.Content.ReadAsStreamAsync();
 
             var result = ToApiResponse<T>(response, responseData, req.RequestUri);
 

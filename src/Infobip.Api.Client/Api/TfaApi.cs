@@ -58,8 +58,8 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#communication-channels/sms/create-2fa-application), create one or more
-        ///     message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
+        ///     templates where your PIN will be dynamically included when you send the PIN message.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -71,8 +71,8 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#communication-channels/sms/create-2fa-application), create one or more
-        ///     message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
+        ///     templates where your PIN will be dynamically included when you send the PIN message.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -255,8 +255,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over SMS
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -273,8 +272,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over SMS
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -291,8 +289,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over Voice
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -304,8 +301,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over Voice
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -433,8 +429,8 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#communication-channels/sms/create-2fa-application), create one or more
-        ///     message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
+        ///     templates where your PIN will be dynamically included when you send the PIN message.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -449,8 +445,8 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#communication-channels/sms/create-2fa-application), create one or more
-        ///     message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
+        ///     templates where your PIN will be dynamically included when you send the PIN message.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -663,8 +659,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over SMS
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -683,8 +678,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over SMS
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -703,8 +697,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over Voice
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -718,8 +711,7 @@ namespace Infobip.Api.Client.Api
         ///     Send 2FA PIN code over Voice
         /// </summary>
         /// <remarks>
-        ///     Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -842,7 +834,7 @@ namespace Infobip.Api.Client.Api
         ///     Initializes a new instance of the <see cref="TfaApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public TfaApi() : this((string) null)
+        public TfaApi() : this((string)null)
         {
         }
 
@@ -856,7 +848,7 @@ namespace Infobip.Api.Client.Api
         {
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(Configuration.BasePath);
             Client = ApiClient;
@@ -894,7 +886,7 @@ namespace Infobip.Api.Client.Api
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
         ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public TfaApi(HttpClient client) : this(client, (string) null)
+        public TfaApi(HttpClient client) : this(client, (string)null)
         {
         }
 
@@ -916,7 +908,7 @@ namespace Infobip.Api.Client.Api
 
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(client, Configuration.BasePath);
             Client = ApiClient;
@@ -957,7 +949,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns></returns>
-        public TfaApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string) null)
+        public TfaApi(HttpClient client, HttpClientHandler handler) : this(client, handler, (string)null)
         {
         }
 
@@ -977,7 +969,7 @@ namespace Infobip.Api.Client.Api
 
             Configuration = ClientConfiguration.MergeConfigurations(
                 GlobalConfiguration.Instance,
-                new Configuration {BasePath = basePath}
+                new Configuration { BasePath = basePath }
             );
             ApiClient = new ApiClient(client, handler, Configuration.BasePath);
             Client = ApiClient;
@@ -1230,9 +1222,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA
-        ///     application](#communication-channels/sms/create-2fa-application), create one or more message templates where your
-        ///     PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
+        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -1246,9 +1237,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA
-        ///     application](#communication-channels/sms/create-2fa-application), create one or more message templates where your
-        ///     PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
+        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -1318,9 +1308,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA
-        ///     application](#communication-channels/sms/create-2fa-application), create one or more message templates where your
-        ///     PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
+        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -1338,9 +1327,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA
-        ///     application](#communication-channels/sms/create-2fa-application), create one or more message templates where your
-        ///     PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
+        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -2629,7 +2617,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over SMS Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -2648,7 +2636,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over SMS Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -2719,7 +2707,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over SMS Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -2742,7 +2730,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over SMS Send a PIN code over SMS using a previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="ncNeeded">
@@ -2818,7 +2806,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over Voice Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -2832,7 +2820,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over Voice Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -2896,7 +2884,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over Voice Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
@@ -2914,7 +2902,7 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Send 2FA PIN code over Voice Send a PIN code over Voice using previously created [message
-        ///     template](#communication-channels/sms/create-new-2fa-message-template).
+        ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
