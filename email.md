@@ -1,4 +1,4 @@
-## Quickstart
+## Email quickstart
 
 ### Prepare configuration
 
