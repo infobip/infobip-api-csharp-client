@@ -26,7 +26,7 @@ For `Infobip.Api.Client` versioning we use [Semantic Versioning][semver] scheme.
 
 Published under [MIT License][license].
 
-[.NET Standard 2.0](https://github.com/dotnet/standard/blob/master/docs/versions/netstandard2.0.md) is targeted for usage of this library.
+[.NET Standard 2.0](https://dotnet.microsoft.com/en-us/platform/dotnet-standard#versions) is targeted for usage of this library.
 
 ## Installation
 Recommended way of library usage is to install it via [NuGet Package Manager](https://www.nuget.org/downloads).
