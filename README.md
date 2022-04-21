@@ -154,7 +154,7 @@ Each request will return a batch of delivery reports - only once.
     var smsDeliveryResult = sendSmsApi.GetOutboundSmsMessageDeliveryReports(bulkId, messageId, numberOfReportsLimit);
     foreach (var smsReport in smsDeliveryResult.Results)
     {
-        Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}")
+        Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}");
     }
 ```
 
