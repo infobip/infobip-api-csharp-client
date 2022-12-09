@@ -22,6 +22,8 @@
     <PackageReleaseNotes>Support for Infobip Email API included in library</PackageReleaseNotes>
     <PackageTags>Infobip API SMS TFA 2FA Email dotnet .NET Core C# CSharp client</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
