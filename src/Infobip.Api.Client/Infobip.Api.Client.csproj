@@ -12,9 +12,9 @@
     <Description>C# library for consuming Infobip's API</Description>
     <Copyright>Copyright @ Infobip ltd. All rights reserved.</Copyright>
     <RootNamespace>Infobip.Api.Client</RootNamespace>
-    <Version>2.1.0</Version>
-    <FileVersion>2.1.0</FileVersion>
-    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <Version>2.2.0</Version>
+    <FileVersion>2.2.0</FileVersion>
+    <AssemblyVersion>2.2.0</AssemblyVersion>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Infobip.Api.Client.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/infobip/infobip-api-csharp-client.git</RepositoryUrl>
