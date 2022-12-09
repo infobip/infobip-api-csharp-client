@@ -9,7 +9,7 @@
     <Authors>Infobip</Authors>
     <Company>Infobip</Company>
     <AssemblyTitle>Infobip.Api.Client</AssemblyTitle>
-    <Description>C# library for consuming Infobip&#39;s API</Description>
+    <Description>C# library for consuming Infobip's API</Description>
     <Copyright>Copyright @ Infobip ltd. All rights reserved.</Copyright>
     <RootNamespace>Infobip.Api.Client</RootNamespace>
     <Version>2.1.0</Version>
@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Polly" Version="7.2.1" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
