@@ -89,9 +89,9 @@ namespace Infobip.Api.Client
             return JsonConvert.SerializeObject(obj, _serializerSettings);
         }
 
-        public T Deserialize<T>(HttpResponseMessage response)
+        public async Task<T> DeserializeAsync<T>(HttpResponseMessage response)
         {
-            var result = (T)Deserialize(response, typeof(T));
+            var result = (T) await DeserializeAsync(response, typeof(T)).ConfigureAwait(false);
             return result;
         }
 
@@ -101,17 +101,17 @@ namespace Infobip.Api.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(HttpResponseMessage response, Type type)
+        internal async Task<object> DeserializeAsync(HttpResponseMessage response, Type type)
         {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
-                return response.Content.ReadAsByteArrayAsync().Result;
+                return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().Result;
+                var bytes = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                 if (headers != null)
                 {
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
@@ -137,16 +137,16 @@ namespace Infobip.Api.Client
             }
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
-                return DateTime.Parse(response.Content.ReadAsStringAsync().Result, null,
+                return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null,
                     System.Globalization.DateTimeStyles.RoundtripKind);
 
             if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().Result, type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, type,
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type,
                     _serializerSettings);
             }
             catch (Exception e)
@@ -157,7 +157,7 @@ namespace Infobip.Api.Client
     }
 
     /// <summary>
-    ///     Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    ///     Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     ///     encapsulating general REST accessor use cases.
     /// </summary>
     /// <remarks>
@@ -393,12 +393,12 @@ namespace Infobip.Api.Client
             return request;
         }
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponseAsync<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             var result = (T)responseData;
             string rawContent = response.Content.ToString();
             if (!response.IsSuccessStatusCode)
-                rawContent = response.Content.ReadAsStringAsync().Result;
+                rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var transformed =
                 new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
@@ -432,7 +432,7 @@ namespace Infobip.Api.Client
 
         private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
         {
-            return ExecAsync<T>(req, configuration).Result;
+            return ExecAsync<T>(req, configuration).GetAwaiter().GetResult();
         }
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
@@ -501,15 +501,15 @@ namespace Infobip.Api.Client
                     response = await _httpClient.SendAsync(req, finalToken).ConfigureAwait(false);
                 }
 
-                object responseData = deserializer.Deserialize<T>(response);
+                object responseData = await deserializer.DeserializeAsync<T>(response).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
                 if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                     responseData = (T)typeof(T).GetMethod("FromJson")?.Invoke(null, new object[] { response.Content });
                 else if (typeof(T).Name == "Stream") // for binary response
-                    responseData = (T)(object)await response.Content.ReadAsStreamAsync();
+                    responseData = (T)(object)await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-                var result = ToApiResponse<T>(response, responseData, req.RequestUri);
+                var result = await ToApiResponseAsync<T>(response, responseData, req.RequestUri).ConfigureAwait(false);
 
                 return result;
             }
