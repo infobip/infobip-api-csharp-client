@@ -12,9 +12,9 @@
     <Description>C# library for consuming Infobip's API</Description>
     <Copyright>Copyright @ Infobip ltd. All rights reserved.</Copyright>
     <RootNamespace>Infobip.Api.Client</RootNamespace>
-    <Version>2.2.0</Version>
-    <FileVersion>2.2.0</FileVersion>
-    <AssemblyVersion>2.2.0</AssemblyVersion>
+    <Version>2.1.1</Version>
+    <FileVersion>2.1.1</FileVersion>
+    <AssemblyVersion>2.1.1</AssemblyVersion>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Infobip.Api.Client.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/infobip/infobip-api-csharp-client.git</RepositoryUrl>
@@ -22,13 +22,11 @@
     <PackageReleaseNotes>Support for Infobip Email API included in library</PackageReleaseNotes>
     <PackageTags>Infobip API SMS TFA 2FA Email dotnet .NET Core C# CSharp client</PackageTags>
     <PackageIcon>icon.png</PackageIcon>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="Polly" Version="7.2.1" />
+    <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 

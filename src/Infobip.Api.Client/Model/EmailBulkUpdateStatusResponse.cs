@@ -42,7 +42,6 @@ namespace Infobip.Api.Client.Model
             Status = status;
         }
 
-
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>

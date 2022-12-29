@@ -5,6 +5,15 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [2.1.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.1) ] - 2022-12-29
+
+### Changed
+- Newtonsoft.Json updated to 13.0.2
+- Polly updated to 7.2.3
+
+### Fixed
+- Memory leak caused by not disposing CancellationTokenSource fixed
+
 ## [ [2.1.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.0) ] - 2021-10-25
 
 ### Added

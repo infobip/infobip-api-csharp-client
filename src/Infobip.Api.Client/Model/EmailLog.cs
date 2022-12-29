@@ -46,7 +46,6 @@ namespace Infobip.Api.Client.Model
         /// <param name="messageCount">Email request count..</param>
         /// <param name="price">price.</param>
         /// <param name="status">status.</param>
-        /// <param name="channel">Infobip channel..</param>
         /// <param name="bulkId">The ID that uniquely identifies the request..</param>
         public EmailLog(string messageId = default(string), string to = default(string), string from = default(string),
             string text = default(string), DateTimeOffset sentAt = default(DateTimeOffset),
