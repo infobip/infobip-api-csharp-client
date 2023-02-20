@@ -37,17 +37,17 @@ Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Clie
 #### Package Manager Console
 Alternatively, also within Visual Studio, use the Package Manager Console command:
 
-    Install-Package Infobip.Api.Client -Version 2.1.1
+    Install-Package Infobip.Api.Client -Version 2.1.2
 
 #### .NET CLI
 If you are used to .NET CLI, the following command is going to be sufficient for you:
 
-    dotnet add package Infobip.Api.Client --version 2.1.1
+    dotnet add package Infobip.Api.Client --version 2.1.2
 
 ### Package reference
 Including the package directly into project file is also valid option.
 
-    <PackageReference Include="Infobip.Api.Client" Version="2.1.1" />
+    <PackageReference Include="Infobip.Api.Client" Version="2.1.2" />
 
 ## Quickstart
 
@@ -154,7 +154,7 @@ Each request will return a batch of delivery reports - only once.
     var smsDeliveryResult = sendSmsApi.GetOutboundSmsMessageDeliveryReports(bulkId, messageId, numberOfReportsLimit);
     foreach (var smsReport in smsDeliveryResult.Results)
     {
-        Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}")
+        Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}");
     }
 ```
 

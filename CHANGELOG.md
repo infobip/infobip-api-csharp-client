@@ -5,6 +5,10 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [2.1.2](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.2) ] - 2023-02-20
+### Fixed
+- README example (https://github.com/infobip/infobip-api-csharp-client/pull/13)
+
 ## [ [2.1.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.1) ] - 2022-12-29
 
 ### Changed
