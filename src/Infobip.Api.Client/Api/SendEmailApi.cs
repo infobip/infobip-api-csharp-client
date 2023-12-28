@@ -178,7 +178,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>EmailSendResponse</returns>
         EmailSendResponse SendEmail(string from, string to, string subject, string cc = default(string),
             string bcc = default(string), string text = default(string), string bulkId = default(string),
-            string messageId = default(string), int? templateid = default(int?),
+            string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -263,7 +263,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>ApiResponse of EmailSendResponse</returns>
         ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(string from, string to, string subject,
             string cc = default(string), string bcc = default(string), string text = default(string),
-            string bulkId = default(string), string messageId = default(string), int? templateid = default(int?),
+            string bulkId = default(string), string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -439,7 +439,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of EmailSendResponse</returns>
         Task<EmailSendResponse> SendEmailAsync(string from, string to, string subject, string cc = default(string),
             string bcc = default(string), string text = default(string), string bulkId = default(string),
-            string messageId = default(string), int? templateid = default(int?),
+            string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -526,7 +526,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
         Task<ApiResponse<EmailSendResponse>> SendEmailWithHttpInfoAsync(string from, string to, string subject,
             string cc = default(string), string bcc = default(string), string text = default(string),
-            string bulkId = default(string), string messageId = default(string), int? templateid = default(int?),
+            string bulkId = default(string), string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -1258,7 +1258,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>EmailSendResponse</returns>
         public EmailSendResponse SendEmail(string from, string to, string subject, string cc = default(string),
             string bcc = default(string), string text = default(string), string bulkId = default(string),
-            string messageId = default(string), int? templateid = default(int?),
+            string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -1348,7 +1348,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>ApiResponse of EmailSendResponse</returns>
         public ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(string from, string to, string subject,
             string cc = default(string), string bcc = default(string), string text = default(string),
-            string bulkId = default(string), string messageId = default(string), int? templateid = default(int?),
+            string bulkId = default(string), string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -1558,7 +1558,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of EmailSendResponse</returns>
         public async Task<EmailSendResponse> SendEmailAsync(string from, string to, string subject,
             string cc = default(string), string bcc = default(string), string text = default(string),
-            string bulkId = default(string), string messageId = default(string), int? templateid = default(int?),
+            string bulkId = default(string), string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
@@ -1650,7 +1650,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
         public async Task<ApiResponse<EmailSendResponse>> SendEmailWithHttpInfoAsync(string from, string to,
             string subject, string cc = default(string), string bcc = default(string), string text = default(string),
-            string bulkId = default(string), string messageId = default(string), int? templateid = default(int?),
+            string bulkId = default(string), string messageId = default(string), long? templateid = default(long?),
             System.IO.Stream attachment = default(System.IO.Stream),
             System.IO.Stream inlineImage = default(System.IO.Stream), string HTML = default(string),
             string replyto = default(string), string defaultplaceholders = default(string),
