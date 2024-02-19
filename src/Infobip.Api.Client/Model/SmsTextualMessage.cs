@@ -160,6 +160,18 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
+        ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
+        /// </summary>
+        [DataMember(Name = "entityId", EmitDefaultValue = true)]
+        public string EntityId { get; set; }
+
+        /// <summary>
+        ///     Required for application use in a send request for outbound traffic. Returned in notification events. 
+        /// </summary>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        public string ApplicationId { get; set; }
+
+        /// <summary>
         ///     The real-time Intermediate delivery report that will be sent on your callback server. Can be &#x60;true&#x60; or
         ///     &#x60;false&#x60;.
         /// </summary>
