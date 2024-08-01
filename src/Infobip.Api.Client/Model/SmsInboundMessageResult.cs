@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,11 +27,11 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsInboundMessageResult" /> class.
         /// </summary>
-        /// <param name="messageCount">messageCount.</param>
-        /// <param name="pendingMessageCount">pendingMessageCount.</param>
-        /// <param name="results">results.</param>
-        public SmsInboundMessageResult(int messageCount = default(int), int pendingMessageCount = default(int),
-            List<SmsInboundMessage> results = default(List<SmsInboundMessage>))
+        /// <param name="messageCount">The number of messages returned in the &#x60;results&#x60; array..</param>
+        /// <param name="pendingMessageCount">The number of messages that have not been pulled in..</param>
+        /// <param name="results">An array of result objects..</param>
+        public SmsInboundMessageResult(int messageCount = default, int pendingMessageCount = default,
+            List<SmsInboundMessage> results = default)
         {
             MessageCount = messageCount;
             PendingMessageCount = pendingMessageCount;
@@ -46,22 +39,52 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Gets or Sets MessageCount
+        ///     The number of messages returned in the &#x60;results&#x60; array.
         /// </summary>
+        /// <value>The number of messages returned in the &#x60;results&#x60; array.</value>
         [DataMember(Name = "messageCount", EmitDefaultValue = false)]
         public int MessageCount { get; set; }
 
         /// <summary>
-        ///     Gets or Sets PendingMessageCount
+        ///     The number of messages that have not been pulled in.
         /// </summary>
+        /// <value>The number of messages that have not been pulled in.</value>
         [DataMember(Name = "pendingMessageCount", EmitDefaultValue = false)]
         public int PendingMessageCount { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Results
+        ///     An array of result objects.
         /// </summary>
+        /// <value>An array of result objects.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
         public List<SmsInboundMessage> Results { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsInboundMessageResult instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsInboundMessageResult to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsInboundMessageResult input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    MessageCount == input.MessageCount ||
+                    MessageCount.Equals(input.MessageCount)
+                ) &&
+                (
+                    PendingMessageCount == input.PendingMessageCount ||
+                    PendingMessageCount.Equals(input.PendingMessageCount)
+                ) &&
+                (
+                    Results == input.Results ||
+                    (Results != null &&
+                     input.Results != null &&
+                     Results.SequenceEqual(input.Results))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -98,33 +121,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsInboundMessageResult instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsInboundMessageResult to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsInboundMessageResult input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    MessageCount == input.MessageCount ||
-                    MessageCount.Equals(input.MessageCount)
-                ) &&
-                (
-                    PendingMessageCount == input.PendingMessageCount ||
-                    PendingMessageCount.Equals(input.PendingMessageCount)
-                ) &&
-                (
-                    Results == input.Results ||
-                    Results != null &&
-                    input.Results != null &&
-                    Results.SequenceEqual(input.Results)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -132,7 +128,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + MessageCount.GetHashCode();
                 hashCode = hashCode * 59 + PendingMessageCount.GetHashCode();
                 if (Results != null)

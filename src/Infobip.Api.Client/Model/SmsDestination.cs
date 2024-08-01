@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsDestination
+    ///     An array of destination objects for where messages are being sent. A valid destination is required.
     /// </summary>
     [DataContract(Name = "SmsDestination")]
     public class SmsDestination : IEquatable<SmsDestination>
@@ -47,7 +38,7 @@ namespace Infobip.Api.Client.Model
         ///     Message destination address. Addresses must be in international format (Example: &#x60;41793026727
         ///     &#x60;). (required).
         /// </param>
-        public SmsDestination(string messageId = default(string), string to = default(string))
+        public SmsDestination(string messageId = default, string to = default)
         {
             // to ensure "to" is required (not null)
             To = to ?? throw new ArgumentNullException("to");
@@ -67,6 +58,29 @@ namespace Infobip.Api.Client.Model
         /// <value>Message destination address. Addresses must be in international format (Example: &#x60;41793026727&#x60;).</value>
         [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
         public string To { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsDestination instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsDestination to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsDestination input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -102,29 +116,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsDestination instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsDestination to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsDestination input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -132,7 +123,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
                 if (To != null)

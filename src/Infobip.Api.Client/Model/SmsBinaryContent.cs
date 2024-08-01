@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -54,8 +45,7 @@ namespace Infobip.Api.Client.Model
         ///     Hexadecimal string. This is the representation of your binary data. Two hex digits represent one
         ///     byte. They should be separated by the space character (Example: &#x60;0f c2 4a bf 34 13 ba&#x60;). (required).
         /// </param>
-        public SmsBinaryContent(int dataCoding = default(int), int esmClass = default(int),
-            string hex = default(string))
+        public SmsBinaryContent(int dataCoding = default, int esmClass = default, string hex = default)
         {
             // to ensure "hex" is required (not null)
             Hex = hex ?? throw new ArgumentNullException("hex");
@@ -97,6 +87,32 @@ namespace Infobip.Api.Client.Model
         public string Hex { get; set; }
 
         /// <summary>
+        ///     Returns true if SmsBinaryContent instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsBinaryContent to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsBinaryContent input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    DataCoding == input.DataCoding ||
+                    DataCoding.Equals(input.DataCoding)
+                ) &&
+                (
+                    EsmClass == input.EsmClass ||
+                    EsmClass.Equals(input.EsmClass)
+                ) &&
+                (
+                    Hex == input.Hex ||
+                    (Hex != null &&
+                     Hex.Equals(input.Hex))
+                );
+        }
+
+        /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -131,32 +147,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsBinaryContent instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsBinaryContent to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsBinaryContent input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    DataCoding == input.DataCoding ||
-                    DataCoding.Equals(input.DataCoding)
-                ) &&
-                (
-                    EsmClass == input.EsmClass ||
-                    EsmClass.Equals(input.EsmClass)
-                ) &&
-                (
-                    Hex == input.Hex ||
-                    Hex != null &&
-                    Hex.Equals(input.Hex)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -164,7 +154,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + DataCoding.GetHashCode();
                 hashCode = hashCode * 59 + EsmClass.GetHashCode();
                 if (Hex != null)

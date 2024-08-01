@@ -2,36 +2,47 @@
 
 ### Prepare configuration
 
-First step is to initialize `Configuration` object to handle API authentication. In this case value for `ApiKeyPrefix` in example below will be `App`.
+First step is to initialize `Configuration` object to handle API authentication. The library supports the [API Key Header](https://www.infobip.com/docs/essentials/api-essentials/api-authentication#api-key-header) authentication method.
+
+To see your base URL, log in to the [Infobip API Resource](https://www.infobip.com/docs/api) hub with your Infobip account.
+
 ```csharp
     var configuration = new Configuration()
     {
-        BasePath = "<put your base URL here>",
-        ApiKeyPrefix = "<put API key prefix here (App/Basic/IBSSO/Bearer)>",
+        BasePath = "<put your base URL here prefixed by https://>",
         ApiKey = "<put your API key here>"
     };
 ```
 
 Now we can initialize Email API client.
+
 ```csharp
-    var sendEmailApi = new SendEmailApi(configuration);
+    var emailApi = new EmailApi(configuration);
 ```
 
 #### Send email
-We're now ready for sending our first email. Note that response contains `BulkId` property which may be useful for checking the status sent emails. 
+
+We're now ready for sending our first email. Note that response contains `BulkId` property which may be useful for checking the status sent emails.
 Fields `from`, `to` and `subject` are required, also the message must contain at least one of these: `text`, `html` or `templateId`.
 
 IMPORTANT NOTE:
-Keep in mind folowing restrictions while using trial account 
+Keep in mind following restrictions while using trial account
+
 - you can only send messages to verified email addresses
-- you can only use your emails addres with Infobip test domain in following form `YourUserName@selfserviceib.com`
+- you can only use your emails address with Infobip test domain in following form `YourUserName@selfserviceib.com`
 
 ```csharp
     string mailTo = "john.doe@company.com";
     string mailFrom = "<set your user name>@selfserviceib.com";
     string mailText = "This is my first email.";
-
-    var response = sendEmailApi.SendEmail(from: mailFrom, to: mailTo, subject: subject, cc: null, bcc: null, text: mailText);
+    string mailSubject = "Subject of the mail";
+    
+    var response = emailApi.SendEmail(
+        from: mailFrom,
+        to: new List<string> { mailTo },
+        subject: mailSubject, 
+        text: mailText
+    );
 
     string bulkId = response.BulkId;
 ```
@@ -41,23 +52,30 @@ Keep in mind folowing restrictions while using trial account
 Example below shows how to send email with attachment.
 
 ```csharp
-    try  
-    {  
-        string attachmentFilePath = "/temp/report.csv";  
-        using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);  
-        
-        EmailSendResponse sendResponse = sendEmailApi.SendEmail(  
-                     "<set your user name>@selfserviceib.com",  
-                     "<set your test mail>@<verified email>.com",  
-                     "Mail subject text",  
-                     text:"Test message with file",  
-                     attachment:attachmentFile);     
-                     
+    try
+    {
+        string attachmentFilePath = "/temp/report.csv";
+        using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);
+    
+        EmailSendResponse sendResponse = emailApi.SendEmail(
+            from: "john.smith@somedomain.com",
+            to: new List<string>
+            {
+                "jane.smith@somecompany.com"
+            },
+            subject: "Mail subject text",
+            text: "Test message with file",
+            attachment: new List<FileParameter>
+            {
+                attachmentFile
+            } 
+        );
+    
         attachmentFile.Dispose();
-    }  
-    catch (Exception ex)  
-    {  
-         // HANDLE EXCEPTION  
+    }
+    catch (Exception ex)
+    {
+        // HANDLE EXCEPTION  
     }
 ```
 
@@ -66,41 +84,55 @@ Example below shows how to send email with attachment.
 You can also send delayed emails very easily. All you need to define is the desired date of the email delivery as `sendAt` parameter of the `SendEmail` method.
 
 ```csharp
-    try  
-    {  
+    try
+    {
+        string attachmentFilePath = "/temp/report.csv";
         DateTimeOffset sendAtDate = new DateTimeOffset(DateTime.UtcNow.AddMinutes(30), TimeSpan.FromHours(0));
-        using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);  
-        
-        EmailSendResponse sendResponse = sendEmailApi.SendEmail(  
-                     "<set your user name>@selfserviceib.com",  
-                     "<set your test mail>@<verified email>.com",  
-                     "Mail subject text",  
-                     text:"Test message with file", 
-                     sendAt: sendAtDate);     
-                     
+        using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);
+    
+        EmailSendResponse sendResponse = emailApi.SendEmail(
+            from: "john.smith@somedomain.com",
+            to: new List<string>
+            {
+                "jane.smith@somecompany.com"
+            },
+            subject: "Mail subject text",
+            text: "Test message with file",
+            attachment: new List<FileParameter>
+            {
+                attachmentFile
+            }
+        );
+    
         attachmentFile.Dispose();
-    }  
-    catch (Exception ex)  
-    {  
-         // HANDLE EXCEPTION  
+    }
+    catch (Exception ex)
+    {
+        // HANDLE EXCEPTION  
     }
 ```
 
 #### Delivery reports
+
 For each message that you send out, we can send you a delivery report in real-time.
 All you need to do is specify your endpoint when sending email in `notifyUrl` field.
-Additionally you can use `messageId` or `bulkId` to fetch reports.
+Additionally, you can use our [Delivery reports API](https://www.infobip.com/docs/api/channels/email/get-email-delivery-reports) to fetch reports.
+You can filter reports by multiple parameters (see the API's documentation for full list), for example, by `bulkId`, `bulkId` and `limit` like in the snippet below:
 
 ```csharp
-    try  
-    {  
-        string messageId = "<set message>";
-        string bulkId = "<set bulk id>" 
+    try
+    {
+        string messageId = "<set messageId>";
+        string bulkId = "<set bulk id>";
         int limit = 10;
-        ApiReportsResponse apiReportsResponse = sendEmailApi.GetEmailDeliveryReports(messageId, bulkId, limit);  
-    }  
-    catch (Exception ex)  
-    {  
-         // HANDLE EXCEPTION  
+        EmailReportsResult emailReportsResult = emailApi.GetEmailDeliveryReports(
+            messageId: messageId,
+            bulkId: bulkId,
+            limit: limit
+        );
+    }
+    catch (Exception ex)
+    {
+        // HANDLE EXCEPTION  
     }
 ```

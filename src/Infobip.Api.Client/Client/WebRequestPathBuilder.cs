@@ -18,7 +18,9 @@ namespace Infobip.Api.Client
     internal class WebRequestPathBuilder
     {
         private readonly string _baseUrl;
+
         private string _path;
+
         private string _query = "?";
 
         public WebRequestPathBuilder(string baseUrl, string path)
@@ -27,22 +29,22 @@ namespace Infobip.Api.Client
             _path = path;
         }
 
-        public void AddPathParameters(Dictionary<string, string> parameters)
+        public void AddPathParameters(IDictionary<string, string> parameters)
         {
-            foreach (var parameter in parameters) _path = _path.Replace("{" + parameter.Key + "}", parameter.Value);
+            foreach (var parameter in parameters)
+                _path = _path.Replace("{" + parameter.Key + "}", parameter.Value);
         }
 
         public void AddQueryParameters(Multimap<string, string> parameters)
         {
             foreach (var parameter in parameters)
             foreach (var value in parameter.Value)
-                // we must urlencode parameter values
                 _query = _query + parameter.Key + "=" + ClientUtils.UrlEncode(value) + "&";
         }
 
         public string GetFullUri()
         {
-            return _baseUrl + _path + _query.Substring(0, _query.Length - 1);
+            return $"{_baseUrl}{_path}{_query.Substring(0, _query.Length - 1)}";
         }
     }
 }

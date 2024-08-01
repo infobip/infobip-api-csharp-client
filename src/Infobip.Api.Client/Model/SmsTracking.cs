@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsTracking
+    ///     Sets up tracking parameters to track conversion metrics and type.
     /// </summary>
     [DataContract(Name = "SmsTracking")]
     public class SmsTracking : IEquatable<SmsTracking>
@@ -35,20 +26,21 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsTracking" /> class.
         /// </summary>
         /// <param name="baseUrl">
-        ///     Custom base url used for shortening links from SMS text in &#x60;URL&#x60; Conversion rate
-        ///     tracking use-case..
+        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use
+        ///     &#x60;urlOptions&#x60; instead..
         /// </param>
-        /// <param name="processKey">Key that uniquely identifies Conversion tracking process..</param>
+        /// <param name="processKey">The process key which uniquely identifies conversion tracking..</param>
         /// <param name="track">
-        ///     Indicates if the message has to be tracked for Conversion rates. Possible values: &#x60;SMS&#x60;
-        ///     and &#x60;URL&#x60;.
+        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and
+        ///     &#x60;URL&#x60;. &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS
+        ///     Conversion, see: [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion)..
         /// </param>
         /// <param name="type">
-        ///     User-defined type of the Conversion tracking process or flow type or message type, etc. Example:
-        ///     &#x60;ONE_TIME_PIN or SOCIAL_INVITES&#x60;..
+        ///     Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;
+        ///     SOCIAL_INVITES&#x60;..
         /// </param>
-        public SmsTracking(string baseUrl = default(string), string processKey = default(string),
-            string track = default(string), string type = default(string))
+        public SmsTracking(string baseUrl = default, string processKey = default, string track = default,
+            string type = default)
         {
             BaseUrl = baseUrl;
             ProcessKey = processKey;
@@ -57,40 +49,75 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Custom base url used for shortening links from SMS text in &#x60;URL&#x60; Conversion rate tracking use-case.
+        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use &#x60;urlOptions&#x60;
+        ///     instead.
         /// </summary>
-        /// <value>Custom base url used for shortening links from SMS text in &#x60;URL&#x60; Conversion rate tracking use-case.</value>
+        /// <value>
+        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use &#x60;urlOptions
+        ///     &#x60; instead.
+        /// </value>
         [DataMember(Name = "baseUrl", EmitDefaultValue = false)]
         public string BaseUrl { get; set; }
 
         /// <summary>
-        ///     Key that uniquely identifies Conversion tracking process.
+        ///     The process key which uniquely identifies conversion tracking.
         /// </summary>
-        /// <value>Key that uniquely identifies Conversion tracking process.</value>
+        /// <value>The process key which uniquely identifies conversion tracking.</value>
         [DataMember(Name = "processKey", EmitDefaultValue = false)]
         public string ProcessKey { get; set; }
 
         /// <summary>
-        ///     Indicates if the message has to be tracked for Conversion rates. Possible values: &#x60;SMS&#x60; and &#x60;URL
-        ///     &#x60;
+        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and &#x60;URL&#x60;.
+        ///     &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS Conversion, see:
+        ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
         /// </summary>
         /// <value>
-        ///     Indicates if the message has to be tracked for Conversion rates. Possible values: &#x60;SMS&#x60; and &#x60;URL
-        ///     &#x60;
+        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and &#x60;URL&#x60;.
+        ///     &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS Conversion, see:
+        ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
         /// </value>
         [DataMember(Name = "track", EmitDefaultValue = false)]
         public string Track { get; set; }
 
         /// <summary>
-        ///     User-defined type of the Conversion tracking process or flow type or message type, etc. Example: &#x60;ONE_TIME_PIN
-        ///     or SOCIAL_INVITES&#x60;.
+        ///     Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;SOCIAL_INVITES&#x60;.
         /// </summary>
-        /// <value>
-        ///     User-defined type of the Conversion tracking process or flow type or message type, etc. Example: &#x60;
-        ///     ONE_TIME_PIN or SOCIAL_INVITES&#x60;.
-        /// </value>
+        /// <value>Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;SOCIAL_INVITES&#x60;.</value>
         [DataMember(Name = "type", EmitDefaultValue = false)]
         public string Type { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsTracking instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsTracking to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsTracking input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BaseUrl == input.BaseUrl ||
+                    (BaseUrl != null &&
+                     BaseUrl.Equals(input.BaseUrl))
+                ) &&
+                (
+                    ProcessKey == input.ProcessKey ||
+                    (ProcessKey != null &&
+                     ProcessKey.Equals(input.ProcessKey))
+                ) &&
+                (
+                    Track == input.Track ||
+                    (Track != null &&
+                     Track.Equals(input.Track))
+                ) &&
+                (
+                    Type == input.Type ||
+                    (Type != null &&
+                     Type.Equals(input.Type))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -128,39 +155,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsTracking instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsTracking to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsTracking input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BaseUrl == input.BaseUrl ||
-                    BaseUrl != null &&
-                    BaseUrl.Equals(input.BaseUrl)
-                ) &&
-                (
-                    ProcessKey == input.ProcessKey ||
-                    ProcessKey != null &&
-                    ProcessKey.Equals(input.ProcessKey)
-                ) &&
-                (
-                    Track == input.Track ||
-                    Track != null &&
-                    Track.Equals(input.Track)
-                ) &&
-                (
-                    Type == input.Type ||
-                    Type != null &&
-                    Type.Equals(input.Type)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -168,7 +162,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BaseUrl != null)
                     hashCode = hashCode * 59 + BaseUrl.GetHashCode();
                 if (ProcessKey != null)

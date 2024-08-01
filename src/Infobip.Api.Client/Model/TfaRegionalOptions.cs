@@ -10,23 +10,15 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     TfaRegionalOptions
+    ///     Region-specific parameters, often imposed by local laws. Use this, if country or region that you are sending a
+    ///     message to requires additional information.
     /// </summary>
     [DataContract(Name = "TfaRegionalOptions")]
     public class TfaRegionalOptions : IEquatable<TfaRegionalOptions>
@@ -34,25 +26,33 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaRegionalOptions" /> class.
         /// </summary>
-        /// <param name="indiaDlt">
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone
-        ///     numbers registered in India..
-        /// </param>
+        /// <param name="indiaDlt">indiaDlt.</param>
         public TfaRegionalOptions(TfaIndiaDltOptions indiaDlt = default)
         {
             IndiaDlt = indiaDlt;
         }
 
         /// <summary>
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone numbers registered in
-        ///     India.
+        ///     Gets or Sets IndiaDlt
         /// </summary>
-        /// <value>
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone numbers registered in
-        ///     India.
-        /// </value>
         [DataMember(Name = "indiaDlt", EmitDefaultValue = false)]
         public TfaIndiaDltOptions IndiaDlt { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaRegionalOptions instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaRegionalOptions to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaRegionalOptions input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                IndiaDlt == input.IndiaDlt ||
+                (IndiaDlt != null &&
+                 IndiaDlt.Equals(input.IndiaDlt));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -87,22 +87,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaRegionalOptions instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaRegionalOptions to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaRegionalOptions input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                IndiaDlt == input.IndiaDlt ||
-                IndiaDlt != null &&
-                IndiaDlt.Equals(input.IndiaDlt);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -110,7 +94,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (IndiaDlt != null)
                     hashCode = hashCode * 59 + IndiaDlt.GetHashCode();
                 return hashCode;

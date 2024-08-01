@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,9 +27,10 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaVerificationResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public TfaVerificationResponse()
+        /// <param name="verifications">Collection of verifications.</param>
+        public TfaVerificationResponse(List<TfaVerification> verifications = default)
         {
+            Verifications = verifications;
         }
 
         /// <summary>
@@ -44,15 +38,23 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Collection of verifications</value>
         [DataMember(Name = "verifications", EmitDefaultValue = false)]
-        public List<TfaVerification> Verifications { get; private set; }
+        public List<TfaVerification> Verifications { get; set; }
 
         /// <summary>
-        ///     Returns false as Verifications should not be serialized given that it's read-only.
+        ///     Returns true if TfaVerificationResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVerifications()
+        /// <param name="input">Instance of TfaVerificationResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaVerificationResponse input)
         {
-            return false;
+            if (input == null)
+                return false;
+
+            return
+                Verifications == input.Verifications ||
+                (Verifications != null &&
+                 input.Verifications != null &&
+                 Verifications.SequenceEqual(input.Verifications));
         }
 
         /// <summary>
@@ -88,23 +90,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaVerificationResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaVerificationResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaVerificationResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Verifications == input.Verifications ||
-                Verifications != null &&
-                input.Verifications != null &&
-                Verifications.SequenceEqual(input.Verifications);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -112,7 +97,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Verifications != null)
                     hashCode = hashCode * 59 + Verifications.GetHashCode();
                 return hashCode;

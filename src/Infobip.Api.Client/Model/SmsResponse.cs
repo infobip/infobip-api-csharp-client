@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,45 +27,61 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsResponse()
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request. Typically, used to fetch [delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs)..
+        /// </param>
+        /// <param name="messages">An array of message objects of a single message or multiple messages sent under one bulk ID..</param>
+        public SmsResponse(string bulkId = default, List<SmsResponseDetails> messages = default)
         {
+            BulkId = bulkId;
+            Messages = messages;
         }
 
         /// <summary>
-        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message to more than one
-        ///     destination address.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. Typically, used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and
+        ///     [message logs](#channels/sms/get-outbound-sms-message-logs).
         /// </summary>
         /// <value>
-        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message to more than
-        ///     one destination address.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. Typically, used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and
+        ///     [message logs](#channels/sms/get-outbound-sms-message-logs).
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
-        public string BulkId { get; private set; }
+        public string BulkId { get; set; }
 
         /// <summary>
-        ///     Array of sent message objects, one object per every message.
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
         /// </summary>
-        /// <value>Array of sent message objects, one object per every message.</value>
+        /// <value>An array of message objects of a single message or multiple messages sent under one bulk ID.</value>
         [DataMember(Name = "messages", EmitDefaultValue = false)]
-        public List<SmsResponseDetails> Messages { get; private set; }
+        public List<SmsResponseDetails> Messages { get; set; }
 
         /// <summary>
-        ///     Returns false as BulkId should not be serialized given that it's read-only.
+        ///     Returns true if SmsResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeBulkId()
+        /// <param name="input">Instance of SmsResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsResponse input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Messages should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMessages()
-        {
-            return false;
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    Messages == input.Messages ||
+                    (Messages != null &&
+                     input.Messages != null &&
+                     Messages.SequenceEqual(input.Messages))
+                );
         }
 
         /// <summary>
@@ -109,30 +118,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    Messages == input.Messages ||
-                    Messages != null &&
-                    input.Messages != null &&
-                    Messages.SequenceEqual(input.Messages)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -140,7 +125,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (Messages != null)

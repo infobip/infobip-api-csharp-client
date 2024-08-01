@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsLanguageConfiguration
+    ///     Sets up additional configuration that changes the original message content you can preview with this call.
     /// </summary>
     [DataContract(Name = "SmsLanguageConfiguration")]
     public class SmsLanguageConfiguration : IEquatable<SmsLanguageConfiguration>
@@ -35,9 +26,15 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsLanguageConfiguration" /> class.
         /// </summary>
         /// <param name="language">language.</param>
-        public SmsLanguageConfiguration(SmsLanguage language = default)
+        /// <param name="transliteration">
+        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH
+        ///     &#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;,
+        ///     &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;..
+        /// </param>
+        public SmsLanguageConfiguration(SmsLanguage language = default, string transliteration = default)
         {
             Language = language;
+            Transliteration = transliteration;
         }
 
         /// <summary>
@@ -48,24 +45,38 @@ namespace Infobip.Api.Client.Model
 
         /// <summary>
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;,
-        ///     &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;,
+        ///     &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;.
         /// </summary>
         /// <value>
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;
-        ///     , &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     , &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;,
+        ///     &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
-        public string Transliteration { get; private set; }
+        public string Transliteration { get; set; }
 
         /// <summary>
-        ///     Returns false as Transliteration should not be serialized given that it's read-only.
+        ///     Returns true if SmsLanguageConfiguration instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeTransliteration()
+        /// <param name="input">Instance of SmsLanguageConfiguration to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsLanguageConfiguration input)
         {
-            return false;
+            if (input == null)
+                return false;
+
+            return
+                (
+                    Language == input.Language ||
+                    (Language != null &&
+                     Language.Equals(input.Language))
+                ) &&
+                (
+                    Transliteration == input.Transliteration ||
+                    (Transliteration != null &&
+                     Transliteration.Equals(input.Transliteration))
+                );
         }
 
         /// <summary>
@@ -102,29 +113,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsLanguageConfiguration instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsLanguageConfiguration to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsLanguageConfiguration input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Language == input.Language ||
-                    Language != null &&
-                    Language.Equals(input.Language)
-                ) &&
-                (
-                    Transliteration == input.Transliteration ||
-                    Transliteration != null &&
-                    Transliteration.Equals(input.Transliteration)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -132,7 +120,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Language != null)
                     hashCode = hashCode * 59 + Language.GetHashCode();
                 if (Transliteration != null)

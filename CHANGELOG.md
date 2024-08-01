@@ -5,15 +5,48 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
-## [ [2.1.3](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.2) ] - 2023-12-28
-### Fixed
-- Template id being to large to store in integer (https://github.com/infobip/infobip-api-csharp-client/issues/28)
+## [ [3.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v3.0.0) ] - 2024-07-31
 
-## [ [2.1.2](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.2) ] - 2023-02-20
+🎉 **NEW Major Version of `Infobip.Api.Client`.**
+
+⚠️ **IMPORTANT NOTE:** This release contains breaking changes.
+All changes, including breaking changes, are addressed and explained in the list below.
+If you find out that something was not addressed properly, please submit an issue.
+
+### Added
+- Most recent [Infobip SMS API](https://www.infobip.com/docs/api/channels/sms) feature set.
+- Most recent [Infobip Email API](https://www.infobip.com/docs/api/channels/email) feature set.
+- Most recent [Infobip 2FA API](https://www.infobip.com/docs/api/platform/2fa) feature set.
+- [FileParameter](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Client/FileParameter.cs) class that represents a File passed to the API as a Parameter, allows using different backends for files.
+- Added dependency JsonSubTypes 2.0.1
+
+### Changed
+- Some products contain a few breaking changes as some API endpoints have changed since last major release. If you have issues when migrating the existing implementation, please check the official API documentation or submit an issue.
+- `SendSmsApi`, `ScheduledSmsApi` and `ReceiveSmsApi` classes have been unified into [SmsApi](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Api/SmsApi.cs) class.
+- `SendEmailApi`, `ScheduledEmailApi` and `EmailValidationApi` classes have been unified into [EmailApi](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Api/EmailApi.cs) class.
+- `EmailStatus` and `SmsStatus` have been unified into [MessageStatus](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Model/MessageStatus.cs) class.
+- `EmailPrice` and `SmsPrice` have been unified into [MessagePrice](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Model/MessagePrice.cs) class.
+- `EmailReportError` and `SmsError` have been unified into [MessageError](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Model/MessageError.cs) class.
+- API key authentication enforced
+- DeserializeAsync method in [ApiClient](https://github.com/infobip/infobip-api-csharp-client/blob/master/src/Infobip.Api.Client/Client/ApiClient.cs) class is no longer publicly accessible
+- Newtonsoft.Json updated to version 13.0.3
+
+### Removed
+- [Basic](https://www.infobip.com/docs/essentials/api-essentials/api-authentication#basic), [IBSSO Token Header](https://www.infobip.com/docs/essentials/api-essentials/api-authentication#ibsso-token-header) and client credentials grant type [OAuth2](https://www.infobip.com/docs/essentials/api-essentials/api-authentication#oauth-20) authentication methods. Use [API Key Header](https://www.infobip.com/docs/essentials/api-essentials/api-authentication#api-key-header) authentication method instead. Example of its usage can be found in the [README](https://github.com/infobip/infobip-api-csharp-client/blob/master/README.md#Quickstart).
+- `GlobalConfiguration` utility class. Having static default configuration is error-prone and provides an unnecessary overhead. An ApiClient instance should always be injected in the given API class.
+- Unused model classes.
+
+## [ [2.1.3](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v2.1.3) ] - 2023-12-28
+
+### Fixed
+- Template id being too large to store in integer (https://github.com/infobip/infobip-api-csharp-client/issues/28)
+
+## [ [2.1.2](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v2.1.2) ] - 2023-02-20
+
 ### Fixed
 - README example (https://github.com/infobip/infobip-api-csharp-client/pull/13)
 
-## [ [2.1.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.1) ] - 2022-12-29
+## [ [2.1.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v2.1.1) ] - 2022-12-29
 
 ### Changed
 - Newtonsoft.Json updated to 13.0.2
@@ -22,13 +55,13 @@ and this library adheres to [Semantic Versioning](http://semver.org/) as mention
 ### Fixed
 - Memory leak caused by not disposing CancellationTokenSource fixed
 
-## [ [2.1.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.1.0) ] - 2021-10-25
+## [ [2.1.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v2.1.0) ] - 2021-10-25
 
 ### Added
 - Support for [Infobip Email API](https://www.infobip.com/docs/api#channels/email)
 
 
-## [ [2.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/2.0.0) ] - 2021-05-11
+## [ [2.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v2.0.0) ] - 2021-05-11
 
 🎉 **NEW Major Version of `Infobip.Api.Client`.**
 

@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -42,29 +33,28 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaApplicationRequest" /> class.
         /// </summary>
-        /// <param name="configuration">Created 2FA application configuration..</param>
-        /// <param name="enabled">Indicates if the created application is enabled..</param>
+        /// <param name="varConfiguration">varConfiguration.</param>
+        /// <param name="enabled">Indicates whether the created application is enabled..</param>
         /// <param name="name">2FA application name. (required).</param>
-        public TfaApplicationRequest(TfaApplicationConfiguration configuration = default, bool enabled = default(bool),
-            string name = default(string))
+        public TfaApplicationRequest(TfaApplicationConfiguration varConfiguration = default, bool enabled = default,
+            string name = default)
         {
             // to ensure "name" is required (not null)
             Name = name ?? throw new ArgumentNullException("name");
-            Configuration = configuration;
+            VarConfiguration = varConfiguration;
             Enabled = enabled;
         }
 
         /// <summary>
-        ///     Created 2FA application configuration.
+        ///     Gets or Sets VarConfiguration
         /// </summary>
-        /// <value>Created 2FA application configuration.</value>
         [DataMember(Name = "configuration", EmitDefaultValue = false)]
-        public TfaApplicationConfiguration Configuration { get; set; }
+        public TfaApplicationConfiguration VarConfiguration { get; set; }
 
         /// <summary>
-        ///     Indicates if the created application is enabled.
+        ///     Indicates whether the created application is enabled.
         /// </summary>
-        /// <value>Indicates if the created application is enabled.</value>
+        /// <value>Indicates whether the created application is enabled.</value>
         [DataMember(Name = "enabled", EmitDefaultValue = true)]
         public bool Enabled { get; set; }
 
@@ -76,6 +66,33 @@ namespace Infobip.Api.Client.Model
         public string Name { get; set; }
 
         /// <summary>
+        ///     Returns true if TfaApplicationRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaApplicationRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaApplicationRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    VarConfiguration == input.VarConfiguration ||
+                    (VarConfiguration != null &&
+                     VarConfiguration.Equals(input.VarConfiguration))
+                ) &&
+                (
+                    Enabled == input.Enabled ||
+                    Enabled.Equals(input.Enabled)
+                ) &&
+                (
+                    Name == input.Name ||
+                    (Name != null &&
+                     Name.Equals(input.Name))
+                );
+        }
+
+        /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -83,7 +100,7 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class TfaApplicationRequest {\n");
-            sb.Append("  Configuration: ").Append(Configuration).Append("\n");
+            sb.Append("  VarConfiguration: ").Append(VarConfiguration).Append("\n");
             sb.Append("  Enabled: ").Append(Enabled).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
@@ -110,33 +127,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaApplicationRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaApplicationRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaApplicationRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Configuration == input.Configuration ||
-                    Configuration != null &&
-                    Configuration.Equals(input.Configuration)
-                ) &&
-                (
-                    Enabled == input.Enabled ||
-                    Enabled.Equals(input.Enabled)
-                ) &&
-                (
-                    Name == input.Name ||
-                    Name != null &&
-                    Name.Equals(input.Name)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -144,9 +134,9 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (Configuration != null)
-                    hashCode = hashCode * 59 + Configuration.GetHashCode();
+                var hashCode = 41;
+                if (VarConfiguration != null)
+                    hashCode = hashCode * 59 + VarConfiguration.GetHashCode();
                 hashCode = hashCode * 59 + Enabled.GetHashCode();
                 if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();

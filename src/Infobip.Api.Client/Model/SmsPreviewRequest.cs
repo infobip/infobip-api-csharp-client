@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -42,19 +33,20 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsPreviewRequest" /> class.
         /// </summary>
+        /// <param name="text">Content of the message being sent. (required).</param>
         /// <param name="languageCode">
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for
-        ///     Turkish, &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick
-        ///     character set automatically based on the message text..
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish,
+        ///     &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the
+        ///     character set based on message content..
         /// </param>
-        /// <param name="text">Message text to preview. (required).</param>
         /// <param name="transliteration">
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH
-        ///     &#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;
-        ///     BALTIC&#x60; and &#x60;NON_UNICODE&#x60;..
+        ///     The transliteration of your sent message from one script to another. Transliteration is
+        ///     used to replace characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;
+        ///     TURKISH&#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC
+        ///     &#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;
+        ///     NON_UNICDE&#x60;, &#x60;ALL&#x60; and &#x60;NONE&#x60;..
         /// </param>
-        public SmsPreviewRequest(string languageCode = default(string), string text = default(string),
-            string transliteration = default(string))
+        public SmsPreviewRequest(string text = default, string languageCode = default, string transliteration = default)
         {
             // to ensure "text" is required (not null)
             Text = text ?? throw new ArgumentNullException("text");
@@ -63,37 +55,69 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick character set automatically
-        ///     based on the message text.
+        ///     Content of the message being sent.
+        /// </summary>
+        /// <value>Content of the message being sent.</value>
+        [DataMember(Name = "text", IsRequired = true, EmitDefaultValue = false)]
+        public string Text { get; set; }
+
+        /// <summary>
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
+        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
+        ///     message content.
         /// </summary>
         /// <value>
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60;
-        ///     for Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick character set
-        ///     automatically based on the message text.
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
+        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
+        ///     message content.
         /// </value>
         [DataMember(Name = "languageCode", EmitDefaultValue = false)]
         public string LanguageCode { get; set; }
 
         /// <summary>
-        ///     Message text to preview.
-        /// </summary>
-        /// <value>Message text to preview.</value>
-        [DataMember(Name = "text", IsRequired = true, EmitDefaultValue = false)]
-        public string Text { get; set; }
-
-        /// <summary>
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;,
-        ///     &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace characters
+        ///     which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK
+        ///     &#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN
+        ///     &#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;NON_UNICDE&#x60;, &#x60;ALL&#x60;
+        ///     and &#x60;NONE&#x60;.
         /// </summary>
         /// <value>
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;
-        ///     , &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace
+        ///     characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;,
+        ///     &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;
+        ///     CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;NON_UNICDE&#x60;,
+        ///     &#x60;ALL&#x60; and &#x60;NONE&#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
         public string Transliteration { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsPreviewRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsPreviewRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsPreviewRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    Text == input.Text ||
+                    (Text != null &&
+                     Text.Equals(input.Text))
+                ) &&
+                (
+                    LanguageCode == input.LanguageCode ||
+                    (LanguageCode != null &&
+                     LanguageCode.Equals(input.LanguageCode))
+                ) &&
+                (
+                    Transliteration == input.Transliteration ||
+                    (Transliteration != null &&
+                     Transliteration.Equals(input.Transliteration))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -103,8 +127,8 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsPreviewRequest {\n");
-            sb.Append("  LanguageCode: ").Append(LanguageCode).Append("\n");
             sb.Append("  Text: ").Append(Text).Append("\n");
+            sb.Append("  LanguageCode: ").Append(LanguageCode).Append("\n");
             sb.Append("  Transliteration: ").Append(Transliteration).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -130,34 +154,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsPreviewRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsPreviewRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsPreviewRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    LanguageCode == input.LanguageCode ||
-                    LanguageCode != null &&
-                    LanguageCode.Equals(input.LanguageCode)
-                ) &&
-                (
-                    Text == input.Text ||
-                    Text != null &&
-                    Text.Equals(input.Text)
-                ) &&
-                (
-                    Transliteration == input.Transliteration ||
-                    Transliteration != null &&
-                    Transliteration.Equals(input.Transliteration)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -165,11 +161,11 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (LanguageCode != null)
-                    hashCode = hashCode * 59 + LanguageCode.GetHashCode();
+                var hashCode = 41;
                 if (Text != null)
                     hashCode = hashCode * 59 + Text.GetHashCode();
+                if (LanguageCode != null)
+                    hashCode = hashCode * 59 + LanguageCode.GetHashCode();
                 if (Transliteration != null)
                     hashCode = hashCode * 59 + Transliteration.GetHashCode();
                 return hashCode;

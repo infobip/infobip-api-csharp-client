@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -53,6 +44,21 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
         public EmailBulkStatus Status { get; set; }
+
+        /// <summary>
+        ///     Returns true if EmailBulkUpdateStatusRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EmailBulkUpdateStatusRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailBulkUpdateStatusRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                Status == input.Status ||
+                Status.Equals(input.Status);
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -87,21 +93,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailBulkUpdateStatusRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailBulkUpdateStatusRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailBulkUpdateStatusRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Status == input.Status ||
-                Status.Equals(input.Status);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -109,7 +100,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + Status.GetHashCode();
                 return hashCode;
             }

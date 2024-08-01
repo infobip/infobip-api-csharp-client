@@ -51,21 +51,21 @@ namespace Infobip.Api.Client
         }
 
         /// <summary>
-        ///     Gets or sets the error code (HTTP status code)
+        ///     Gets or sets the error code (HTTP status code).
         /// </summary>
         /// <value>The error code (HTTP status code).</value>
         public int ErrorCode { get; set; }
 
         /// <summary>
-        ///     Gets or sets the error content (body json object)
+        ///     Gets or sets the error content (body json object).
         /// </summary>
         /// <value>The error content (Http response body).</value>
-        public object ErrorContent { get; private set; }
+        public object ErrorContent { get; }
 
         /// <summary>
-        ///     Gets or sets the HTTP headers
+        ///     Gets or sets the HTTP headers.
         /// </summary>
         /// <value>HTTP headers</value>
-        public Multimap<string, string> Headers { get; private set; }
+        public Multimap<string, string> Headers { get; }
     }
 }

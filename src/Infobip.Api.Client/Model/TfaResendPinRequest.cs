@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -39,7 +32,7 @@ namespace Infobip.Api.Client.Model
         ///     contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder. Valid example: &#x60;\&quot;
         ///     placeholders\&quot;:{\&quot;firstName\&quot;:\&quot;John\&quot;}&#x60;.
         /// </param>
-        public TfaResendPinRequest(Dictionary<string, string> placeholders = default(Dictionary<string, string>))
+        public TfaResendPinRequest(Dictionary<string, string> placeholders = default)
         {
             Placeholders = placeholders;
         }
@@ -56,6 +49,23 @@ namespace Infobip.Api.Client.Model
         /// </value>
         [DataMember(Name = "placeholders", EmitDefaultValue = false)]
         public Dictionary<string, string> Placeholders { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaResendPinRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaResendPinRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaResendPinRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                Placeholders == input.Placeholders ||
+                (Placeholders != null &&
+                 input.Placeholders != null &&
+                 Placeholders.SequenceEqual(input.Placeholders));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -90,23 +100,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaResendPinRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaResendPinRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaResendPinRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Placeholders == input.Placeholders ||
-                Placeholders != null &&
-                input.Placeholders != null &&
-                Placeholders.SequenceEqual(input.Placeholders);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -114,7 +107,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Placeholders != null)
                     hashCode = hashCode * 59 + Placeholders.GetHashCode();
                 return hashCode;

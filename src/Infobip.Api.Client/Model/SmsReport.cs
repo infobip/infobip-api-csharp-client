@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,209 +25,276 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsReport" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsReport()
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request..
+        /// </param>
+        /// <param name="messageId">Unique message ID..</param>
+        /// <param name="to">Message destination address..</param>
+        /// <param name="from">The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;)..</param>
+        /// <param name="sentAt">
+        ///     Date and time when the message was [scheduled](#channels/sms/get-scheduled-sms-messages) to be
+        ///     sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..
+        /// </param>
+        /// <param name="doneAt">
+        ///     Date and time when the Infobip services finished processing the message (i.e., delivered to the
+        ///     destination, delivered to the destination network, etc.). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
+        ///     HH:mm:ss.SSSZ&#x60;..
+        /// </param>
+        /// <param name="smsCount">The number of parts the message content was split into..</param>
+        /// <param name="mccMnc">Mobile country and network codes..</param>
+        /// <param name="callbackData">Callback data sent through ‛callbackData‛ field when sending message..</param>
+        /// <param name="price">price.</param>
+        /// <param name="status">status.</param>
+        /// <param name="error">error.</param>
+        /// <param name="entityId">
+        ///     The entity used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="applicationId">
+        ///     The application used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="campaignReferenceId">
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the
+        ///     performance of individual campaigns per sending channel..
+        /// </param>
+        public SmsReport(string bulkId = default, string messageId = default, string to = default,
+            string from = default, DateTimeOffset sentAt = default, DateTimeOffset doneAt = default,
+            int smsCount = default, string mccMnc = default, string callbackData = default,
+            MessagePrice price = default, MessageStatus status = default, MessageError error = default,
+            string entityId = default, string applicationId = default, string campaignReferenceId = default)
         {
+            BulkId = bulkId;
+            MessageId = messageId;
+            To = to;
+            From = from;
+            SentAt = sentAt;
+            DoneAt = doneAt;
+            SmsCount = smsCount;
+            MccMnc = mccMnc;
+            CallbackData = callbackData;
+            Price = price;
+            Status = status;
+            Error = error;
+            EntityId = entityId;
+            ApplicationId = applicationId;
+            CampaignReferenceId = campaignReferenceId;
         }
 
         /// <summary>
-        ///     Bulk ID.
-        /// </summary>
-        /// <value>Bulk ID.</value>
-        [DataMember(Name = "bulkId", EmitDefaultValue = false)]
-        public string BulkId { get; private set; }
-
-        /// <summary>
-        ///     Callback data sent through &#x60;callbackData&#x60; field in fully featured SMS message.
-        /// </summary>
-        /// <value>Callback data sent through &#x60;callbackData&#x60; field in fully featured SMS message.</value>
-        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
-        public string CallbackData { get; private set; }
-
-        /// <summary>
-        ///     Tells when the SMS was finished processing by Infobip (i.e., delivered to the destination, delivered to the
-        ///     destination network, etc.). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request.
         /// </summary>
         /// <value>
-        ///     Tells when the SMS was finished processing by Infobip (i.e., delivered to the destination, delivered to the
-        ///     destination network, etc.). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request.
+        /// </value>
+        [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        public string BulkId { get; set; }
+
+        /// <summary>
+        ///     Unique message ID.
+        /// </summary>
+        /// <value>Unique message ID.</value>
+        [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        public string MessageId { get; set; }
+
+        /// <summary>
+        ///     Message destination address.
+        /// </summary>
+        /// <value>Message destination address.</value>
+        [DataMember(Name = "to", EmitDefaultValue = false)]
+        public string To { get; set; }
+
+        /// <summary>
+        ///     The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;).
+        /// </summary>
+        /// <value>The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;).</value>
+        [DataMember(Name = "from", EmitDefaultValue = false)]
+        public string From { get; set; }
+
+        /// <summary>
+        ///     Date and time when the message was [scheduled](#channels/sms/get-scheduled-sms-messages) to be sent. Has the
+        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Date and time when the message was [scheduled](#channels/sms/get-scheduled-sms-messages) to be sent. Has the
+        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        /// </value>
+        [DataMember(Name = "sentAt", EmitDefaultValue = false)]
+        public DateTimeOffset SentAt { get; set; }
+
+        /// <summary>
+        ///     Date and time when the Infobip services finished processing the message (i.e., delivered to the destination,
+        ///     delivered to the destination network, etc.). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;.
+        /// </summary>
+        /// <value>
+        ///     Date and time when the Infobip services finished processing the message (i.e., delivered to the destination,
+        ///     delivered to the destination network, etc.). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;.
         /// </value>
         [DataMember(Name = "doneAt", EmitDefaultValue = false)]
-        public DateTimeOffset DoneAt { get; private set; }
+        public DateTimeOffset DoneAt { get; set; }
 
         /// <summary>
-        ///     Indicates whether the error occurred during the query execution.
+        ///     The number of parts the message content was split into.
         /// </summary>
-        /// <value>Indicates whether the error occurred during the query execution.</value>
-        [DataMember(Name = "error", EmitDefaultValue = false)]
-        public SmsError Error { get; private set; }
-
-        /// <summary>
-        ///     Sender ID that can be alphanumeric or numeric.
-        /// </summary>
-        /// <value>Sender ID that can be alphanumeric or numeric.</value>
-        [DataMember(Name = "from", EmitDefaultValue = false)]
-        public string From { get; private set; }
+        /// <value>The number of parts the message content was split into.</value>
+        [DataMember(Name = "smsCount", EmitDefaultValue = false)]
+        public int SmsCount { get; set; }
 
         /// <summary>
         ///     Mobile country and network codes.
         /// </summary>
         /// <value>Mobile country and network codes.</value>
         [DataMember(Name = "mccMnc", EmitDefaultValue = false)]
-        public string MccMnc { get; private set; }
+        public string MccMnc { get; set; }
 
         /// <summary>
-        ///     Message ID.
+        ///     Callback data sent through ‛callbackData‛ field when sending message.
         /// </summary>
-        /// <value>Message ID.</value>
-        [DataMember(Name = "messageId", EmitDefaultValue = false)]
-        public string MessageId { get; private set; }
+        /// <value>Callback data sent through ‛callbackData‛ field when sending message.</value>
+        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
+        public string CallbackData { get; set; }
 
         /// <summary>
-        ///     Sent SMS price.
+        ///     Gets or Sets Price
         /// </summary>
-        /// <value>Sent SMS price.</value>
         [DataMember(Name = "price", EmitDefaultValue = false)]
-        public SmsPrice Price { get; private set; }
+        public MessagePrice Price { get; set; }
 
         /// <summary>
-        ///     Tells when the SMS was sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        ///     Gets or Sets Status
         /// </summary>
-        /// <value>Tells when the SMS was sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.</value>
-        [DataMember(Name = "sentAt", EmitDefaultValue = false)]
-        public DateTimeOffset SentAt { get; private set; }
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public MessageStatus Status { get; set; }
 
         /// <summary>
-        ///     The number of parts the sent SMS was split into.
+        ///     Gets or Sets Error
         /// </summary>
-        /// <value>The number of parts the sent SMS was split into.</value>
-        [DataMember(Name = "smsCount", EmitDefaultValue = false)]
-        public int SmsCount { get; private set; }
+        [DataMember(Name = "error", EmitDefaultValue = false)]
+        public MessageError Error { get; set; }
 
         /// <summary>
-        ///     Indicates whether the message is successfully sent, not sent, delivered, not delivered, waiting for delivery or any
-        ///     other possible status.
+        ///     The entity used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
         /// </summary>
         /// <value>
-        ///     Indicates whether the message is successfully sent, not sent, delivered, not delivered, waiting for delivery or
-        ///     any other possible status.
+        ///     The entity used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
         /// </value>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public SmsStatus Status { get; private set; }
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        public string EntityId { get; set; }
 
         /// <summary>
-        ///     Destination address.
+        ///     The application used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
         /// </summary>
-        /// <value>Destination address.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        public string To { get; private set; }
+        /// <value>
+        ///     The application used when sending the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        public string ApplicationId { get; set; }
 
         /// <summary>
-        ///     Returns false as BulkId should not be serialized given that it's read-only.
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual campaigns
+        ///     per sending channel.
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeBulkId()
+        /// <value>
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual
+        ///     campaigns per sending channel.
+        /// </value>
+        [DataMember(Name = "campaignReferenceId", EmitDefaultValue = false)]
+        public string CampaignReferenceId { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsReport instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsReport to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsReport input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as CallbackData should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeCallbackData()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as DoneAt should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeDoneAt()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Error should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeError()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as From should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeFrom()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as MccMnc should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMccMnc()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as MessageId should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMessageId()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Price should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializePrice()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as SentAt should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeSentAt()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as SmsCount should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeSmsCount()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Status should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeStatus()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as To should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeTo()
-        {
-            return false;
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                ) &&
+                (
+                    From == input.From ||
+                    (From != null &&
+                     From.Equals(input.From))
+                ) &&
+                (
+                    SentAt == input.SentAt ||
+                    (SentAt != null &&
+                     SentAt.Equals(input.SentAt))
+                ) &&
+                (
+                    DoneAt == input.DoneAt ||
+                    (DoneAt != null &&
+                     DoneAt.Equals(input.DoneAt))
+                ) &&
+                (
+                    SmsCount == input.SmsCount ||
+                    SmsCount.Equals(input.SmsCount)
+                ) &&
+                (
+                    MccMnc == input.MccMnc ||
+                    (MccMnc != null &&
+                     MccMnc.Equals(input.MccMnc))
+                ) &&
+                (
+                    CallbackData == input.CallbackData ||
+                    (CallbackData != null &&
+                     CallbackData.Equals(input.CallbackData))
+                ) &&
+                (
+                    Price == input.Price ||
+                    (Price != null &&
+                     Price.Equals(input.Price))
+                ) &&
+                (
+                    Status == input.Status ||
+                    (Status != null &&
+                     Status.Equals(input.Status))
+                ) &&
+                (
+                    Error == input.Error ||
+                    (Error != null &&
+                     Error.Equals(input.Error))
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    CampaignReferenceId == input.CampaignReferenceId ||
+                    (CampaignReferenceId != null &&
+                     CampaignReferenceId.Equals(input.CampaignReferenceId))
+                );
         }
 
         /// <summary>
@@ -248,17 +306,20 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class SmsReport {\n");
             sb.Append("  BulkId: ").Append(BulkId).Append("\n");
-            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
-            sb.Append("  DoneAt: ").Append(DoneAt).Append("\n");
-            sb.Append("  Error: ").Append(Error).Append("\n");
-            sb.Append("  From: ").Append(From).Append("\n");
-            sb.Append("  MccMnc: ").Append(MccMnc).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
-            sb.Append("  Price: ").Append(Price).Append("\n");
-            sb.Append("  SentAt: ").Append(SentAt).Append("\n");
-            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  SentAt: ").Append(SentAt).Append("\n");
+            sb.Append("  DoneAt: ").Append(DoneAt).Append("\n");
+            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
+            sb.Append("  MccMnc: ").Append(MccMnc).Append("\n");
+            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
+            sb.Append("  Price: ").Append(Price).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Error: ").Append(Error).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
+            sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
+            sb.Append("  CampaignReferenceId: ").Append(CampaignReferenceId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -283,78 +344,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsReport instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsReport to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsReport input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    CallbackData == input.CallbackData ||
-                    CallbackData != null &&
-                    CallbackData.Equals(input.CallbackData)
-                ) &&
-                (
-                    DoneAt == input.DoneAt ||
-                    DoneAt != null &&
-                    DoneAt.Equals(input.DoneAt)
-                ) &&
-                (
-                    Error == input.Error ||
-                    Error != null &&
-                    Error.Equals(input.Error)
-                ) &&
-                (
-                    From == input.From ||
-                    From != null &&
-                    From.Equals(input.From)
-                ) &&
-                (
-                    MccMnc == input.MccMnc ||
-                    MccMnc != null &&
-                    MccMnc.Equals(input.MccMnc)
-                ) &&
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    Price == input.Price ||
-                    Price != null &&
-                    Price.Equals(input.Price)
-                ) &&
-                (
-                    SentAt == input.SentAt ||
-                    SentAt != null &&
-                    SentAt.Equals(input.SentAt)
-                ) &&
-                (
-                    SmsCount == input.SmsCount ||
-                    SmsCount.Equals(input.SmsCount)
-                ) &&
-                (
-                    Status == input.Status ||
-                    Status != null &&
-                    Status.Equals(input.Status)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -362,30 +351,36 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
-                if (CallbackData != null)
-                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
-                if (DoneAt != null)
-                    hashCode = hashCode * 59 + DoneAt.GetHashCode();
-                if (Error != null)
-                    hashCode = hashCode * 59 + Error.GetHashCode();
-                if (From != null)
-                    hashCode = hashCode * 59 + From.GetHashCode();
-                if (MccMnc != null)
-                    hashCode = hashCode * 59 + MccMnc.GetHashCode();
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
-                if (Price != null)
-                    hashCode = hashCode * 59 + Price.GetHashCode();
-                if (SentAt != null)
-                    hashCode = hashCode * 59 + SentAt.GetHashCode();
-                hashCode = hashCode * 59 + SmsCount.GetHashCode();
-                if (Status != null)
-                    hashCode = hashCode * 59 + Status.GetHashCode();
                 if (To != null)
                     hashCode = hashCode * 59 + To.GetHashCode();
+                if (From != null)
+                    hashCode = hashCode * 59 + From.GetHashCode();
+                if (SentAt != null)
+                    hashCode = hashCode * 59 + SentAt.GetHashCode();
+                if (DoneAt != null)
+                    hashCode = hashCode * 59 + DoneAt.GetHashCode();
+                hashCode = hashCode * 59 + SmsCount.GetHashCode();
+                if (MccMnc != null)
+                    hashCode = hashCode * 59 + MccMnc.GetHashCode();
+                if (CallbackData != null)
+                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
+                if (Price != null)
+                    hashCode = hashCode * 59 + Price.GetHashCode();
+                if (Status != null)
+                    hashCode = hashCode * 59 + Status.GetHashCode();
+                if (Error != null)
+                    hashCode = hashCode * 59 + Error.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
+                if (ApplicationId != null)
+                    hashCode = hashCode * 59 + ApplicationId.GetHashCode();
+                if (CampaignReferenceId != null)
+                    hashCode = hashCode * 59 + CampaignReferenceId.GetHashCode();
                 return hashCode;
             }
         }

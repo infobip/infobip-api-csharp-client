@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,73 +25,79 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaApplicationResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public TfaApplicationResponse()
+        /// <param name="applicationId">
+        ///     The ID of the application that represents your service, e.g. 2FA for login, 2FA for
+        ///     changing the password, etc..
+        /// </param>
+        /// <param name="varConfiguration">varConfiguration.</param>
+        /// <param name="enabled">Indicates whether the created application is enabled..</param>
+        /// <param name="name">2FA application name..</param>
+        public TfaApplicationResponse(string applicationId = default,
+            TfaApplicationConfiguration varConfiguration = default, bool enabled = default, string name = default)
         {
+            ApplicationId = applicationId;
+            VarConfiguration = varConfiguration;
+            Enabled = enabled;
+            Name = name;
         }
 
         /// <summary>
-        ///     2FA application ID.
+        ///     The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.
         /// </summary>
-        /// <value>2FA application ID.</value>
+        /// <value>The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.</value>
         [DataMember(Name = "applicationId", EmitDefaultValue = false)]
-        public string ApplicationId { get; private set; }
+        public string ApplicationId { get; set; }
 
         /// <summary>
-        ///     Created 2FA application configuration.
+        ///     Gets or Sets VarConfiguration
         /// </summary>
-        /// <value>Created 2FA application configuration.</value>
         [DataMember(Name = "configuration", EmitDefaultValue = false)]
-        public TfaApplicationConfiguration Configuration { get; private set; }
+        public TfaApplicationConfiguration VarConfiguration { get; set; }
 
         /// <summary>
-        ///     Indicates if the created application is enabled.
+        ///     Indicates whether the created application is enabled.
         /// </summary>
-        /// <value>Indicates if the created application is enabled.</value>
+        /// <value>Indicates whether the created application is enabled.</value>
         [DataMember(Name = "enabled", EmitDefaultValue = true)]
-        public bool Enabled { get; private set; }
+        public bool Enabled { get; set; }
 
         /// <summary>
         ///     2FA application name.
         /// </summary>
         /// <value>2FA application name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
-        ///     Returns false as ApplicationId should not be serialized given that it's read-only.
+        ///     Returns true if TfaApplicationResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeApplicationId()
+        /// <param name="input">Instance of TfaApplicationResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaApplicationResponse input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Configuration should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeConfiguration()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Enabled should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeEnabled()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Name should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeName()
-        {
-            return false;
+            return
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    VarConfiguration == input.VarConfiguration ||
+                    (VarConfiguration != null &&
+                     VarConfiguration.Equals(input.VarConfiguration))
+                ) &&
+                (
+                    Enabled == input.Enabled ||
+                    Enabled.Equals(input.Enabled)
+                ) &&
+                (
+                    Name == input.Name ||
+                    (Name != null &&
+                     Name.Equals(input.Name))
+                );
         }
 
         /// <summary>
@@ -112,7 +109,7 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class TfaApplicationResponse {\n");
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
-            sb.Append("  Configuration: ").Append(Configuration).Append("\n");
+            sb.Append("  VarConfiguration: ").Append(VarConfiguration).Append("\n");
             sb.Append("  Enabled: ").Append(Enabled).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
@@ -139,38 +136,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaApplicationResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaApplicationResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaApplicationResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    ApplicationId == input.ApplicationId ||
-                    ApplicationId != null &&
-                    ApplicationId.Equals(input.ApplicationId)
-                ) &&
-                (
-                    Configuration == input.Configuration ||
-                    Configuration != null &&
-                    Configuration.Equals(input.Configuration)
-                ) &&
-                (
-                    Enabled == input.Enabled ||
-                    Enabled.Equals(input.Enabled)
-                ) &&
-                (
-                    Name == input.Name ||
-                    Name != null &&
-                    Name.Equals(input.Name)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -178,11 +143,11 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (ApplicationId != null)
                     hashCode = hashCode * 59 + ApplicationId.GetHashCode();
-                if (Configuration != null)
-                    hashCode = hashCode * 59 + Configuration.GetHashCode();
+                if (VarConfiguration != null)
+                    hashCode = hashCode * 59 + VarConfiguration.GetHashCode();
                 hashCode = hashCode * 59 + Enabled.GetHashCode();
                 if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();

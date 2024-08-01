@@ -12,164 +12,48 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Infobip.Api.Client
 {
-    /// <summary>
-    ///     Represents a set of configuration settings
-    /// </summary>
     public class Configuration : IReadableConfiguration
     {
-        #region Static Members
-
         /// <summary>
-        ///     Default creation of exceptions for a given method name and response object
+        ///     Authorization scheme.
         /// </summary>
-        public static readonly ExceptionFactory DefaultExceptionFactory = (methodName, response) =>
-        {
-            var status = (int)response.StatusCode;
-            if (status >= 400)
-                return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.ErrorText),
-                    response.RawContent, response.Headers);
-            return null;
-        };
-
-        #endregion Static Members
-
-        #region Methods
-
-        /// <summary>
-        ///     Returns a string with essential information for debugging.
-        /// </summary>
-        public static string ToDebugReport()
-        {
-            string report = "C# SDK (Infobip.Api.Client) Debug Report:\n";
-            report += "    OS: " + System.Environment.OSVersion + "\n";
-            report += "    .NET Framework Version: " + System.Environment.Version + "\n";
-            report += "    Version of the API: 1.0.278\n";
-            report += "    SDK Package Version: 2.1.3\n";
-
-            return report;
-        }
-
-        #endregion Methods
-
-        #region Static Members
-
-        /// <summary>
-        ///     Merge configurations.
-        /// </summary>
-        /// <param name="first">First configuration.</param>
-        /// <param name="second">Second configuration.</param>
-        /// <return>Merged configuration.</return>
-        public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first,
-            IReadableConfiguration second)
-        {
-            if (second == null) return first ?? GlobalConfiguration.Instance;
-
-            Dictionary<string, string> defaultHeaders =
-                first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-            foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;
-
-            var config = new Configuration
-            {
-                ApiKey = second.ApiKey ?? first.ApiKey,
-                ApiKeyPrefix = second.ApiKeyPrefix ?? first.ApiKeyPrefix,
-                DefaultHeaders = defaultHeaders,
-                BasePath = second.BasePath ?? first.BasePath,
-                Timeout = second.Timeout,
-                Proxy = second.Proxy ?? first.Proxy,
-                UserAgent = second.UserAgent ?? first.UserAgent,
-                Username = second.Username ?? first.Username,
-                Password = second.Password ?? first.Password,
-                AccessToken = second.AccessToken ?? first.AccessToken,
-                TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
-            };
-            return config;
-        }
-
-        #endregion Static Members
-
-        #region Constants
-
-        /// <summary>
-        ///     Version of the package.
-        /// </summary>
-        /// <value>Version of the package.</value>
-        public const string Version = "2.1.3";
+        /// <value>Authorization scheme.</value>
+        public const string ApiKeyPrefix = "App";
 
         /// <summary>
         ///     Identifier for ISO 8601 DateTime Format
         /// </summary>
         /// <remarks>See https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8 for more information.</remarks>
         // ReSharper disable once InconsistentNaming
-        public const string ISO8601_DATETIME_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffzzzz";
-
-        #endregion Constants
-
-        #region Private Members
+        public const string Iso8601DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffzzzz";
 
         /// <summary>
-        ///     Defines the base path of the target API server.
-        ///     Example: http://localhost:3000/v1/
+        ///     Version of the package.
         /// </summary>
-        private string _basePath;
+        /// <value>Version of the package.</value>
+        public const string Version = "3.0.0";
 
-        /// <summary>
-        ///     Gets or sets the API key based on the authentication name.
-        ///     This is the key and value comprising the "secret" for acessing an API.
-        /// </summary>
-        /// <value>The API key.</value>
-        private string _apiKey;
+        private string _dateTimeFormat = Iso8601DateTimeFormat;
 
-        /// <summary>
-        ///     Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
-        /// </summary>
-        /// <value>The prefix of the API key.</value>
-        private string _apiKeyPrefix;
-
-        private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
-
-        /// <summary>
-        ///     Gets or sets the servers defined in the OpenAPI spec.
-        /// </summary>
-        /// <value>The servers</value>
-        private IList<IReadOnlyDictionary<string, object>> _servers;
-
-        #endregion Private Members
-
-        #region Constructors
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
+        [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration()
         {
             Proxy = null;
-            UserAgent = "infobip-api-client-csharp/2.1.3";
+            UserAgent = "infobip-api-client-csharp/3.0.0";
             BasePath = "http://localhost";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
-            ApiKey = null;
-            ApiKeyPrefix = null;
-            Servers = new List<IReadOnlyDictionary<string, object>>
-            {
-                new Dictionary<string, object>
-                {
-                    { "url", "" },
-                    { "description", "No description provided" }
-                }
-            };
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -178,51 +62,52 @@ namespace Infobip.Api.Client
         /// <summary>
         ///     Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-        public Configuration(
-            IDictionary<string, string> defaultHeaders,
-            string apiKey,
-            string apiKeyPrefix,
+        [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
+        public Configuration(IDictionary<string, string> defaultHeaders, string apiKey,
             string basePath = "http://localhost") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
+
             if (defaultHeaders == null)
                 throw new ArgumentNullException(nameof(defaultHeaders));
+
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("The provided apiKey is invalid.", "apiKey");
-            if (string.IsNullOrWhiteSpace(apiKeyPrefix))
-                throw new ArgumentException("The provided apiKeyPrefix is invalid.", "apiKeyPrefix");
-
-            BasePath = basePath;
-
-            foreach (var keyValuePair in defaultHeaders) DefaultHeaders.Add(keyValuePair);
 
             ApiKey = apiKey;
-            ApiKeyPrefix = apiKeyPrefix;
+            BasePath = basePath;
+
+            foreach (var keyValuePair in defaultHeaders)
+                DefaultHeaders.Add(keyValuePair);
         }
 
-        #endregion Constructors
+        /// <summary>
+        ///     Gets or sets the API key.
+        /// </summary>
+        /// <value>The API key.</value>
+        public virtual string ApiKey { get; set; }
 
-        #region Properties
+        /// <summary>
+        ///     Gets the API key with authentication scheme.
+        /// </summary>
+        /// <returns>API key with authentication scheme.</returns>
+        public string ApiKeyWithPrefix => $"{ApiKeyPrefix} {ApiKey}";
 
         /// <summary>
         ///     Gets or sets the base path for API access.
         /// </summary>
-        public virtual string BasePath
-        {
-            get => _basePath;
-            set => _basePath = value;
-        }
+        public virtual string BasePath { get; set; }
 
         /// <summary>
-        ///     Gets or sets the default header.
+        ///     Gets or sets the date time format used when serializing in the ApiClient.
+        ///     No validation is done to ensure that the string you're providing is valid.
         /// </summary>
-        [Obsolete("Use DefaultHeaders instead.")]
-        public virtual IDictionary<string, string> DefaultHeader
+        /// <value>The DateTimeFormat string</value>
+        public virtual string DateTimeFormat
         {
-            get => DefaultHeaders;
-            set => DefaultHeaders = value;
+            get => _dateTimeFormat;
+            set => _dateTimeFormat = string.IsNullOrEmpty(value) ? Iso8601DateTimeFormat : value;
         }
 
         /// <summary>
@@ -231,57 +116,10 @@ namespace Infobip.Api.Client
         public virtual IDictionary<string, string> DefaultHeaders { get; set; }
 
         /// <summary>
-        ///     Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
-        /// </summary>
-        public virtual int Timeout { get; set; }
-
-        /// <summary>
         ///     Gets or sets the proxy
         /// </summary>
         /// <value>Proxy.</value>
         public virtual WebProxy Proxy { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the HTTP user agent.
-        /// </summary>
-        /// <value>Http user agent.</value>
-        public virtual string UserAgent { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the username (HTTP basic authentication).
-        /// </summary>
-        /// <value>The username.</value>
-        public virtual string Username { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the password (HTTP basic authentication).
-        /// </summary>
-        /// <value>The password.</value>
-        public virtual string Password { get; set; }
-
-        /// <summary>
-        ///     Gets the API key with prefix.
-        /// </summary>
-        /// <param name="apiKeyIdentifier">API key identifier (authentication scheme).</param>
-        /// <returns>API key with prefix.</returns>
-        public string GetApiKeyWithPrefix(string apiKeyIdentifier)
-        {
-            if (!string.IsNullOrWhiteSpace(ApiKeyPrefix)) return ApiKeyPrefix + " " + ApiKey;
-            return ApiKey;
-        }
-
-        /// <summary>
-        ///     Gets or sets certificate collection to be sent with requests.
-        /// </summary>
-        /// <value>X509 Certificate collection.</value>
-        public X509CertificateCollection ClientCertificates { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the access token for OAuth2 authentication.
-        ///     This helper property simplifies code generation.
-        /// </summary>
-        /// <value>The access token.</value>
-        public virtual string AccessToken { get; set; }
 
         /// <summary>
         ///     Gets or sets the temporary folder path to store the files downloaded from the server.
@@ -299,8 +137,8 @@ namespace Infobip.Api.Client
                     return;
                 }
 
-                // create the directory if it does not exist
-                if (!Directory.Exists(value)) Directory.CreateDirectory(value);
+                if (!Directory.Exists(value))
+                    Directory.CreateDirectory(value);
 
                 // check if the path contains directory separator at the end
                 if (value[value.Length - 1] == Path.DirectorySeparatorChar)
@@ -311,119 +149,57 @@ namespace Infobip.Api.Client
         }
 
         /// <summary>
-        ///     Gets or sets the date time format used when serializing in the ApiClient.
-        ///     No validation is done to ensure that the string you're providing is valid.
+        ///     Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
         /// </summary>
-        /// <value>The DateTimeFormat string</value>
-        public virtual string DateTimeFormat
+        public virtual int Timeout { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the HTTP user agent.
+        /// </summary>
+        /// <value>Http user agent.</value>
+        public virtual string UserAgent { get; set; }
+
+        /// <summary>
+        ///     Default creation of exceptions for a given method name and response object
+        /// </summary>
+        public static Exception DefaultExceptionFactory(string methodName, IApiResponse response)
         {
-            get => _dateTimeFormat;
-            set
+            var status = (int)response.StatusCode;
+            if (status >= 400)
+                return new ApiException(status, string.Format("Error calling {0}: {1}", methodName, response.ErrorText),
+                    response.RawContent, response.Headers);
+
+            return null;
+        }
+
+        /// <summary>
+        ///     Merge configurations.
+        /// </summary>
+        /// <param name="first">First configuration.</param>
+        /// <param name="second">Second configuration.</param>
+        /// <return>Merged configuration.</return>
+        public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first,
+            IReadableConfiguration second)
+        {
+            if (second == null)
+                return first;
+
+            var defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            foreach (var kvp in second.DefaultHeaders)
+                defaultHeaders[kvp.Key] = kvp.Value;
+
+            return new Configuration
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    // Never allow a blank or null string, go back to the default
-                    _dateTimeFormat = ISO8601_DATETIME_FORMAT;
-                    return;
-                }
-
-                // Caution, no validation when you choose date time format other than ISO 8601
-                // Take a look at the above links
-                _dateTimeFormat = value;
-            }
+                ApiKey = second.ApiKey ?? first.ApiKey,
+                BasePath = second.BasePath ?? first.BasePath,
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                DefaultHeaders = defaultHeaders,
+                Proxy = second.Proxy ?? first.Proxy,
+                TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
+                Timeout = second.Timeout,
+                UserAgent = second.UserAgent ?? first.UserAgent
+            };
         }
-
-        /// <summary>
-        ///     Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
-        ///     Whatever you set here will be prepended to the value defined in AddApiKey.
-        ///     An example invocation here might be:
-        ///     <example>
-        ///         ApiKeyPrefix["Authorization"] = "Bearer";
-        ///     </example>
-        ///     … where ApiKey["Authorization"] would then be used to set the value of your bearer token.
-        ///     <remarks>
-        ///         OAuth2 workflows should set tokens via AccessToken.
-        ///     </remarks>
-        /// </summary>
-        /// <value>The prefix of the API key.</value>
-        public virtual string ApiKeyPrefix
-        {
-            get => _apiKeyPrefix;
-            set => _apiKeyPrefix = value;
-        }
-
-        /// <summary>
-        ///     Gets or sets the API key based on the authentication name.
-        /// </summary>
-        /// <value>The API key.</value>
-        public virtual string ApiKey
-        {
-            get => _apiKey;
-            set => _apiKey = value;
-        }
-
-        /// <summary>
-        ///     Gets or sets the servers.
-        /// </summary>
-        /// <value>The servers.</value>
-        public virtual IList<IReadOnlyDictionary<string, object>> Servers
-        {
-            get => _servers;
-            set => _servers = value ?? throw new InvalidOperationException("Servers may not be null.");
-        }
-
-        /// <summary>
-        ///     Returns URL based on server settings without providing values
-        ///     for the variables
-        /// </summary>
-        /// <param name="index">Array index of the server settings.</param>
-        /// <return>The server URL.</return>
-        public string GetServerUrl(int index)
-        {
-            return GetServerUrl(index, null);
-        }
-
-        /// <summary>
-        ///     Returns URL based on server settings.
-        /// </summary>
-        /// <param name="index">Array index of the server settings.</param>
-        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
-        /// <return>The server URL.</return>
-        public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
-        {
-            if (index < 0 || index >= Servers.Count)
-                throw new InvalidOperationException(
-                    $"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
-
-            if (inputVariables == null) inputVariables = new Dictionary<string, string>();
-
-            IReadOnlyDictionary<string, object> server = Servers[index];
-            string url = (string)server["url"];
-
-            // go through variable and assign a value
-            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
-            {
-                IReadOnlyDictionary<string, object> serverVariables =
-                    (IReadOnlyDictionary<string, object>)variable.Value;
-
-                if (inputVariables.ContainsKey(variable.Key))
-                {
-                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
-                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
-                    else
-                        throw new InvalidOperationException(
-                            $"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
-                }
-                else
-                {
-                    // use default value
-                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
-                }
-            }
-
-            return url;
-        }
-
-        #endregion Properties
     }
 }

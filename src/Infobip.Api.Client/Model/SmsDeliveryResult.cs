@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -35,7 +28,7 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsDeliveryResult" /> class.
         /// </summary>
         /// <param name="results">results.</param>
-        public SmsDeliveryResult(List<SmsReport> results = default(List<SmsReport>))
+        public SmsDeliveryResult(List<SmsReport> results = default)
         {
             Results = results;
         }
@@ -45,6 +38,23 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         [DataMember(Name = "results", EmitDefaultValue = false)]
         public List<SmsReport> Results { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsDeliveryResult instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsDeliveryResult to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsDeliveryResult input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                Results == input.Results ||
+                (Results != null &&
+                 input.Results != null &&
+                 Results.SequenceEqual(input.Results));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -79,23 +89,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsDeliveryResult instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsDeliveryResult to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsDeliveryResult input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Results == input.Results ||
-                Results != null &&
-                input.Results != null &&
-                Results.SequenceEqual(input.Results);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -103,7 +96,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Results != null)
                     hashCode = hashCode * 59 + Results.GetHashCode();
                 return hashCode;

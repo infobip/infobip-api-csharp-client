@@ -21,26 +21,14 @@ namespace Infobip.Api.Client
     public interface IApiResponse
     {
         /// <summary>
-        ///     The data type of <see cref="Content" />
-        /// </summary>
-        Type ResponseType { get; }
-
-        /// <summary>
-        ///     The content of this response
+        ///     The content of this response.
         /// </summary>
         object Content { get; }
 
         /// <summary>
-        ///     Gets or sets the status code (HTTP status code)
+        ///     Gets or sets any cookies passed along on the response.
         /// </summary>
-        /// <value>The status code.</value>
-        HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        ///     Gets or sets the HTTP headers
-        /// </summary>
-        /// <value>HTTP headers</value>
-        Multimap<string, string> Headers { get; }
+        IEnumerable<Cookie> Cookies { get; set; }
 
         /// <summary>
         ///     Gets or sets any error text defined by the calling client.
@@ -48,14 +36,26 @@ namespace Infobip.Api.Client
         string ErrorText { get; set; }
 
         /// <summary>
-        ///     Gets or sets any cookies passed along on the response.
+        ///     Gets or sets the HTTP headers.
         /// </summary>
-        List<Cookie> Cookies { get; set; }
+        /// <value>HTTP headers</value>
+        Multimap<string, string> Headers { get; }
 
         /// <summary>
-        ///     The raw content of this response
+        ///     The raw content of this response.
         /// </summary>
         string RawContent { get; }
+
+        /// <summary>
+        ///     The data type of <see cref="Content" />.
+        /// </summary>
+        Type ResponseType { get; }
+
+        /// <summary>
+        ///     Gets or sets the status code (HTTP status code).
+        /// </summary>
+        /// <value>The status code.</value>
+        HttpStatusCode StatusCode { get; }
     }
 
     /// <summary>
@@ -63,55 +63,6 @@ namespace Infobip.Api.Client
     /// </summary>
     public class ApiResponse<T> : IApiResponse
     {
-        #region Properties
-
-        /// <summary>
-        ///     Gets or sets the status code (HTTP status code)
-        /// </summary>
-        /// <value>The status code.</value>
-        public HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        ///     Gets or sets the HTTP headers
-        /// </summary>
-        /// <value>HTTP headers</value>
-        public Multimap<string, string> Headers { get; }
-
-        /// <summary>
-        ///     Gets or sets the data (parsed HTTP body)
-        /// </summary>
-        /// <value>The data.</value>
-        public T Data { get; }
-
-        /// <summary>
-        ///     Gets or sets any error text defined by the calling client.
-        /// </summary>
-        public string ErrorText { get; set; }
-
-        /// <summary>
-        ///     Gets or sets any cookies passed along on the response.
-        /// </summary>
-        public List<Cookie> Cookies { get; set; }
-
-        /// <summary>
-        ///     The content of this response
-        /// </summary>
-        public Type ResponseType => typeof(T);
-
-        /// <summary>
-        ///     The data type of <see cref="Content" />
-        /// </summary>
-        public object Content => Data;
-
-        /// <summary>
-        ///     The raw content
-        /// </summary>
-        public string RawContent { get; }
-
-        #endregion Properties
-
-        #region Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="ApiResponse{T}" /> class.
         /// </summary>
@@ -158,6 +109,47 @@ namespace Infobip.Api.Client
         {
         }
 
-        #endregion Constructors
+        /// <summary>
+        ///     Gets or sets the data (parsed HTTP body).
+        /// </summary>
+        /// <value>The data.</value>
+        public T Data { get; }
+
+        /// <summary>
+        ///     The data type of <see cref="Content" />.
+        /// </summary>
+        public object Content => Data;
+
+        /// <summary>
+        ///     Gets or sets any cookies passed along on the response.
+        /// </summary>
+        public IEnumerable<Cookie> Cookies { get; set; }
+
+        /// <summary>
+        ///     Gets or sets any error text defined by the calling client.
+        /// </summary>
+        public string ErrorText { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the HTTP headers.
+        /// </summary>
+        /// <value>HTTP headers</value>
+        public Multimap<string, string> Headers { get; }
+
+        /// <summary>
+        ///     The raw content
+        /// </summary>
+        public string RawContent { get; }
+
+        /// <summary>
+        ///     The content of this response.
+        /// </summary>
+        public Type ResponseType => typeof(T);
+
+        /// <summary>
+        ///     Gets or sets the status code (HTTP status code).
+        /// </summary>
+        /// <value>The status code.</value>
+        public HttpStatusCode StatusCode { get; }
     }
 }

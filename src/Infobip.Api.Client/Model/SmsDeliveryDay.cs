@@ -9,25 +9,20 @@
  */
 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines SmsDeliveryDay
+    ///     Days of the week which are included in the delivery time window. At least one day must be provided. Separate
+    ///     multiple days with a comma..
     /// </summary>
+    /// <value>
+    ///     Days of the week which are included in the delivery time window. At least one day must be provided. Separate
+    ///     multiple days with a comma.
+    /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SmsDeliveryDay
     {

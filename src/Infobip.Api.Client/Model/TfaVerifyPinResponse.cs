@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,9 +25,19 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaVerifyPinResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public TfaVerifyPinResponse()
+        /// <param name="attemptsRemaining">Number of remaining PIN attempts..</param>
+        /// <param name="msisdn">Phone number (&#x60;MSISDN&#x60;) to which the 2FA message was sent..</param>
+        /// <param name="pinError">Indicates whether an error has occurred during PIN verification..</param>
+        /// <param name="pinId">Sent PIN code ID..</param>
+        /// <param name="verified">Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified..</param>
+        public TfaVerifyPinResponse(int attemptsRemaining = default, string msisdn = default, string pinError = default,
+            string pinId = default, bool verified = default)
         {
+            AttemptsRemaining = attemptsRemaining;
+            Msisdn = msisdn;
+            PinError = pinError;
+            PinId = pinId;
+            Verified = verified;
         }
 
         /// <summary>
@@ -44,79 +45,70 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Number of remaining PIN attempts.</value>
         [DataMember(Name = "attemptsRemaining", EmitDefaultValue = false)]
-        public int AttemptsRemaining { get; private set; }
+        public int AttemptsRemaining { get; set; }
 
         /// <summary>
         ///     Phone number (&#x60;MSISDN&#x60;) to which the 2FA message was sent.
         /// </summary>
         /// <value>Phone number (&#x60;MSISDN&#x60;) to which the 2FA message was sent.</value>
         [DataMember(Name = "msisdn", EmitDefaultValue = false)]
-        public string Msisdn { get; private set; }
+        public string Msisdn { get; set; }
 
         /// <summary>
-        ///     Indicates if any error occurs during PIN verification.
+        ///     Indicates whether an error has occurred during PIN verification.
         /// </summary>
-        /// <value>Indicates if any error occurs during PIN verification.</value>
+        /// <value>Indicates whether an error has occurred during PIN verification.</value>
         [DataMember(Name = "pinError", EmitDefaultValue = false)]
-        public string PinError { get; private set; }
+        public string PinError { get; set; }
 
         /// <summary>
         ///     Sent PIN code ID.
         /// </summary>
         /// <value>Sent PIN code ID.</value>
         [DataMember(Name = "pinId", EmitDefaultValue = false)]
-        public string PinId { get; private set; }
+        public string PinId { get; set; }
 
         /// <summary>
-        ///     Indicates if the phone number (&#x60;MSISDN&#x60;) was successfully verified.
+        ///     Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified.
         /// </summary>
-        /// <value>Indicates if the phone number (&#x60;MSISDN&#x60;) was successfully verified.</value>
+        /// <value>Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified.</value>
         [DataMember(Name = "verified", EmitDefaultValue = true)]
-        public bool Verified { get; private set; }
+        public bool Verified { get; set; }
 
         /// <summary>
-        ///     Returns false as AttemptsRemaining should not be serialized given that it's read-only.
+        ///     Returns true if TfaVerifyPinResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeAttemptsRemaining()
+        /// <param name="input">Instance of TfaVerifyPinResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaVerifyPinResponse input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Msisdn should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMsisdn()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as PinError should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializePinError()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as PinId should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializePinId()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Verified should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVerified()
-        {
-            return false;
+            return
+                (
+                    AttemptsRemaining == input.AttemptsRemaining ||
+                    AttemptsRemaining.Equals(input.AttemptsRemaining)
+                ) &&
+                (
+                    Msisdn == input.Msisdn ||
+                    (Msisdn != null &&
+                     Msisdn.Equals(input.Msisdn))
+                ) &&
+                (
+                    PinError == input.PinError ||
+                    (PinError != null &&
+                     PinError.Equals(input.PinError))
+                ) &&
+                (
+                    PinId == input.PinId ||
+                    (PinId != null &&
+                     PinId.Equals(input.PinId))
+                ) &&
+                (
+                    Verified == input.Verified ||
+                    Verified.Equals(input.Verified)
+                );
         }
 
         /// <summary>
@@ -156,42 +148,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaVerifyPinResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaVerifyPinResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaVerifyPinResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    AttemptsRemaining == input.AttemptsRemaining ||
-                    AttemptsRemaining.Equals(input.AttemptsRemaining)
-                ) &&
-                (
-                    Msisdn == input.Msisdn ||
-                    Msisdn != null &&
-                    Msisdn.Equals(input.Msisdn)
-                ) &&
-                (
-                    PinError == input.PinError ||
-                    PinError != null &&
-                    PinError.Equals(input.PinError)
-                ) &&
-                (
-                    PinId == input.PinId ||
-                    PinId != null &&
-                    PinId.Equals(input.PinId)
-                ) &&
-                (
-                    Verified == input.Verified ||
-                    Verified.Equals(input.Verified)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -199,7 +155,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + AttemptsRemaining.GetHashCode();
                 if (Msisdn != null)
                     hashCode = hashCode * 59 + Msisdn.GetHashCode();

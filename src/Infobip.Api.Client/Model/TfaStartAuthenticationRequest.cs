@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -42,21 +35,26 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaStartAuthenticationRequest" /> class.
         /// </summary>
-        /// <param name="applicationId">2FA application ID. (required).</param>
+        /// <param name="applicationId">
+        ///     The ID of the application that represents your service, e.g. 2FA for login, 2FA for
+        ///     changing the password, etc. (required).
+        /// </param>
         /// <param name="from">
         ///     Use this parameter if you wish to override the sender ID from the
         ///     [created](#channels/sms/create-2fa-message-template) message template parameter &#x60;senderId&#x60;..
         /// </param>
-        /// <param name="messageId">Message template ID that will be sent to phone number. (required).</param>
+        /// <param name="messageId">
+        ///     The ID of the message template (message body with the PIN placeholder) that is sent to the
+        ///     recipient. (required).
+        /// </param>
         /// <param name="placeholders">
         ///     Key value pairs that will be replaced during message sending. Placeholder keys should NOT
         ///     contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder. Valid example: &#x60;\&quot;
         ///     placeholders\&quot;:{\&quot;firstName\&quot;:\&quot;John\&quot;}&#x60;.
         /// </param>
         /// <param name="to">Phone number to which the 2FA message will be sent. Example: 41793026727. (required).</param>
-        public TfaStartAuthenticationRequest(string applicationId = default(string), string from = default(string),
-            string messageId = default(string),
-            Dictionary<string, string> placeholders = default(Dictionary<string, string>), string to = default(string))
+        public TfaStartAuthenticationRequest(string applicationId = default, string from = default,
+            string messageId = default, Dictionary<string, string> placeholders = default, string to = default)
         {
             // to ensure "applicationId" is required (not null)
             ApplicationId = applicationId ?? throw new ArgumentNullException("applicationId");
@@ -69,9 +67,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     2FA application ID.
+        ///     The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.
         /// </summary>
-        /// <value>2FA application ID.</value>
+        /// <value>The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.</value>
         [DataMember(Name = "applicationId", IsRequired = true, EmitDefaultValue = false)]
         public string ApplicationId { get; set; }
 
@@ -87,9 +85,9 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
-        ///     Message template ID that will be sent to phone number.
+        ///     The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.
         /// </summary>
-        /// <value>Message template ID that will be sent to phone number.</value>
+        /// <value>The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.</value>
         [DataMember(Name = "messageId", IsRequired = true, EmitDefaultValue = false)]
         public string MessageId { get; set; }
 
@@ -112,6 +110,45 @@ namespace Infobip.Api.Client.Model
         /// <value>Phone number to which the 2FA message will be sent. Example: 41793026727.</value>
         [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
         public string To { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaStartAuthenticationRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaStartAuthenticationRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaStartAuthenticationRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    From == input.From ||
+                    (From != null &&
+                     From.Equals(input.From))
+                ) &&
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    Placeholders == input.Placeholders ||
+                    (Placeholders != null &&
+                     input.Placeholders != null &&
+                     Placeholders.SequenceEqual(input.Placeholders))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -150,45 +187,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaStartAuthenticationRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaStartAuthenticationRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaStartAuthenticationRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    ApplicationId == input.ApplicationId ||
-                    ApplicationId != null &&
-                    ApplicationId.Equals(input.ApplicationId)
-                ) &&
-                (
-                    From == input.From ||
-                    From != null &&
-                    From.Equals(input.From)
-                ) &&
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    Placeholders == input.Placeholders ||
-                    Placeholders != null &&
-                    input.Placeholders != null &&
-                    Placeholders.SequenceEqual(input.Placeholders)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -196,7 +194,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (ApplicationId != null)
                     hashCode = hashCode * 59 + ApplicationId.GetHashCode();
                 if (From != null)

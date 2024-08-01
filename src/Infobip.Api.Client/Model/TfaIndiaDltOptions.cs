@@ -10,23 +10,15 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     TfaIndiaDltOptions
+    ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone numbers registered in
+    ///     India.
     /// </summary>
     [DataContract(Name = "TfaIndiaDltOptions")]
     public class TfaIndiaDltOptions : IEquatable<TfaIndiaDltOptions>
@@ -42,10 +34,9 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaIndiaDltOptions" /> class.
         /// </summary>
-        /// <param name="contentTemplateId">Id of your registered DTL content template that matches this message&#39;s text..</param>
-        /// <param name="principalEntityId">Your assigned DTL principal entity id. (required).</param>
-        public TfaIndiaDltOptions(string contentTemplateId = default(string),
-            string principalEntityId = default(string))
+        /// <param name="contentTemplateId">Registered DLT content template ID which matches message you are sending..</param>
+        /// <param name="principalEntityId">Your assigned DLT principal entity ID. (required).</param>
+        public TfaIndiaDltOptions(string contentTemplateId = default, string principalEntityId = default)
         {
             // to ensure "principalEntityId" is required (not null)
             PrincipalEntityId = principalEntityId ?? throw new ArgumentNullException("principalEntityId");
@@ -53,18 +44,41 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Id of your registered DTL content template that matches this message&#39;s text.
+        ///     Registered DLT content template ID which matches message you are sending.
         /// </summary>
-        /// <value>Id of your registered DTL content template that matches this message&#39;s text.</value>
+        /// <value>Registered DLT content template ID which matches message you are sending.</value>
         [DataMember(Name = "contentTemplateId", EmitDefaultValue = false)]
         public string ContentTemplateId { get; set; }
 
         /// <summary>
-        ///     Your assigned DTL principal entity id.
+        ///     Your assigned DLT principal entity ID.
         /// </summary>
-        /// <value>Your assigned DTL principal entity id.</value>
+        /// <value>Your assigned DLT principal entity ID.</value>
         [DataMember(Name = "principalEntityId", IsRequired = true, EmitDefaultValue = false)]
         public string PrincipalEntityId { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaIndiaDltOptions instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaIndiaDltOptions to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaIndiaDltOptions input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    ContentTemplateId == input.ContentTemplateId ||
+                    (ContentTemplateId != null &&
+                     ContentTemplateId.Equals(input.ContentTemplateId))
+                ) &&
+                (
+                    PrincipalEntityId == input.PrincipalEntityId ||
+                    (PrincipalEntityId != null &&
+                     PrincipalEntityId.Equals(input.PrincipalEntityId))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -100,29 +114,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaIndiaDltOptions instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaIndiaDltOptions to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaIndiaDltOptions input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    ContentTemplateId == input.ContentTemplateId ||
-                    ContentTemplateId != null &&
-                    ContentTemplateId.Equals(input.ContentTemplateId)
-                ) &&
-                (
-                    PrincipalEntityId == input.PrincipalEntityId ||
-                    PrincipalEntityId != null &&
-                    PrincipalEntityId.Equals(input.PrincipalEntityId)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -130,7 +121,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (ContentTemplateId != null)
                     hashCode = hashCode * 59 + ContentTemplateId.GetHashCode();
                 if (PrincipalEntityId != null)

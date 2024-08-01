@@ -1,5 +1,5 @@
-using Polly;
 using System.Net.Http;
+using Polly;
 
 namespace Infobip.Api.Client
 {
@@ -9,13 +9,13 @@ namespace Infobip.Api.Client
     public class RetryConfiguration
     {
         /// <summary>
-        ///     Retry policy
-        /// </summary>
-        public static Policy<HttpResponseMessage> RetryPolicy { get; set; }
-
-        /// <summary>
         ///     Async retry policy
         /// </summary>
         public static AsyncPolicy<HttpResponseMessage> AsyncRetryPolicy { get; set; }
+
+        /// <summary>
+        ///     Retry policy
+        /// </summary>
+        public static Policy<HttpResponseMessage> RetryPolicy { get; set; }
     }
 }

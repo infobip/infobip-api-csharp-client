@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,68 +27,140 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsAdvancedTextualRequest" /> class.
         /// </summary>
-        /// <param name="bulkId">
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a
-        ///     message to more than one destination address..
-        /// </param>
-        /// <param name="messages">messages.</param>
-        /// <param name="sendingSpeedLimit">
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce
-        ///     message sending speed if your message call to action involves visiting a website, calling your contact center or
-        ///     similar recipient activity, in which you can handle a limited amount of load. This setting helps you to spread the
-        ///     delivery of the messages over a longer period, allowing your systems or agents to handle incoming traffic in
-        ///     real-time, resulting in better customer satisfaction..
-        /// </param>
-        /// <param name="tracking">tracking.</param>
-        public SmsAdvancedTextualRequest(string bulkId = default(string),
-            List<SmsTextualMessage> messages = default(List<SmsTextualMessage>),
-            SmsSendingSpeedLimit sendingSpeedLimit = default, SmsTracking tracking = default)
+        [JsonConstructorAttribute]
+        protected SmsAdvancedTextualRequest()
         {
-            BulkId = bulkId;
-            Messages = messages;
-            SendingSpeedLimit = sendingSpeedLimit;
-            Tracking = tracking;
         }
 
         /// <summary>
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a message to more than
-        ///     one destination address.
+        ///     Initializes a new instance of the <see cref="SmsAdvancedTextualRequest" /> class.
+        /// </summary>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request. If not provided, it will be auto-generated and returned in the API response. Typically,
+        ///     used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs)..
+        /// </param>
+        /// <param name="messages">
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
+        ///     (required).
+        /// </param>
+        /// <param name="sendingSpeedLimit">sendingSpeedLimit.</param>
+        /// <param name="urlOptions">urlOptions.</param>
+        /// <param name="tracking">tracking.</param>
+        /// <param name="includeSmsCountInResponse">
+        ///     Set to true to return smsCount in the response.  Default is false. smsCount is
+        ///     the total count of SMS submitted in the request.  SMS messages have a character limit and messages longer than that
+        ///     limit will be split into multiple SMS and reflected in the total count of SMS submitted.  (default to false).
+        /// </param>
+        public SmsAdvancedTextualRequest(string bulkId = default, List<SmsTextualMessage> messages = default,
+            SmsSendingSpeedLimit sendingSpeedLimit = default, SmsUrlOptions urlOptions = default,
+            SmsTracking tracking = default, bool includeSmsCountInResponse = false)
+        {
+            // to ensure "messages" is required (not null)
+            Messages = messages ?? throw new ArgumentNullException("messages");
+            BulkId = bulkId;
+            SendingSpeedLimit = sendingSpeedLimit;
+            UrlOptions = urlOptions;
+            Tracking = tracking;
+            IncludeSmsCountInResponse = includeSmsCountInResponse;
+        }
+
+        /// <summary>
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically, used to fetch
+        ///     [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs).
         /// </summary>
         /// <value>
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a message to more than
-        ///     one destination address.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically, used to fetch
+        ///     [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs).
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
         public string BulkId { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Messages
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
         /// </summary>
-        [DataMember(Name = "messages", EmitDefaultValue = false)]
+        /// <value>An array of message objects of a single message or multiple messages sent under one bulk ID.</value>
+        [DataMember(Name = "messages", IsRequired = true, EmitDefaultValue = false)]
         public List<SmsTextualMessage> Messages { get; set; }
 
         /// <summary>
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce message sending speed if
-        ///     your message call to action involves visiting a website, calling your contact center or similar recipient activity,
-        ///     in which you can handle a limited amount of load. This setting helps you to spread the delivery of the messages
-        ///     over a longer period, allowing your systems or agents to handle incoming traffic in real-time, resulting in better
-        ///     customer satisfaction.
+        ///     Gets or Sets SendingSpeedLimit
         /// </summary>
-        /// <value>
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce message sending speed if
-        ///     your message call to action involves visiting a website, calling your contact center or similar recipient activity,
-        ///     in which you can handle a limited amount of load. This setting helps you to spread the delivery of the messages
-        ///     over a longer period, allowing your systems or agents to handle incoming traffic in real-time, resulting in better
-        ///     customer satisfaction.
-        /// </value>
         [DataMember(Name = "sendingSpeedLimit", EmitDefaultValue = false)]
         public SmsSendingSpeedLimit SendingSpeedLimit { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets UrlOptions
+        /// </summary>
+        [DataMember(Name = "urlOptions", EmitDefaultValue = false)]
+        public SmsUrlOptions UrlOptions { get; set; }
 
         /// <summary>
         ///     Gets or Sets Tracking
         /// </summary>
         [DataMember(Name = "tracking", EmitDefaultValue = false)]
         public SmsTracking Tracking { get; set; }
+
+        /// <summary>
+        ///     Set to true to return smsCount in the response.  Default is false. smsCount is the total count of SMS submitted in
+        ///     the request.  SMS messages have a character limit and messages longer than that limit will be split into multiple
+        ///     SMS and reflected in the total count of SMS submitted.
+        /// </summary>
+        /// <value>
+        ///     Set to true to return smsCount in the response.  Default is false. smsCount is the total count of SMS submitted
+        ///     in the request.  SMS messages have a character limit and messages longer than that limit will be split into
+        ///     multiple SMS and reflected in the total count of SMS submitted.
+        /// </value>
+        [DataMember(Name = "includeSmsCountInResponse", EmitDefaultValue = true)]
+        public bool IncludeSmsCountInResponse { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsAdvancedTextualRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsAdvancedTextualRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsAdvancedTextualRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    Messages == input.Messages ||
+                    (Messages != null &&
+                     input.Messages != null &&
+                     Messages.SequenceEqual(input.Messages))
+                ) &&
+                (
+                    SendingSpeedLimit == input.SendingSpeedLimit ||
+                    (SendingSpeedLimit != null &&
+                     SendingSpeedLimit.Equals(input.SendingSpeedLimit))
+                ) &&
+                (
+                    UrlOptions == input.UrlOptions ||
+                    (UrlOptions != null &&
+                     UrlOptions.Equals(input.UrlOptions))
+                ) &&
+                (
+                    Tracking == input.Tracking ||
+                    (Tracking != null &&
+                     Tracking.Equals(input.Tracking))
+                ) &&
+                (
+                    IncludeSmsCountInResponse == input.IncludeSmsCountInResponse ||
+                    IncludeSmsCountInResponse.Equals(input.IncludeSmsCountInResponse)
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -108,7 +173,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("  BulkId: ").Append(BulkId).Append("\n");
             sb.Append("  Messages: ").Append(Messages).Append("\n");
             sb.Append("  SendingSpeedLimit: ").Append(SendingSpeedLimit).Append("\n");
+            sb.Append("  UrlOptions: ").Append(UrlOptions).Append("\n");
             sb.Append("  Tracking: ").Append(Tracking).Append("\n");
+            sb.Append("  IncludeSmsCountInResponse: ").Append(IncludeSmsCountInResponse).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -133,40 +200,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsAdvancedTextualRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsAdvancedTextualRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsAdvancedTextualRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    Messages == input.Messages ||
-                    Messages != null &&
-                    input.Messages != null &&
-                    Messages.SequenceEqual(input.Messages)
-                ) &&
-                (
-                    SendingSpeedLimit == input.SendingSpeedLimit ||
-                    SendingSpeedLimit != null &&
-                    SendingSpeedLimit.Equals(input.SendingSpeedLimit)
-                ) &&
-                (
-                    Tracking == input.Tracking ||
-                    Tracking != null &&
-                    Tracking.Equals(input.Tracking)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -174,15 +207,18 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (Messages != null)
                     hashCode = hashCode * 59 + Messages.GetHashCode();
                 if (SendingSpeedLimit != null)
                     hashCode = hashCode * 59 + SendingSpeedLimit.GetHashCode();
+                if (UrlOptions != null)
+                    hashCode = hashCode * 59 + UrlOptions.GetHashCode();
                 if (Tracking != null)
                     hashCode = hashCode * 59 + Tracking.GetHashCode();
+                hashCode = hashCode * 59 + IncludeSmsCountInResponse.GetHashCode();
                 return hashCode;
             }
         }

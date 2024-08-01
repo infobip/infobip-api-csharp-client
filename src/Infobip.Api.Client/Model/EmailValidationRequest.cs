@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -43,7 +34,7 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="EmailValidationRequest" /> class.
         /// </summary>
         /// <param name="to">Email address of the recipient. (required).</param>
-        public EmailValidationRequest(string to = default(string))
+        public EmailValidationRequest(string to = default)
         {
             // to ensure "to" is required (not null)
             To = to ?? throw new ArgumentNullException("to");
@@ -55,6 +46,22 @@ namespace Infobip.Api.Client.Model
         /// <value>Email address of the recipient.</value>
         [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
         public string To { get; set; }
+
+        /// <summary>
+        ///     Returns true if EmailValidationRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EmailValidationRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailValidationRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                To == input.To ||
+                (To != null &&
+                 To.Equals(input.To));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -89,22 +96,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailValidationRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailValidationRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailValidationRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                To == input.To ||
-                To != null &&
-                To.Equals(input.To);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -112,7 +103,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (To != null)
                     hashCode = hashCode * 59 + To.GetHashCode();
                 return hashCode;

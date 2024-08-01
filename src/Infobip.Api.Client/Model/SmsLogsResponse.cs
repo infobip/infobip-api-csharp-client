@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,9 +27,10 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsLogsResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsLogsResponse()
+        /// <param name="results">Collection of logs..</param>
+        public SmsLogsResponse(List<SmsLog> results = default)
         {
+            Results = results;
         }
 
         /// <summary>
@@ -44,15 +38,23 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Collection of logs.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
-        public List<SmsLog> Results { get; private set; }
+        public List<SmsLog> Results { get; set; }
 
         /// <summary>
-        ///     Returns false as Results should not be serialized given that it's read-only.
+        ///     Returns true if SmsLogsResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeResults()
+        /// <param name="input">Instance of SmsLogsResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsLogsResponse input)
         {
-            return false;
+            if (input == null)
+                return false;
+
+            return
+                Results == input.Results ||
+                (Results != null &&
+                 input.Results != null &&
+                 Results.SequenceEqual(input.Results));
         }
 
         /// <summary>
@@ -88,23 +90,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsLogsResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsLogsResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsLogsResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Results == input.Results ||
-                Results != null &&
-                input.Results != null &&
-                Results.SequenceEqual(input.Results);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -112,7 +97,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Results != null)
                     hashCode = hashCode * 59 + Results.GetHashCode();
                 return hashCode;

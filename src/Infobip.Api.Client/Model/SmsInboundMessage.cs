@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,164 +25,211 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsInboundMessage" /> class.
         /// </summary>
+        /// <param name="applicationId">
+        ///     Application id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="callbackData">Custom callback data sent over the notifyUrl..</param>
+        /// <param name="cleanText">Content of the message without a keyword (if a keyword was sent)..</param>
+        /// <param name="entityId">
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="from">Sender ID that can be alphanumeric or numeric..</param>
+        /// <param name="keyword">Keyword extracted from the message content..</param>
+        /// <param name="messageId">Unique message ID..</param>
         /// <param name="price">price.</param>
-        public SmsInboundMessage(SmsPrice price = default)
+        /// <param name="receivedAt">
+        ///     Indicates when the Infobip platform received the message. Has the following format: &#x60;
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..
+        /// </param>
+        /// <param name="smsCount">The number of characters within a message.</param>
+        /// <param name="text">Full content of the message..</param>
+        /// <param name="to">The destination address of the message..</param>
+        public SmsInboundMessage(string applicationId = default, string callbackData = default,
+            string cleanText = default, string entityId = default, string from = default, string keyword = default,
+            string messageId = default, MessagePrice price = default, DateTimeOffset receivedAt = default,
+            int smsCount = default, string text = default, string to = default)
         {
+            ApplicationId = applicationId;
+            CallbackData = callbackData;
+            CleanText = cleanText;
+            EntityId = entityId;
+            From = from;
+            Keyword = keyword;
+            MessageId = messageId;
             Price = price;
+            ReceivedAt = receivedAt;
+            SmsCount = smsCount;
+            Text = text;
+            To = to;
         }
 
         /// <summary>
-        ///     Custom callback data can be inserted during the setup phase.
+        ///     Application id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
         /// </summary>
-        /// <value>Custom callback data can be inserted during the setup phase.</value>
-        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
-        public string CallbackData { get; private set; }
+        /// <value>
+        ///     Application id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        public string ApplicationId { get; set; }
 
         /// <summary>
-        ///     Text of received message without a keyword (if a keyword was sent).
+        ///     Custom callback data sent over the notifyUrl.
         /// </summary>
-        /// <value>Text of received message without a keyword (if a keyword was sent).</value>
+        /// <value>Custom callback data sent over the notifyUrl.</value>
+        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
+        public string CallbackData { get; set; }
+
+        /// <summary>
+        ///     Content of the message without a keyword (if a keyword was sent).
+        /// </summary>
+        /// <value>Content of the message without a keyword (if a keyword was sent).</value>
         [DataMember(Name = "cleanText", EmitDefaultValue = false)]
-        public string CleanText { get; private set; }
+        public string CleanText { get; set; }
+
+        /// <summary>
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        public string EntityId { get; set; }
 
         /// <summary>
         ///     Sender ID that can be alphanumeric or numeric.
         /// </summary>
         /// <value>Sender ID that can be alphanumeric or numeric.</value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
-        public string From { get; private set; }
+        public string From { get; set; }
 
         /// <summary>
-        ///     Keyword extracted from the message text.
+        ///     Keyword extracted from the message content.
         /// </summary>
-        /// <value>Keyword extracted from the message text.</value>
+        /// <value>Keyword extracted from the message content.</value>
         [DataMember(Name = "keyword", EmitDefaultValue = false)]
-        public string Keyword { get; private set; }
+        public string Keyword { get; set; }
 
         /// <summary>
-        ///     The ID that uniquely identifies the received message.
+        ///     Unique message ID.
         /// </summary>
-        /// <value>The ID that uniquely identifies the received message.</value>
+        /// <value>Unique message ID.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
-        public string MessageId { get; private set; }
+        public string MessageId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Price
         /// </summary>
         [DataMember(Name = "price", EmitDefaultValue = false)]
-        public SmsPrice Price { get; set; }
+        public MessagePrice Price { get; set; }
 
         /// <summary>
-        ///     Tells when Infobip platform received the message. It has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
+        ///     Indicates when the Infobip platform received the message. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
         ///     HH:mm:ss.SSSZ&#x60;.
         /// </summary>
         /// <value>
-        ///     Tells when Infobip platform received the message. It has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
+        ///     Indicates when the Infobip platform received the message. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
         ///     HH:mm:ss.SSSZ&#x60;.
         /// </value>
         [DataMember(Name = "receivedAt", EmitDefaultValue = false)]
-        public DateTimeOffset ReceivedAt { get; private set; }
+        public DateTimeOffset ReceivedAt { get; set; }
 
         /// <summary>
-        ///     The number of sent message segments.
+        ///     The number of characters within a message
         /// </summary>
-        /// <value>The number of sent message segments.</value>
+        /// <value>The number of characters within a message</value>
         [DataMember(Name = "smsCount", EmitDefaultValue = false)]
-        public int SmsCount { get; private set; }
+        public int SmsCount { get; set; }
 
         /// <summary>
-        ///     Full text of the received message.
+        ///     Full content of the message.
         /// </summary>
-        /// <value>Full text of the received message.</value>
+        /// <value>Full content of the message.</value>
         [DataMember(Name = "text", EmitDefaultValue = false)]
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         /// <summary>
-        ///     The message destination address.
+        ///     The destination address of the message.
         /// </summary>
-        /// <value>The message destination address.</value>
+        /// <value>The destination address of the message.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
-        public string To { get; private set; }
+        public string To { get; set; }
 
         /// <summary>
-        ///     Returns false as CallbackData should not be serialized given that it's read-only.
+        ///     Returns true if SmsInboundMessage instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeCallbackData()
+        /// <param name="input">Instance of SmsInboundMessage to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsInboundMessage input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as CleanText should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeCleanText()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as From should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeFrom()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Keyword should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeKeyword()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as MessageId should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMessageId()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as ReceivedAt should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeReceivedAt()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as SmsCount should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeSmsCount()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Text should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeText()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as To should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeTo()
-        {
-            return false;
+            return
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    CallbackData == input.CallbackData ||
+                    (CallbackData != null &&
+                     CallbackData.Equals(input.CallbackData))
+                ) &&
+                (
+                    CleanText == input.CleanText ||
+                    (CleanText != null &&
+                     CleanText.Equals(input.CleanText))
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    From == input.From ||
+                    (From != null &&
+                     From.Equals(input.From))
+                ) &&
+                (
+                    Keyword == input.Keyword ||
+                    (Keyword != null &&
+                     Keyword.Equals(input.Keyword))
+                ) &&
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    Price == input.Price ||
+                    (Price != null &&
+                     Price.Equals(input.Price))
+                ) &&
+                (
+                    ReceivedAt == input.ReceivedAt ||
+                    (ReceivedAt != null &&
+                     ReceivedAt.Equals(input.ReceivedAt))
+                ) &&
+                (
+                    SmsCount == input.SmsCount ||
+                    SmsCount.Equals(input.SmsCount)
+                ) &&
+                (
+                    Text == input.Text ||
+                    (Text != null &&
+                     Text.Equals(input.Text))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                );
         }
 
         /// <summary>
@@ -202,8 +240,10 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsInboundMessage {\n");
+            sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
             sb.Append("  CleanText: ").Append(CleanText).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
             sb.Append("  Keyword: ").Append(Keyword).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
@@ -236,68 +276,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsInboundMessage instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsInboundMessage to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsInboundMessage input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    CallbackData == input.CallbackData ||
-                    CallbackData != null &&
-                    CallbackData.Equals(input.CallbackData)
-                ) &&
-                (
-                    CleanText == input.CleanText ||
-                    CleanText != null &&
-                    CleanText.Equals(input.CleanText)
-                ) &&
-                (
-                    From == input.From ||
-                    From != null &&
-                    From.Equals(input.From)
-                ) &&
-                (
-                    Keyword == input.Keyword ||
-                    Keyword != null &&
-                    Keyword.Equals(input.Keyword)
-                ) &&
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    Price == input.Price ||
-                    Price != null &&
-                    Price.Equals(input.Price)
-                ) &&
-                (
-                    ReceivedAt == input.ReceivedAt ||
-                    ReceivedAt != null &&
-                    ReceivedAt.Equals(input.ReceivedAt)
-                ) &&
-                (
-                    SmsCount == input.SmsCount ||
-                    SmsCount.Equals(input.SmsCount)
-                ) &&
-                (
-                    Text == input.Text ||
-                    Text != null &&
-                    Text.Equals(input.Text)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -305,11 +283,15 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
+                if (ApplicationId != null)
+                    hashCode = hashCode * 59 + ApplicationId.GetHashCode();
                 if (CallbackData != null)
                     hashCode = hashCode * 59 + CallbackData.GetHashCode();
                 if (CleanText != null)
                     hashCode = hashCode * 59 + CleanText.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
                 if (Keyword != null)

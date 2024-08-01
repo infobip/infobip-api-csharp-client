@@ -11,26 +11,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Infobip.Api.Client;
-using ClientConfiguration = Infobip.Api.Client.Configuration;
 using Infobip.Api.Client.Model;
+using ClientConfiguration = Infobip.Api.Client.Configuration;
 
 namespace Infobip.Api.Client.Api
 {
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Represents a collection of functions to interact with the API endpoints.
     /// </summary>
     public interface ITfaApiSync : IApiAccessor
     {
-        #region Synchronous Operations
-
         /// <summary>
         ///     Create 2FA application
         /// </summary>
@@ -38,9 +31,9 @@ namespace Infobip.Api.Client.Api
         ///     Create and configure a new 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>TfaApplicationResponse</returns>
-        TfaApplicationResponse CreateTfaApplication(TfaApplicationRequest tfaApplicationRequest = default);
+        TfaApplicationResponse CreateTfaApplication(TfaApplicationRequest tfaApplicationRequest);
 
         /// <summary>
         ///     Create 2FA application
@@ -49,37 +42,69 @@ namespace Infobip.Api.Client.Api
         ///     Create and configure a new 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         ApiResponse<TfaApplicationResponse> CreateTfaApplicationWithHttpInfo(
-            TfaApplicationRequest tfaApplicationRequest = default);
+            TfaApplicationRequest tfaApplicationRequest);
 
         /// <summary>
-        ///     Create 2FA message template
+        ///     Create 2FA Email message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
-        ///     templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-application), create one or more [Email message
+        ///     templates](https://www.infobip.com/docs/email/templates) where your PIN will be dynamically included when you send
+        ///     the PIN message over Email.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <returns>TfaEmailMessage</returns>
+        TfaEmailMessage CreateTfaEmailMessageTemplate(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest);
+
+        /// <summary>
+        ///     Create 2FA Email message template
+        /// </summary>
+        /// <remarks>
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-application), create one or more [Email message
+        ///     templates](https://www.infobip.com/docs/email/templates) where your PIN will be dynamically included when you send
+        ///     the PIN message over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <returns>ApiResponse of TfaEmailMessage</returns>
+        ApiResponse<TfaEmailMessage> CreateTfaEmailMessageTemplateWithHttpInfo(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest);
+
+        /// <summary>
+        ///     Create 2FA SMS or Voice message template
+        /// </summary>
+        /// <remarks>
+        ///     Once you have your [2FA application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or
+        ///     more [message templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be
+        ///     dynamically included when you send the PIN message over SMS or Voice.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <returns>TfaMessage</returns>
-        TfaMessage CreateTfaMessageTemplate(string appId, TfaCreateMessageRequest tfaCreateMessageRequest = default);
+        TfaMessage CreateTfaMessageTemplate(string appId, TfaCreateMessageRequest tfaCreateMessageRequest);
 
         /// <summary>
-        ///     Create 2FA message template
+        ///     Create 2FA SMS or Voice message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
-        ///     templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or
+        ///     more [message templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be
+        ///     dynamically included when you send the PIN message over SMS or Voice.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <returns>ApiResponse of TfaMessage</returns>
         ApiResponse<TfaMessage> CreateTfaMessageTemplateWithHttpInfo(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default);
+            TfaCreateMessageRequest tfaCreateMessageRequest);
 
         /// <summary>
         ///     Get 2FA application
@@ -88,7 +113,7 @@ namespace Infobip.Api.Client.Api
         ///     Get a single 2FA application to see its configuration details.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <returns>TfaApplicationResponse</returns>
         TfaApplicationResponse GetTfaApplication(string appId);
 
@@ -99,12 +124,12 @@ namespace Infobip.Api.Client.Api
         ///     Get a single 2FA application to see its configuration details.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         ApiResponse<TfaApplicationResponse> GetTfaApplicationWithHttpInfo(string appId);
 
         /// <summary>
-        ///     Get 2FA applications
+        ///     Get all 2FA applications
         /// </summary>
         /// <remarks>
         ///     An application is a container for 2FA message templates. Use this method to list your applications.
@@ -114,7 +139,7 @@ namespace Infobip.Api.Client.Api
         List<TfaApplicationResponse> GetTfaApplications();
 
         /// <summary>
-        ///     Get 2FA applications
+        ///     Get all 2FA applications
         /// </summary>
         /// <remarks>
         ///     An application is a container for 2FA message templates. Use this method to list your applications.
@@ -148,7 +173,7 @@ namespace Infobip.Api.Client.Api
         ApiResponse<TfaMessage> GetTfaMessageTemplateWithHttpInfo(string appId, string msgId);
 
         /// <summary>
-        ///     Get 2FA message templates
+        ///     Get all 2FA message templates
         /// </summary>
         /// <remarks>
         ///     List all message templates in a 2FA application.
@@ -159,7 +184,7 @@ namespace Infobip.Api.Client.Api
         List<TfaMessage> GetTfaMessageTemplates(string appId);
 
         /// <summary>
-        ///     Get 2FA message templates
+        ///     Get all 2FA message templates
         /// </summary>
         /// <remarks>
         ///     List all message templates in a 2FA application.
@@ -181,8 +206,8 @@ namespace Infobip.Api.Client.Api
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
         /// <returns>TfaVerificationResponse</returns>
-        TfaVerificationResponse GetTfaVerificationStatus(string msisdn, string appId, bool? verified = default(bool?),
-            bool? sent = default(bool?));
+        TfaVerificationResponse GetTfaVerificationStatus(string msisdn, string appId, bool? verified = default,
+            bool? sent = default);
 
         /// <summary>
         ///     Get 2FA verification status
@@ -197,7 +222,33 @@ namespace Infobip.Api.Client.Api
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
         /// <returns>ApiResponse of TfaVerificationResponse</returns>
         ApiResponse<TfaVerificationResponse> GetTfaVerificationStatusWithHttpInfo(string msisdn, string appId,
-            bool? verified = default(bool?), bool? sent = default(bool?));
+            bool? verified = default, bool? sent = default);
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <returns>TfaStartEmailAuthenticationResponse</returns>
+        TfaStartEmailAuthenticationResponse Resend2faPinCodeOverEmail(string pinId,
+            TfaResendPinRequest tfaResendPinRequest);
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
+        ApiResponse<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailWithHttpInfo(string pinId,
+            TfaResendPinRequest tfaResendPinRequest);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -207,10 +258,9 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
-        TfaStartAuthenticationResponse ResendTfaPinCodeOverSms(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default);
+        TfaStartAuthenticationResponse ResendTfaPinCodeOverSms(string pinId, TfaResendPinRequest tfaResendPinRequest);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -220,10 +270,10 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         ApiResponse<TfaStartAuthenticationResponse> ResendTfaPinCodeOverSmsWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default);
+            TfaResendPinRequest tfaResendPinRequest);
 
         /// <summary>
         ///     Resend 2FA PIN code over Voice
@@ -233,10 +283,9 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
-        TfaStartAuthenticationResponse ResendTfaPinCodeOverVoice(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default);
+        TfaStartAuthenticationResponse ResendTfaPinCodeOverVoice(string pinId, TfaResendPinRequest tfaResendPinRequest);
 
         /// <summary>
         ///     Resend 2FA PIN code over Voice
@@ -246,10 +295,36 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         ApiResponse<TfaStartAuthenticationResponse> ResendTfaPinCodeOverVoiceWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default);
+            TfaResendPinRequest tfaResendPinRequest);
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <returns>TfaStartEmailAuthenticationResponse</returns>
+        TfaStartEmailAuthenticationResponse Send2faPinCodeOverEmail(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest);
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
+        ApiResponse<TfaStartEmailAuthenticationResponse> Send2faPinCodeOverEmailWithHttpInfo(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest);
 
         /// <summary>
         ///     Send 2FA PIN code over SMS
@@ -258,15 +333,16 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <returns>TfaStartAuthenticationResponse</returns>
-        TfaStartAuthenticationResponse SendTfaPinCodeOverSms(bool? ncNeeded = default(bool?),
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default);
+        TfaStartAuthenticationResponse SendTfaPinCodeOverSms(
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default);
 
         /// <summary>
         ///     Send 2FA PIN code over SMS
@@ -275,15 +351,16 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
-        ApiResponse<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsWithHttpInfo(bool? ncNeeded = default(bool?),
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default);
+        ApiResponse<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsWithHttpInfo(
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default);
 
         /// <summary>
         ///     Send 2FA PIN code over Voice
@@ -292,10 +369,10 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
         TfaStartAuthenticationResponse SendTfaPinCodeOverVoice(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default);
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest);
 
         /// <summary>
         ///     Send 2FA PIN code over Voice
@@ -304,10 +381,10 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         ApiResponse<TfaStartAuthenticationResponse> SendTfaPinCodeOverVoiceWithHttpInfo(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default);
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest);
 
         /// <summary>
         ///     Update 2FA application
@@ -317,10 +394,9 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>TfaApplicationResponse</returns>
-        TfaApplicationResponse
-            UpdateTfaApplication(string appId, TfaApplicationRequest tfaApplicationRequest = default);
+        TfaApplicationResponse UpdateTfaApplication(string appId, TfaApplicationRequest tfaApplicationRequest);
 
         /// <summary>
         ///     Update 2FA application
@@ -330,74 +406,100 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         ApiResponse<TfaApplicationResponse> UpdateTfaApplicationWithHttpInfo(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default);
+            TfaApplicationRequest tfaApplicationRequest);
 
         /// <summary>
-        ///     Update 2FA message template
+        ///     Update 2FA Email message template
         /// </summary>
         /// <remarks>
-        ///     Change configuration options for your existing 2FA application message template.
+        ///     Change configuration options for your existing 2FA application Email message template.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <returns>TfaEmailMessage</returns>
+        TfaEmailMessage UpdateTfaEmailMessageTemplate(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest);
+
+        /// <summary>
+        ///     Update 2FA Email message template
+        /// </summary>
+        /// <remarks>
+        ///     Change configuration options for your existing 2FA application Email message template.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <returns>ApiResponse of TfaEmailMessage</returns>
+        ApiResponse<TfaEmailMessage> UpdateTfaEmailMessageTemplateWithHttpInfo(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest);
+
+        /// <summary>
+        ///     Update 2FA SMS or Voice message template
+        /// </summary>
+        /// <remarks>
+        ///     Change configuration options for your existing 2FA application SMS or Voice message template.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <returns>TfaMessage</returns>
         TfaMessage UpdateTfaMessageTemplate(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default);
+            TfaUpdateMessageRequest tfaUpdateMessageRequest);
 
         /// <summary>
-        ///     Update 2FA message template
+        ///     Update 2FA SMS or Voice message template
         /// </summary>
         /// <remarks>
-        ///     Change configuration options for your existing 2FA application message template.
+        ///     Change configuration options for your existing 2FA application SMS or Voice message template.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <returns>ApiResponse of TfaMessage</returns>
         ApiResponse<TfaMessage> UpdateTfaMessageTemplateWithHttpInfo(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default);
+            TfaUpdateMessageRequest tfaUpdateMessageRequest);
 
         /// <summary>
-        ///     Verify phone number
+        ///     Verify a PIN
         /// </summary>
         /// <remarks>
-        ///     Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify OTP to confirm successful phone number verification. pinId is received in the response after [sending the
+        ///     OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <returns>TfaVerifyPinResponse</returns>
-        TfaVerifyPinResponse VerifyTfaPhoneNumber(string pinId, TfaVerifyPinRequest tfaVerifyPinRequest = default);
+        TfaVerifyPinResponse VerifyTfaPhoneNumber(string pinId, TfaVerifyPinRequest tfaVerifyPinRequest);
 
         /// <summary>
-        ///     Verify phone number
+        ///     Verify a PIN
         /// </summary>
         /// <remarks>
-        ///     Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify OTP to confirm successful phone number verification. pinId is received in the response after [sending the
+        ///     OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <returns>ApiResponse of TfaVerifyPinResponse</returns>
         ApiResponse<TfaVerifyPinResponse> VerifyTfaPhoneNumberWithHttpInfo(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default);
-
-        #endregion Synchronous Operations
+            TfaVerifyPinRequest tfaVerifyPinRequest);
     }
 
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Represents a collection of functions to interact with the API endpoints.
     /// </summary>
     public interface ITfaApiAsync : IApiAccessor
     {
-        #region Asynchronous Operations
-
         /// <summary>
         ///     Create 2FA application
         /// </summary>
@@ -405,11 +507,11 @@ namespace Infobip.Api.Client.Api
         ///     Create and configure a new 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
-        Task<TfaApplicationResponse> CreateTfaApplicationAsync(TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<TfaApplicationResponse> CreateTfaApplicationAsync(TfaApplicationRequest tfaApplicationRequest,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Create 2FA application
@@ -418,44 +520,75 @@ namespace Infobip.Api.Client.Api
         ///     Create and configure a new 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         Task<ApiResponse<TfaApplicationResponse>> CreateTfaApplicationWithHttpInfoAsync(
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Create 2FA message template
+        ///     Create 2FA Email message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
-        ///     templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-application), create one or more [Email message
+        ///     templates](https://www.infobip.com/docs/email/templates) where your PIN will be dynamically included when you send
+        ///     the PIN message over Email.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaEmailMessage</returns>
+        Task<TfaEmailMessage> CreateTfaEmailMessageTemplateAsync(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Create 2FA Email message template
+        /// </summary>
+        /// <remarks>
+        ///     Once you have your [2FA application](#channels/sms/create-2fa-application), create one or more [Email message
+        ///     templates](https://www.infobip.com/docs/email/templates) where your PIN will be dynamically included when you send
+        ///     the PIN message over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaEmailMessage)</returns>
+        Task<ApiResponse<TfaEmailMessage>> CreateTfaEmailMessageTemplateWithHttpInfoAsync(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Create 2FA SMS or Voice message template
+        /// </summary>
+        /// <remarks>
+        ///     Once you have your [2FA application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or
+        ///     more [message templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be
+        ///     dynamically included when you send the PIN message over SMS or Voice.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
-        Task<TfaMessage> CreateTfaMessageTemplateAsync(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<TfaMessage> CreateTfaMessageTemplateAsync(string appId, TfaCreateMessageRequest tfaCreateMessageRequest,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Create 2FA message template
+        ///     Create 2FA SMS or Voice message template
         /// </summary>
         /// <remarks>
-        ///     Once you have your [2FA application](#channels/sms/create-2fa-message-template), create one or more message
-        ///     templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Once you have your [2FA application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or
+        ///     more [message templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be
+        ///     dynamically included when you send the PIN message over SMS or Voice.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         Task<ApiResponse<TfaMessage>> CreateTfaMessageTemplateWithHttpInfoAsync(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaCreateMessageRequest tfaCreateMessageRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA application
@@ -464,11 +597,11 @@ namespace Infobip.Api.Client.Api
         ///     Get a single 2FA application to see its configuration details.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
-        Task<TfaApplicationResponse> GetTfaApplicationAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<TfaApplicationResponse>
+            GetTfaApplicationAsync(string appId, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA application
@@ -477,14 +610,14 @@ namespace Infobip.Api.Client.Api
         ///     Get a single 2FA application to see its configuration details.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         Task<ApiResponse<TfaApplicationResponse>> GetTfaApplicationWithHttpInfoAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Get 2FA applications
+        ///     Get all 2FA applications
         /// </summary>
         /// <remarks>
         ///     An application is a container for 2FA message templates. Use this method to list your applications.
@@ -492,11 +625,10 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TfaApplicationResponse&gt;</returns>
-        Task<List<TfaApplicationResponse>> GetTfaApplicationsAsync(
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<List<TfaApplicationResponse>> GetTfaApplicationsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Get 2FA applications
+        ///     Get all 2FA applications
         /// </summary>
         /// <remarks>
         ///     An application is a container for 2FA message templates. Use this method to list your applications.
@@ -505,7 +637,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TfaApplicationResponse&gt;)</returns>
         Task<ApiResponse<List<TfaApplicationResponse>>> GetTfaApplicationsWithHttpInfoAsync(
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA message template
@@ -519,7 +651,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
         Task<TfaMessage> GetTfaMessageTemplateAsync(string appId, string msgId,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA message template
@@ -533,10 +665,10 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         Task<ApiResponse<TfaMessage>> GetTfaMessageTemplateWithHttpInfoAsync(string appId, string msgId,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Get 2FA message templates
+        ///     Get all 2FA message templates
         /// </summary>
         /// <remarks>
         ///     List all message templates in a 2FA application.
@@ -545,11 +677,10 @@ namespace Infobip.Api.Client.Api
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TfaMessage&gt;</returns>
-        Task<List<TfaMessage>> GetTfaMessageTemplatesAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<List<TfaMessage>> GetTfaMessageTemplatesAsync(string appId, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Get 2FA message templates
+        ///     Get all 2FA message templates
         /// </summary>
         /// <remarks>
         ///     List all message templates in a 2FA application.
@@ -559,7 +690,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TfaMessage&gt;)</returns>
         Task<ApiResponse<List<TfaMessage>>> GetTfaMessageTemplatesWithHttpInfoAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA verification status
@@ -575,8 +706,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaVerificationResponse</returns>
         Task<TfaVerificationResponse> GetTfaVerificationStatusAsync(string msisdn, string appId,
-            bool? verified = default(bool?), bool? sent = default(bool?),
-            CancellationToken cancellationToken = default(CancellationToken));
+            bool? verified = default, bool? sent = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get 2FA verification status
@@ -592,8 +722,36 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaVerificationResponse)</returns>
         Task<ApiResponse<TfaVerificationResponse>> GetTfaVerificationStatusWithHttpInfoAsync(string msisdn,
-            string appId, bool? verified = default(bool?), bool? sent = default(bool?),
-            CancellationToken cancellationToken = default(CancellationToken));
+            string appId, bool? verified = default, bool? sent = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
+        Task<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailAsync(string pinId,
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
+        Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Resend2faPinCodeOverEmailWithHttpInfoAsync(string pinId,
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -603,12 +761,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         Task<TfaStartAuthenticationResponse> ResendTfaPinCodeOverSmsAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -618,12 +775,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         Task<ApiResponse<TfaStartAuthenticationResponse>> ResendTfaPinCodeOverSmsWithHttpInfoAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over Voice
@@ -633,12 +789,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         Task<TfaStartAuthenticationResponse> ResendTfaPinCodeOverVoiceAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over Voice
@@ -648,12 +803,41 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         Task<ApiResponse<TfaStartAuthenticationResponse>> ResendTfaPinCodeOverVoiceWithHttpInfoAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
+        Task<TfaStartEmailAuthenticationResponse> Send2faPinCodeOverEmailAsync(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email
+        /// </summary>
+        /// <remarks>
+        ///     Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
+        Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Send2faPinCodeOverEmailWithHttpInfoAsync(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send 2FA PIN code over SMS
@@ -662,17 +846,18 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
-        Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsAsync(bool? ncNeeded = default(bool?),
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsAsync(
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send 2FA PIN code over SMS
@@ -681,17 +866,18 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over SMS using a previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         Task<ApiResponse<TfaStartAuthenticationResponse>> SendTfaPinCodeOverSmsWithHttpInfoAsync(
-            bool? ncNeeded = default(bool?), TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send 2FA PIN code over Voice
@@ -700,12 +886,11 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverVoiceAsync(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send 2FA PIN code over Voice
@@ -714,12 +899,11 @@ namespace Infobip.Api.Client.Api
         ///     Send a PIN code over Voice using previously created [message template](#channels/sms/create-2fa-message-template).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         Task<ApiResponse<TfaStartAuthenticationResponse>> SendTfaPinCodeOverVoiceWithHttpInfoAsync(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update 2FA application
@@ -729,12 +913,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
         Task<TfaApplicationResponse> UpdateTfaApplicationAsync(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update 2FA application
@@ -744,87 +927,112 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         Task<ApiResponse<TfaApplicationResponse>> UpdateTfaApplicationWithHttpInfoAsync(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Update 2FA message template
+        ///     Update 2FA Email message template
         /// </summary>
         /// <remarks>
-        ///     Change configuration options for your existing 2FA application message template.
+        ///     Change configuration options for your existing 2FA application Email message template.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaEmailMessage</returns>
+        Task<TfaEmailMessage> UpdateTfaEmailMessageTemplateAsync(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update 2FA Email message template
+        /// </summary>
+        /// <remarks>
+        ///     Change configuration options for your existing 2FA application Email message template.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaEmailMessage)</returns>
+        Task<ApiResponse<TfaEmailMessage>> UpdateTfaEmailMessageTemplateWithHttpInfoAsync(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update 2FA SMS or Voice message template
+        /// </summary>
+        /// <remarks>
+        ///     Change configuration options for your existing 2FA application SMS or Voice message template.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
         Task<TfaMessage> UpdateTfaMessageTemplateAsync(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaUpdateMessageRequest tfaUpdateMessageRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Update 2FA message template
+        ///     Update 2FA SMS or Voice message template
         /// </summary>
         /// <remarks>
-        ///     Change configuration options for your existing 2FA application message template.
+        ///     Change configuration options for your existing 2FA application SMS or Voice message template.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         Task<ApiResponse<TfaMessage>> UpdateTfaMessageTemplateWithHttpInfoAsync(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+            TfaUpdateMessageRequest tfaUpdateMessageRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Verify phone number
+        ///     Verify a PIN
         /// </summary>
         /// <remarks>
-        ///     Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify OTP to confirm successful phone number verification. pinId is received in the response after [sending the
+        ///     OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaVerifyPinResponse</returns>
-        Task<TfaVerifyPinResponse> VerifyTfaPhoneNumberAsync(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
+        Task<TfaVerifyPinResponse> VerifyTfaPhoneNumberAsync(string pinId, TfaVerifyPinRequest tfaVerifyPinRequest,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Verify phone number
+        ///     Verify a PIN
         /// </summary>
         /// <remarks>
-        ///     Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify OTP to confirm successful phone number verification. pinId is received in the response after [sending the
+        ///     OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaVerifyPinResponse)</returns>
         Task<ApiResponse<TfaVerifyPinResponse>> VerifyTfaPhoneNumberWithHttpInfoAsync(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken));
-
-        #endregion Asynchronous Operations
+            TfaVerifyPinRequest tfaVerifyPinRequest, CancellationToken cancellationToken = default);
     }
 
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Represents a collection of functions to interact with the API endpoints.
     /// </summary>
     public interface ITfaApi : ITfaApiSync, ITfaApiAsync
     {
     }
 
     /// <summary>
-    ///     Represents a collection of functions to interact with the API endpoints
+    ///     Represents a collection of functions to interact with the API endpoints.
     /// </summary>
     public class TfaApi : ITfaApi
     {
@@ -846,13 +1054,10 @@ namespace Infobip.Api.Client.Api
         /// <returns></returns>
         public TfaApi(string basePath)
         {
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                new Configuration { BasePath = basePath }
-            );
             ApiClient = new ApiClient(Configuration.BasePath);
-            Client = ApiClient;
             AsynchronousClient = ApiClient;
+            Client = ApiClient;
+            Configuration = new Configuration { BasePath = basePath };
             ExceptionFactory = ClientConfiguration.DefaultExceptionFactory;
         }
 
@@ -864,12 +1069,10 @@ namespace Infobip.Api.Client.Api
         /// <returns></returns>
         public TfaApi(Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                configuration
-            );
+            Configuration = configuration;
             ApiClient = new ApiClient(Configuration.BasePath);
             Client = ApiClient;
             AsynchronousClient = ApiClient;
@@ -904,12 +1107,10 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         public TfaApi(HttpClient client, string basePath)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
 
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                new Configuration { BasePath = basePath }
-            );
+            Configuration = new Configuration { BasePath = basePath };
             ApiClient = new ApiClient(client, Configuration.BasePath);
             Client = ApiClient;
             AsynchronousClient = ApiClient;
@@ -929,13 +1130,13 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         public TfaApi(HttpClient client, Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                configuration
-            );
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+
+            Configuration = configuration;
             ApiClient = new ApiClient(client, Configuration.BasePath);
             Client = ApiClient;
             AsynchronousClient = ApiClient;
@@ -964,13 +1165,13 @@ namespace Infobip.Api.Client.Api
         /// <returns></returns>
         public TfaApi(HttpClient client, HttpClientHandler handler, string basePath)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
 
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                new Configuration { BasePath = basePath }
-            );
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
+            Configuration = new Configuration { BasePath = basePath };
             ApiClient = new ApiClient(client, handler, Configuration.BasePath);
             Client = ApiClient;
             AsynchronousClient = ApiClient;
@@ -987,22 +1188,24 @@ namespace Infobip.Api.Client.Api
         /// <returns></returns>
         public TfaApi(HttpClient client, HttpClientHandler handler, Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            if (client == null) throw new ArgumentNullException(nameof(client));
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            Configuration = ClientConfiguration.MergeConfigurations(
-                GlobalConfiguration.Instance,
-                configuration
-            );
+            if (client == null)
+                throw new ArgumentNullException(nameof(client));
+
+            if (handler == null)
+                throw new ArgumentNullException(nameof(handler));
+
+            Configuration = configuration;
             ApiClient = new ApiClient(client, handler, Configuration.BasePath);
-            Client = ApiClient;
             AsynchronousClient = ApiClient;
+            Client = ApiClient;
             ExceptionFactory = ClientConfiguration.DefaultExceptionFactory;
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="TfaApi" /> class
+        ///     Initializes a new instance of the <see cref="TfaApi" /> class.
         ///     using a Configuration object and client instance.
         /// </summary>
         /// <param name="client">The client interface for synchronous API access.</param>
@@ -1011,14 +1214,14 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ArgumentNullException"></exception>
         public TfaApi(ISynchronousClient client, IAsynchronousClient asyncClient, IReadableConfiguration configuration)
         {
-            Client = client ?? throw new ArgumentNullException(nameof(client));
             AsynchronousClient = asyncClient ?? throw new ArgumentNullException(nameof(asyncClient));
+            Client = client ?? throw new ArgumentNullException(nameof(client));
             Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             ExceptionFactory = ClientConfiguration.DefaultExceptionFactory;
         }
 
         /// <summary>
-        ///     Holds the ApiClient if created
+        ///     Holds the ApiClient if created.
         /// </summary>
         public ApiClient ApiClient { get; set; }
 
@@ -1042,7 +1245,7 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Gets or sets the configuration object
+        ///     Gets or sets the configuration object.
         /// </summary>
         /// <value>An instance of the Configuration</value>
         public IReadableConfiguration Configuration { get; set; }
@@ -1056,6 +1259,7 @@ namespace Infobip.Api.Client.Api
             {
                 if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
                     throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
+
                 return _exceptionFactory;
             }
             set => _exceptionFactory = value;
@@ -1065,9 +1269,9 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA application Create and configure a new 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>TfaApplicationResponse</returns>
-        public TfaApplicationResponse CreateTfaApplication(TfaApplicationRequest tfaApplicationRequest = default)
+        public TfaApplicationResponse CreateTfaApplication(TfaApplicationRequest tfaApplicationRequest)
         {
             var localVarResponse = CreateTfaApplicationWithHttpInfo(tfaApplicationRequest);
             return localVarResponse.Data;
@@ -1077,61 +1281,39 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA application Create and configure a new 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         public ApiResponse<TfaApplicationResponse> CreateTfaApplicationWithHttpInfo(
-            TfaApplicationRequest tfaApplicationRequest = default)
+            TfaApplicationRequest tfaApplicationRequest)
         {
+            // verify the required parameter 'tfaApplicationRequest' is set
+            if (tfaApplicationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaApplicationRequest' when calling TfaApi->CreateTfaApplication");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.Data = tfaApplicationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Post<TfaApplicationResponse>("/2fa/2/applications", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("CreateTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("CreateTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -1140,16 +1322,14 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA application Create and configure a new 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
-        public async Task<TfaApplicationResponse> CreateTfaApplicationAsync(
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<TfaApplicationResponse> CreateTfaApplicationAsync(TfaApplicationRequest tfaApplicationRequest,
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaApplicationResponse> localVarResponse =
-                await CreateTfaApplicationWithHttpInfoAsync(tfaApplicationRequest, cancellationToken)
-                    .ConfigureAwait(false);
+            var localVarResponse = await CreateTfaApplicationWithHttpInfoAsync(tfaApplicationRequest, cancellationToken)
+                .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1157,57 +1337,33 @@ namespace Infobip.Api.Client.Api
         ///     Create 2FA application Create and configure a new 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         public async Task<ApiResponse<TfaApplicationResponse>> CreateTfaApplicationWithHttpInfoAsync(
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default)
         {
+            // verify the required parameter 'tfaApplicationRequest' is set
+            if (tfaApplicationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaApplicationRequest' when calling TfaApi->CreateTfaApplication");
+
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.Data = tfaApplicationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -1215,181 +1371,280 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaApplicationResponse>("/2fa/2/applications", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("CreateTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("CreateTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
-        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA Email message template Once you have your [2FA application](#channels/sms/create-2fa-application),
+        ///     create one or more [Email message templates](https://www.infobip.com/docs/email/templates) where your PIN will be
+        ///     dynamically included when you send the PIN message over Email.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <returns>TfaEmailMessage</returns>
+        public TfaEmailMessage CreateTfaEmailMessageTemplate(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest)
+        {
+            var localVarResponse = CreateTfaEmailMessageTemplateWithHttpInfo(appId, tfaCreateEmailMessageRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Create 2FA Email message template Once you have your [2FA application](#channels/sms/create-2fa-application),
+        ///     create one or more [Email message templates](https://www.infobip.com/docs/email/templates) where your PIN will be
+        ///     dynamically included when you send the PIN message over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <returns>ApiResponse of TfaEmailMessage</returns>
+        public ApiResponse<TfaEmailMessage> CreateTfaEmailMessageTemplateWithHttpInfo(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest)
+        {
+            // verify the required parameter 'appId' is set
+            if (appId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'appId' when calling TfaApi->CreateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'tfaCreateEmailMessageRequest' is set
+            if (tfaCreateEmailMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaCreateEmailMessageRequest' when calling TfaApi->CreateTfaEmailMessageTemplate");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
+            localVarRequestOptions.Data = tfaCreateEmailMessageRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Post<TfaEmailMessage>("/2fa/2/applications/{appId}/email/messages",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("CreateTfaEmailMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Create 2FA Email message template Once you have your [2FA application](#channels/sms/create-2fa-application),
+        ///     create one or more [Email message templates](https://www.infobip.com/docs/email/templates) where your PIN will be
+        ///     dynamically included when you send the PIN message over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaEmailMessage</returns>
+        public async Task<TfaEmailMessage> CreateTfaEmailMessageTemplateAsync(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest, CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await CreateTfaEmailMessageTemplateWithHttpInfoAsync(appId, tfaCreateEmailMessageRequest,
+                    cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Create 2FA Email message template Once you have your [2FA application](#channels/sms/create-2fa-application),
+        ///     create one or more [Email message templates](https://www.infobip.com/docs/email/templates) where your PIN will be
+        ///     dynamically included when you send the PIN message over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaEmailMessage)</returns>
+        public async Task<ApiResponse<TfaEmailMessage>> CreateTfaEmailMessageTemplateWithHttpInfoAsync(string appId,
+            TfaCreateEmailMessageRequest tfaCreateEmailMessageRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'appId' is set
+            if (appId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'appId' when calling TfaApi->CreateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'tfaCreateEmailMessageRequest' is set
+            if (tfaCreateEmailMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaCreateEmailMessageRequest' when calling TfaApi->CreateTfaEmailMessageTemplate");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
+            localVarRequestOptions.Data = tfaCreateEmailMessageRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<TfaEmailMessage>("/2fa/2/applications/{appId}/email/messages", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("CreateTfaEmailMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Create 2FA SMS or Voice message template Once you have your [2FA
+        ///     application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or more [message
+        ///     templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be dynamically
+        ///     included when you send the PIN message over SMS or Voice.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <returns>TfaMessage</returns>
-        public TfaMessage CreateTfaMessageTemplate(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default)
+        public TfaMessage CreateTfaMessageTemplate(string appId, TfaCreateMessageRequest tfaCreateMessageRequest)
         {
             var localVarResponse = CreateTfaMessageTemplateWithHttpInfo(appId, tfaCreateMessageRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
-        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA SMS or Voice message template Once you have your [2FA
+        ///     application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or more [message
+        ///     templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be dynamically
+        ///     included when you send the PIN message over SMS or Voice.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <returns>ApiResponse of TfaMessage</returns>
         public ApiResponse<TfaMessage> CreateTfaMessageTemplateWithHttpInfo(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default)
+            TfaCreateMessageRequest tfaCreateMessageRequest)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'appId' when calling TfaApi->CreateTfaMessageTemplate");
 
+            // verify the required parameter 'tfaCreateMessageRequest' is set
+            if (tfaCreateMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaCreateMessageRequest' when calling TfaApi->CreateTfaMessageTemplate");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.Data = tfaCreateMessageRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Post<TfaMessage>("/2fa/2/applications/{appId}/messages",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("CreateTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("CreateTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
-        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA SMS or Voice message template Once you have your [2FA
+        ///     application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or more [message
+        ///     templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be dynamically
+        ///     included when you send the PIN message over SMS or Voice.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
         public async Task<TfaMessage> CreateTfaMessageTemplateAsync(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaCreateMessageRequest tfaCreateMessageRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaMessage> localVarResponse =
+            var localVarResponse =
                 await CreateTfaMessageTemplateWithHttpInfoAsync(appId, tfaCreateMessageRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Create 2FA message template Once you have your [2FA application](#channels/sms/create-2fa-message-template), create
-        ///     one or more message templates where your PIN will be dynamically included when you send the PIN message.
+        ///     Create 2FA SMS or Voice message template Once you have your [2FA
+        ///     application](#channels/sms/2fa/2fa-configuration/create-2fa-application), create one or more [message
+        ///     templates](#channels/sms/2fa/2fa-configuration/create-2fa-message-template) where your PIN will be dynamically
+        ///     included when you send the PIN message over SMS or Voice.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
-        /// <param name="tfaCreateMessageRequest"> (optional)</param>
+        /// <param name="tfaCreateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         public async Task<ApiResponse<TfaMessage>> CreateTfaMessageTemplateWithHttpInfoAsync(string appId,
-            TfaCreateMessageRequest tfaCreateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaCreateMessageRequest tfaCreateMessageRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'appId' when calling TfaApi->CreateTfaMessageTemplate");
 
+            // verify the required parameter 'tfaCreateMessageRequest' is set
+            if (tfaCreateMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaCreateMessageRequest' when calling TfaApi->CreateTfaMessageTemplate");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.Data = tfaCreateMessageRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -1397,8 +1652,9 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaMessage>("/2fa/2/applications/{appId}/messages", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("CreateTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("CreateTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -1407,7 +1663,7 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA application Get a single 2FA application to see its configuration details.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <returns>TfaApplicationResponse</returns>
         public TfaApplicationResponse GetTfaApplication(string appId)
         {
@@ -1419,7 +1675,7 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA application Get a single 2FA application to see its configuration details.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         public ApiResponse<TfaApplicationResponse> GetTfaApplicationWithHttpInfo(string appId)
         {
@@ -1430,53 +1686,28 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Get<TfaApplicationResponse>("/2fa/2/applications/{appId}", localVarRequestOptions,
                     Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -1485,13 +1716,13 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA application Get a single 2FA application to see its configuration details.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
         public async Task<TfaApplicationResponse> GetTfaApplicationAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaApplicationResponse> localVarResponse =
+            var localVarResponse =
                 await GetTfaApplicationWithHttpInfoAsync(appId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -1500,11 +1731,11 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA application Get a single 2FA application to see its configuration details.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="appId">Requested application ID.</param>
+        /// <param name="appId">ID of application for which configuration view was requested.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         public async Task<ApiResponse<TfaApplicationResponse>> GetTfaApplicationWithHttpInfoAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
@@ -1514,46 +1745,19 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -1561,26 +1765,27 @@ namespace Infobip.Api.Client.Api
                 .GetAsync<TfaApplicationResponse>("/2fa/2/applications/{appId}", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get 2FA applications An application is a container for 2FA message templates. Use this method to list your
+        ///     Get all 2FA applications An application is a container for 2FA message templates. Use this method to list your
         ///     applications.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;TfaApplicationResponse&gt;</returns>
         public List<TfaApplicationResponse> GetTfaApplications()
         {
-            ApiResponse<List<TfaApplicationResponse>> localVarResponse = GetTfaApplicationsWithHttpInfo();
+            var localVarResponse = GetTfaApplicationsWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get 2FA applications An application is a container for 2FA message templates. Use this method to list your
+        ///     Get all 2FA applications An application is a container for 2FA message templates. Use this method to list your
         ///     applications.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -1589,121 +1794,68 @@ namespace Infobip.Api.Client.Api
         {
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Get<List<TfaApplicationResponse>>("/2fa/2/applications", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaApplications", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaApplications", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get 2FA applications An application is a container for 2FA message templates. Use this method to list your
+        ///     Get all 2FA applications An application is a container for 2FA message templates. Use this method to list your
         ///     applications.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TfaApplicationResponse&gt;</returns>
         public async Task<List<TfaApplicationResponse>> GetTfaApplicationsAsync(
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<List<TfaApplicationResponse>> localVarResponse =
-                await GetTfaApplicationsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetTfaApplicationsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get 2FA applications An application is a container for 2FA message templates. Use this method to list your
+        ///     Get all 2FA applications An application is a container for 2FA message templates. Use this method to list your
         ///     applications.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TfaApplicationResponse&gt;)</returns>
         public async Task<ApiResponse<List<TfaApplicationResponse>>> GetTfaApplicationsWithHttpInfoAsync(
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -1711,8 +1863,9 @@ namespace Infobip.Api.Client.Api
                 .GetAsync<List<TfaApplicationResponse>>("/2fa/2/applications", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaApplications", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaApplications", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -1751,53 +1904,28 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Get<TfaMessage>("/2fa/2/applications/{appId}/messages/{msgId}",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -1811,10 +1939,10 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
         public async Task<TfaMessage> GetTfaMessageTemplateAsync(string appId, string msgId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaMessage> localVarResponse =
-                await GetTfaMessageTemplateWithHttpInfoAsync(appId, msgId, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetTfaMessageTemplateWithHttpInfoAsync(appId, msgId, cancellationToken)
+                .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1827,7 +1955,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         public async Task<ApiResponse<TfaMessage>> GetTfaMessageTemplateWithHttpInfoAsync(string appId, string msgId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
@@ -1842,47 +1970,20 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -1890,26 +1991,27 @@ namespace Infobip.Api.Client.Api
                 .GetAsync<TfaMessage>("/2fa/2/applications/{appId}/messages/{msgId}", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get 2FA message templates List all message templates in a 2FA application.
+        ///     Get all 2FA message templates List all message templates in a 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <returns>List&lt;TfaMessage&gt;</returns>
         public List<TfaMessage> GetTfaMessageTemplates(string appId)
         {
-            ApiResponse<List<TfaMessage>> localVarResponse = GetTfaMessageTemplatesWithHttpInfo(appId);
+            var localVarResponse = GetTfaMessageTemplatesWithHttpInfo(appId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get 2FA message templates List all message templates in a 2FA application.
+        ///     Get all 2FA message templates List all message templates in a 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
@@ -1923,80 +2025,55 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Get<List<TfaMessage>>("/2fa/2/applications/{appId}/messages",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaMessageTemplates", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaMessageTemplates", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Get 2FA message templates List all message templates in a 2FA application.
+        ///     Get all 2FA message templates List all message templates in a 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;TfaMessage&gt;</returns>
         public async Task<List<TfaMessage>> GetTfaMessageTemplatesAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<List<TfaMessage>> localVarResponse =
-                await GetTfaMessageTemplatesWithHttpInfoAsync(appId, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetTfaMessageTemplatesWithHttpInfoAsync(appId, cancellationToken)
+                .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get 2FA message templates List all message templates in a 2FA application.
+        ///     Get all 2FA message templates List all message templates in a 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;TfaMessage&gt;)</returns>
         public async Task<ApiResponse<List<TfaMessage>>> GetTfaMessageTemplatesWithHttpInfoAsync(string appId,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
@@ -2006,46 +2083,19 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2053,8 +2103,9 @@ namespace Infobip.Api.Client.Api
                 .GetAsync<List<TfaMessage>>("/2fa/2/applications/{appId}/messages", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaMessageTemplates", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaMessageTemplates", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2068,8 +2119,8 @@ namespace Infobip.Api.Client.Api
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
         /// <returns>TfaVerificationResponse</returns>
-        public TfaVerificationResponse GetTfaVerificationStatus(string msisdn, string appId,
-            bool? verified = default(bool?), bool? sent = default(bool?))
+        public TfaVerificationResponse GetTfaVerificationStatus(string msisdn, string appId, bool? verified = default,
+            bool? sent = default)
         {
             var localVarResponse = GetTfaVerificationStatusWithHttpInfo(msisdn, appId, verified, sent);
             return localVarResponse.Data;
@@ -2085,7 +2136,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
         /// <returns>ApiResponse of TfaVerificationResponse</returns>
         public ApiResponse<TfaVerificationResponse> GetTfaVerificationStatusWithHttpInfo(string msisdn, string appId,
-            bool? verified = default(bool?), bool? sent = default(bool?))
+            bool? verified = default, bool? sent = default)
         {
             // verify the required parameter 'msisdn' is set
             if (msisdn == null)
@@ -2099,23 +2150,13 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "msisdn", msisdn));
@@ -2125,31 +2166,16 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sent", sent));
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Get<TfaVerificationResponse>("/2fa/2/applications/{appId}/verifications",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaVerificationStatus", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaVerificationStatus", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2165,10 +2191,9 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaVerificationResponse</returns>
         public async Task<TfaVerificationResponse> GetTfaVerificationStatusAsync(string msisdn, string appId,
-            bool? verified = default(bool?), bool? sent = default(bool?),
-            CancellationToken cancellationToken = default(CancellationToken))
+            bool? verified = default, bool? sent = default, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaVerificationResponse> localVarResponse =
+            var localVarResponse =
                 await GetTfaVerificationStatusWithHttpInfoAsync(msisdn, appId, verified, sent, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2185,8 +2210,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaVerificationResponse)</returns>
         public async Task<ApiResponse<TfaVerificationResponse>> GetTfaVerificationStatusWithHttpInfoAsync(string msisdn,
-            string appId, bool? verified = default(bool?), bool? sent = default(bool?),
-            CancellationToken cancellationToken = default(CancellationToken))
+            string appId, bool? verified = default, bool? sent = default, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'msisdn' is set
             if (msisdn == null)
@@ -2201,24 +2225,13 @@ namespace Infobip.Api.Client.Api
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-            };
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "msisdn", msisdn));
@@ -2228,24 +2241,8 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sent", sent));
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2253,8 +2250,140 @@ namespace Infobip.Api.Client.Api
                 .GetAsync<TfaVerificationResponse>("/2fa/2/applications/{appId}/verifications", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("GetTfaVerificationStatus", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("GetTfaVerificationStatus", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <returns>TfaStartEmailAuthenticationResponse</returns>
+        public TfaStartEmailAuthenticationResponse Resend2faPinCodeOverEmail(string pinId,
+            TfaResendPinRequest tfaResendPinRequest)
+        {
+            var localVarResponse = Resend2faPinCodeOverEmailWithHttpInfo(pinId, tfaResendPinRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
+        public ApiResponse<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailWithHttpInfo(string pinId,
+            TfaResendPinRequest tfaResendPinRequest)
+        {
+            // verify the required parameter 'pinId' is set
+            if (pinId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'pinId' when calling TfaApi->Resend2faPinCodeOverEmail");
+
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->Resend2faPinCodeOverEmail");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
+            localVarRequestOptions.Data = tfaResendPinRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Post<TfaStartEmailAuthenticationResponse>("/2fa/2/pin/{pinId}/resend/email",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("Resend2faPinCodeOverEmail", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
+        public async Task<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailAsync(string pinId,
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await Resend2faPinCodeOverEmailWithHttpInfoAsync(pinId, tfaResendPinRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Resend 2FA PIN code over Email If needed, you can resend the same (previously sent) PIN code over Email.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="pinId">ID of the pin code that has to be verified.</param>
+        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
+        public async Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Resend2faPinCodeOverEmailWithHttpInfoAsync(
+            string pinId, TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'pinId' is set
+            if (pinId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'pinId' when calling TfaApi->Resend2faPinCodeOverEmail");
+
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->Resend2faPinCodeOverEmail");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
+            localVarRequestOptions.Data = tfaResendPinRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<TfaStartEmailAuthenticationResponse>("/2fa/2/pin/{pinId}/resend/email",
+                    localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("Resend2faPinCodeOverEmail", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2264,10 +2393,10 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
         public TfaStartAuthenticationResponse ResendTfaPinCodeOverSms(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default)
+            TfaResendPinRequest tfaResendPinRequest)
         {
             var localVarResponse = ResendTfaPinCodeOverSmsWithHttpInfo(pinId, tfaResendPinRequest);
             return localVarResponse.Data;
@@ -2278,67 +2407,45 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         public ApiResponse<TfaStartAuthenticationResponse> ResendTfaPinCodeOverSmsWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default)
+            TfaResendPinRequest tfaResendPinRequest)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->ResendTfaPinCodeOverSms");
 
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->ResendTfaPinCodeOverSms");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaResendPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Post<TfaStartAuthenticationResponse>("/2fa/2/pin/{pinId}/resend",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverSms", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverSms", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2348,14 +2455,13 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         public async Task<TfaStartAuthenticationResponse> ResendTfaPinCodeOverSmsAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaStartAuthenticationResponse> localVarResponse =
+            var localVarResponse =
                 await ResendTfaPinCodeOverSmsWithHttpInfoAsync(pinId, tfaResendPinRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2366,64 +2472,39 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         public async Task<ApiResponse<TfaStartAuthenticationResponse>> ResendTfaPinCodeOverSmsWithHttpInfoAsync(
-            string pinId, TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            string pinId, TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->ResendTfaPinCodeOverSms");
 
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->ResendTfaPinCodeOverSms");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaResendPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2431,8 +2512,9 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaStartAuthenticationResponse>("/2fa/2/pin/{pinId}/resend", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverSms", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverSms", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2442,10 +2524,10 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
         public TfaStartAuthenticationResponse ResendTfaPinCodeOverVoice(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default)
+            TfaResendPinRequest tfaResendPinRequest)
         {
             var localVarResponse = ResendTfaPinCodeOverVoiceWithHttpInfo(pinId, tfaResendPinRequest);
             return localVarResponse.Data;
@@ -2456,67 +2538,45 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         public ApiResponse<TfaStartAuthenticationResponse> ResendTfaPinCodeOverVoiceWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default)
+            TfaResendPinRequest tfaResendPinRequest)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->ResendTfaPinCodeOverVoice");
 
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->ResendTfaPinCodeOverVoice");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaResendPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Post<TfaStartAuthenticationResponse>("/2fa/2/pin/{pinId}/resend/voice",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverVoice", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverVoice", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2526,14 +2586,13 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         public async Task<TfaStartAuthenticationResponse> ResendTfaPinCodeOverVoiceAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaStartAuthenticationResponse> localVarResponse =
+            var localVarResponse =
                 await ResendTfaPinCodeOverVoiceWithHttpInfoAsync(pinId, tfaResendPinRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2544,64 +2603,39 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"> (optional)</param>
+        /// <param name="tfaResendPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         public async Task<ApiResponse<TfaStartAuthenticationResponse>> ResendTfaPinCodeOverVoiceWithHttpInfoAsync(
-            string pinId, TfaResendPinRequest tfaResendPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            string pinId, TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->ResendTfaPinCodeOverVoice");
 
+            // verify the required parameter 'tfaResendPinRequest' is set
+            if (tfaResendPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->ResendTfaPinCodeOverVoice");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaResendPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2609,8 +2643,131 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaStartAuthenticationResponse>("/2fa/2/pin/{pinId}/resend/voice", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverVoice", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("ResendTfaPinCodeOverVoice", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <returns>TfaStartEmailAuthenticationResponse</returns>
+        public TfaStartEmailAuthenticationResponse Send2faPinCodeOverEmail(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest)
+        {
+            var localVarResponse = Send2faPinCodeOverEmailWithHttpInfo(tfaStartEmailAuthenticationRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
+        public ApiResponse<TfaStartEmailAuthenticationResponse> Send2faPinCodeOverEmailWithHttpInfo(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest)
+        {
+            // verify the required parameter 'tfaStartEmailAuthenticationRequest' is set
+            if (tfaStartEmailAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartEmailAuthenticationRequest' when calling TfaApi->Send2faPinCodeOverEmail");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = tfaStartEmailAuthenticationRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse =
+                Client.Post<TfaStartEmailAuthenticationResponse>("/2fa/2/pin/email", localVarRequestOptions,
+                    Configuration);
+
+            var exception = ExceptionFactory?.Invoke("Send2faPinCodeOverEmail", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
+        public async Task<TfaStartEmailAuthenticationResponse> Send2faPinCodeOverEmailAsync(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await Send2faPinCodeOverEmailWithHttpInfoAsync(tfaStartEmailAuthenticationRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Send 2FA PIN code over Email Send a PIN code over Email using previously created [Email message
+        ///     template](#channels/sms/2fa/2fa-configuration/create-2fa-email-message-template).
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartEmailAuthenticationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
+        public async Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Send2faPinCodeOverEmailWithHttpInfoAsync(
+            TfaStartEmailAuthenticationRequest tfaStartEmailAuthenticationRequest,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'tfaStartEmailAuthenticationRequest' is set
+            if (tfaStartEmailAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartEmailAuthenticationRequest' when calling TfaApi->Send2faPinCodeOverEmail");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = tfaStartEmailAuthenticationRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<TfaStartEmailAuthenticationResponse>("/2fa/2/pin/email", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("Send2faPinCodeOverEmail", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2620,17 +2777,18 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <returns>TfaStartAuthenticationResponse</returns>
-        public TfaStartAuthenticationResponse SendTfaPinCodeOverSms(bool? ncNeeded = default(bool?),
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default)
+        public TfaStartAuthenticationResponse SendTfaPinCodeOverSms(
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default)
         {
-            var localVarResponse = SendTfaPinCodeOverSmsWithHttpInfo(ncNeeded, tfaStartAuthenticationRequest);
+            var localVarResponse = SendTfaPinCodeOverSmsWithHttpInfo(tfaStartAuthenticationRequest, ncNeeded);
             return localVarResponse.Data;
         }
 
@@ -2639,68 +2797,47 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         public ApiResponse<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsWithHttpInfo(
-            bool? ncNeeded = default(bool?), TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default)
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default)
         {
+            // verify the required parameter 'tfaStartAuthenticationRequest' is set
+            if (tfaStartAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartAuthenticationRequest' when calling TfaApi->SendTfaPinCodeOverSms");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             if (ncNeeded != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "ncNeeded", ncNeeded));
             localVarRequestOptions.Data = tfaStartAuthenticationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Post<TfaStartAuthenticationResponse>("/2fa/2/pin", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverSms", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverSms", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2710,20 +2847,21 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
-        public async Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsAsync(bool? ncNeeded = default(bool?),
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverSmsAsync(
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default,
+            CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaStartAuthenticationResponse> localVarResponse =
-                await SendTfaPinCodeOverSmsWithHttpInfoAsync(ncNeeded, tfaStartAuthenticationRequest, cancellationToken)
+            var localVarResponse =
+                await SendTfaPinCodeOverSmsWithHttpInfoAsync(tfaStartAuthenticationRequest, ncNeeded, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -2733,64 +2871,42 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="ncNeeded">
-        ///     Indicates if Number Lookup is needed before sending the 2FA message. If the parameter value is
-        ///     true, Number Lookup will be requested before sending the SMS. If the value is false, the SMS will be sent without
-        ///     requesting Number Lookup. Field&#39;s default value is &#x60;true&#x60;. (optional)
+        ///     Indicates if [Number Lookup](https://www.infobip.com/docs/api/connectivity/number-lookup) is
+        ///     needed before sending the 2FA message. If the parameter value is true, Number Lookup will be requested before
+        ///     sending the SMS. If the value is false, the SMS will be sent without requesting Number Lookup. Field&#39;s default
+        ///     value is &#x60;true&#x60;. (optional)
         /// </param>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         public async Task<ApiResponse<TfaStartAuthenticationResponse>> SendTfaPinCodeOverSmsWithHttpInfoAsync(
-            bool? ncNeeded = default(bool?), TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, bool? ncNeeded = default,
+            CancellationToken cancellationToken = default)
         {
+            // verify the required parameter 'tfaStartAuthenticationRequest' is set
+            if (tfaStartAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartAuthenticationRequest' when calling TfaApi->SendTfaPinCodeOverSms");
+
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             if (ncNeeded != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "ncNeeded", ncNeeded));
             localVarRequestOptions.Data = tfaStartAuthenticationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2798,8 +2914,9 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaStartAuthenticationResponse>("/2fa/2/pin", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverSms", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverSms", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2809,10 +2926,10 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <returns>TfaStartAuthenticationResponse</returns>
         public TfaStartAuthenticationResponse SendTfaPinCodeOverVoice(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default)
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest)
         {
             var localVarResponse = SendTfaPinCodeOverVoiceWithHttpInfo(tfaStartAuthenticationRequest);
             return localVarResponse.Data;
@@ -2823,61 +2940,39 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <returns>ApiResponse of TfaStartAuthenticationResponse</returns>
         public ApiResponse<TfaStartAuthenticationResponse> SendTfaPinCodeOverVoiceWithHttpInfo(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default)
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest)
         {
+            // verify the required parameter 'tfaStartAuthenticationRequest' is set
+            if (tfaStartAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartAuthenticationRequest' when calling TfaApi->SendTfaPinCodeOverVoice");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.Data = tfaStartAuthenticationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Post<TfaStartAuthenticationResponse>("/2fa/2/pin/voice", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverVoice", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverVoice", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2887,14 +2982,13 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartAuthenticationResponse</returns>
         public async Task<TfaStartAuthenticationResponse> SendTfaPinCodeOverVoiceAsync(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaStartAuthenticationResponse> localVarResponse =
+            var localVarResponse =
                 await SendTfaPinCodeOverVoiceWithHttpInfoAsync(tfaStartAuthenticationRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2905,57 +2999,33 @@ namespace Infobip.Api.Client.Api
         ///     template](#channels/sms/create-2fa-message-template).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tfaStartAuthenticationRequest"> (optional)</param>
+        /// <param name="tfaStartAuthenticationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartAuthenticationResponse)</returns>
         public async Task<ApiResponse<TfaStartAuthenticationResponse>> SendTfaPinCodeOverVoiceWithHttpInfoAsync(
-            TfaStartAuthenticationRequest tfaStartAuthenticationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaStartAuthenticationRequest tfaStartAuthenticationRequest, CancellationToken cancellationToken = default)
         {
+            // verify the required parameter 'tfaStartAuthenticationRequest' is set
+            if (tfaStartAuthenticationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaStartAuthenticationRequest' when calling TfaApi->SendTfaPinCodeOverVoice");
+
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.Data = tfaStartAuthenticationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -2963,8 +3033,9 @@ namespace Infobip.Api.Client.Api
                 .PostAsync<TfaStartAuthenticationResponse>("/2fa/2/pin/voice", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverVoice", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("SendTfaPinCodeOverVoice", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -2974,10 +3045,9 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>TfaApplicationResponse</returns>
-        public TfaApplicationResponse UpdateTfaApplication(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default)
+        public TfaApplicationResponse UpdateTfaApplication(string appId, TfaApplicationRequest tfaApplicationRequest)
         {
             var localVarResponse = UpdateTfaApplicationWithHttpInfo(appId, tfaApplicationRequest);
             return localVarResponse.Data;
@@ -2988,68 +3058,46 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <returns>ApiResponse of TfaApplicationResponse</returns>
         public ApiResponse<TfaApplicationResponse> UpdateTfaApplicationWithHttpInfo(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default)
+            TfaApplicationRequest tfaApplicationRequest)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'appId' when calling TfaApi->UpdateTfaApplication");
 
+            // verify the required parameter 'tfaApplicationRequest' is set
+            if (tfaApplicationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaApplicationRequest' when calling TfaApi->UpdateTfaApplication");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.Data = tfaApplicationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Put<TfaApplicationResponse>("/2fa/2/applications/{appId}", localVarRequestOptions,
                     Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("UpdateTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
@@ -3059,14 +3107,13 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaApplicationResponse</returns>
         public async Task<TfaApplicationResponse> UpdateTfaApplicationAsync(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaApplicationResponse> localVarResponse =
+            var localVarResponse =
                 await UpdateTfaApplicationWithHttpInfoAsync(appId, tfaApplicationRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
@@ -3077,64 +3124,39 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application that should be updated.</param>
-        /// <param name="tfaApplicationRequest"> (optional)</param>
+        /// <param name="tfaApplicationRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaApplicationResponse)</returns>
         public async Task<ApiResponse<TfaApplicationResponse>> UpdateTfaApplicationWithHttpInfoAsync(string appId,
-            TfaApplicationRequest tfaApplicationRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaApplicationRequest tfaApplicationRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'appId' when calling TfaApi->UpdateTfaApplication");
 
+            // verify the required parameter 'tfaApplicationRequest' is set
+            if (tfaApplicationRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaApplicationRequest' when calling TfaApi->UpdateTfaApplication");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.Data = tfaApplicationRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -3142,37 +3164,193 @@ namespace Infobip.Api.Client.Api
                 .PutAsync<TfaApplicationResponse>("/2fa/2/applications/{appId}", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateTfaApplication", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("UpdateTfaApplication", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Update 2FA message template Change configuration options for your existing 2FA application message template.
+        ///     Update 2FA Email message template Change configuration options for your existing 2FA application Email message
+        ///     template.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <returns>TfaEmailMessage</returns>
+        public TfaEmailMessage UpdateTfaEmailMessageTemplate(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest)
+        {
+            var localVarResponse =
+                UpdateTfaEmailMessageTemplateWithHttpInfo(appId, msgId, tfaUpdateEmailMessageRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update 2FA Email message template Change configuration options for your existing 2FA application Email message
+        ///     template.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <returns>ApiResponse of TfaEmailMessage</returns>
+        public ApiResponse<TfaEmailMessage> UpdateTfaEmailMessageTemplateWithHttpInfo(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest)
+        {
+            // verify the required parameter 'appId' is set
+            if (appId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'appId' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'msgId' is set
+            if (msgId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'msgId' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'tfaUpdateEmailMessageRequest' is set
+            if (tfaUpdateEmailMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaUpdateEmailMessageRequest' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
+            localVarRequestOptions.Data = tfaUpdateEmailMessageRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Put<TfaEmailMessage>("/2fa/2/applications/{appId}/email/messages/{msgId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("UpdateTfaEmailMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update 2FA Email message template Change configuration options for your existing 2FA application Email message
+        ///     template.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of TfaEmailMessage</returns>
+        public async Task<TfaEmailMessage> UpdateTfaEmailMessageTemplateAsync(string appId, string msgId,
+            TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest, CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await UpdateTfaEmailMessageTemplateWithHttpInfoAsync(appId, msgId, tfaUpdateEmailMessageRequest,
+                    cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update 2FA Email message template Change configuration options for your existing 2FA application Email message
+        ///     template.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateEmailMessageRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (TfaEmailMessage)</returns>
+        public async Task<ApiResponse<TfaEmailMessage>> UpdateTfaEmailMessageTemplateWithHttpInfoAsync(string appId,
+            string msgId, TfaUpdateEmailMessageRequest tfaUpdateEmailMessageRequest,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'appId' is set
+            if (appId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'appId' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'msgId' is set
+            if (msgId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'msgId' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+            // verify the required parameter 'tfaUpdateEmailMessageRequest' is set
+            if (tfaUpdateEmailMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaUpdateEmailMessageRequest' when calling TfaApi->UpdateTfaEmailMessageTemplate");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
+            localVarRequestOptions.Data = tfaUpdateEmailMessageRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PutAsync<TfaEmailMessage>("/2fa/2/applications/{appId}/email/messages/{msgId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("UpdateTfaEmailMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update 2FA SMS or Voice message template Change configuration options for your existing 2FA application SMS or
+        ///     Voice message template.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="appId">ID of application for which requested message was created.</param>
+        /// <param name="msgId">Requested message ID.</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <returns>TfaMessage</returns>
         public TfaMessage UpdateTfaMessageTemplate(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default)
+            TfaUpdateMessageRequest tfaUpdateMessageRequest)
         {
             var localVarResponse = UpdateTfaMessageTemplateWithHttpInfo(appId, msgId, tfaUpdateMessageRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Update 2FA message template Change configuration options for your existing 2FA application message template.
+        ///     Update 2FA SMS or Voice message template Change configuration options for your existing 2FA application SMS or
+        ///     Voice message template.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <returns>ApiResponse of TfaMessage</returns>
         public ApiResponse<TfaMessage> UpdateTfaMessageTemplateWithHttpInfo(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default)
+            TfaUpdateMessageRequest tfaUpdateMessageRequest)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
@@ -3184,93 +3362,71 @@ namespace Infobip.Api.Client.Api
                 throw new ApiException(400,
                     "Missing required parameter 'msgId' when calling TfaApi->UpdateTfaMessageTemplate");
 
+            // verify the required parameter 'tfaUpdateMessageRequest' is set
+            if (tfaUpdateMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaUpdateMessageRequest' when calling TfaApi->UpdateTfaMessageTemplate");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
             localVarRequestOptions.Data = tfaUpdateMessageRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse = Client.Put<TfaMessage>("/2fa/2/applications/{appId}/messages/{msgId}",
                 localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("UpdateTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Update 2FA message template Change configuration options for your existing 2FA application message template.
+        ///     Update 2FA SMS or Voice message template Change configuration options for your existing 2FA application SMS or
+        ///     Voice message template.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaMessage</returns>
         public async Task<TfaMessage> UpdateTfaMessageTemplateAsync(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaUpdateMessageRequest tfaUpdateMessageRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaMessage> localVarResponse =
+            var localVarResponse =
                 await UpdateTfaMessageTemplateWithHttpInfoAsync(appId, msgId, tfaUpdateMessageRequest,
                     cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Update 2FA message template Change configuration options for your existing 2FA application message template.
+        ///     Update 2FA SMS or Voice message template Change configuration options for your existing 2FA application SMS or
+        ///     Voice message template.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="appId">ID of application for which requested message was created.</param>
         /// <param name="msgId">Requested message ID.</param>
-        /// <param name="tfaUpdateMessageRequest"> (optional)</param>
+        /// <param name="tfaUpdateMessageRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaMessage)</returns>
         public async Task<ApiResponse<TfaMessage>> UpdateTfaMessageTemplateWithHttpInfoAsync(string appId, string msgId,
-            TfaUpdateMessageRequest tfaUpdateMessageRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaUpdateMessageRequest tfaUpdateMessageRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'appId' is set
             if (appId == null)
@@ -3282,53 +3438,29 @@ namespace Infobip.Api.Client.Api
                 throw new ApiException(400,
                     "Missing required parameter 'msgId' when calling TfaApi->UpdateTfaMessageTemplate");
 
+            // verify the required parameter 'tfaUpdateMessageRequest' is set
+            if (tfaUpdateMessageRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaUpdateMessageRequest' when calling TfaApi->UpdateTfaMessageTemplate");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("appId", ClientUtils.ParameterToString(appId)); // path parameter
             localVarRequestOptions.PathParameters.Add("msgId", ClientUtils.ParameterToString(msgId)); // path parameter
             localVarRequestOptions.Data = tfaUpdateMessageRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
@@ -3336,191 +3468,148 @@ namespace Infobip.Api.Client.Api
                 .PutAsync<TfaMessage>("/2fa/2/applications/{appId}/messages/{msgId}", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("UpdateTfaMessageTemplate", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("UpdateTfaMessageTemplate", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Verify phone number Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify a PIN Verify OTP to confirm successful phone number verification. pinId is received in the response after
+        ///     [sending the OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <returns>TfaVerifyPinResponse</returns>
-        public TfaVerifyPinResponse VerifyTfaPhoneNumber(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default)
+        public TfaVerifyPinResponse VerifyTfaPhoneNumber(string pinId, TfaVerifyPinRequest tfaVerifyPinRequest)
         {
             var localVarResponse = VerifyTfaPhoneNumberWithHttpInfo(pinId, tfaVerifyPinRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Verify phone number Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify a PIN Verify OTP to confirm successful phone number verification. pinId is received in the response after
+        ///     [sending the OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <returns>ApiResponse of TfaVerifyPinResponse</returns>
         public ApiResponse<TfaVerifyPinResponse> VerifyTfaPhoneNumberWithHttpInfo(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default)
+            TfaVerifyPinRequest tfaVerifyPinRequest)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->VerifyTfaPhoneNumber");
 
+            // verify the required parameter 'tfaVerifyPinRequest' is set
+            if (tfaVerifyPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaVerifyPinRequest' when calling TfaApi->VerifyTfaPhoneNumber");
+
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaVerifyPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
             var localVarResponse =
                 Client.Post<TfaVerifyPinResponse>("/2fa/2/pin/{pinId}/verify", localVarRequestOptions, Configuration);
 
-            Exception exception = ExceptionFactory?.Invoke("VerifyTfaPhoneNumber", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("VerifyTfaPhoneNumber", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Verify phone number Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify a PIN Verify OTP to confirm successful phone number verification. pinId is received in the response after
+        ///     [sending the OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaVerifyPinResponse</returns>
         public async Task<TfaVerifyPinResponse> VerifyTfaPhoneNumberAsync(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaVerifyPinRequest tfaVerifyPinRequest, CancellationToken cancellationToken = default)
         {
-            ApiResponse<TfaVerifyPinResponse> localVarResponse =
+            var localVarResponse =
                 await VerifyTfaPhoneNumberWithHttpInfoAsync(pinId, tfaVerifyPinRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Verify phone number Verify a phone number to confirm successful 2FA authentication.
+        ///     Verify a PIN Verify OTP to confirm successful phone number verification. pinId is received in the response after
+        ///     [sending the OTP message](#channels/sms/2fa/pin-sending-and-verification/send-2fa-pin-code-over-voice).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaVerifyPinRequest"> (optional)</param>
+        /// <param name="tfaVerifyPinRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaVerifyPinResponse)</returns>
         public async Task<ApiResponse<TfaVerifyPinResponse>> VerifyTfaPhoneNumberWithHttpInfoAsync(string pinId,
-            TfaVerifyPinRequest tfaVerifyPinRequest = default,
-            CancellationToken cancellationToken = default(CancellationToken))
+            TfaVerifyPinRequest tfaVerifyPinRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->VerifyTfaPhoneNumber");
 
+            // verify the required parameter 'tfaVerifyPinRequest' is set
+            if (tfaVerifyPinRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'tfaVerifyPinRequest' when calling TfaApi->VerifyTfaPhoneNumber");
+
 
             var localVarRequestOptions = new RequestOptions();
 
-            string[] contentTypes =
-            {
-                "application/json",
-                "application/xml"
-            };
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
 
-            // to determine the Accept header
-            string[] accepts =
-            {
-                "application/json",
-                "application/xml"
-            };
-
-
-            var localVarContentType = ClientUtils.SelectHeaderContentType(contentTypes);
-            if (localVarContentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
             localVarRequestOptions.Data = tfaVerifyPinRequest;
 
             // authentication (APIKeyHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (Basic) required
-            // http basic authentication required
-            if (!string.IsNullOrEmpty(Configuration.Username) || !string.IsNullOrEmpty(Configuration.Password))
-                localVarRequestOptions.HeaderParameters.Add("Authorization",
-                    "Basic " + ClientUtils.Base64Encode(Configuration.Username + ":" + Configuration.Password));
-            // authentication (IBSSOTokenHeader) required
-            if (!string.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("Authorization")))
-                if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                    localVarRequestOptions.HeaderParameters.Add("Authorization",
-                        Configuration.GetApiKeyWithPrefix("Authorization"));
-            // authentication (OAuth2) required
-            // oauth required
-            if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient.PostAsync<TfaVerifyPinResponse>("/2fa/2/pin/{pinId}/verify",
                 localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
-            Exception exception = ExceptionFactory?.Invoke("VerifyTfaPhoneNumber", localVarResponse);
-            if (exception != null) throw exception;
+            var exception = ExceptionFactory?.Invoke("VerifyTfaPhoneNumber", localVarResponse);
+            if (exception != null)
+                throw exception;
 
             return localVarResponse;
         }
 
         /// <summary>
-        ///     Disposes resources if they were created by us
+        ///     Disposes ApiClient if it exists.
         /// </summary>
         public void Dispose()
         {

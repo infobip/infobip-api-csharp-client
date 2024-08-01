@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -42,17 +33,44 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsBulkRequest" /> class.
         /// </summary>
-        /// <param name="sendAt">sendAt (required).</param>
-        public SmsBulkRequest(DateTimeOffset sendAt = default(DateTimeOffset))
+        /// <param name="sendAt">
+        ///     Date and time when the message is to be sent. Used for scheduled SMS (see [Scheduled SMS
+        ///     endpoints](#channels/sms/get-scheduled-sms-messages) for more details). Has the following format: &#x60;yyyy-MM-dd
+        ///     &#39;T&#39;HH:mm:ss.SSSZ&#x60;, and can only be scheduled for no later than 180 days in advance. (required).
+        /// </param>
+        public SmsBulkRequest(DateTimeOffset sendAt = default)
         {
             SendAt = sendAt;
         }
 
         /// <summary>
-        ///     Gets or Sets SendAt
+        ///     Date and time when the message is to be sent. Used for scheduled SMS (see [Scheduled SMS
+        ///     endpoints](#channels/sms/get-scheduled-sms-messages) for more details). Has the following format: &#x60;yyyy-MM-dd
+        ///     &#39;T&#39;HH:mm:ss.SSSZ&#x60;, and can only be scheduled for no later than 180 days in advance.
         /// </summary>
+        /// <value>
+        ///     Date and time when the message is to be sent. Used for scheduled SMS (see [Scheduled SMS
+        ///     endpoints](#channels/sms/get-scheduled-sms-messages) for more details). Has the following format: &#x60;yyyy-MM-dd
+        ///     &#39;T&#39;HH:mm:ss.SSSZ&#x60;, and can only be scheduled for no later than 180 days in advance.
+        /// </value>
         [DataMember(Name = "sendAt", IsRequired = true, EmitDefaultValue = false)]
         public DateTimeOffset SendAt { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsBulkRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsBulkRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsBulkRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                SendAt == input.SendAt ||
+                (SendAt != null &&
+                 SendAt.Equals(input.SendAt));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -87,22 +105,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsBulkRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsBulkRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsBulkRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                SendAt == input.SendAt ||
-                SendAt != null &&
-                SendAt.Equals(input.SendAt);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -110,7 +112,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (SendAt != null)
                     hashCode = hashCode * 59 + SendAt.GetHashCode();
                 return hashCode;

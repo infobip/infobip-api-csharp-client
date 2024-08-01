@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     TfaApplicationConfiguration
+    ///     Created 2FA application configuration.
     /// </summary>
     [DataContract(Name = "TfaApplicationConfiguration")]
     public class TfaApplicationConfiguration : IEquatable<TfaApplicationConfiguration>
@@ -34,38 +25,38 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaApplicationConfiguration" /> class.
         /// </summary>
-        /// <param name="allowMultiplePinVerifications">Tells if multiple PIN verifications are allowed. (default to true).</param>
+        /// <param name="allowMultiplePinVerifications">Indicates whether multiple PIN verification is allowed. (default to true).</param>
         /// <param name="pinAttempts">Number of possible PIN attempts. (default to 10).</param>
         /// <param name="pinTimeToLive">
-        ///     PIN time to live. Should be in format of &#x60;{timeLength}{timeUnit}&#x60;. Here &#x60;
-        ///     timeLength&#x60; is an optional positive integer with a default value of 1 and &#x60;timeUnit&#x60; is one of:
-        ///     &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds,
-        ///     minutes, hours and days respectively. Must not be larger that one year, although much lower values are recommended.
-        ///     (default to &quot;15m&quot;).
+        ///     Validity period of PIN in specified time unit. Required format: &#x60;
+        ///     {timeLength}{timeUnit}&#x60;. &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
+        ///     can be set to: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing
+        ///     milliseconds, seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value
+        ///     is recommended. (default to &quot;15m&quot;).
         /// </param>
         /// <param name="sendPinPerApplicationLimit">
-        ///     Overall number of requests in time interval for generating a PIN and sending
-        ///     an SMS using single application. Should be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;
-        ///     attempts&#x60; is a mandatory positive integer and &#x60;timeLength&#x60; is an optional positive integer with a
-        ///     default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or
-        ///     &#x60;d&#x60; representing milliseconds, seconds, minutes, hours and days respectively. Time component must not be
-        ///     larger that one year, although much lower values are recommended. (default to &quot;10000/1d&quot;).
+        ///     Overall number of requests over a specififed time period for generating a PIN
+        ///     and sending an SMS using a single application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;.
+        ///     &#x60;attempts&#x60; and &#x60;timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default
+        ///     value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d
+        ///     &#x60; representing milliseconds, seconds, minutes, hours, and days respectively. Must not exceed one year,
+        ///     although much lower value is recommended. (default to &quot;10000/1d&quot;).
         /// </param>
         /// <param name="sendPinPerPhoneNumberLimit">
-        ///     Number of requests in time interval for generating a PIN and sending an SMS to
-        ///     one phone number (MSISDN). Should be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;
-        ///     attempts&#x60; is a mandatory positive integer and &#x60;timeLength&#x60; is an optional positive integer with a
-        ///     default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or
-        ///     &#x60;d&#x60; representing milliseconds, seconds, minutes, hours and days respectively. Time component must not be
-        ///     larger that one year, although much lower values are recommended. (default to &quot;3/1d&quot;).
+        ///     Number of requests over a specififed time period for generating a PIN and
+        ///     sending an SMS to one phone number (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;
+        ///     attempts&#x60; and &#x60;timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value
+        ///     of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60;
+        ///     representing milliseconds, seconds, minutes, hours, and days respectively. Must not exceed one year, although much
+        ///     lower value is recommended. (default to &quot;3/1d&quot;).
         /// </param>
         /// <param name="verifyPinLimit">
-        ///     Number of PIN verification requests in time interval from one phone number (MSISDN).
-        ///     Should be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory
-        ///     positive integer and &#x60;timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;
-        ///     timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing
-        ///     milliseconds, seconds, minutes, hours and days respectively. Time component must not be larger that one day,
-        ///     although much lower values are recommended. (default to &quot;1/3s&quot;).
+        ///     The number of PIN verification requests over a specififed time period from one phone
+        ///     number (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
+        ///     timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
+        ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
+        ///     seconds, minutes, hours, and days respectively. Must not exceed one day, although much lower value is recommended.
+        ///     (default to &quot;1/3s&quot;).
         /// </param>
         public TfaApplicationConfiguration(bool allowMultiplePinVerifications = true, int pinAttempts = 10,
             string pinTimeToLive = "15m", string sendPinPerApplicationLimit = "10000/1d",
@@ -84,9 +75,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Tells if multiple PIN verifications are allowed.
+        ///     Indicates whether multiple PIN verification is allowed.
         /// </summary>
-        /// <value>Tells if multiple PIN verifications are allowed.</value>
+        /// <value>Indicates whether multiple PIN verification is allowed.</value>
         [DataMember(Name = "allowMultiplePinVerifications", EmitDefaultValue = true)]
         public bool AllowMultiplePinVerifications { get; set; }
 
@@ -98,76 +89,111 @@ namespace Infobip.Api.Client.Model
         public int PinAttempts { get; set; }
 
         /// <summary>
-        ///     PIN time to live. Should be in format of &#x60;{timeLength}{timeUnit}&#x60;. Here &#x60;timeLength&#x60; is an
-        ///     optional positive integer with a default value of 1 and &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s
-        ///     &#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours and days
-        ///     respectively. Must not be larger that one year, although much lower values are recommended.
+        ///     Validity period of PIN in specified time unit. Required format: &#x60;{timeLength}{timeUnit}&#x60;. &#x60;
+        ///     timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; can be set to: &#x60;ms&#x60;, &#x60;s
+        ///     &#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours, and days
+        ///     respectively. Must not exceed one year, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     PIN time to live. Should be in format of &#x60;{timeLength}{timeUnit}&#x60;. Here &#x60;timeLength&#x60; is an
-        ///     optional positive integer with a default value of 1 and &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s
-        ///     &#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours and days
-        ///     respectively. Must not be larger that one year, although much lower values are recommended.
+        ///     Validity period of PIN in specified time unit. Required format: &#x60;{timeLength}{timeUnit}&#x60;. &#x60;
+        ///     timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; can be set to: &#x60;ms&#x60;, &#x60;s
+        ///     &#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours, and days
+        ///     respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "pinTimeToLive", EmitDefaultValue = false)]
         public string PinTimeToLive { get; set; }
 
         /// <summary>
-        ///     Overall number of requests in time interval for generating a PIN and sending an SMS using single application.
-        ///     Should be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory
-        ///     positive integer and &#x60;timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;
-        ///     timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing
-        ///     milliseconds, seconds, minutes, hours and days respectively. Time component must not be larger that one year,
-        ///     although much lower values are recommended.
+        ///     Overall number of requests over a specififed time period for generating a PIN and sending an SMS using a single
+        ///     application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
+        ///     timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
+        ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
+        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     Overall number of requests in time interval for generating a PIN and sending an SMS using single application.
-        ///     Should be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory
-        ///     positive integer and &#x60;timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;
-        ///     timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing
-        ///     milliseconds, seconds, minutes, hours and days respectively. Time component must not be larger that one year,
-        ///     although much lower values are recommended.
+        ///     Overall number of requests over a specififed time period for generating a PIN and sending an SMS using a single
+        ///     application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
+        ///     timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
+        ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
+        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "sendPinPerApplicationLimit", EmitDefaultValue = false)]
         public string SendPinPerApplicationLimit { get; set; }
 
         /// <summary>
-        ///     Number of requests in time interval for generating a PIN and sending an SMS to one phone number (MSISDN). Should be
-        ///     in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory positive
-        ///     integer and &#x60;timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;timeUnit&#x60;
-        ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
-        ///     seconds, minutes, hours and days respectively. Time component must not be larger that one year, although much lower
-        ///     values are recommended.
+        ///     Number of requests over a specififed time period for generating a PIN and sending an SMS to one phone number
+        ///     (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit
+        ///     &#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one
+        ///     of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
+        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     Number of requests in time interval for generating a PIN and sending an SMS to one phone number (MSISDN). Should
-        ///     be in format of &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory positive
-        ///     integer and &#x60;timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;timeUnit&#x60;
-        ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
-        ///     seconds, minutes, hours and days respectively. Time component must not be larger that one year, although much lower
-        ///     values are recommended.
+        ///     Number of requests over a specififed time period for generating a PIN and sending an SMS to one phone number
+        ///     (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit
+        ///     &#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one
+        ///     of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
+        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "sendPinPerPhoneNumberLimit", EmitDefaultValue = false)]
         public string SendPinPerPhoneNumberLimit { get; set; }
 
         /// <summary>
-        ///     Number of PIN verification requests in time interval from one phone number (MSISDN). Should be in format of &#x60;
-        ///     {attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory positive integer and &#x60;
-        ///     timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;
-        ///     ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes,
-        ///     hours and days respectively. Time component must not be larger that one day, although much lower values are
-        ///     recommended.
+        ///     The number of PIN verification requests over a specififed time period from one phone number (MSISDN). Required
+        ///     format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit&#x60; are mandatory
+        ///     and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;,
+        ///     &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours,
+        ///     and days respectively. Must not exceed one day, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     Number of PIN verification requests in time interval from one phone number (MSISDN). Should be in format of
-        ///     &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. Here &#x60;attempts&#x60; is a mandatory positive integer and &#x60;
-        ///     timeLength&#x60; is an optional positive integer with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;
-        ///     ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes,
-        ///     hours and days respectively. Time component must not be larger that one day, although much lower values are
-        ///     recommended.
+        ///     The number of PIN verification requests over a specififed time period from one phone number (MSISDN). Required
+        ///     format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit&#x60; are mandatory
+        ///     and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;,
+        ///     &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes, hours,
+        ///     and days respectively. Must not exceed one day, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "verifyPinLimit", EmitDefaultValue = false)]
         public string VerifyPinLimit { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaApplicationConfiguration instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaApplicationConfiguration to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaApplicationConfiguration input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    AllowMultiplePinVerifications == input.AllowMultiplePinVerifications ||
+                    AllowMultiplePinVerifications.Equals(input.AllowMultiplePinVerifications)
+                ) &&
+                (
+                    PinAttempts == input.PinAttempts ||
+                    PinAttempts.Equals(input.PinAttempts)
+                ) &&
+                (
+                    PinTimeToLive == input.PinTimeToLive ||
+                    (PinTimeToLive != null &&
+                     PinTimeToLive.Equals(input.PinTimeToLive))
+                ) &&
+                (
+                    SendPinPerApplicationLimit == input.SendPinPerApplicationLimit ||
+                    (SendPinPerApplicationLimit != null &&
+                     SendPinPerApplicationLimit.Equals(input.SendPinPerApplicationLimit))
+                ) &&
+                (
+                    SendPinPerPhoneNumberLimit == input.SendPinPerPhoneNumberLimit ||
+                    (SendPinPerPhoneNumberLimit != null &&
+                     SendPinPerPhoneNumberLimit.Equals(input.SendPinPerPhoneNumberLimit))
+                ) &&
+                (
+                    VerifyPinLimit == input.VerifyPinLimit ||
+                    (VerifyPinLimit != null &&
+                     VerifyPinLimit.Equals(input.VerifyPinLimit))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -207,47 +233,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaApplicationConfiguration instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaApplicationConfiguration to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaApplicationConfiguration input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    AllowMultiplePinVerifications == input.AllowMultiplePinVerifications ||
-                    AllowMultiplePinVerifications.Equals(input.AllowMultiplePinVerifications)
-                ) &&
-                (
-                    PinAttempts == input.PinAttempts ||
-                    PinAttempts.Equals(input.PinAttempts)
-                ) &&
-                (
-                    PinTimeToLive == input.PinTimeToLive ||
-                    PinTimeToLive != null &&
-                    PinTimeToLive.Equals(input.PinTimeToLive)
-                ) &&
-                (
-                    SendPinPerApplicationLimit == input.SendPinPerApplicationLimit ||
-                    SendPinPerApplicationLimit != null &&
-                    SendPinPerApplicationLimit.Equals(input.SendPinPerApplicationLimit)
-                ) &&
-                (
-                    SendPinPerPhoneNumberLimit == input.SendPinPerPhoneNumberLimit ||
-                    SendPinPerPhoneNumberLimit != null &&
-                    SendPinPerPhoneNumberLimit.Equals(input.SendPinPerPhoneNumberLimit)
-                ) &&
-                (
-                    VerifyPinLimit == input.VerifyPinLimit ||
-                    VerifyPinLimit != null &&
-                    VerifyPinLimit.Equals(input.VerifyPinLimit)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -255,7 +240,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + AllowMultiplePinVerifications.GetHashCode();
                 hashCode = hashCode * 59 + PinAttempts.GetHashCode();
                 if (PinTimeToLive != null)

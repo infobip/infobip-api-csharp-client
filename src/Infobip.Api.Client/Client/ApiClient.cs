@@ -10,26 +10,20 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Polly;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Polly;
 
 namespace Infobip.Api.Client
 {
@@ -66,15 +60,17 @@ namespace Infobip.Api.Client
             _configuration = configuration;
         }
 
-        public string RootElement { get; set; }
-        public string Namespace { get; set; }
-        public string DateFormat { get; set; }
-
         public string ContentType
         {
             get => _contentType;
             set => throw new InvalidOperationException("Not allowed to set content type.");
         }
+
+        public string DateFormat { get; set; }
+
+        public string Namespace { get; set; }
+
+        public string RootElement { get; set; }
 
         /// <summary>
         ///     Serialize the object into a JSON string.
@@ -89,9 +85,9 @@ namespace Infobip.Api.Client
             return JsonConvert.SerializeObject(obj, _serializerSettings);
         }
 
-        public async Task<T> DeserializeAsync<T>(HttpResponseMessage response)
+        internal async Task<T> DeserializeAsync<T>(HttpResponseMessage response)
         {
-            var result = (T) await DeserializeAsync(response, typeof(T)).ConfigureAwait(false);
+            var result = (T)await DeserializeAsync(response, typeof(T)).ConfigureAwait(false);
             return result;
         }
 
@@ -103,10 +99,12 @@ namespace Infobip.Api.Client
         /// <returns>Object representation of the JSON string.</returns>
         internal async Task<object> DeserializeAsync(HttpResponseMessage response, Type type)
         {
-            IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
+            var headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
-            if (type == typeof(byte[])) // return byte array
+            if (type == typeof(byte[])) // return byte Array
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+            if (type == typeof(FileParameter))
+                return new FileParameter(await response.Content.ReadAsStreamAsync());
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
@@ -120,25 +118,23 @@ namespace Infobip.Api.Client
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
                     foreach (var header in headers)
                     {
-                        var match = regex.Match(header.ToString());
+                        var match = regex.Match(header);
                         if (match.Success)
                         {
-                            string fileName = filePath +
-                                              ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "")
-                                                  .Replace("'", ""));
+                            var fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value
+                                .Replace("\"", string.Empty).Replace("'", string.Empty));
                             File.WriteAllBytes(fileName, bytes);
                             return new FileStream(fileName, FileMode.Open);
                         }
                     }
                 }
 
-                var stream = new MemoryStream(bytes);
-                return stream;
+                return new MemoryStream(bytes);
             }
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
                 return DateTime.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false), null,
-                    System.Globalization.DateTimeStyles.RoundtripKind);
+                    DateTimeStyles.RoundtripKind);
 
             if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
                 return Convert.ChangeType(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type);
@@ -146,8 +142,8 @@ namespace Infobip.Api.Client
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync().ConfigureAwait(false), type,
-                    _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync().ConfigureAwait(false),
+                    type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -168,16 +164,7 @@ namespace Infobip.Api.Client
         private readonly string _baseUrl;
         private readonly bool _disposeClient;
         private readonly HttpClient _httpClient;
-
         private readonly HttpClientHandler _httpClientHandler;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        public ApiClient() :
-            this(GlobalConfiguration.Instance.BasePath)
-        {
-        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ApiClient" />.
@@ -186,26 +173,13 @@ namespace Infobip.Api.Client
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(string basePath)
         {
-            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+            if (string.IsNullOrEmpty(basePath))
+                throw new ArgumentException("basePath cannot be empty");
 
+            _baseUrl = basePath;
+            _disposeClient = true;
             _httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(_httpClientHandler, true);
-            _disposeClient = true;
-            _baseUrl = basePath;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <remarks>
-        ///     Some configuration settings will not be applied without passing an HttpClientHandler.
-        ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>
-        public ApiClient(HttpClient client) :
-            this(client, GlobalConfiguration.Instance.BasePath)
-        {
         }
 
         /// <summary>
@@ -217,25 +191,15 @@ namespace Infobip.Api.Client
         /// <exception cref="ArgumentException"></exception>
         /// <remarks>
         ///     Some configuration settings will not be applied without passing an HttpClientHandler.
-        ///     The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        ///     The features affected are: Proxy settings.
         /// </remarks>
         public ApiClient(HttpClient client, string basePath)
         {
-            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+            if (string.IsNullOrEmpty(basePath))
+                throw new ArgumentException("basePath cannot be empty");
 
-            _httpClient = client ?? throw new ArgumentNullException(nameof(client));
             _baseUrl = basePath;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-        /// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler) :
-            this(client, handler, GlobalConfiguration.Instance.BasePath)
-        {
+            _httpClient = client ?? throw new ArgumentNullException(nameof(client));
         }
 
         /// <summary>
@@ -248,11 +212,12 @@ namespace Infobip.Api.Client
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(HttpClient client, HttpClientHandler handler, string basePath)
         {
-            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+            if (string.IsNullOrEmpty(basePath))
+                throw new ArgumentException("basePath cannot be empty");
 
-            _httpClientHandler = handler ?? throw new ArgumentNullException(nameof(handler));
-            _httpClient = client ?? throw new ArgumentNullException(nameof(client));
             _baseUrl = basePath;
+            _httpClient = client ?? throw new ArgumentNullException(nameof(client));
+            _httpClientHandler = handler ?? throw new ArgumentNullException(nameof(handler));
         }
 
         /// <summary>
@@ -274,17 +239,207 @@ namespace Infobip.Api.Client
         };
 
         /// <summary>
-        ///     Disposes resources if they were created by us
+        ///     Make a HTTP GET request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP POST request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP PUT request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP DELETE request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP HEAD request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP OPTION request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Make a HTTP PATCH request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options,
+            IReadableConfiguration configuration, CancellationToken cancellationToken = default)
+        {
+            return ExecAsync<T>(NewRequest(new HttpMethod("PATCH"), path, options, configuration), configuration,
+                cancellationToken);
+        }
+
+        /// <summary>
+        ///     Disposes HttpClient if it exists.
         /// </summary>
         public void Dispose()
         {
-            if (_disposeClient) _httpClient.Dispose();
+            if (_disposeClient)
+                _httpClient.Dispose();
+        }
+
+        /// <summary>
+        ///     Make a HTTP GET request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Get, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP POST request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Post, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP PUT request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Put, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP DELETE request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Delete, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP HEAD request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Head, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP OPTION request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(HttpMethod.Options, path, options, configuration), configuration);
+        }
+
+        /// <summary>
+        ///     Make a HTTP PATCH request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object.</param>
+        /// <returns>A Task containing ApiResponse</returns>
+        public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration)
+        {
+            return Exec<T>(NewRequest(new HttpMethod("PATCH"), path, options, configuration), configuration);
         }
 
         /// Prepares multipart/form-data content
         private HttpContent PrepareMultipartFormDataContent(RequestOptions options)
         {
-            string boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
+            var boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
             var multipartContent = new MultipartFormDataContent(boundary);
             foreach (var formParameter in options.FormParameters)
                 multipartContent.Add(new StringContent(formParameter.Value), formParameter.Key);
@@ -312,10 +467,7 @@ namespace Infobip.Api.Client
         /// <param name="method">The http verb.</param>
         /// <param name="path">The target path (or resource).</param>
         /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
+        /// <param name="configuration">A per-request configuration object.</param>
         /// <returns>[private] A new HttpRequestMessage instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         private HttpRequestMessage NewRequest(
@@ -324,9 +476,14 @@ namespace Infobip.Api.Client
             RequestOptions options,
             IReadableConfiguration configuration)
         {
-            if (path == null) throw new ArgumentNullException(nameof(path));
-            if (options == null) throw new ArgumentNullException(nameof(options));
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
+
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
             var builder = new WebRequestPathBuilder(_baseUrl, path);
 
@@ -334,7 +491,7 @@ namespace Infobip.Api.Client
 
             builder.AddQueryParameters(options.QueryParameters);
 
-            HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
+            var request = new HttpRequestMessage(method, builder.GetFullUri());
 
             if (configuration.UserAgent != null)
                 request.Headers.TryAddWithoutValidation("User-Agent", configuration.UserAgent);
@@ -368,11 +525,11 @@ namespace Infobip.Api.Client
             {
                 if (options.Data != null)
                 {
-                    if (options.Data is Stream s)
+                    if (options.Data is FileParameter fp)
                     {
                         contentType = contentType ?? "application/octet-stream";
 
-                        var streamContent = new StreamContent(s);
+                        var streamContent = new StreamContent(fp.Content);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         request.Content = streamContent;
                     }
@@ -385,26 +542,21 @@ namespace Infobip.Api.Client
                 }
             }
 
-
-            // TODO provide an alternative that allows cookies per request instead of per API client
-            if (options.Cookies != null && options.Cookies.Count > 0)
-                request.Properties["CookieContainer"] = options.Cookies;
-
             return request;
         }
 
-        private async Task<ApiResponse<T>> ToApiResponseAsync<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponseAsync<T>(HttpResponseMessage response, object responseData,
+            Uri uri)
         {
             var result = (T)responseData;
-            string rawContent = response.Content.ToString();
+            var rawContent = response.Content.ToString();
             if (!response.IsSuccessStatusCode)
                 rawContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             var transformed =
                 new ApiResponse<T>(response.StatusCode, new Multimap<string, string>(), result, rawContent)
                 {
-                    ErrorText = response.ReasonPhrase,
-                    Cookies = new List<Cookie>()
+                    ErrorText = response.ReasonPhrase
                 };
 
             // process response headers, e.g. Access-Control-Allow-Methods
@@ -417,16 +569,6 @@ namespace Infobip.Api.Client
                 foreach (var responseHeader in response.Content.Headers)
                     transformed.Headers.Add(responseHeader.Key, ClientUtils.ParameterToString(responseHeader.Value));
 
-            if (_httpClientHandler != null && response != null)
-                try
-                {
-                    foreach (Cookie cookie in _httpClientHandler.CookieContainer.GetCookies(uri))
-                        transformed.Cookies.Add(cookie);
-                }
-                catch (PlatformNotSupportedException)
-                {
-                }
-
             return transformed;
         }
 
@@ -437,7 +579,7 @@ namespace Infobip.Api.Client
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
             IReadableConfiguration configuration,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var deserializer = new CustomJsonCodec(SerializerSettings, configuration);
 
@@ -459,26 +601,6 @@ namespace Infobip.Api.Client
                         throw new InvalidOperationException(
                             "Configuration `Proxy` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     _httpClientHandler.Proxy = configuration.Proxy;
-                }
-
-                if (configuration.ClientCertificates != null)
-                {
-                    if (_httpClientHandler == null)
-                        throw new InvalidOperationException(
-                            "Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
-                }
-
-                var cookieContainer = req.Properties.ContainsKey("CookieContainer")
-                    ? req.Properties["CookieContainer"] as List<Cookie>
-                    : null;
-
-                if (cookieContainer != null)
-                {
-                    if (_httpClientHandler == null)
-                        throw new InvalidOperationException(
-                            "Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
-                    foreach (var cookie in cookieContainer) _httpClientHandler.CookieContainer.Add(cookie);
                 }
 
                 HttpResponseMessage response;
@@ -518,260 +640,5 @@ namespace Infobip.Api.Client
                 timeoutCancellationTokenSource?.Dispose();
             }
         }
-
-        #region IAsynchronousClient
-
-        /// <summary>
-        ///     Make a HTTP GET request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP POST request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP PUT request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP DELETE request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP HEAD request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP OPTION request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), config, cancellationToken);
-        }
-
-        /// <summary>
-        ///     Make a HTTP PATCH request (async).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(new HttpMethod("PATCH"), path, options, config), config, cancellationToken);
-        }
-
-        #endregion IAsynchronousClient
-
-        #region ISynchronousClient
-
-        /// <summary>
-        ///     Make a HTTP GET request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Get, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP POST request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Post, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP PUT request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Put, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP DELETE request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Delete<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Delete, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP HEAD request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Head, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP OPTION request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Options<T>(string path, RequestOptions options,
-            IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(HttpMethod.Options, path, options, config), config);
-        }
-
-        /// <summary>
-        ///     Make a HTTP PATCH request (synchronous).
-        /// </summary>
-        /// <param name="path">The target path (or resource).</param>
-        /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">
-        ///     A per-request configuration object. It is assumed that any merge with
-        ///     GlobalConfiguration has been done before calling this method.
-        /// </param>
-        /// <returns>A Task containing ApiResponse</returns>
-        public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
-        {
-            var config = configuration ?? GlobalConfiguration.Instance;
-            return Exec<T>(NewRequest(new HttpMethod("PATCH"), path, options, config), config);
-        }
-
-        #endregion ISynchronousClient
     }
 }

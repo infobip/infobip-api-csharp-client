@@ -9,25 +9,20 @@
  */
 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines TfaLanguage
+    ///     The language code which message is written in used when sending text-to-speech messages. If not defined, it will
+    ///     default to English (&#x60;en&#x60;)..
     /// </summary>
+    /// <value>
+    ///     The language code which message is written in used when sending text-to-speech messages. If not defined, it will
+    ///     default to English (&#x60;en&#x60;).
+    /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum TfaLanguage
     {
@@ -117,23 +112,28 @@ namespace Infobip.Api.Client.Model
         [EnumMember(Value = "sl")] Sl = 17,
 
         /// <summary>
-        ///     Enum PtPt for value: pt-pt
+        ///     Enum Ro for value: ro
         /// </summary>
-        [EnumMember(Value = "pt-pt")] PtPt = 18,
+        [EnumMember(Value = "ro")] Ro = 18,
 
         /// <summary>
-        ///     Enum PtBr for value: pt-br
+        ///     Enum PtPt for value: pt_pt
         /// </summary>
-        [EnumMember(Value = "pt-br")] PtBr = 19,
+        [EnumMember(Value = "pt_pt")] PtPt = 19,
 
         /// <summary>
-        ///     Enum ZhCn for value: zh-cn
+        ///     Enum PtBr for value: pt_br
         /// </summary>
-        [EnumMember(Value = "zh-cn")] ZhCn = 20,
+        [EnumMember(Value = "pt_br")] PtBr = 20,
 
         /// <summary>
-        ///     Enum ZhTw for value: zh-tw
+        ///     Enum ZhCn for value: zh_cn
         /// </summary>
-        [EnumMember(Value = "zh-tw")] ZhTw = 21
+        [EnumMember(Value = "zh_cn")] ZhCn = 21,
+
+        /// <summary>
+        ///     Enum ZhTw for value: zh_tw
+        /// </summary>
+        [EnumMember(Value = "zh_tw")] ZhTw = 22
     }
 }

@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,26 +27,51 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailSendResponse" /> class.
         /// </summary>
-        /// <param name="bulkId">bulkId.</param>
-        /// <param name="messages">messages.</param>
-        public EmailSendResponse(string bulkId = default(string),
-            List<EmailMessageInfo> messages = default(List<EmailMessageInfo>))
+        /// <param name="bulkId">The ID that uniquely identifies a list of message responses..</param>
+        /// <param name="messages">List of message response details..</param>
+        public EmailSendResponse(string bulkId = default, List<EmailResponseDetails> messages = default)
         {
             BulkId = bulkId;
             Messages = messages;
         }
 
         /// <summary>
-        ///     Gets or Sets BulkId
+        ///     The ID that uniquely identifies a list of message responses.
         /// </summary>
+        /// <value>The ID that uniquely identifies a list of message responses.</value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
         public string BulkId { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Messages
+        ///     List of message response details.
         /// </summary>
+        /// <value>List of message response details.</value>
         [DataMember(Name = "messages", EmitDefaultValue = false)]
-        public List<EmailMessageInfo> Messages { get; set; }
+        public List<EmailResponseDetails> Messages { get; set; }
+
+        /// <summary>
+        ///     Returns true if EmailSendResponse instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EmailSendResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailSendResponse input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    Messages == input.Messages ||
+                    (Messages != null &&
+                     input.Messages != null &&
+                     Messages.SequenceEqual(input.Messages))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -89,30 +107,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailSendResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailSendResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailSendResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    Messages == input.Messages ||
-                    Messages != null &&
-                    input.Messages != null &&
-                    Messages.SequenceEqual(input.Messages)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -120,7 +114,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (Messages != null)

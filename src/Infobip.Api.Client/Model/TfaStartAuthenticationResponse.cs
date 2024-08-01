@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,12 +25,13 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaStartAuthenticationResponse" /> class.
         /// </summary>
-        /// <param name="callStatus">Call status..</param>
+        /// <param name="callStatus">Call status, e.g. &#x60;PENDING_ACCEPTED&#x60;..</param>
         /// <param name="ncStatus">
-        ///     Status of sent Number Lookup. Number Lookup status can have one of the following values: &#x60;
-        ///     NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;, &#x60;NC_DESTINATION_NOT_REACHABLE&#x60;,
-        ///     &#x60;NC_NOT_CONFIGURED&#x60;. If you get the &#x60;NC_NOT_CONFIGURED&#x60; status, you should contact your Account
-        ///     Manager. SMS will not be sent only if Number Lookup status is &#x60;NC_NOT_REACHABLE&#x60;..
+        ///     Status of sent [Number Lookup](https://www.infobip.com/docs/number-lookup). Number Lookup status
+        ///     can have one of the following values: &#x60;NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;,
+        ///     &#x60;NC_DESTINATION_NOT_REACHABLE&#x60;, &#x60;NC_NOT_CONFIGURED&#x60;. Contact your Account Manager, if you get
+        ///     the &#x60;NC_NOT_CONFIGURED&#x60; status. SMS will not be sent only if Number Lookup status is &#x60;
+        ///     NC_NOT_REACHABLE&#x60;..
         /// </param>
         /// <param name="pinId">Sent PIN code ID..</param>
         /// <param name="smsStatus">
@@ -47,8 +39,8 @@ namespace Infobip.Api.Client.Model
         ///     MESSAGE_NOT_SENT&#x60;..
         /// </param>
         /// <param name="to">Phone number to which the 2FA message will be sent. Example: &#x60;41793026727&#x60;..</param>
-        public TfaStartAuthenticationResponse(string callStatus = default(string), string ncStatus = default(string),
-            string pinId = default(string), string smsStatus = default(string), string to = default(string))
+        public TfaStartAuthenticationResponse(string callStatus = default, string ncStatus = default,
+            string pinId = default, string smsStatus = default, string to = default)
         {
             CallStatus = callStatus;
             NcStatus = ncStatus;
@@ -58,23 +50,25 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Call status.
+        ///     Call status, e.g. &#x60;PENDING_ACCEPTED&#x60;.
         /// </summary>
-        /// <value>Call status.</value>
+        /// <value>Call status, e.g. &#x60;PENDING_ACCEPTED&#x60;.</value>
         [DataMember(Name = "callStatus", EmitDefaultValue = false)]
         public string CallStatus { get; set; }
 
         /// <summary>
-        ///     Status of sent Number Lookup. Number Lookup status can have one of the following values: &#x60;
-        ///     NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;, &#x60;NC_DESTINATION_NOT_REACHABLE&#x60;,
-        ///     &#x60;NC_NOT_CONFIGURED&#x60;. If you get the &#x60;NC_NOT_CONFIGURED&#x60; status, you should contact your Account
-        ///     Manager. SMS will not be sent only if Number Lookup status is &#x60;NC_NOT_REACHABLE&#x60;.
+        ///     Status of sent [Number Lookup](https://www.infobip.com/docs/number-lookup). Number Lookup status can have one of
+        ///     the following values: &#x60;NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;, &#x60;
+        ///     NC_DESTINATION_NOT_REACHABLE&#x60;, &#x60;NC_NOT_CONFIGURED&#x60;. Contact your Account Manager, if you get the
+        ///     &#x60;NC_NOT_CONFIGURED&#x60; status. SMS will not be sent only if Number Lookup status is &#x60;NC_NOT_REACHABLE
+        ///     &#x60;.
         /// </summary>
         /// <value>
-        ///     Status of sent Number Lookup. Number Lookup status can have one of the following values: &#x60;
-        ///     NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;, &#x60;NC_DESTINATION_NOT_REACHABLE&#x60;,
-        ///     &#x60;NC_NOT_CONFIGURED&#x60;. If you get the &#x60;NC_NOT_CONFIGURED&#x60; status, you should contact your Account
-        ///     Manager. SMS will not be sent only if Number Lookup status is &#x60;NC_NOT_REACHABLE&#x60;.
+        ///     Status of sent [Number Lookup](https://www.infobip.com/docs/number-lookup). Number Lookup status can have one of
+        ///     the following values: &#x60;NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;, &#x60;
+        ///     NC_DESTINATION_NOT_REACHABLE&#x60;, &#x60;NC_NOT_CONFIGURED&#x60;. Contact your Account Manager, if you get the
+        ///     &#x60;NC_NOT_CONFIGURED&#x60; status. SMS will not be sent only if Number Lookup status is &#x60;NC_NOT_REACHABLE
+        ///     &#x60;.
         /// </value>
         [DataMember(Name = "ncStatus", EmitDefaultValue = false)]
         public string NcStatus { get; set; }
@@ -99,6 +93,44 @@ namespace Infobip.Api.Client.Model
         /// <value>Phone number to which the 2FA message will be sent. Example: &#x60;41793026727&#x60;.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
         public string To { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaStartAuthenticationResponse instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaStartAuthenticationResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaStartAuthenticationResponse input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    CallStatus == input.CallStatus ||
+                    (CallStatus != null &&
+                     CallStatus.Equals(input.CallStatus))
+                ) &&
+                (
+                    NcStatus == input.NcStatus ||
+                    (NcStatus != null &&
+                     NcStatus.Equals(input.NcStatus))
+                ) &&
+                (
+                    PinId == input.PinId ||
+                    (PinId != null &&
+                     PinId.Equals(input.PinId))
+                ) &&
+                (
+                    SmsStatus == input.SmsStatus ||
+                    (SmsStatus != null &&
+                     SmsStatus.Equals(input.SmsStatus))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -137,44 +169,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaStartAuthenticationResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaStartAuthenticationResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaStartAuthenticationResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    CallStatus == input.CallStatus ||
-                    CallStatus != null &&
-                    CallStatus.Equals(input.CallStatus)
-                ) &&
-                (
-                    NcStatus == input.NcStatus ||
-                    NcStatus != null &&
-                    NcStatus.Equals(input.NcStatus)
-                ) &&
-                (
-                    PinId == input.PinId ||
-                    PinId != null &&
-                    PinId.Equals(input.PinId)
-                ) &&
-                (
-                    SmsStatus == input.SmsStatus ||
-                    SmsStatus != null &&
-                    SmsStatus.Equals(input.SmsStatus)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -182,7 +176,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (CallStatus != null)
                     hashCode = hashCode * 59 + CallStatus.GetHashCode();
                 if (NcStatus != null)

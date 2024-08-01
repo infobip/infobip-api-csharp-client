@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Infobip Client API Libraries OpenAPI Specification
  * OpenAPI specification containing public endpoints supported in client API libraries.
  *
@@ -16,7 +16,7 @@ using Newtonsoft.Json.Converters;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines Status
+    ///     Defines EmailBulkStatus.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EmailBulkStatus

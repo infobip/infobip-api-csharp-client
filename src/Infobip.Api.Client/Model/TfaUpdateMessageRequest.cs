@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,30 +25,26 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaUpdateMessageRequest" /> class.
         /// </summary>
-        /// <param name="language">
-        ///     Language code of language in which message text is written. It is used for reading the message
-        ///     when it is sent via voice. If no language is set, message will be read in &#x60;English&#x60;..
+        /// <param name="language">language.</param>
+        /// <param name="messageText">
+        ///     Content of the message being sent which contains at minimum one placeholder for a PIN code (
+        ///     &#x60;{{pin}}&#x60;). Placeholder format is &#x60;{{placeholderName}}&#x60;..
         /// </param>
-        /// <param name="messageText">Text of a message that will be sent. Message text must contain &#x60;pinPlaceholder&#x60;..</param>
         /// <param name="pinLength">PIN code length..</param>
-        /// <param name="pinType">
-        ///     Type of PIN code that will be generated and sent as part of 2FA message. You can set PIN type to
-        ///     numeric, alpha, alphanumeric or hex..
+        /// <param name="pinType">pinType.</param>
+        /// <param name="regional">regional.</param>
+        /// <param name="repeatDTMF">
+        ///     If the PIN is sent as a voice message, the DTMF code allows the recipient to replay the
+        ///     message..
         /// </param>
-        /// <param name="regional">
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that
-        ///     you are sending SMS to requires some extra parameters..
-        /// </param>
-        /// <param name="repeatDTMF">In case PIN message is sent by Voice, DTMF code will enable replaying the message..</param>
-        /// <param name="senderId">The name that will appear as the sender of the 2FA message (Example: CompanyName)..</param>
+        /// <param name="senderId">The name that will appear as the sender of the 2FA message (e.g. CompanyName)..</param>
         /// <param name="speechRate">
-        ///     In case PIN message is sent by Voice, the speed of speech can be set for the message.
-        ///     Supported range is from &#x60;0.5&#x60; to &#x60;2&#x60;..
+        ///     The speed of narration for messages sent as voice. Supported range is from &#x60;0.5&#x60; to
+        ///     &#x60;2&#x60;..
         /// </param>
-        public TfaUpdateMessageRequest(TfaLanguage? language = default(TfaLanguage?),
-            string messageText = default(string), int pinLength = default(int),
-            TfaPinType? pinType = default(TfaPinType?), TfaRegionalOptions regional = default,
-            string repeatDTMF = default(string), string senderId = default(string), double speechRate = default(double))
+        public TfaUpdateMessageRequest(TfaLanguage? language = default, string messageText = default,
+            int pinLength = default, TfaPinType? pinType = default, TfaRegionalOptions regional = default,
+            string repeatDTMF = default, string senderId = default, double speechRate = default)
         {
             Language = language;
             MessageText = messageText;
@@ -70,31 +57,25 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Language code of language in which message text is written. It is used for reading the message when it is sent via
-        ///     voice. If no language is set, message will be read in &#x60;English&#x60;.
+        ///     Gets or Sets Language
         /// </summary>
-        /// <value>
-        ///     Language code of language in which message text is written. It is used for reading the message when it is sent
-        ///     via voice. If no language is set, message will be read in &#x60;English&#x60;.
-        /// </value>
         [DataMember(Name = "language", EmitDefaultValue = false)]
         public TfaLanguage? Language { get; set; }
 
         /// <summary>
-        ///     Type of PIN code that will be generated and sent as part of 2FA message. You can set PIN type to numeric, alpha,
-        ///     alphanumeric or hex.
+        ///     Gets or Sets PinType
         /// </summary>
-        /// <value>
-        ///     Type of PIN code that will be generated and sent as part of 2FA message. You can set PIN type to numeric, alpha,
-        ///     alphanumeric or hex.
-        /// </value>
         [DataMember(Name = "pinType", EmitDefaultValue = false)]
         public TfaPinType? PinType { get; set; }
 
         /// <summary>
-        ///     Text of a message that will be sent. Message text must contain &#x60;pinPlaceholder&#x60;.
+        ///     Content of the message being sent which contains at minimum one placeholder for a PIN code (&#x60;{{pin}}&#x60;).
+        ///     Placeholder format is &#x60;{{placeholderName}}&#x60;.
         /// </summary>
-        /// <value>Text of a message that will be sent. Message text must contain &#x60;pinPlaceholder&#x60;.</value>
+        /// <value>
+        ///     Content of the message being sent which contains at minimum one placeholder for a PIN code (&#x60;{{pin}}&#x60;
+        ///     ). Placeholder format is &#x60;{{placeholderName}}&#x60;.
+        /// </value>
         [DataMember(Name = "messageText", EmitDefaultValue = false)]
         public string MessageText { get; set; }
 
@@ -106,40 +87,80 @@ namespace Infobip.Api.Client.Model
         public int PinLength { get; set; }
 
         /// <summary>
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that you are sending SMS
-        ///     to requires some extra parameters.
+        ///     Gets or Sets Regional
         /// </summary>
-        /// <value>
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that you are sending
-        ///     SMS to requires some extra parameters.
-        /// </value>
         [DataMember(Name = "regional", EmitDefaultValue = false)]
         public TfaRegionalOptions Regional { get; set; }
 
         /// <summary>
-        ///     In case PIN message is sent by Voice, DTMF code will enable replaying the message.
+        ///     If the PIN is sent as a voice message, the DTMF code allows the recipient to replay the message.
         /// </summary>
-        /// <value>In case PIN message is sent by Voice, DTMF code will enable replaying the message.</value>
+        /// <value>If the PIN is sent as a voice message, the DTMF code allows the recipient to replay the message.</value>
         [DataMember(Name = "repeatDTMF", EmitDefaultValue = false)]
         public string RepeatDTMF { get; set; }
 
         /// <summary>
-        ///     The name that will appear as the sender of the 2FA message (Example: CompanyName).
+        ///     The name that will appear as the sender of the 2FA message (e.g. CompanyName).
         /// </summary>
-        /// <value>The name that will appear as the sender of the 2FA message (Example: CompanyName).</value>
+        /// <value>The name that will appear as the sender of the 2FA message (e.g. CompanyName).</value>
         [DataMember(Name = "senderId", EmitDefaultValue = false)]
         public string SenderId { get; set; }
 
         /// <summary>
-        ///     In case PIN message is sent by Voice, the speed of speech can be set for the message. Supported range is from
-        ///     &#x60;0.5&#x60; to &#x60;2&#x60;.
+        ///     The speed of narration for messages sent as voice. Supported range is from &#x60;0.5&#x60; to &#x60;2&#x60;.
         /// </summary>
-        /// <value>
-        ///     In case PIN message is sent by Voice, the speed of speech can be set for the message. Supported range is from
-        ///     &#x60;0.5&#x60; to &#x60;2&#x60;.
-        /// </value>
+        /// <value>The speed of narration for messages sent as voice. Supported range is from &#x60;0.5&#x60; to &#x60;2&#x60;.</value>
         [DataMember(Name = "speechRate", EmitDefaultValue = false)]
         public double SpeechRate { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaUpdateMessageRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaUpdateMessageRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaUpdateMessageRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    Language == input.Language ||
+                    Language.Equals(input.Language)
+                ) &&
+                (
+                    MessageText == input.MessageText ||
+                    (MessageText != null &&
+                     MessageText.Equals(input.MessageText))
+                ) &&
+                (
+                    PinLength == input.PinLength ||
+                    PinLength.Equals(input.PinLength)
+                ) &&
+                (
+                    PinType == input.PinType ||
+                    PinType.Equals(input.PinType)
+                ) &&
+                (
+                    Regional == input.Regional ||
+                    (Regional != null &&
+                     Regional.Equals(input.Regional))
+                ) &&
+                (
+                    RepeatDTMF == input.RepeatDTMF ||
+                    (RepeatDTMF != null &&
+                     RepeatDTMF.Equals(input.RepeatDTMF))
+                ) &&
+                (
+                    SenderId == input.SenderId ||
+                    (SenderId != null &&
+                     SenderId.Equals(input.SenderId))
+                ) &&
+                (
+                    SpeechRate == input.SpeechRate ||
+                    SpeechRate.Equals(input.SpeechRate)
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -181,55 +202,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaUpdateMessageRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaUpdateMessageRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaUpdateMessageRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Language == input.Language ||
-                    Language.Equals(input.Language)
-                ) &&
-                (
-                    MessageText == input.MessageText ||
-                    MessageText != null &&
-                    MessageText.Equals(input.MessageText)
-                ) &&
-                (
-                    PinLength == input.PinLength ||
-                    PinLength.Equals(input.PinLength)
-                ) &&
-                (
-                    PinType == input.PinType ||
-                    PinType.Equals(input.PinType)
-                ) &&
-                (
-                    Regional == input.Regional ||
-                    Regional != null &&
-                    Regional.Equals(input.Regional)
-                ) &&
-                (
-                    RepeatDTMF == input.RepeatDTMF ||
-                    RepeatDTMF != null &&
-                    RepeatDTMF.Equals(input.RepeatDTMF)
-                ) &&
-                (
-                    SenderId == input.SenderId ||
-                    SenderId != null &&
-                    SenderId.Equals(input.SenderId)
-                ) &&
-                (
-                    SpeechRate == input.SpeechRate ||
-                    SpeechRate.Equals(input.SpeechRate)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -237,7 +209,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + Language.GetHashCode();
                 if (MessageText != null)
                     hashCode = hashCode * 59 + MessageText.GetHashCode();

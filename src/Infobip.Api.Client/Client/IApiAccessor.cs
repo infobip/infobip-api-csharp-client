@@ -9,8 +9,6 @@
  */
 
 
-using System;
-
 namespace Infobip.Api.Client
 {
     /// <summary>

@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -43,19 +36,17 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsAdvancedBinaryRequest" /> class.
         /// </summary>
         /// <param name="bulkId">
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a
-        ///     message to more than one destination address..
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request. If not provided, it will be auto-generated and returned in the API response. Typically,
+        ///     used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs)..
         /// </param>
-        /// <param name="messages">messages (required).</param>
-        /// <param name="sendingSpeedLimit">
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce
-        ///     message sending speed if your message call to action involves visiting a website, calling your contact center or
-        ///     similar recipient activity, in which you can handle a limited amount of load. This setting helps you to spread the
-        ///     delivery of the messages over a longer period, allowing your systems or agents to handle incoming traffic in
-        ///     real-time, resulting in better customer satisfaction..
+        /// <param name="messages">
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
+        ///     (required).
         /// </param>
-        public SmsAdvancedBinaryRequest(string bulkId = default(string),
-            List<SmsBinaryMessage> messages = default(List<SmsBinaryMessage>),
+        /// <param name="sendingSpeedLimit">sendingSpeedLimit.</param>
+        public SmsAdvancedBinaryRequest(string bulkId = default, List<SmsBinaryMessage> messages = default,
             SmsSendingSpeedLimit sendingSpeedLimit = default)
         {
             // to ensure "messages" is required (not null)
@@ -65,38 +56,61 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a message to more than
-        ///     one destination address.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically, used to fetch
+        ///     [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs).
         /// </summary>
         /// <value>
-        ///     The ID which uniquely identifies the request. Bulk ID will be received only when you send a message to more than
-        ///     one destination address.
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically, used to fetch
+        ///     [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
+        ///     logs](#channels/sms/get-outbound-sms-message-logs).
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
         public string BulkId { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Messages
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
         /// </summary>
+        /// <value>An array of message objects of a single message or multiple messages sent under one bulk ID.</value>
         [DataMember(Name = "messages", IsRequired = true, EmitDefaultValue = false)]
         public List<SmsBinaryMessage> Messages { get; set; }
 
         /// <summary>
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce message sending speed if
-        ///     your message call to action involves visiting a website, calling your contact center or similar recipient activity,
-        ///     in which you can handle a limited amount of load. This setting helps you to spread the delivery of the messages
-        ///     over a longer period, allowing your systems or agents to handle incoming traffic in real-time, resulting in better
-        ///     customer satisfaction.
+        ///     Gets or Sets SendingSpeedLimit
         /// </summary>
-        /// <value>
-        ///     Limit the sending speed for message bulks. In some use cases, you might want to reduce message sending speed if
-        ///     your message call to action involves visiting a website, calling your contact center or similar recipient activity,
-        ///     in which you can handle a limited amount of load. This setting helps you to spread the delivery of the messages
-        ///     over a longer period, allowing your systems or agents to handle incoming traffic in real-time, resulting in better
-        ///     customer satisfaction.
-        /// </value>
         [DataMember(Name = "sendingSpeedLimit", EmitDefaultValue = false)]
         public SmsSendingSpeedLimit SendingSpeedLimit { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsAdvancedBinaryRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsAdvancedBinaryRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsAdvancedBinaryRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    Messages == input.Messages ||
+                    (Messages != null &&
+                     input.Messages != null &&
+                     Messages.SequenceEqual(input.Messages))
+                ) &&
+                (
+                    SendingSpeedLimit == input.SendingSpeedLimit ||
+                    (SendingSpeedLimit != null &&
+                     SendingSpeedLimit.Equals(input.SendingSpeedLimit))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -133,35 +147,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsAdvancedBinaryRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsAdvancedBinaryRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsAdvancedBinaryRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    Messages == input.Messages ||
-                    Messages != null &&
-                    input.Messages != null &&
-                    Messages.SequenceEqual(input.Messages)
-                ) &&
-                (
-                    SendingSpeedLimit == input.SendingSpeedLimit ||
-                    SendingSpeedLimit != null &&
-                    SendingSpeedLimit.Equals(input.SendingSpeedLimit)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -169,7 +154,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (Messages != null)

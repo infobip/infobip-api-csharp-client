@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,6 +25,8 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailReport" /> class.
         /// </summary>
+        /// <param name="applicationId">The Application ID sent in the email request..</param>
+        /// <param name="entityId">The Entity ID sent in the email request..</param>
         /// <param name="bulkId">The ID that uniquely identifies bulks of request..</param>
         /// <param name="messageId">The ID that uniquely identifies the sent email request..</param>
         /// <param name="to">The recipient email address..</param>
@@ -41,18 +34,18 @@ namespace Infobip.Api.Client.Model
         ///     Tells when the email was initiated. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
         ///     HH:mm:ss.SSSZ&#x60;..
         /// </param>
-        /// <param name="doneAt">Tells when the email request was processed by Infobip.</param>
+        /// <param name="doneAt">Tells when the email request was processed by Infobip..</param>
         /// <param name="messageCount">Email request count..</param>
         /// <param name="price">price.</param>
         /// <param name="status">status.</param>
         /// <param name="error">error.</param>
-        /// <param name="channel">Infobip channel..</param>
-        public EmailReport(string bulkId = default(string), string messageId = default(string),
-            string to = default(string), DateTimeOffset sentAt = default(DateTimeOffset),
-            DateTimeOffset doneAt = default(DateTimeOffset), int messageCount = default(int),
-            EmailPrice price = default, EmailStatus status = default, EmailReportError error = default,
-            string channel = default(string))
+        public EmailReport(string applicationId = default, string entityId = default, string bulkId = default,
+            string messageId = default, string to = default, DateTimeOffset sentAt = default,
+            DateTimeOffset doneAt = default, int messageCount = default, MessagePrice price = default,
+            MessageStatus status = default, MessageError error = default)
         {
+            ApplicationId = applicationId;
+            EntityId = entityId;
             BulkId = bulkId;
             MessageId = messageId;
             To = to;
@@ -62,8 +55,21 @@ namespace Infobip.Api.Client.Model
             Price = price;
             Status = status;
             Error = error;
-            Channel = channel;
         }
+
+        /// <summary>
+        ///     The Application ID sent in the email request.
+        /// </summary>
+        /// <value>The Application ID sent in the email request.</value>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        public string ApplicationId { get; set; }
+
+        /// <summary>
+        ///     The Entity ID sent in the email request.
+        /// </summary>
+        /// <value>The Entity ID sent in the email request.</value>
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        public string EntityId { get; set; }
 
         /// <summary>
         ///     The ID that uniquely identifies bulks of request.
@@ -94,9 +100,9 @@ namespace Infobip.Api.Client.Model
         public DateTimeOffset SentAt { get; set; }
 
         /// <summary>
-        ///     Tells when the email request was processed by Infobip
+        ///     Tells when the email request was processed by Infobip.
         /// </summary>
-        /// <value>Tells when the email request was processed by Infobip</value>
+        /// <value>Tells when the email request was processed by Infobip.</value>
         [DataMember(Name = "doneAt", EmitDefaultValue = false)]
         public DateTimeOffset DoneAt { get; set; }
 
@@ -111,26 +117,86 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Price
         /// </summary>
         [DataMember(Name = "price", EmitDefaultValue = false)]
-        public EmailPrice Price { get; set; }
+        public MessagePrice Price { get; set; }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public EmailStatus Status { get; set; }
+        public MessageStatus Status { get; set; }
 
         /// <summary>
         ///     Gets or Sets Error
         /// </summary>
         [DataMember(Name = "error", EmitDefaultValue = false)]
-        public EmailReportError Error { get; set; }
+        public MessageError Error { get; set; }
 
         /// <summary>
-        ///     Infobip channel.
+        ///     Returns true if EmailReport instances are equal
         /// </summary>
-        /// <value>Infobip channel.</value>
-        [DataMember(Name = "channel", EmitDefaultValue = false)]
-        public string Channel { get; set; }
+        /// <param name="input">Instance of EmailReport to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailReport input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                ) &&
+                (
+                    SentAt == input.SentAt ||
+                    (SentAt != null &&
+                     SentAt.Equals(input.SentAt))
+                ) &&
+                (
+                    DoneAt == input.DoneAt ||
+                    (DoneAt != null &&
+                     DoneAt.Equals(input.DoneAt))
+                ) &&
+                (
+                    MessageCount == input.MessageCount ||
+                    MessageCount.Equals(input.MessageCount)
+                ) &&
+                (
+                    Price == input.Price ||
+                    (Price != null &&
+                     Price.Equals(input.Price))
+                ) &&
+                (
+                    Status == input.Status ||
+                    (Status != null &&
+                     Status.Equals(input.Status))
+                ) &&
+                (
+                    Error == input.Error ||
+                    (Error != null &&
+                     Error.Equals(input.Error))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -140,6 +206,8 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class EmailReport {\n");
+            sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
             sb.Append("  BulkId: ").Append(BulkId).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
@@ -149,7 +217,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Price: ").Append(Price).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
-            sb.Append("  Channel: ").Append(Channel).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -174,68 +241,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailReport instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailReport to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailReport input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                ) &&
-                (
-                    SentAt == input.SentAt ||
-                    SentAt != null &&
-                    SentAt.Equals(input.SentAt)
-                ) &&
-                (
-                    DoneAt == input.DoneAt ||
-                    DoneAt != null &&
-                    DoneAt.Equals(input.DoneAt)
-                ) &&
-                (
-                    MessageCount == input.MessageCount ||
-                    MessageCount.Equals(input.MessageCount)
-                ) &&
-                (
-                    Price == input.Price ||
-                    Price != null &&
-                    Price.Equals(input.Price)
-                ) &&
-                (
-                    Status == input.Status ||
-                    Status != null &&
-                    Status.Equals(input.Status)
-                ) &&
-                (
-                    Error == input.Error ||
-                    Error != null &&
-                    Error.Equals(input.Error)
-                ) &&
-                (
-                    Channel == input.Channel ||
-                    Channel != null &&
-                    Channel.Equals(input.Channel)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -243,7 +248,11 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
+                if (ApplicationId != null)
+                    hashCode = hashCode * 59 + ApplicationId.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (MessageId != null)
@@ -261,8 +270,6 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Status.GetHashCode();
                 if (Error != null)
                     hashCode = hashCode * 59 + Error.GetHashCode();
-                if (Channel != null)
-                    hashCode = hashCode * 59 + Channel.GetHashCode();
                 return hashCode;
             }
         }

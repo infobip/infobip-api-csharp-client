@@ -9,25 +9,16 @@
  */
 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines SmsBulkStatus
+    ///     The status of the message(s)..
     /// </summary>
+    /// <value>The status of the message(s).</value>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SmsBulkStatus
     {

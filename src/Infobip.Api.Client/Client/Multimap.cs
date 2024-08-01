@@ -22,13 +22,7 @@ namespace Infobip.Api.Client
     /// <typeparam name="TValue">The type of the value associated with the key.</typeparam>
     public class Multimap<TKey, TValue> : IDictionary<TKey, IList<TValue>>
     {
-        #region Private Fields
-
         private readonly Dictionary<TKey, IList<TValue>> _dictionary;
-
-        #endregion Private Fields
-
-        #region Constructors
 
         /// <summary>
         ///     Empty Constructor.
@@ -47,9 +41,25 @@ namespace Infobip.Api.Client
             _dictionary = new Dictionary<TKey, IList<TValue>>(comparer);
         }
 
-        #endregion Constructors
+        /// <summary>
+        ///     Gets the number of items contained in the Multimap.
+        /// </summary>
+        public int Count => _dictionary.Count;
 
-        #region Enumerators
+        /// <summary>
+        ///     Gets a value indicating whether the Multimap is read-only.
+        /// </summary>
+        public bool IsReadOnly => false;
+
+        /// <summary>
+        ///     Gets a System.Collections.Generic.ICollection containing the keys of the Multimap.
+        /// </summary>
+        public ICollection<TKey> Keys => _dictionary.Keys;
+
+        /// <summary>
+        ///     Gets a System.Collections.Generic.ICollection containing the values of the Multimap.
+        /// </summary>
+        public ICollection<IList<TValue>> Values => _dictionary.Values;
 
         /// <summary>
         ///     To get the enumerator.
@@ -69,12 +79,8 @@ namespace Infobip.Api.Client
             return _dictionary.GetEnumerator();
         }
 
-        #endregion Enumerators
-
-        #region Public Members
-
         /// <summary>
-        ///     Add values to Multimap
+        ///     Add values to Multimap.
         /// </summary>
         /// <param name="item">Key value pair</param>
         public void Add(KeyValuePair<TKey, IList<TValue>> item)
@@ -84,18 +90,32 @@ namespace Infobip.Api.Client
         }
 
         /// <summary>
-        ///     Add Multimap to Multimap
+        ///     Adds an item with the provided key and value to the Multimap.
         /// </summary>
-        /// <param name="multimap">Multimap</param>
-        public void Add(Multimap<TKey, TValue> multimap)
+        /// <param name="key">The object to use as the key of the item to add.</param>
+        /// <param name="value">The object to use as the value of the item to add.</param>
+        /// <exception cref="InvalidOperationException">Thrown when couldn't add the value to Multimap.</exception>
+        public void Add(TKey key, IList<TValue> value)
         {
-            foreach (var item in multimap)
-                if (!TryAdd(item.Key, item.Value))
-                    throw new InvalidOperationException("Could not add values to Multimap.");
+            if (value != null && value.Count > 0)
+            {
+                if (_dictionary.TryGetValue(key, out var list))
+                {
+                    foreach (var k in value)
+                        list.Add(k);
+                }
+
+                else
+                {
+                    list = new List<TValue>(value);
+                    if (!TryAdd(key, list))
+                        throw new InvalidOperationException("Could not add values to Multimap.");
+                }
+            }
         }
 
         /// <summary>
-        ///     Clear Multimap
+        ///     Clear Multimap.
         /// </summary>
         public void Clear()
         {
@@ -111,6 +131,19 @@ namespace Infobip.Api.Client
         public bool Contains(KeyValuePair<TKey, IList<TValue>> item)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Determines whether the Multimap contains an item with the specified key.
+        /// </summary>
+        /// <param name="key">The key to locate in the Multimap.</param>
+        /// <returns>
+        ///     true if the Multimap contains an item with
+        ///     the key; otherwise, false.
+        /// </returns>
+        public bool ContainsKey(TKey key)
+        {
+            return _dictionary.ContainsKey(key);
         }
 
         /// <summary>
@@ -137,52 +170,6 @@ namespace Infobip.Api.Client
         public bool Remove(KeyValuePair<TKey, IList<TValue>> item)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        ///     Gets the number of items contained in the Multimap.
-        /// </summary>
-        public int Count => _dictionary.Count;
-
-        /// <summary>
-        ///     Gets a value indicating whether the Multimap is read-only.
-        /// </summary>
-        public bool IsReadOnly => false;
-
-        /// <summary>
-        ///     Adds an item with the provided key and value to the Multimap.
-        /// </summary>
-        /// <param name="key">The object to use as the key of the item to add.</param>
-        /// <param name="value">The object to use as the value of the item to add.</param>
-        /// <exception cref="InvalidOperationException">Thrown when couldn't add the value to Multimap.</exception>
-        public void Add(TKey key, IList<TValue> value)
-        {
-            if (value != null && value.Count > 0)
-            {
-                if (_dictionary.TryGetValue(key, out var list))
-                {
-                    foreach (var k in value) list.Add(k);
-                }
-                else
-                {
-                    list = new List<TValue>(value);
-                    if (!TryAdd(key, list))
-                        throw new InvalidOperationException("Could not add values to Multimap.");
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Determines whether the Multimap contains an item with the specified key.
-        /// </summary>
-        /// <param name="key">The key to locate in the Multimap.</param>
-        /// <returns>
-        ///     true if the Multimap contains an item with
-        ///     the key; otherwise, false.
-        /// </returns>
-        public bool ContainsKey(TKey key)
-        {
-            return _dictionary.ContainsKey(key);
         }
 
         /// <summary>
@@ -225,30 +212,6 @@ namespace Infobip.Api.Client
         }
 
         /// <summary>
-        ///     Gets a System.Collections.Generic.ICollection containing the keys of the Multimap.
-        /// </summary>
-        public ICollection<TKey> Keys => _dictionary.Keys;
-
-        /// <summary>
-        ///     Gets a System.Collections.Generic.ICollection containing the values of the Multimap.
-        /// </summary>
-        public ICollection<IList<TValue>> Values => _dictionary.Values;
-
-        /// <summary>
-        ///     Copy the items of the Multimap to an System.Array,
-        ///     starting at a particular System.Array index.
-        /// </summary>
-        /// <param name="array">
-        ///     The one-dimensional System.Array that is the destination of the items copied
-        ///     from Multimap. The System.Array must have zero-based indexing.
-        /// </param>
-        /// <param name="index">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(Array array, int index)
-        {
-            ((ICollection)_dictionary).CopyTo(array, index);
-        }
-
-        /// <summary>
         ///     Adds an item with the provided key and value to the Multimap.
         /// </summary>
         /// <param name="key">The object to use as the key of the item to add.</param>
@@ -271,17 +234,29 @@ namespace Infobip.Api.Client
             }
         }
 
-        #endregion Public Members
-
-        #region Private Members
-
-        /**
-         * Helper method to encapsulate generator differences between dictionary types.
-         */
-        private bool TryRemove(TKey key, out IList<TValue> value)
+        /// <summary>
+        ///     Add Multimap to Multimap.
+        /// </summary>
+        /// <param name="multimap">Multimap</param>
+        public void Add(Multimap<TKey, TValue> multimap)
         {
-            _dictionary.TryGetValue(key, out value);
-            return _dictionary.Remove(key);
+            foreach (var item in multimap)
+                if (!TryAdd(item.Key, item.Value))
+                    throw new InvalidOperationException("Could not add values to Multimap.");
+        }
+
+        /// <summary>
+        ///     Copy the items of the Multimap to an System.Array,
+        ///     starting at a particular System.Array index.
+        /// </summary>
+        /// <param name="array">
+        ///     The one-dimensional System.Array that is the destination of the items copied
+        ///     from Multimap. The System.Array must have zero-based indexing.
+        /// </param>
+        /// <param name="index">The zero-based index in array at which copying begins.</param>
+        public void CopyTo(Array array, int index)
+        {
+            ((ICollection)_dictionary).CopyTo(array, index);
         }
 
         /**
@@ -301,6 +276,13 @@ namespace Infobip.Api.Client
             return true;
         }
 
-        #endregion Private Members
+        /**
+         * Helper method to encapsulate generator differences between dictionary types.
+         */
+        private bool TryRemove(TKey key, out IList<TValue> value)
+        {
+            _dictionary.TryGetValue(key, out value);
+            return _dictionary.Remove(key);
+        }
     }
 }

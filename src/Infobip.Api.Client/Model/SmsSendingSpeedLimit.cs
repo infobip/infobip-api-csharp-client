@@ -10,23 +10,17 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsSendingSpeedLimit
+    ///     Limits the send speed when sending messages in bulk to deliver messages over a longer period of time. You may wish
+    ///     to use this to allow your systems or agents to handle large amounts of incoming traffic, e.g., if you are expecting
+    ///     recipients to follow through with a call-to-action option from a message you sent. Not setting a send speed limit
+    ///     can overwhelm your resources with incoming traffic.
     /// </summary>
     [DataContract(Name = "SmsSendingSpeedLimit")]
     public class SmsSendingSpeedLimit : IEquatable<SmsSendingSpeedLimit>
@@ -43,42 +37,56 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsSendingSpeedLimit" /> class.
         /// </summary>
         /// <param name="amount">
-        ///     The number of messages to send per time unit. By default, Infobip sends your messages as fast as
-        ///     the infrastructure allows. Use this parameter to reduce the traffic if you find the default sending speed too fast
-        ///     for your use case. Note that boosting this parameter will not result in faster sending speeds beyond infrastructure
-        ///     capabilities. (required).
+        ///     The number of messages to be sent per timeUnit. By default, the system sends messages as fast as
+        ///     the infrastructure allows. Use this parameter to adapt sending capacity to your needs. The system is only able to
+        ///     work against its maximum capacity for ambitious message batches. (required).
         /// </param>
-        /// <param name="timeUnit">
-        ///     The time unit in which the defined message amount will be sent. The default value is &#x60;
-        ///     MINUTE&#x60;..
-        /// </param>
-        public SmsSendingSpeedLimit(int amount = default(int),
-            SmsSpeedLimitTimeUnit? timeUnit = default(SmsSpeedLimitTimeUnit?))
+        /// <param name="timeUnit">timeUnit.</param>
+        public SmsSendingSpeedLimit(int amount = default, SmsSpeedLimitTimeUnit? timeUnit = default)
         {
             Amount = amount;
             TimeUnit = timeUnit;
         }
 
         /// <summary>
-        ///     The time unit in which the defined message amount will be sent. The default value is &#x60;MINUTE&#x60;.
+        ///     Gets or Sets TimeUnit
         /// </summary>
-        /// <value>The time unit in which the defined message amount will be sent. The default value is &#x60;MINUTE&#x60;.</value>
         [DataMember(Name = "timeUnit", EmitDefaultValue = false)]
         public SmsSpeedLimitTimeUnit? TimeUnit { get; set; }
 
         /// <summary>
-        ///     The number of messages to send per time unit. By default, Infobip sends your messages as fast as the infrastructure
-        ///     allows. Use this parameter to reduce the traffic if you find the default sending speed too fast for your use case.
-        ///     Note that boosting this parameter will not result in faster sending speeds beyond infrastructure capabilities.
+        ///     The number of messages to be sent per timeUnit. By default, the system sends messages as fast as the infrastructure
+        ///     allows. Use this parameter to adapt sending capacity to your needs. The system is only able to work against its
+        ///     maximum capacity for ambitious message batches.
         /// </summary>
         /// <value>
-        ///     The number of messages to send per time unit. By default, Infobip sends your messages as fast as the
-        ///     infrastructure allows. Use this parameter to reduce the traffic if you find the default sending speed too fast for
-        ///     your use case. Note that boosting this parameter will not result in faster sending speeds beyond infrastructure
-        ///     capabilities.
+        ///     The number of messages to be sent per timeUnit. By default, the system sends messages as fast as the
+        ///     infrastructure allows. Use this parameter to adapt sending capacity to your needs. The system is only able to work
+        ///     against its maximum capacity for ambitious message batches.
         /// </value>
         [DataMember(Name = "amount", IsRequired = true, EmitDefaultValue = false)]
         public int Amount { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsSendingSpeedLimit instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsSendingSpeedLimit to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsSendingSpeedLimit input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    Amount == input.Amount ||
+                    Amount.Equals(input.Amount)
+                ) &&
+                (
+                    TimeUnit == input.TimeUnit ||
+                    TimeUnit.Equals(input.TimeUnit)
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -114,27 +122,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsSendingSpeedLimit instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsSendingSpeedLimit to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsSendingSpeedLimit input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Amount == input.Amount ||
-                    Amount.Equals(input.Amount)
-                ) &&
-                (
-                    TimeUnit == input.TimeUnit ||
-                    TimeUnit.Equals(input.TimeUnit)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -142,7 +129,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 hashCode = hashCode * 59 + Amount.GetHashCode();
                 hashCode = hashCode * 59 + TimeUnit.GetHashCode();
                 return hashCode;

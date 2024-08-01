@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,9 +25,12 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsBulkStatusResponse" /> class.
         /// </summary>
-        /// <param name="bulkId">bulkId.</param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request..
+        /// </param>
         /// <param name="status">status.</param>
-        public SmsBulkStatusResponse(string bulkId = default(string), SmsBulkStatus? status = default(SmsBulkStatus?))
+        public SmsBulkStatusResponse(string bulkId = default, SmsBulkStatus? status = default)
         {
             BulkId = bulkId;
             Status = status;
@@ -49,10 +43,37 @@ namespace Infobip.Api.Client.Model
         public SmsBulkStatus? Status { get; set; }
 
         /// <summary>
-        ///     Gets or Sets BulkId
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request.
         /// </summary>
+        /// <value>
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
+        ///     request.
+        /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
         public string BulkId { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsBulkStatusResponse instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsBulkStatusResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsBulkStatusResponse input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    Status == input.Status ||
+                    Status.Equals(input.Status)
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -88,28 +109,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsBulkStatusResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsBulkStatusResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsBulkStatusResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    Status == input.Status ||
-                    Status.Equals(input.Status)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -117,7 +116,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 hashCode = hashCode * 59 + Status.GetHashCode();

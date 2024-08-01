@@ -10,23 +10,15 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsRegionalOptions
+    ///     Region-specific parameters, often imposed by local laws. Use this, if country or region that you are sending an SMS
+    ///     to requires additional information.
     /// </summary>
     [DataContract(Name = "SmsRegionalOptions")]
     public class SmsRegionalOptions : IEquatable<SmsRegionalOptions>
@@ -34,25 +26,62 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsRegionalOptions" /> class.
         /// </summary>
-        /// <param name="indiaDlt">
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone
-        ///     numbers registered in India..
-        /// </param>
-        public SmsRegionalOptions(SmsIndiaDltOptions indiaDlt = default)
+        /// <param name="indiaDlt">indiaDlt.</param>
+        /// <param name="turkeyIys">turkeyIys.</param>
+        /// <param name="southKorea">southKorea.</param>
+        public SmsRegionalOptions(SmsIndiaDltOptions indiaDlt = default, SmsTurkeyIysOptions turkeyIys = default,
+            SmsSouthKoreaOptions southKorea = default)
         {
             IndiaDlt = indiaDlt;
+            TurkeyIys = turkeyIys;
+            SouthKorea = southKorea;
         }
 
         /// <summary>
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone numbers registered in
-        ///     India.
+        ///     Gets or Sets IndiaDlt
         /// </summary>
-        /// <value>
-        ///     Distributed Ledger Technology (DLT) specific parameters required for sending SMS to phone numbers registered in
-        ///     India.
-        /// </value>
         [DataMember(Name = "indiaDlt", EmitDefaultValue = false)]
         public SmsIndiaDltOptions IndiaDlt { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets TurkeyIys
+        /// </summary>
+        [DataMember(Name = "turkeyIys", EmitDefaultValue = false)]
+        public SmsTurkeyIysOptions TurkeyIys { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets SouthKorea
+        /// </summary>
+        [DataMember(Name = "southKorea", EmitDefaultValue = false)]
+        public SmsSouthKoreaOptions SouthKorea { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsRegionalOptions instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsRegionalOptions to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsRegionalOptions input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    IndiaDlt == input.IndiaDlt ||
+                    (IndiaDlt != null &&
+                     IndiaDlt.Equals(input.IndiaDlt))
+                ) &&
+                (
+                    TurkeyIys == input.TurkeyIys ||
+                    (TurkeyIys != null &&
+                     TurkeyIys.Equals(input.TurkeyIys))
+                ) &&
+                (
+                    SouthKorea == input.SouthKorea ||
+                    (SouthKorea != null &&
+                     SouthKorea.Equals(input.SouthKorea))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -63,6 +92,8 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class SmsRegionalOptions {\n");
             sb.Append("  IndiaDlt: ").Append(IndiaDlt).Append("\n");
+            sb.Append("  TurkeyIys: ").Append(TurkeyIys).Append("\n");
+            sb.Append("  SouthKorea: ").Append(SouthKorea).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,22 +118,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsRegionalOptions instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsRegionalOptions to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsRegionalOptions input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                IndiaDlt == input.IndiaDlt ||
-                IndiaDlt != null &&
-                IndiaDlt.Equals(input.IndiaDlt);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -110,9 +125,13 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (IndiaDlt != null)
                     hashCode = hashCode * 59 + IndiaDlt.GetHashCode();
+                if (TurkeyIys != null)
+                    hashCode = hashCode * 59 + TurkeyIys.GetHashCode();
+                if (SouthKorea != null)
+                    hashCode = hashCode * 59 + SouthKorea.GetHashCode();
                 return hashCode;
             }
         }

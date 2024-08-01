@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,41 +27,56 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsPreviewResponse" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsPreviewResponse()
+        /// <param name="originalText">Message content supplied in the request..</param>
+        /// <param name="previews">
+        ///     Allows for previewing the original message content once additional language configuration has
+        ///     been applied to it..
+        /// </param>
+        public SmsPreviewResponse(string originalText = default, List<SmsPreview> previews = default)
         {
+            OriginalText = originalText;
+            Previews = previews;
         }
 
         /// <summary>
-        ///     Text supplied in the request.
+        ///     Message content supplied in the request.
         /// </summary>
-        /// <value>Text supplied in the request.</value>
+        /// <value>Message content supplied in the request.</value>
         [DataMember(Name = "originalText", EmitDefaultValue = false)]
-        public string OriginalText { get; private set; }
+        public string OriginalText { get; set; }
 
         /// <summary>
-        ///     Previews of applying different configurations to the original text.
+        ///     Allows for previewing the original message content once additional language configuration has been applied to it.
         /// </summary>
-        /// <value>Previews of applying different configurations to the original text.</value>
+        /// <value>
+        ///     Allows for previewing the original message content once additional language configuration has been applied to
+        ///     it.
+        /// </value>
         [DataMember(Name = "previews", EmitDefaultValue = false)]
-        public List<SmsPreview> Previews { get; private set; }
+        public List<SmsPreview> Previews { get; set; }
 
         /// <summary>
-        ///     Returns false as OriginalText should not be serialized given that it's read-only.
+        ///     Returns true if SmsPreviewResponse instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeOriginalText()
+        /// <param name="input">Instance of SmsPreviewResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsPreviewResponse input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Previews should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializePreviews()
-        {
-            return false;
+            return
+                (
+                    OriginalText == input.OriginalText ||
+                    (OriginalText != null &&
+                     OriginalText.Equals(input.OriginalText))
+                ) &&
+                (
+                    Previews == input.Previews ||
+                    (Previews != null &&
+                     input.Previews != null &&
+                     Previews.SequenceEqual(input.Previews))
+                );
         }
 
         /// <summary>
@@ -105,30 +113,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsPreviewResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsPreviewResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsPreviewResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    OriginalText == input.OriginalText ||
-                    OriginalText != null &&
-                    OriginalText.Equals(input.OriginalText)
-                ) &&
-                (
-                    Previews == input.Previews ||
-                    Previews != null &&
-                    input.Previews != null &&
-                    Previews.SequenceEqual(input.Previews)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -136,7 +120,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (OriginalText != null)
                     hashCode = hashCode * 59 + OriginalText.GetHashCode();
                 if (Previews != null)

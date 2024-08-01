@@ -9,9 +9,6 @@
  */
 
 
-using System;
-using System.IO;
-
 namespace Infobip.Api.Client
 {
     /// <summary>
@@ -21,36 +18,6 @@ namespace Infobip.Api.Client
     public interface ISynchronousClient
     {
         /// <summary>
-        ///     Executes a blocking call to some <paramref name="path" /> using the GET http verb.
-        /// </summary>
-        /// <param name="path">The relative path to invoke.</param>
-        /// <param name="options">The request parameters to pass along to the client.</param>
-        /// <param name="configuration">Per-request configurable settings.</param>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
-        ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
-
-        /// <summary>
-        ///     Executes a blocking call to some <paramref name="path" /> using the POST http verb.
-        /// </summary>
-        /// <param name="path">The relative path to invoke.</param>
-        /// <param name="options">The request parameters to pass along to the client.</param>
-        /// <param name="configuration">Per-request configurable settings.</param>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
-        ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
-
-        /// <summary>
-        ///     Executes a blocking call to some <paramref name="path" /> using the PUT http verb.
-        /// </summary>
-        /// <param name="path">The relative path to invoke.</param>
-        /// <param name="options">The request parameters to pass along to the client.</param>
-        /// <param name="configuration">Per-request configurable settings.</param>
-        /// <typeparam name="T">The return type.</typeparam>
-        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
-        ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
-
-        /// <summary>
         ///     Executes a blocking call to some <paramref name="path" /> using the DELETE http verb.
         /// </summary>
         /// <param name="path">The relative path to invoke.</param>
@@ -59,6 +26,16 @@ namespace Infobip.Api.Client
         /// <typeparam name="T">The return type.</typeparam>
         /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
         ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
+
+        /// <summary>
+        ///     Executes a blocking call to some <paramref name="path" /> using the GET http verb.
+        /// </summary>
+        /// <param name="path">The relative path to invoke.</param>
+        /// <param name="options">The request parameters to pass along to the client.</param>
+        /// <param name="configuration">Per-request configurable settings.</param>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
+        ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
 
         /// <summary>
         ///     Executes a blocking call to some <paramref name="path" /> using the HEAD http verb.
@@ -89,5 +66,25 @@ namespace Infobip.Api.Client
         /// <typeparam name="T">The return type.</typeparam>
         /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
         ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
+
+        /// <summary>
+        ///     Executes a blocking call to some <paramref name="path" /> using the POST http verb.
+        /// </summary>
+        /// <param name="path">The relative path to invoke.</param>
+        /// <param name="options">The request parameters to pass along to the client.</param>
+        /// <param name="configuration">Per-request configurable settings.</param>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
+        ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
+
+        /// <summary>
+        ///     Executes a blocking call to some <paramref name="path" /> using the PUT http verb.
+        /// </summary>
+        /// <param name="path">The relative path to invoke.</param>
+        /// <param name="options">The request parameters to pass along to the client.</param>
+        /// <param name="configuration">Per-request configurable settings.</param>
+        /// <typeparam name="T">The return type.</typeparam>
+        /// <returns>The response data, decorated with <see cref="ApiResponse{T}" /></returns>
+        ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null);
     }
 }

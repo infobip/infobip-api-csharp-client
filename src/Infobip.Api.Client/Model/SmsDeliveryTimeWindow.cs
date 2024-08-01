@@ -10,23 +10,17 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsDeliveryTimeWindow
+    ///     Sets specific SMS delivery window outside of which messages won&#39;t be delivered. Often, used when there are
+    ///     restrictions on when messages can be sent.
     /// </summary>
     [DataContract(Name = "SmsDeliveryTimeWindow")]
     public class SmsDeliveryTimeWindow : IEquatable<SmsDeliveryTimeWindow>
@@ -43,20 +37,13 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsDeliveryTimeWindow" /> class.
         /// </summary>
         /// <param name="days">
-        ///     Days which are included in the delivery time window. Values are: &#x60;MONDAY&#x60;, &#x60;TUESDAY
-        ///     &#x60;, &#x60;WEDNESDAY&#x60;, &#x60;THURSDAY&#x60;, &#x60;FRIDAY&#x60;, &#x60;SATURDAY&#x60;, &#x60;SUNDAY&#x60;.
-        ///     At least one day must be stated. (required).
+        ///     Days of the week which are included in the delivery time window. At least one day must be provided.
+        ///     Separate multiple days with a comma. (required).
         /// </param>
-        /// <param name="from">
-        ///     Exact time of day in which the sending can start. Consists of hour and minute properties, both
-        ///     mandatory. Time is expressed in the UTC time zone..
-        /// </param>
-        /// <param name="to">
-        ///     Exact time of day in which the sending will end. Consists of an hour and minute properties, both
-        ///     mandatory. Time is expressed in the UTC time zone..
-        /// </param>
-        public SmsDeliveryTimeWindow(List<SmsDeliveryDay> days = default(List<SmsDeliveryDay>),
-            SmsDeliveryTime from = default, SmsDeliveryTime to = default)
+        /// <param name="from">from.</param>
+        /// <param name="to">to.</param>
+        public SmsDeliveryTimeWindow(List<SmsDeliveryDay> days = default, SmsDeliveryTimeFrom from = default,
+            SmsDeliveryTimeTo to = default)
         {
             // to ensure "days" is required (not null)
             Days = days ?? throw new ArgumentNullException("days");
@@ -65,39 +52,56 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Days which are included in the delivery time window. Values are: &#x60;MONDAY&#x60;, &#x60;TUESDAY&#x60;, &#x60;
-        ///     WEDNESDAY&#x60;, &#x60;THURSDAY&#x60;, &#x60;FRIDAY&#x60;, &#x60;SATURDAY&#x60;, &#x60;SUNDAY&#x60;. At least one
-        ///     day must be stated.
+        ///     Days of the week which are included in the delivery time window. At least one day must be provided. Separate
+        ///     multiple days with a comma.
         /// </summary>
         /// <value>
-        ///     Days which are included in the delivery time window. Values are: &#x60;MONDAY&#x60;, &#x60;TUESDAY&#x60;, &#x60;
-        ///     WEDNESDAY&#x60;, &#x60;THURSDAY&#x60;, &#x60;FRIDAY&#x60;, &#x60;SATURDAY&#x60;, &#x60;SUNDAY&#x60;. At least one
-        ///     day must be stated.
+        ///     Days of the week which are included in the delivery time window. At least one day must be provided. Separate
+        ///     multiple days with a comma.
         /// </value>
         [DataMember(Name = "days", IsRequired = true, EmitDefaultValue = false)]
         public List<SmsDeliveryDay> Days { get; set; }
 
         /// <summary>
-        ///     Exact time of day in which the sending can start. Consists of hour and minute properties, both mandatory. Time is
-        ///     expressed in the UTC time zone.
+        ///     Gets or Sets From
         /// </summary>
-        /// <value>
-        ///     Exact time of day in which the sending can start. Consists of hour and minute properties, both mandatory. Time
-        ///     is expressed in the UTC time zone.
-        /// </value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
-        public SmsDeliveryTime From { get; set; }
+        public SmsDeliveryTimeFrom From { get; set; }
 
         /// <summary>
-        ///     Exact time of day in which the sending will end. Consists of an hour and minute properties, both mandatory. Time is
-        ///     expressed in the UTC time zone.
+        ///     Gets or Sets To
         /// </summary>
-        /// <value>
-        ///     Exact time of day in which the sending will end. Consists of an hour and minute properties, both mandatory. Time
-        ///     is expressed in the UTC time zone.
-        /// </value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
-        public SmsDeliveryTime To { get; set; }
+        public SmsDeliveryTimeTo To { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsDeliveryTimeWindow instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsDeliveryTimeWindow to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsDeliveryTimeWindow input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    Days == input.Days ||
+                    (Days != null &&
+                     input.Days != null &&
+                     Days.SequenceEqual(input.Days))
+                ) &&
+                (
+                    From == input.From ||
+                    (From != null &&
+                     From.Equals(input.From))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -134,35 +138,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsDeliveryTimeWindow instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsDeliveryTimeWindow to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsDeliveryTimeWindow input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Days == input.Days ||
-                    Days != null &&
-                    input.Days != null &&
-                    Days.SequenceEqual(input.Days)
-                ) &&
-                (
-                    From == input.From ||
-                    From != null &&
-                    From.Equals(input.From)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -170,7 +145,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Days != null)
                     hashCode = hashCode * 59 + Days.GetHashCode();
                 if (From != null)

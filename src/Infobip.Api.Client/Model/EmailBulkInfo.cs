@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,25 +25,57 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailBulkInfo" /> class.
         /// </summary>
-        /// <param name="bulkId">bulkId.</param>
-        /// <param name="sendAt">sendAt.</param>
-        public EmailBulkInfo(string bulkId = default(string), DateTimeOffset sendAt = default(DateTimeOffset))
+        /// <param name="bulkId">The ID uniquely identifies the sent email request..</param>
+        /// <param name="sendAt">
+        ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
+        ///     HH:mm:ss.SSSZ&#x60;..
+        /// </param>
+        public EmailBulkInfo(string bulkId = default, DateTimeOffset sendAt = default)
         {
             BulkId = bulkId;
             SendAt = sendAt;
         }
 
         /// <summary>
-        ///     Gets or Sets BulkId
+        ///     The ID uniquely identifies the sent email request.
         /// </summary>
+        /// <value>The ID uniquely identifies the sent email request.</value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
         public string BulkId { get; set; }
 
         /// <summary>
-        ///     Gets or Sets SendAt
+        ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;.
         /// </summary>
+        /// <value>
+        ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;.
+        /// </value>
         [DataMember(Name = "sendAt", EmitDefaultValue = false)]
         public DateTimeOffset SendAt { get; set; }
+
+        /// <summary>
+        ///     Returns true if EmailBulkInfo instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EmailBulkInfo to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailBulkInfo input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    BulkId == input.BulkId ||
+                    (BulkId != null &&
+                     BulkId.Equals(input.BulkId))
+                ) &&
+                (
+                    SendAt == input.SendAt ||
+                    (SendAt != null &&
+                     SendAt.Equals(input.SendAt))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -88,29 +111,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailBulkInfo instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailBulkInfo to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailBulkInfo input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    BulkId == input.BulkId ||
-                    BulkId != null &&
-                    BulkId.Equals(input.BulkId)
-                ) &&
-                (
-                    SendAt == input.SendAt ||
-                    SendAt != null &&
-                    SendAt.Equals(input.SendAt)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -118,7 +118,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
                 if (SendAt != null)

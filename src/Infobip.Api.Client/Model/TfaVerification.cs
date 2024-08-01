@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -34,9 +25,17 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaVerification" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public TfaVerification()
+        /// <param name="msisdn">Phone number (MSISDN) for which verification status is checked..</param>
+        /// <param name="sentAt">Sent UNIX timestamp (in millis), if the phone number (MSISDN) is verified..</param>
+        /// <param name="verified">Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID..</param>
+        /// <param name="verifiedAt">Verification UNIX timestamp (in millis), if the phone number (MSISDN) is verified..</param>
+        public TfaVerification(string msisdn = default, long sentAt = default, bool verified = default,
+            long verifiedAt = default)
         {
+            Msisdn = msisdn;
+            SentAt = sentAt;
+            Verified = verified;
+            VerifiedAt = verifiedAt;
         }
 
         /// <summary>
@@ -44,63 +43,57 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Phone number (MSISDN) for which verification status is checked.</value>
         [DataMember(Name = "msisdn", EmitDefaultValue = false)]
-        public string Msisdn { get; private set; }
+        public string Msisdn { get; set; }
 
         /// <summary>
         ///     Sent UNIX timestamp (in millis), if the phone number (MSISDN) is verified.
         /// </summary>
         /// <value>Sent UNIX timestamp (in millis), if the phone number (MSISDN) is verified.</value>
         [DataMember(Name = "sentAt", EmitDefaultValue = false)]
-        public long SentAt { get; private set; }
+        public long SentAt { get; set; }
 
         /// <summary>
         ///     Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID.
         /// </summary>
         /// <value>Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID.</value>
         [DataMember(Name = "verified", EmitDefaultValue = true)]
-        public bool Verified { get; private set; }
+        public bool Verified { get; set; }
 
         /// <summary>
         ///     Verification UNIX timestamp (in millis), if the phone number (MSISDN) is verified.
         /// </summary>
         /// <value>Verification UNIX timestamp (in millis), if the phone number (MSISDN) is verified.</value>
         [DataMember(Name = "verifiedAt", EmitDefaultValue = false)]
-        public long VerifiedAt { get; private set; }
+        public long VerifiedAt { get; set; }
 
         /// <summary>
-        ///     Returns false as Msisdn should not be serialized given that it's read-only.
+        ///     Returns true if TfaVerification instances are equal
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMsisdn()
+        /// <param name="input">Instance of TfaVerification to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaVerification input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as SentAt should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeSentAt()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as Verified should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVerified()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as VerifiedAt should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVerifiedAt()
-        {
-            return false;
+            return
+                (
+                    Msisdn == input.Msisdn ||
+                    (Msisdn != null &&
+                     Msisdn.Equals(input.Msisdn))
+                ) &&
+                (
+                    SentAt == input.SentAt ||
+                    SentAt.Equals(input.SentAt)
+                ) &&
+                (
+                    Verified == input.Verified ||
+                    Verified.Equals(input.Verified)
+                ) &&
+                (
+                    VerifiedAt == input.VerifiedAt ||
+                    VerifiedAt.Equals(input.VerifiedAt)
+                );
         }
 
         /// <summary>
@@ -139,36 +132,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaVerification instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaVerification to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaVerification input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    Msisdn == input.Msisdn ||
-                    Msisdn != null &&
-                    Msisdn.Equals(input.Msisdn)
-                ) &&
-                (
-                    SentAt == input.SentAt ||
-                    SentAt.Equals(input.SentAt)
-                ) &&
-                (
-                    Verified == input.Verified ||
-                    Verified.Equals(input.Verified)
-                ) &&
-                (
-                    VerifiedAt == input.VerifiedAt ||
-                    VerifiedAt.Equals(input.VerifiedAt)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -176,7 +139,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Msisdn != null)
                     hashCode = hashCode * 59 + Msisdn.GetHashCode();
                 hashCode = hashCode * 59 + SentAt.GetHashCode();

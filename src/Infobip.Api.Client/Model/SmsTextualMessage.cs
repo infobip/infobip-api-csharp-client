@@ -10,23 +10,16 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsTextualMessage
+    ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
     /// </summary>
     [DataContract(Name = "SmsTextualMessage")]
     public class SmsTextualMessage : IEquatable<SmsTextualMessage>
@@ -34,67 +27,91 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsTextualMessage" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected SmsTextualMessage()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SmsTextualMessage" /> class.
+        /// </summary>
         /// <param name="callbackData">
-        ///     Additional client&#39;s data that will be sent on the notifyUrl. The maximum value is 200
-        ///     characters..
+        ///     Additional data that can be used for identifying, managing, or monitoring a message. Data
+        ///     included here will also be automatically included in the message [Delivery
+        ///     Report](#channels/sms/get-outbound-sms-message-delivery-reports). The maximum value is 4000 characters..
         /// </param>
-        /// <param name="deliveryTimeWindow">
-        ///     Scheduling object that allows setting up detailed time windows in which the message
-        ///     can be sent. Consists of &#x60;from&#x60;, &#x60;to&#x60; and &#x60;days&#x60; properties. &#x60;Days&#x60;
-        ///     property is mandatory. &#x60;From&#x60; and &#x60;to&#x60; properties should be either both included, to allow
-        ///     finer time window granulation or both omitted, to include whole days in the delivery time window..
+        /// <param name="deliveryTimeWindow">deliveryTimeWindow.</param>
+        /// <param name="destinations">
+        ///     An array of destination objects for where messages are being sent. A valid destination is
+        ///     required. (required).
         /// </param>
-        /// <param name="destinations">destinations.</param>
         /// <param name="flash">
-        ///     Can be &#x60;true&#x60; or &#x60;false&#x60;. If the value is set to &#x60;true&#x60;, a flash SMS
-        ///     will be sent. Otherwise, a normal SMS will be sent. The default value is &#x60;false&#x60;..
+        ///     Allows for sending a [flash SMS](https://www.infobip.com/docs/sms/message-types#flash-sms) to
+        ///     automatically appear on recipient devices without interaction. Set to &#x60;true&#x60; to enable flash SMS, or
+        ///     leave the default value, &#x60;false&#x60; to send a standard SMS. (default to false).
         /// </param>
         /// <param name="from">
-        ///     Represents a sender ID which can be alphanumeric or numeric. Alphanumeric sender ID length should be
-        ///     between 3 and 11 characters (Example: &#x60;CompanyName&#x60;). Numeric sender ID length should be between 3 and 14
-        ///     characters..
+        ///     The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). Make sure you
+        ///     don&#39;t exceed [character limit](https://www.infobip.com/docs/sms/get-started#sender-names)..
         /// </param>
         /// <param name="intermediateReport">
-        ///     The real-time Intermediate delivery report that will be sent on your callback server.
-        ///     Can be &#x60;true&#x60; or &#x60;false&#x60;..
+        ///     The [real-time intermediate delivery
+        ///     report](#channels/sms/receive-outbound-sms-message-report) containing GSM error codes, messages status, pricing,
+        ///     network and country codes, etc., which will be sent on your callback server. Defaults to &#x60;false&#x60;..
         /// </param>
         /// <param name="language">language.</param>
         /// <param name="notifyContentType">
-        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;
+        ///     Preferred delivery report content type, &#x60;application/json&#x60; or &#x60;
         ///     application/xml&#x60;..
         /// </param>
-        /// <param name="notifyUrl">The URL on your call back server on which the Delivery report will be sent..</param>
-        /// <param name="regional">
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that
-        ///     you are sending SMS to requires some extra parameters..
+        /// <param name="notifyUrl">
+        ///     The URL on your call back server on to which a delivery report will be sent. The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/api#notify-url) for when your URL becomes unavailable uses the following
+        ///     formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;..
         /// </param>
+        /// <param name="regional">regional.</param>
         /// <param name="sendAt">
-        ///     Date and time when the message is to be sent. Used for scheduled SMS (SMS not sent immediately,
-        ///     but at the scheduled time). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..
+        ///     Date and time when the message is to be sent. Used for [scheduled
+        ///     SMS](#channels/sms/get-scheduled-sms-messages). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;, and can only be scheduled for no later than 180 days in advance..
         /// </param>
-        /// <param name="text">Text of the message that will be sent..</param>
+        /// <param name="text">Content of the message being sent..</param>
         /// <param name="transliteration">
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH
-        ///     &#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;
-        ///     BALTIC&#x60; and &#x60;NON_UNICODE&#x60;..
+        ///     The transliteration of your sent message from one script to another. Transliteration is
+        ///     used to replace characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;
+        ///     TURKISH&#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC
+        ///     &#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, and &#x60;
+        ///     NON_UNICODE&#x60;..
         /// </param>
         /// <param name="validityPeriod">
         ///     The message validity period in minutes. When the period expires, it will not be allowed
-        ///     for the message to be sent. Validity period longer than 48h is not supported (in this case, it will be
-        ///     automatically set to 48h)..
+        ///     for the message to be sent. Validity period longer than 48h is not supported. Any bigger value will automatically
+        ///     default back to &#x60;2880&#x60;..
         /// </param>
-        public SmsTextualMessage(string callbackData = default(string),
-            SmsDeliveryTimeWindow deliveryTimeWindow = default,
-            List<SmsDestination> destinations = default(List<SmsDestination>), bool flash = default(bool),
-            string from = default(string), bool intermediateReport = default(bool), SmsLanguage language = default,
-            string notifyContentType = default(string), string notifyUrl = default(string),
-            SmsRegionalOptions regional = default, DateTimeOffset sendAt = default(DateTimeOffset),
-            string text = default(string), string transliteration = default(string),
-            long validityPeriod = default(long))
+        /// <param name="entityId">
+        ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
+        ///     For more details, see our [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="applicationId">
+        ///     Required for application use in a send request for outbound traffic. Returned in
+        ///     notification events. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="campaignReferenceId">
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the
+        ///     performance of individual campaigns per sending channel..
+        /// </param>
+        public SmsTextualMessage(string callbackData = default, SmsDeliveryTimeWindow deliveryTimeWindow = default,
+            List<SmsDestination> destinations = default, bool flash = false, string from = default,
+            bool intermediateReport = default, SmsLanguage language = default, string notifyContentType = default,
+            string notifyUrl = default, SmsRegionalOptions regional = default, DateTimeOffset sendAt = default,
+            string text = default, string transliteration = default, long validityPeriod = default,
+            string entityId = default, string applicationId = default, string campaignReferenceId = default)
         {
+            // to ensure "destinations" is required (not null)
+            Destinations = destinations ?? throw new ArgumentNullException("destinations");
             CallbackData = callbackData;
             DeliveryTimeWindow = deliveryTimeWindow;
-            Destinations = destinations;
             Flash = flash;
             From = from;
             IntermediateReport = intermediateReport;
@@ -106,66 +123,70 @@ namespace Infobip.Api.Client.Model
             Text = text;
             Transliteration = transliteration;
             ValidityPeriod = validityPeriod;
+            EntityId = entityId;
+            ApplicationId = applicationId;
+            CampaignReferenceId = campaignReferenceId;
         }
 
         /// <summary>
-        ///     Additional client&#39;s data that will be sent on the notifyUrl. The maximum value is 200 characters.
+        ///     Additional data that can be used for identifying, managing, or monitoring a message. Data included here will also
+        ///     be automatically included in the message [Delivery
+        ///     Report](#channels/sms/get-outbound-sms-message-delivery-reports). The maximum value is 4000 characters.
         /// </summary>
-        /// <value>Additional client&#39;s data that will be sent on the notifyUrl. The maximum value is 200 characters.</value>
+        /// <value>
+        ///     Additional data that can be used for identifying, managing, or monitoring a message. Data included here will
+        ///     also be automatically included in the message [Delivery
+        ///     Report](#channels/sms/get-outbound-sms-message-delivery-reports). The maximum value is 4000 characters.
+        /// </value>
         [DataMember(Name = "callbackData", EmitDefaultValue = false)]
         public string CallbackData { get; set; }
 
         /// <summary>
-        ///     Scheduling object that allows setting up detailed time windows in which the message can be sent. Consists of &#x60;
-        ///     from&#x60;, &#x60;to&#x60; and &#x60;days&#x60; properties. &#x60;Days&#x60; property is mandatory. &#x60;From
-        ///     &#x60; and &#x60;to&#x60; properties should be either both included, to allow finer time window granulation or both
-        ///     omitted, to include whole days in the delivery time window.
+        ///     Gets or Sets DeliveryTimeWindow
         /// </summary>
-        /// <value>
-        ///     Scheduling object that allows setting up detailed time windows in which the message can be sent. Consists of
-        ///     &#x60;from&#x60;, &#x60;to&#x60; and &#x60;days&#x60; properties. &#x60;Days&#x60; property is mandatory. &#x60;
-        ///     From&#x60; and &#x60;to&#x60; properties should be either both included, to allow finer time window granulation or
-        ///     both omitted, to include whole days in the delivery time window.
-        /// </value>
         [DataMember(Name = "deliveryTimeWindow", EmitDefaultValue = false)]
         public SmsDeliveryTimeWindow DeliveryTimeWindow { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Destinations
+        ///     An array of destination objects for where messages are being sent. A valid destination is required.
         /// </summary>
-        [DataMember(Name = "destinations", EmitDefaultValue = false)]
+        /// <value>An array of destination objects for where messages are being sent. A valid destination is required.</value>
+        [DataMember(Name = "destinations", IsRequired = true, EmitDefaultValue = false)]
         public List<SmsDestination> Destinations { get; set; }
 
         /// <summary>
-        ///     Can be &#x60;true&#x60; or &#x60;false&#x60;. If the value is set to &#x60;true&#x60;, a flash SMS will be sent.
-        ///     Otherwise, a normal SMS will be sent. The default value is &#x60;false&#x60;.
+        ///     Allows for sending a [flash SMS](https://www.infobip.com/docs/sms/message-types#flash-sms) to automatically appear
+        ///     on recipient devices without interaction. Set to &#x60;true&#x60; to enable flash SMS, or leave the default value,
+        ///     &#x60;false&#x60; to send a standard SMS.
         /// </summary>
         /// <value>
-        ///     Can be &#x60;true&#x60; or &#x60;false&#x60;. If the value is set to &#x60;true&#x60;, a flash SMS will be sent.
-        ///     Otherwise, a normal SMS will be sent. The default value is &#x60;false&#x60;.
+        ///     Allows for sending a [flash SMS](https://www.infobip.com/docs/sms/message-types#flash-sms) to automatically
+        ///     appear on recipient devices without interaction. Set to &#x60;true&#x60; to enable flash SMS, or leave the default
+        ///     value, &#x60;false&#x60; to send a standard SMS.
         /// </value>
         [DataMember(Name = "flash", EmitDefaultValue = true)]
         public bool Flash { get; set; }
 
         /// <summary>
-        ///     Represents a sender ID which can be alphanumeric or numeric. Alphanumeric sender ID length should be between 3 and
-        ///     11 characters (Example: &#x60;CompanyName&#x60;). Numeric sender ID length should be between 3 and 14 characters.
+        ///     The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). Make sure you don&#39;t exceed
+        ///     [character limit](https://www.infobip.com/docs/sms/get-started#sender-names).
         /// </summary>
         /// <value>
-        ///     Represents a sender ID which can be alphanumeric or numeric. Alphanumeric sender ID length should be between 3
-        ///     and 11 characters (Example: &#x60;CompanyName&#x60;). Numeric sender ID length should be between 3 and 14
-        ///     characters.
+        ///     The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). Make sure you don&#39;t
+        ///     exceed [character limit](https://www.infobip.com/docs/sms/get-started#sender-names).
         /// </value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
         public string From { get; set; }
 
         /// <summary>
-        ///     The real-time Intermediate delivery report that will be sent on your callback server. Can be &#x60;true&#x60; or
-        ///     &#x60;false&#x60;.
+        ///     The [real-time intermediate delivery report](#channels/sms/receive-outbound-sms-message-report) containing GSM
+        ///     error codes, messages status, pricing, network and country codes, etc., which will be sent on your callback server.
+        ///     Defaults to &#x60;false&#x60;.
         /// </summary>
         /// <value>
-        ///     The real-time Intermediate delivery report that will be sent on your callback server. Can be &#x60;true&#x60; or
-        ///     &#x60;false&#x60;.
+        ///     The [real-time intermediate delivery report](#channels/sms/receive-outbound-sms-message-report) containing GSM
+        ///     error codes, messages status, pricing, network and country codes, etc., which will be sent on your callback server.
+        ///     Defaults to &#x60;false&#x60;.
         /// </value>
         [DataMember(Name = "intermediateReport", EmitDefaultValue = true)]
         public bool IntermediateReport { get; set; }
@@ -177,71 +198,208 @@ namespace Infobip.Api.Client.Model
         public SmsLanguage Language { get; set; }
 
         /// <summary>
-        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.
+        ///     Preferred delivery report content type, &#x60;application/json&#x60; or &#x60;application/xml&#x60;.
         /// </summary>
-        /// <value>Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.</value>
+        /// <value>Preferred delivery report content type, &#x60;application/json&#x60; or &#x60;application/xml&#x60;.</value>
         [DataMember(Name = "notifyContentType", EmitDefaultValue = false)]
         public string NotifyContentType { get; set; }
 
         /// <summary>
-        ///     The URL on your call back server on which the Delivery report will be sent.
+        ///     The URL on your call back server on to which a delivery report will be sent. The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/api#notify-url) for when your URL becomes unavailable uses the following
+        ///     formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
         /// </summary>
-        /// <value>The URL on your call back server on which the Delivery report will be sent.</value>
+        /// <value>
+        ///     The URL on your call back server on to which a delivery report will be sent. The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/api#notify-url) for when your URL becomes unavailable uses the following
+        ///     formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
+        /// </value>
         [DataMember(Name = "notifyUrl", EmitDefaultValue = false)]
         public string NotifyUrl { get; set; }
 
         /// <summary>
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that you are sending SMS
-        ///     to requires some extra parameters.
+        ///     Gets or Sets Regional
         /// </summary>
-        /// <value>
-        ///     Region specific parameters, often specified by local laws. Use this if country or region that you are sending
-        ///     SMS to requires some extra parameters.
-        /// </value>
         [DataMember(Name = "regional", EmitDefaultValue = false)]
         public SmsRegionalOptions Regional { get; set; }
 
         /// <summary>
-        ///     Date and time when the message is to be sent. Used for scheduled SMS (SMS not sent immediately, but at the
-        ///     scheduled time). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        ///     Date and time when the message is to be sent. Used for [scheduled SMS](#channels/sms/get-scheduled-sms-messages).
+        ///     Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;, and can only be scheduled for no later
+        ///     than 180 days in advance.
         /// </summary>
         /// <value>
-        ///     Date and time when the message is to be sent. Used for scheduled SMS (SMS not sent immediately, but at the
-        ///     scheduled time). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        ///     Date and time when the message is to be sent. Used for [scheduled
+        ///     SMS](#channels/sms/get-scheduled-sms-messages). Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
+        ///     &#x60;, and can only be scheduled for no later than 180 days in advance.
         /// </value>
         [DataMember(Name = "sendAt", EmitDefaultValue = false)]
         public DateTimeOffset SendAt { get; set; }
 
         /// <summary>
-        ///     Text of the message that will be sent.
+        ///     Content of the message being sent.
         /// </summary>
-        /// <value>Text of the message that will be sent.</value>
+        /// <value>Content of the message being sent.</value>
         [DataMember(Name = "text", EmitDefaultValue = false)]
         public string Text { get; set; }
 
         /// <summary>
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;,
-        ///     &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace characters
+        ///     which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK
+        ///     &#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN
+        ///     &#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, and &#x60;NON_UNICODE&#x60;.
         /// </summary>
         /// <value>
-        ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;
-        ///     , &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;
-        ///     NON_UNICODE&#x60;.
+        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace
+        ///     characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;,
+        ///     &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;
+        ///     CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, and &#x60;NON_UNICODE
+        ///     &#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
         public string Transliteration { get; set; }
 
         /// <summary>
         ///     The message validity period in minutes. When the period expires, it will not be allowed for the message to be sent.
-        ///     Validity period longer than 48h is not supported (in this case, it will be automatically set to 48h).
+        ///     Validity period longer than 48h is not supported. Any bigger value will automatically default back to &#x60;2880
+        ///     &#x60;.
         /// </summary>
         /// <value>
         ///     The message validity period in minutes. When the period expires, it will not be allowed for the message to be
-        ///     sent. Validity period longer than 48h is not supported (in this case, it will be automatically set to 48h).
+        ///     sent. Validity period longer than 48h is not supported. Any bigger value will automatically default back to &#x60;
+        ///     2880&#x60;.
         /// </value>
         [DataMember(Name = "validityPeriod", EmitDefaultValue = false)]
         public long ValidityPeriod { get; set; }
+
+        /// <summary>
+        ///     Required for entity use in a send request for outbound traffic. Returned in notification events. For more details,
+        ///     see our [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Required for entity use in a send request for outbound traffic. Returned in notification events. For more
+        ///     details, see our [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        public string EntityId { get; set; }
+
+        /// <summary>
+        ///     Required for application use in a send request for outbound traffic. Returned in notification events. For more
+        ///     details, see our [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Required for application use in a send request for outbound traffic. Returned in notification events. For more
+        ///     details, see our [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        public string ApplicationId { get; set; }
+
+        /// <summary>
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual campaigns
+        ///     per sending channel.
+        /// </summary>
+        /// <value>
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual
+        ///     campaigns per sending channel.
+        /// </value>
+        [DataMember(Name = "campaignReferenceId", EmitDefaultValue = false)]
+        public string CampaignReferenceId { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsTextualMessage instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsTextualMessage to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsTextualMessage input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    CallbackData == input.CallbackData ||
+                    (CallbackData != null &&
+                     CallbackData.Equals(input.CallbackData))
+                ) &&
+                (
+                    DeliveryTimeWindow == input.DeliveryTimeWindow ||
+                    (DeliveryTimeWindow != null &&
+                     DeliveryTimeWindow.Equals(input.DeliveryTimeWindow))
+                ) &&
+                (
+                    Destinations == input.Destinations ||
+                    (Destinations != null &&
+                     input.Destinations != null &&
+                     Destinations.SequenceEqual(input.Destinations))
+                ) &&
+                (
+                    Flash == input.Flash ||
+                    Flash.Equals(input.Flash)
+                ) &&
+                (
+                    From == input.From ||
+                    (From != null &&
+                     From.Equals(input.From))
+                ) &&
+                (
+                    IntermediateReport == input.IntermediateReport ||
+                    IntermediateReport.Equals(input.IntermediateReport)
+                ) &&
+                (
+                    Language == input.Language ||
+                    (Language != null &&
+                     Language.Equals(input.Language))
+                ) &&
+                (
+                    NotifyContentType == input.NotifyContentType ||
+                    (NotifyContentType != null &&
+                     NotifyContentType.Equals(input.NotifyContentType))
+                ) &&
+                (
+                    NotifyUrl == input.NotifyUrl ||
+                    (NotifyUrl != null &&
+                     NotifyUrl.Equals(input.NotifyUrl))
+                ) &&
+                (
+                    Regional == input.Regional ||
+                    (Regional != null &&
+                     Regional.Equals(input.Regional))
+                ) &&
+                (
+                    SendAt == input.SendAt ||
+                    (SendAt != null &&
+                     SendAt.Equals(input.SendAt))
+                ) &&
+                (
+                    Text == input.Text ||
+                    (Text != null &&
+                     Text.Equals(input.Text))
+                ) &&
+                (
+                    Transliteration == input.Transliteration ||
+                    (Transliteration != null &&
+                     Transliteration.Equals(input.Transliteration))
+                ) &&
+                (
+                    ValidityPeriod == input.ValidityPeriod ||
+                    ValidityPeriod.Equals(input.ValidityPeriod)
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
+                ) &&
+                (
+                    CampaignReferenceId == input.CampaignReferenceId ||
+                    (CampaignReferenceId != null &&
+                     CampaignReferenceId.Equals(input.CampaignReferenceId))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -265,6 +423,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Text: ").Append(Text).Append("\n");
             sb.Append("  Transliteration: ").Append(Transliteration).Append("\n");
             sb.Append("  ValidityPeriod: ").Append(ValidityPeriod).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
+            sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
+            sb.Append("  CampaignReferenceId: ").Append(CampaignReferenceId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -289,87 +450,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsTextualMessage instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsTextualMessage to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsTextualMessage input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    CallbackData == input.CallbackData ||
-                    CallbackData != null &&
-                    CallbackData.Equals(input.CallbackData)
-                ) &&
-                (
-                    DeliveryTimeWindow == input.DeliveryTimeWindow ||
-                    DeliveryTimeWindow != null &&
-                    DeliveryTimeWindow.Equals(input.DeliveryTimeWindow)
-                ) &&
-                (
-                    Destinations == input.Destinations ||
-                    Destinations != null &&
-                    input.Destinations != null &&
-                    Destinations.SequenceEqual(input.Destinations)
-                ) &&
-                (
-                    Flash == input.Flash ||
-                    Flash.Equals(input.Flash)
-                ) &&
-                (
-                    From == input.From ||
-                    From != null &&
-                    From.Equals(input.From)
-                ) &&
-                (
-                    IntermediateReport == input.IntermediateReport ||
-                    IntermediateReport.Equals(input.IntermediateReport)
-                ) &&
-                (
-                    Language == input.Language ||
-                    Language != null &&
-                    Language.Equals(input.Language)
-                ) &&
-                (
-                    NotifyContentType == input.NotifyContentType ||
-                    NotifyContentType != null &&
-                    NotifyContentType.Equals(input.NotifyContentType)
-                ) &&
-                (
-                    NotifyUrl == input.NotifyUrl ||
-                    NotifyUrl != null &&
-                    NotifyUrl.Equals(input.NotifyUrl)
-                ) &&
-                (
-                    Regional == input.Regional ||
-                    Regional != null &&
-                    Regional.Equals(input.Regional)
-                ) &&
-                (
-                    SendAt == input.SendAt ||
-                    SendAt != null &&
-                    SendAt.Equals(input.SendAt)
-                ) &&
-                (
-                    Text == input.Text ||
-                    Text != null &&
-                    Text.Equals(input.Text)
-                ) &&
-                (
-                    Transliteration == input.Transliteration ||
-                    Transliteration != null &&
-                    Transliteration.Equals(input.Transliteration)
-                ) &&
-                (
-                    ValidityPeriod == input.ValidityPeriod ||
-                    ValidityPeriod.Equals(input.ValidityPeriod)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -377,7 +457,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (CallbackData != null)
                     hashCode = hashCode * 59 + CallbackData.GetHashCode();
                 if (DeliveryTimeWindow != null)
@@ -403,6 +483,12 @@ namespace Infobip.Api.Client.Model
                 if (Transliteration != null)
                     hashCode = hashCode * 59 + Transliteration.GetHashCode();
                 hashCode = hashCode * 59 + ValidityPeriod.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
+                if (ApplicationId != null)
+                    hashCode = hashCode * 59 + ApplicationId.GetHashCode();
+                if (CampaignReferenceId != null)
+                    hashCode = hashCode * 59 + CampaignReferenceId.GetHashCode();
                 return hashCode;
             }
         }

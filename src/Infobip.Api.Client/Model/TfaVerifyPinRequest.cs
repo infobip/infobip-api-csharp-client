@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -42,19 +33,35 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="TfaVerifyPinRequest" /> class.
         /// </summary>
-        /// <param name="pin">PIN code to verify (required).</param>
-        public TfaVerifyPinRequest(string pin = default(string))
+        /// <param name="pin">The PIN code to verify. (required).</param>
+        public TfaVerifyPinRequest(string pin = default)
         {
             // to ensure "pin" is required (not null)
             Pin = pin ?? throw new ArgumentNullException("pin");
         }
 
         /// <summary>
-        ///     PIN code to verify
+        ///     The PIN code to verify.
         /// </summary>
-        /// <value>PIN code to verify</value>
+        /// <value>The PIN code to verify.</value>
         [DataMember(Name = "pin", IsRequired = true, EmitDefaultValue = false)]
         public string Pin { get; set; }
+
+        /// <summary>
+        ///     Returns true if TfaVerifyPinRequest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of TfaVerifyPinRequest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(TfaVerifyPinRequest input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                Pin == input.Pin ||
+                (Pin != null &&
+                 Pin.Equals(input.Pin));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -89,22 +96,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if TfaVerifyPinRequest instances are equal
-        /// </summary>
-        /// <param name="input">Instance of TfaVerifyPinRequest to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(TfaVerifyPinRequest input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                Pin == input.Pin ||
-                Pin != null &&
-                Pin.Equals(input.Pin);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -112,7 +103,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (Pin != null)
                     hashCode = hashCode * 59 + Pin.GetHashCode();
                 return hashCode;

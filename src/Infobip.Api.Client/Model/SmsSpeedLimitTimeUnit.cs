@@ -9,25 +9,16 @@
  */
 
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines SmsSpeedLimitTimeUnit
+    ///     The time unit to define when setting a messaging speed limit. Defaults to &#x60;MINUTE&#x60;..
     /// </summary>
+    /// <value>The time unit to define when setting a messaging speed limit. Defaults to &#x60;MINUTE&#x60;.</value>
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SmsSpeedLimitTimeUnit
     {

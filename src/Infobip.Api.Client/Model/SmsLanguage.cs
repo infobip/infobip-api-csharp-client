@@ -10,18 +10,9 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -35,27 +26,43 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsLanguage" /> class.
         /// </summary>
         /// <param name="languageCode">
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for
-        ///     Turkish, &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick
-        ///     character set automatically based on the message text..
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish,
+        ///     &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the
+        ///     character set based on message content..
         /// </param>
-        public SmsLanguage(string languageCode = default(string))
+        public SmsLanguage(string languageCode = default)
         {
             LanguageCode = languageCode;
         }
 
         /// <summary>
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick character set automatically
-        ///     based on the message text.
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
+        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
+        ///     message content.
         /// </summary>
         /// <value>
-        ///     Code for language character set of a message text. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60;
-        ///     for Spanish, &#x60;PT&#x60; for Portuguese and &#x60;AUTODETECT&#x60; to let platform pick character set
-        ///     automatically based on the message text.
+        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
+        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
+        ///     message content.
         /// </value>
         [DataMember(Name = "languageCode", EmitDefaultValue = false)]
         public string LanguageCode { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsLanguage instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsLanguage to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsLanguage input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                LanguageCode == input.LanguageCode ||
+                (LanguageCode != null &&
+                 LanguageCode.Equals(input.LanguageCode));
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -90,22 +97,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsLanguage instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsLanguage to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsLanguage input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                LanguageCode == input.LanguageCode ||
-                LanguageCode != null &&
-                LanguageCode.Equals(input.LanguageCode);
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -113,7 +104,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (LanguageCode != null)
                     hashCode = hashCode * 59 + LanguageCode.GetHashCode();
                 return hashCode;

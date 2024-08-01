@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsPreview
+    ///     Allows for previewing the original message content once additional language configuration has been applied to it.
     /// </summary>
     [DataContract(Name = "SmsPreview")]
     public class SmsPreview : IEquatable<SmsPreview>
@@ -34,73 +25,75 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsPreview" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsPreview()
+        /// <param name="textPreview">Preview of the message content as it should appear on the recipient’s device..</param>
+        /// <param name="messageCount">Number of SMS message parts required to deliver the message..</param>
+        /// <param name="charactersRemaining">Number of remaining characters in the last part of the SMS..</param>
+        /// <param name="varConfiguration">varConfiguration.</param>
+        public SmsPreview(string textPreview = default, int messageCount = default, int charactersRemaining = default,
+            SmsLanguageConfiguration varConfiguration = default)
         {
+            TextPreview = textPreview;
+            MessageCount = messageCount;
+            CharactersRemaining = charactersRemaining;
+            VarConfiguration = varConfiguration;
         }
 
         /// <summary>
-        ///     Number of remaining characters in the last SMS part.
+        ///     Preview of the message content as it should appear on the recipient’s device.
         /// </summary>
-        /// <value>Number of remaining characters in the last SMS part.</value>
-        [DataMember(Name = "charactersRemaining", EmitDefaultValue = false)]
-        public int CharactersRemaining { get; private set; }
-
-        /// <summary>
-        ///     Configuration that, when sent with the original text, results in this preview.
-        /// </summary>
-        /// <value>Configuration that, when sent with the original text, results in this preview.</value>
-        [DataMember(Name = "configuration", EmitDefaultValue = false)]
-        public SmsLanguageConfiguration Configuration { get; private set; }
+        /// <value>Preview of the message content as it should appear on the recipient’s device.</value>
+        [DataMember(Name = "textPreview", EmitDefaultValue = false)]
+        public string TextPreview { get; set; }
 
         /// <summary>
         ///     Number of SMS message parts required to deliver the message.
         /// </summary>
         /// <value>Number of SMS message parts required to deliver the message.</value>
         [DataMember(Name = "messageCount", EmitDefaultValue = false)]
-        public int MessageCount { get; private set; }
+        public int MessageCount { get; set; }
 
         /// <summary>
-        ///     Preview of the text as it should appear on the recipient’s device.
+        ///     Number of remaining characters in the last part of the SMS.
         /// </summary>
-        /// <value>Preview of the text as it should appear on the recipient’s device.</value>
-        [DataMember(Name = "textPreview", EmitDefaultValue = false)]
-        public string TextPreview { get; private set; }
+        /// <value>Number of remaining characters in the last part of the SMS.</value>
+        [DataMember(Name = "charactersRemaining", EmitDefaultValue = false)]
+        public int CharactersRemaining { get; set; }
 
         /// <summary>
-        ///     Returns false as CharactersRemaining should not be serialized given that it's read-only.
+        ///     Gets or Sets VarConfiguration
         /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeCharactersRemaining()
+        [DataMember(Name = "configuration", EmitDefaultValue = false)]
+        public SmsLanguageConfiguration VarConfiguration { get; set; }
+
+        /// <summary>
+        ///     Returns true if SmsPreview instances are equal
+        /// </summary>
+        /// <param name="input">Instance of SmsPreview to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsPreview input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Configuration should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeConfiguration()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as MessageCount should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMessageCount()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as TextPreview should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeTextPreview()
-        {
-            return false;
+            return
+                (
+                    TextPreview == input.TextPreview ||
+                    (TextPreview != null &&
+                     TextPreview.Equals(input.TextPreview))
+                ) &&
+                (
+                    MessageCount == input.MessageCount ||
+                    MessageCount.Equals(input.MessageCount)
+                ) &&
+                (
+                    CharactersRemaining == input.CharactersRemaining ||
+                    CharactersRemaining.Equals(input.CharactersRemaining)
+                ) &&
+                (
+                    VarConfiguration == input.VarConfiguration ||
+                    (VarConfiguration != null &&
+                     VarConfiguration.Equals(input.VarConfiguration))
+                );
         }
 
         /// <summary>
@@ -111,10 +104,10 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsPreview {\n");
-            sb.Append("  CharactersRemaining: ").Append(CharactersRemaining).Append("\n");
-            sb.Append("  Configuration: ").Append(Configuration).Append("\n");
-            sb.Append("  MessageCount: ").Append(MessageCount).Append("\n");
             sb.Append("  TextPreview: ").Append(TextPreview).Append("\n");
+            sb.Append("  MessageCount: ").Append(MessageCount).Append("\n");
+            sb.Append("  CharactersRemaining: ").Append(CharactersRemaining).Append("\n");
+            sb.Append("  VarConfiguration: ").Append(VarConfiguration).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -139,37 +132,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsPreview instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsPreview to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsPreview input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    CharactersRemaining == input.CharactersRemaining ||
-                    CharactersRemaining.Equals(input.CharactersRemaining)
-                ) &&
-                (
-                    Configuration == input.Configuration ||
-                    Configuration != null &&
-                    Configuration.Equals(input.Configuration)
-                ) &&
-                (
-                    MessageCount == input.MessageCount ||
-                    MessageCount.Equals(input.MessageCount)
-                ) &&
-                (
-                    TextPreview == input.TextPreview ||
-                    TextPreview != null &&
-                    TextPreview.Equals(input.TextPreview)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -177,13 +139,13 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = hashCode * 59 + CharactersRemaining.GetHashCode();
-                if (Configuration != null)
-                    hashCode = hashCode * 59 + Configuration.GetHashCode();
-                hashCode = hashCode * 59 + MessageCount.GetHashCode();
+                var hashCode = 41;
                 if (TextPreview != null)
                     hashCode = hashCode * 59 + TextPreview.GetHashCode();
+                hashCode = hashCode * 59 + MessageCount.GetHashCode();
+                hashCode = hashCode * 59 + CharactersRemaining.GetHashCode();
+                if (VarConfiguration != null)
+                    hashCode = hashCode * 59 + VarConfiguration.GetHashCode();
                 return hashCode;
             }
         }

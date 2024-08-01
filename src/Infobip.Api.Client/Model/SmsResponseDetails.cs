@@ -10,23 +10,14 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsResponseDetails
+    ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
     /// </summary>
     [DataContract(Name = "SmsResponseDetails")]
     public class SmsResponseDetails : IEquatable<SmsResponseDetails>
@@ -34,61 +25,86 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsResponseDetails" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        public SmsResponseDetails()
+        /// <param name="messageId">
+        ///     Unique message ID. If not passed, it will be automatically generated and returned in a
+        ///     response..
+        /// </param>
+        /// <param name="status">status.</param>
+        /// <param name="to">The destination address of the message..</param>
+        /// <param name="smsCount">
+        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and
+        ///     messages longer than that limit will be split into multiple SMS and reflected in the total count of SMS submitted..
+        /// </param>
+        public SmsResponseDetails(string messageId = default, MessageStatus status = default, string to = default,
+            int smsCount = default)
         {
+            MessageId = messageId;
+            Status = status;
+            To = to;
+            SmsCount = smsCount;
         }
 
         /// <summary>
-        ///     The ID that uniquely identifies the message sent.
+        ///     Unique message ID. If not passed, it will be automatically generated and returned in a response.
         /// </summary>
-        /// <value>The ID that uniquely identifies the message sent.</value>
+        /// <value>Unique message ID. If not passed, it will be automatically generated and returned in a response.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
-        public string MessageId { get; private set; }
+        public string MessageId { get; set; }
 
         /// <summary>
-        ///     Indicates whether the message is successfully sent, not sent, delivered, not delivered, waiting for delivery or any
-        ///     other possible status.
+        ///     Gets or Sets Status
+        /// </summary>
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public MessageStatus Status { get; set; }
+
+        /// <summary>
+        ///     The destination address of the message.
+        /// </summary>
+        /// <value>The destination address of the message.</value>
+        [DataMember(Name = "to", EmitDefaultValue = false)]
+        public string To { get; set; }
+
+        /// <summary>
+        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and messages longer
+        ///     than that limit will be split into multiple SMS and reflected in the total count of SMS submitted.
         /// </summary>
         /// <value>
-        ///     Indicates whether the message is successfully sent, not sent, delivered, not delivered, waiting for delivery or
-        ///     any other possible status.
+        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and messages longer
+        ///     than that limit will be split into multiple SMS and reflected in the total count of SMS submitted.
         /// </value>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public SmsStatus Status { get; private set; }
+        [DataMember(Name = "smsCount", EmitDefaultValue = false)]
+        public int SmsCount { get; set; }
 
         /// <summary>
-        ///     The message destination address.
+        ///     Returns true if SmsResponseDetails instances are equal
         /// </summary>
-        /// <value>The message destination address.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        public string To { get; private set; }
-
-        /// <summary>
-        ///     Returns false as MessageId should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeMessageId()
+        /// <param name="input">Instance of SmsResponseDetails to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(SmsResponseDetails input)
         {
-            return false;
-        }
+            if (input == null)
+                return false;
 
-        /// <summary>
-        ///     Returns false as Status should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeStatus()
-        {
-            return false;
-        }
-
-        /// <summary>
-        ///     Returns false as To should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeTo()
-        {
-            return false;
+            return
+                (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    Status == input.Status ||
+                    (Status != null &&
+                     Status.Equals(input.Status))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                ) &&
+                (
+                    SmsCount == input.SmsCount ||
+                    SmsCount.Equals(input.SmsCount)
+                );
         }
 
         /// <summary>
@@ -102,6 +118,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -126,34 +143,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if SmsResponseDetails instances are equal
-        /// </summary>
-        /// <param name="input">Instance of SmsResponseDetails to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(SmsResponseDetails input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    MessageId == input.MessageId ||
-                    MessageId != null &&
-                    MessageId.Equals(input.MessageId)
-                ) &&
-                (
-                    Status == input.Status ||
-                    Status != null &&
-                    Status.Equals(input.Status)
-                ) &&
-                (
-                    To == input.To ||
-                    To != null &&
-                    To.Equals(input.To)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -161,13 +150,14 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
                 if (Status != null)
                     hashCode = hashCode * 59 + Status.GetHashCode();
                 if (To != null)
                     hashCode = hashCode * 59 + To.GetHashCode();
+                hashCode = hashCode * 59 + SmsCount.GetHashCode();
                 return hashCode;
             }
         }

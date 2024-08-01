@@ -10,18 +10,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace Infobip.Api.Client.Model
 {
@@ -36,8 +29,7 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="externalBulkId">externalBulkId.</param>
         /// <param name="bulks">bulks.</param>
-        public EmailBulkScheduleResponse(string externalBulkId = default(string),
-            List<EmailBulkInfo> bulks = default(List<EmailBulkInfo>))
+        public EmailBulkScheduleResponse(string externalBulkId = default, List<EmailBulkInfo> bulks = default)
         {
             ExternalBulkId = externalBulkId;
             Bulks = bulks;
@@ -54,6 +46,30 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         [DataMember(Name = "bulks", EmitDefaultValue = false)]
         public List<EmailBulkInfo> Bulks { get; set; }
+
+        /// <summary>
+        ///     Returns true if EmailBulkScheduleResponse instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EmailBulkScheduleResponse to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EmailBulkScheduleResponse input)
+        {
+            if (input == null)
+                return false;
+
+            return
+                (
+                    ExternalBulkId == input.ExternalBulkId ||
+                    (ExternalBulkId != null &&
+                     ExternalBulkId.Equals(input.ExternalBulkId))
+                ) &&
+                (
+                    Bulks == input.Bulks ||
+                    (Bulks != null &&
+                     input.Bulks != null &&
+                     Bulks.SequenceEqual(input.Bulks))
+                );
+        }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -89,30 +105,6 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Returns true if EmailBulkScheduleResponse instances are equal
-        /// </summary>
-        /// <param name="input">Instance of EmailBulkScheduleResponse to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(EmailBulkScheduleResponse input)
-        {
-            if (input == null)
-                return false;
-
-            return
-                (
-                    ExternalBulkId == input.ExternalBulkId ||
-                    ExternalBulkId != null &&
-                    ExternalBulkId.Equals(input.ExternalBulkId)
-                ) &&
-                (
-                    Bulks == input.Bulks ||
-                    Bulks != null &&
-                    input.Bulks != null &&
-                    Bulks.SequenceEqual(input.Bulks)
-                );
-        }
-
-        /// <summary>
         ///     Gets the hash code
         /// </summary>
         /// <returns>Hash code</returns>
@@ -120,7 +112,7 @@ namespace Infobip.Api.Client.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                var hashCode = 41;
                 if (ExternalBulkId != null)
                     hashCode = hashCode * 59 + ExternalBulkId.GetHashCode();
                 if (Bulks != null)
