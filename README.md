@@ -37,17 +37,17 @@ Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Clie
 #### Package Manager Console
 Alternatively, also within Visual Studio, use the Package Manager Console command:
 
-    Install-Package Infobip.Api.Client -Version 3.0.0
+    Install-Package Infobip.Api.Client -Version 3.0.1
 
 #### .NET CLI
 If you are used to .NET CLI, the following command is going to be sufficient for you:
 
-    dotnet add package Infobip.Api.Client --version 3.0.0
+    dotnet add package Infobip.Api.Client --version 3.0.1
 
 ### Package reference
 Including the package directly into project file is also valid option.
 
-    <PackageReference Include="Infobip.Api.Client" Version="3.0.0" />
+    <PackageReference Include="Infobip.Api.Client" Version="3.0.1" />
 
 ## Quickstart
 
