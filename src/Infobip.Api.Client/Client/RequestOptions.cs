@@ -9,6 +9,7 @@
  */
 
 
+using Infobip.Api.Client.Client;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -27,8 +28,8 @@ namespace Infobip.Api.Client
         public RequestOptions()
         {
             Cookies = new List<Cookie>();
-            FileParameters = new Dictionary<string, Stream>();
-            FormParameters = new Dictionary<string, string>();
+            FileParameters = new Multimap<string, FileParameter>();
+            FormParameters = new Multimap<string, string>();
             HeaderParameters = new Multimap<string, string>();
             PathParameters = new Dictionary<string, string>();
             QueryParameters = new Multimap<string, string>();
@@ -47,12 +48,12 @@ namespace Infobip.Api.Client
         /// <summary>
         ///     File parameters to be sent along with the request.
         /// </summary>
-        public IDictionary<string, Stream> FileParameters { get; set; }
+        public Multimap<string, FileParameter> FileParameters { get; set; }
 
         /// <summary>
         ///     Form parameters to be sent along with the request.
         /// </summary>
-        public IDictionary<string, string> FormParameters { get; set; }
+        public Multimap<string, string> FormParameters { get; set; }
 
         /// <summary>
         ///     Header parameters to be applied to to the request.

@@ -4022,97 +4022,98 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             if (from != null)
-                localVarRequestOptions.FormParameters.Add("from",
-                    ClientUtils.ParameterToString(from)); // form parameter
-            localVarRequestOptions.FormParameters.Add("to", ClientUtils.ParameterToString(to)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "from", from)); // form parameter
+            localVarRequestOptions.FormParameters.Add(
+                ClientUtils.ParameterToMultiMap("multi", "to", to)); // form parameter
             if (cc != null)
-                localVarRequestOptions.FormParameters.Add("cc", ClientUtils.ParameterToString(cc)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "cc", cc)); // form parameter
             if (bcc != null)
-                localVarRequestOptions.FormParameters.Add("bcc", ClientUtils.ParameterToString(bcc)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "bcc", bcc)); // form parameter
             if (subject != null)
-                localVarRequestOptions.FormParameters.Add("subject",
-                    ClientUtils.ParameterToString(subject)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "subject", subject)); // form parameter
             if (text != null)
-                localVarRequestOptions.FormParameters.Add("text",
-                    ClientUtils.ParameterToString(text)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "text", text)); // form parameter
             if (html != null)
-                localVarRequestOptions.FormParameters.Add("html",
-                    ClientUtils.ParameterToString(html)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "html", html)); // form parameter
             if (ampHtml != null)
-                localVarRequestOptions.FormParameters.Add("ampHtml",
-                    ClientUtils.ParameterToString(ampHtml)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "ampHtml", ampHtml)); // form parameter
             if (templateId != null)
-                localVarRequestOptions.FormParameters.Add("templateId",
-                    ClientUtils.ParameterToString(templateId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "templateId", templateId)); // form parameter
             if (attachment != null)
-                foreach (var param in attachment)
-                    localVarRequestOptions.FileParameters.Add("attachment", param.Content);
+                localVarRequestOptions.FileParameters.Add("attachment", attachment);
             if (inlineImage != null)
-                foreach (var param in inlineImage)
-                    localVarRequestOptions.FileParameters.Add("inlineImage", param.Content);
+                localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
             if (intermediateReport != null)
-                localVarRequestOptions.FormParameters.Add("intermediateReport",
-                    ClientUtils.ParameterToString(intermediateReport)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport", intermediateReport)); // form parameter
             if (notifyUrl != null)
-                localVarRequestOptions.FormParameters.Add("notifyUrl",
-                    ClientUtils.ParameterToString(notifyUrl)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "notifyUrl", notifyUrl)); // form parameter
             if (notifyContentType != null)
-                localVarRequestOptions.FormParameters.Add("notifyContentType",
-                    ClientUtils.ParameterToString(notifyContentType)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "notifyContentType", notifyContentType)); // form parameter
             if (callbackData != null)
-                localVarRequestOptions.FormParameters.Add("callbackData",
-                    ClientUtils.ParameterToString(callbackData)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "callbackData", callbackData)); // form parameter
             if (track != null)
-                localVarRequestOptions.FormParameters.Add("track",
-                    ClientUtils.ParameterToString(track)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "track", track)); // form parameter
             if (trackClicks != null)
-                localVarRequestOptions.FormParameters.Add("trackClicks",
-                    ClientUtils.ParameterToString(trackClicks)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackClicks", trackClicks)); // form parameter
             if (trackOpens != null)
-                localVarRequestOptions.FormParameters.Add("trackOpens",
-                    ClientUtils.ParameterToString(trackOpens)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackOpens", trackOpens)); // form parameter
             if (trackingUrl != null)
-                localVarRequestOptions.FormParameters.Add("trackingUrl",
-                    ClientUtils.ParameterToString(trackingUrl)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackingUrl", trackingUrl)); // form parameter
             if (bulkId != null)
-                localVarRequestOptions.FormParameters.Add("bulkId",
-                    ClientUtils.ParameterToString(bulkId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "bulkId", bulkId)); // form parameter
             if (messageId != null)
-                localVarRequestOptions.FormParameters.Add("messageId",
-                    ClientUtils.ParameterToString(messageId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "messageId", messageId)); // form parameter
             if (campaignReferenceId != null)
-                localVarRequestOptions.FormParameters.Add("campaignReferenceId",
-                    ClientUtils.ParameterToString(campaignReferenceId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId)); // form parameter
             if (replyTo != null)
-                localVarRequestOptions.FormParameters.Add("replyTo",
-                    ClientUtils.ParameterToString(replyTo)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "replyTo", replyTo)); // form parameter
             if (defaultPlaceholders != null)
-                localVarRequestOptions.FormParameters.Add("defaultPlaceholders",
-                    ClientUtils.ParameterToString(defaultPlaceholders)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders", defaultPlaceholders)); // form parameter
             if (preserveRecipients != null)
-                localVarRequestOptions.FormParameters.Add("preserveRecipients",
-                    ClientUtils.ParameterToString(preserveRecipients)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients", preserveRecipients)); // form parameter
             if (sendAt != null)
-                localVarRequestOptions.FormParameters.Add("sendAt",
-                    ClientUtils.ParameterToString(sendAt)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "sendAt", sendAt)); // form parameter
             if (landingPagePlaceholders != null)
-                localVarRequestOptions.FormParameters.Add("landingPagePlaceholders",
-                    ClientUtils.ParameterToString(landingPagePlaceholders)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders", landingPagePlaceholders)); // form parameter
             if (landingPageId != null)
-                localVarRequestOptions.FormParameters.Add("landingPageId",
-                    ClientUtils.ParameterToString(landingPageId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "landingPageId", landingPageId)); // form parameter
             if (templateLanguageVersion != null)
-                localVarRequestOptions.FormParameters.Add("templateLanguageVersion",
-                    ClientUtils.ParameterToString(templateLanguageVersion)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion", templateLanguageVersion)); // form parameter
             if (clientPriority != null)
-                localVarRequestOptions.FormParameters.Add("clientPriority",
-                    ClientUtils.ParameterToString(clientPriority)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "clientPriority", clientPriority)); // form parameterr
             if (applicationId != null)
-                localVarRequestOptions.FormParameters.Add("applicationId",
-                    ClientUtils.ParameterToString(applicationId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "applicationId", applicationId)); // form parameter
             if (entityId != null)
-                localVarRequestOptions.FormParameters.Add("entityId",
-                    ClientUtils.ParameterToString(entityId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "entityId", entityId)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -4446,97 +4447,98 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             if (from != null)
-                localVarRequestOptions.FormParameters.Add("from",
-                    ClientUtils.ParameterToString(from)); // form parameter
-            localVarRequestOptions.FormParameters.Add("to", ClientUtils.ParameterToString(to)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "from", from)); // form parameter
+            localVarRequestOptions.FormParameters.Add(
+                ClientUtils.ParameterToMultiMap("multi", "to", to)); // form parameter
             if (cc != null)
-                localVarRequestOptions.FormParameters.Add("cc", ClientUtils.ParameterToString(cc)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "cc", cc)); // form parameter
             if (bcc != null)
-                localVarRequestOptions.FormParameters.Add("bcc", ClientUtils.ParameterToString(bcc)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "bcc", bcc)); // form parameter
             if (subject != null)
-                localVarRequestOptions.FormParameters.Add("subject",
-                    ClientUtils.ParameterToString(subject)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "subject", subject)); // form parameter
             if (text != null)
-                localVarRequestOptions.FormParameters.Add("text",
-                    ClientUtils.ParameterToString(text)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "text", text)); // form parameter
             if (html != null)
-                localVarRequestOptions.FormParameters.Add("html",
-                    ClientUtils.ParameterToString(html)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "html", html)); // form parameter
             if (ampHtml != null)
-                localVarRequestOptions.FormParameters.Add("ampHtml",
-                    ClientUtils.ParameterToString(ampHtml)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "ampHtml", ampHtml)); // form parameter
             if (templateId != null)
-                localVarRequestOptions.FormParameters.Add("templateId",
-                    ClientUtils.ParameterToString(templateId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "templateId", templateId)); // form parameter
             if (attachment != null)
-                foreach (var param in attachment)
-                    localVarRequestOptions.FileParameters.Add("attachment", param.Content);
+                localVarRequestOptions.FileParameters.Add("attachment", attachment);
             if (inlineImage != null)
-                foreach (var param in inlineImage)
-                    localVarRequestOptions.FileParameters.Add("inlineImage", param.Content);
+                localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
             if (intermediateReport != null)
-                localVarRequestOptions.FormParameters.Add("intermediateReport",
-                    ClientUtils.ParameterToString(intermediateReport)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport", intermediateReport)); // form parameter
             if (notifyUrl != null)
-                localVarRequestOptions.FormParameters.Add("notifyUrl",
-                    ClientUtils.ParameterToString(notifyUrl)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "notifyUrl", notifyUrl)); // form parameter
             if (notifyContentType != null)
-                localVarRequestOptions.FormParameters.Add("notifyContentType",
-                    ClientUtils.ParameterToString(notifyContentType)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "notifyContentType", notifyContentType)); // form parameter
             if (callbackData != null)
-                localVarRequestOptions.FormParameters.Add("callbackData",
-                    ClientUtils.ParameterToString(callbackData)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "callbackData", callbackData)); // form parameter
             if (track != null)
-                localVarRequestOptions.FormParameters.Add("track",
-                    ClientUtils.ParameterToString(track)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "track", track)); // form parameter
             if (trackClicks != null)
-                localVarRequestOptions.FormParameters.Add("trackClicks",
-                    ClientUtils.ParameterToString(trackClicks)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackClicks", trackClicks)); // form parameter
             if (trackOpens != null)
-                localVarRequestOptions.FormParameters.Add("trackOpens",
-                    ClientUtils.ParameterToString(trackOpens)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackOpens", trackOpens)); // form parameter
             if (trackingUrl != null)
-                localVarRequestOptions.FormParameters.Add("trackingUrl",
-                    ClientUtils.ParameterToString(trackingUrl)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackingUrl", trackingUrl)); // form parameter
             if (bulkId != null)
-                localVarRequestOptions.FormParameters.Add("bulkId",
-                    ClientUtils.ParameterToString(bulkId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "bulkId", bulkId)); // form parameter
             if (messageId != null)
-                localVarRequestOptions.FormParameters.Add("messageId",
-                    ClientUtils.ParameterToString(messageId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "messageId", messageId)); // form parameter
             if (campaignReferenceId != null)
-                localVarRequestOptions.FormParameters.Add("campaignReferenceId",
-                    ClientUtils.ParameterToString(campaignReferenceId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId)); // form parameter
             if (replyTo != null)
-                localVarRequestOptions.FormParameters.Add("replyTo",
-                    ClientUtils.ParameterToString(replyTo)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "replyTo", replyTo)); // form parameter
             if (defaultPlaceholders != null)
-                localVarRequestOptions.FormParameters.Add("defaultPlaceholders",
-                    ClientUtils.ParameterToString(defaultPlaceholders)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders", defaultPlaceholders)); // form parameter
             if (preserveRecipients != null)
-                localVarRequestOptions.FormParameters.Add("preserveRecipients",
-                    ClientUtils.ParameterToString(preserveRecipients)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients", preserveRecipients)); // form parameter
             if (sendAt != null)
-                localVarRequestOptions.FormParameters.Add("sendAt",
-                    ClientUtils.ParameterToString(sendAt)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "sendAt", sendAt)); // form parameter
             if (landingPagePlaceholders != null)
-                localVarRequestOptions.FormParameters.Add("landingPagePlaceholders",
-                    ClientUtils.ParameterToString(landingPagePlaceholders)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders", landingPagePlaceholders)); // form parameter
             if (landingPageId != null)
-                localVarRequestOptions.FormParameters.Add("landingPageId",
-                    ClientUtils.ParameterToString(landingPageId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "landingPageId", landingPageId)); // form parameter
             if (templateLanguageVersion != null)
-                localVarRequestOptions.FormParameters.Add("templateLanguageVersion",
-                    ClientUtils.ParameterToString(templateLanguageVersion)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion", templateLanguageVersion)); // form parameter
             if (clientPriority != null)
-                localVarRequestOptions.FormParameters.Add("clientPriority",
-                    ClientUtils.ParameterToString(clientPriority)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "clientPriority", clientPriority)); // form parameter
             if (applicationId != null)
-                localVarRequestOptions.FormParameters.Add("applicationId",
-                    ClientUtils.ParameterToString(applicationId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "applicationId", applicationId)); // form parameter
             if (entityId != null)
-                localVarRequestOptions.FormParameters.Add("entityId",
-                    ClientUtils.ParameterToString(entityId)); // form parameter
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "entityId", entityId)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))

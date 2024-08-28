@@ -25,7 +25,7 @@ namespace Infobip.Api.Client.Client
         public FileParameter(Stream content)
         {
             if (content is FileStream fs)
-                Name = fs.Name;
+                Name = Path.GetFileName(fs.Name);
 
             Content = content;
         }

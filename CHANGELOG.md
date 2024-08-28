@@ -5,6 +5,13 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [3.0.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v3.0.1) ] - 2024-08-28
+
+### Fixed
+- Cannot have multiple recipient in a single email (https://github.com/infobip/infobip-api-csharp-client/issues/18)
+- Multiple attachments support (https://github.com/infobip/infobip-api-csharp-client/issues/24)
+- Zip Email attachment - not working (https://github.com/infobip/infobip-api-csharp-client/issues/34)
+
 ## [ [3.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v3.0.0) ] - 2024-07-31
 
 🎉 **NEW Major Version of `Infobip.Api.Client`.**

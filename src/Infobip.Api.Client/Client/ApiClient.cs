@@ -442,19 +442,19 @@ namespace Infobip.Api.Client
             var boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
             var multipartContent = new MultipartFormDataContent(boundary);
             foreach (var formParameter in options.FormParameters)
-                multipartContent.Add(new StringContent(formParameter.Value), formParameter.Key);
+                foreach (var parameterValue in formParameter.Value)
+                    multipartContent.Add(new StringContent(parameterValue), formParameter.Key);
 
             if (options.FileParameters != null && options.FileParameters.Count > 0)
-                foreach (var fileParam in options.FileParameters)
-                {
-                    var fileStreamName = fileParam.Value is FileStream fileStream
-                        ? Path.GetFileName(fileStream.Name)
-                        : null;
-                    var content = new StreamContent(fileParam.Value);
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                    multipartContent.Add(content, fileParam.Key,
-                        fileStreamName ?? "no_file_name_provided");
-                }
+                foreach (var fileParameter in options.FileParameters)
+                    foreach (var parameterValue in fileParameter.Value)
+                    {
+                        var content = new StreamContent(parameterValue.Content);
+                        content.Headers.ContentType = new MediaTypeHeaderValue(parameterValue.ContentType);
+                        var fileStreamName = parameterValue.Name ?? "no_name_provided";
+
+                        multipartContent.Add(content, fileParameter.Key, fileStreamName);
+                    }
 
             return multipartContent;
         }
@@ -516,10 +516,6 @@ namespace Infobip.Api.Client
             if (contentType == "multipart/form-data")
             {
                 request.Content = PrepareMultipartFormDataContent(options);
-            }
-            else if (contentType == "application/x-www-form-urlencoded")
-            {
-                request.Content = new FormUrlEncodedContent(options.FormParameters);
             }
             else
             {
