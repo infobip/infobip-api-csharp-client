@@ -9,12 +9,14 @@
  */
 
 
+using System;
+
 namespace Infobip.Api.Client
 {
     /// <summary>
     ///     Represents configuration aspects required to interact with the API endpoints.
     /// </summary>
-    public interface IApiAccessor
+    public interface IApiAccessor : IDisposable
     {
         /// <summary>
         ///     Gets or sets the configuration object
