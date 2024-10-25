@@ -1,8 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infobip.Api.Client", "src\Infobip.Api.Client\Infobip.Api.Client.csproj", "{CADD32C6-EEAF-4F62-A44B-F6E35AFEAA0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infobip.Api.Client", "src\Infobip.Api.Client\Infobip.Api.Client.csproj", "{CADD32C6-EEAF-4F62-A44B-F6E35AFEAA0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiClient.Tests", "ApiClient.Tests\ApiClient.Tests.csproj", "{3AEFA95F-23A8-4BFB-AEC8-C44296C07D3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,12 +16,15 @@ Global
 		{CADD32C6-EEAF-4F62-A44B-F6E35AFEAA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CADD32C6-EEAF-4F62-A44B-F6E35AFEAA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CADD32C6-EEAF-4F62-A44B-F6E35AFEAA0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19F1DEBC-DE5E-4517-8062-F000CD499087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AEFA95F-23A8-4BFB-AEC8-C44296C07D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AEFA95F-23A8-4BFB-AEC8-C44296C07D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AEFA95F-23A8-4BFB-AEC8-C44296C07D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AEFA95F-23A8-4BFB-AEC8-C44296C07D3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CFCD2192-6FEE-48E8-9099-EF750D54B05C}
 	EndGlobalSection
 EndGlobal
