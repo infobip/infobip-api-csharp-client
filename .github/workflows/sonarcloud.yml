@@ -20,6 +20,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
       - name: Run SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
