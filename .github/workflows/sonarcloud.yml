@@ -26,6 +26,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"infobip-api-csharp-client" /o:"infobip" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.branch.name="master"
+          dotnet-sonarscanner begin /k:"infobip-api-csharp-client" /o:"infobip" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.branch.name="ib-snyk-sonar"
           dotnet build
           dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
