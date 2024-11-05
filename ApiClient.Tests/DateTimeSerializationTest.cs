@@ -36,15 +36,12 @@ namespace ApiClient.Tests
         [DataTestMethod]
         public void DateTimeFormatDeserializationTest(string dateString, int dateValueIndex)
         {
-            // ARRANGE
             DateTimeOffset expected = DateTimeValues[dateValueIndex];
 
             string jsonDate = $"{{\"date\":\"{dateString}\"}}";
 
-            // ACT
-            TestObject actual = JsonConvert.DeserializeObject<TestObject>(jsonDate);
+            TestObject actual = JsonConvert.DeserializeObject<TestObject>(jsonDate)!;
 
-            // ASSERT
             Assert.AreEqual(expected, actual.Date);
             Assert.AreEqual(expected.Ticks, actual.Date.Ticks);
             Assert.AreEqual(expected.Offset, actual.Date.Offset);
@@ -66,13 +63,10 @@ namespace ApiClient.Tests
         [DataTestMethod]
         public void DateTimeFormatSerializationTest(int dateValueIndex, string expected)
         {
-            // ARRANGE
             DateTimeOffset initialDate = DateTimeValues[dateValueIndex];
 
-            // ACT
             string actual = JsonConvert.SerializeObject(initialDate);
 
-            // ASSERT
             Assert.AreEqual($"\"{expected}\"", actual);
         }
 

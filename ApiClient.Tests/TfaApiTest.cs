@@ -28,76 +28,76 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetTfaApplicationsTest()
         {
-            string givenApplicationId1 = "0933F3BC087D2A617AC6DCB2EF5B8A61";
-            string givenGetApplicationName1 = "Test application BASIC 1";
-            int givenGetApplicationPinAttempts1 = 10;
-            string givenAllowMultiplePinVerifications1 = "true";
-            string givenGetApplicationPinTimeToLive1 = "2h";
-            string givenGetApplicationVerifyPinLimit1 = "1/3s";
-            string givenGetApplicationSendPinPerApplicationLimit1 = "10000/1d";
-            string givenGetApplicationSendPinPerPhoneNumberLimit1 = "3/1d";
-            string givenEnabled1 = "true";
+            string expectedApplicationId1 = "0933F3BC087D2A617AC6DCB2EF5B8A61";
+            string expectedGetApplicationName1 = "Test application BASIC 1";
+            int expectedGetApplicationPinAttempts1 = 10;
+            string expectedAllowMultiplePinVerifications1 = "true";
+            string expectedGetApplicationPinTimeToLive1 = "2h";
+            string expectedGetApplicationVerifyPinLimit1 = "1/3s";
+            string expectedGetApplicationSendPinPerApplicationLimit1 = "10000/1d";
+            string expectedGetApplicationSendPinPerPhoneNumberLimit1 = "3/1d";
+            string expectedEnabled1 = "true";
 
-            string givenApplicationId2 = "5F04FACFAA4978F62FCAEBA97B37E90F";
-            string givenGetApplicationName2 = "Test application BASIC 2";
-            int givenGetApplicationPinAttempts2 = 12;
-            string givenAllowMultiplePinVerifications2 = "true";
-            string givenGetApplicationPinTimeToLive2 = "10m";
-            string givenGetApplicationVerifyPinLimit2 = "2/1s";
-            string givenGetApplicationSendPinPerApplicationLimit2 = "10000/1d";
-            string givenGetApplicationSendPinPerPhoneNumberLimit2 = "5/1h";
-            string givenEnabled2 = "true";
+            string expectedApplicationId2 = "5F04FACFAA4978F62FCAEBA97B37E90F";
+            string expectedGetApplicationName2 = "Test application BASIC 2";
+            int expectedGetApplicationPinAttempts2 = 12;
+            string expectedAllowMultiplePinVerifications2 = "true";
+            string expectedGetApplicationPinTimeToLive2 = "10m";
+            string expectedGetApplicationVerifyPinLimit2 = "2/1s";
+            string expectedGetApplicationSendPinPerApplicationLimit2 = "10000/1d";
+            string expectedGetApplicationSendPinPerPhoneNumberLimit2 = "5/1h";
+            string expectedEnabled2 = "true";
 
-            string givenApplicationId3 = "B450F966A8EF017180F148AF22C42642";
-            string givenGetApplicationName3 = "Test application BASIC 3";
-            int givenGetApplicationPinAttempts3 = 15;
-            string givenAllowMultiplePinVerifications3 = "true";
-            string givenGetApplicationPinTimeToLive3 = "1h";
-            string givenGetApplicationVerifyPinLimit3 = "30/10s";
-            string givenGetApplicationSendPinPerApplicationLimit3 = "10000/3d";
-            string givenGetApplicationSendPinPerPhoneNumberLimit3 = "10/20m";
-            string givenEnabled3 = "true";
+            string expectedApplicationId3 = "B450F966A8EF017180F148AF22C42642";
+            string expectedGetApplicationName3 = "Test application BASIC 3";
+            int expectedGetApplicationPinAttempts3 = 15;
+            string expectedAllowMultiplePinVerifications3 = "true";
+            string expectedGetApplicationPinTimeToLive3 = "1h";
+            string expectedGetApplicationVerifyPinLimit3 = "30/10s";
+            string expectedGetApplicationSendPinPerApplicationLimit3 = "10000/3d";
+            string expectedGetApplicationSendPinPerPhoneNumberLimit3 = "10/20m";
+            string expectedEnabled3 = "true";
 
             string expectedResponse = $@"
             [
                 {{
-                    ""applicationId"": ""{givenApplicationId1}"",
-                    ""name"": ""{givenGetApplicationName1}"",
+                    ""applicationId"": ""{expectedApplicationId1}"",
+                    ""name"": ""{expectedGetApplicationName1}"",
                     ""configuration"": {{
-                        ""pinAttempts"": {givenGetApplicationPinAttempts1},
-                        ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications1},
-                        ""pinTimeToLive"": ""{givenGetApplicationPinTimeToLive1}"",
-                        ""verifyPinLimit"": ""{givenGetApplicationVerifyPinLimit1}"",
-                        ""sendPinPerApplicationLimit"": ""{givenGetApplicationSendPinPerApplicationLimit1}"",
-                        ""sendPinPerPhoneNumberLimit"": ""{givenGetApplicationSendPinPerPhoneNumberLimit1}""
+                        ""pinAttempts"": {expectedGetApplicationPinAttempts1},
+                        ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications1},
+                        ""pinTimeToLive"": ""{expectedGetApplicationPinTimeToLive1}"",
+                        ""verifyPinLimit"": ""{expectedGetApplicationVerifyPinLimit1}"",
+                        ""sendPinPerApplicationLimit"": ""{expectedGetApplicationSendPinPerApplicationLimit1}"",
+                        ""sendPinPerPhoneNumberLimit"": ""{expectedGetApplicationSendPinPerPhoneNumberLimit1}""
                     }},
-                    ""enabled"": {givenEnabled1}
+                    ""enabled"": {expectedEnabled1}
                 }},
                 {{
-                    ""applicationId"": ""{givenApplicationId2}"",
-                    ""name"": ""{givenGetApplicationName2}"",
+                    ""applicationId"": ""{expectedApplicationId2}"",
+                    ""name"": ""{expectedGetApplicationName2}"",
                     ""configuration"": {{
-                        ""pinAttempts"": {givenGetApplicationPinAttempts2},
-                        ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications2},
-                        ""pinTimeToLive"": ""{givenGetApplicationPinTimeToLive2}"",
-                        ""verifyPinLimit"": ""{givenGetApplicationVerifyPinLimit2}"",
-                        ""sendPinPerApplicationLimit"": ""{givenGetApplicationSendPinPerApplicationLimit2}"",
-                        ""sendPinPerPhoneNumberLimit"": ""{givenGetApplicationSendPinPerPhoneNumberLimit2}""
+                        ""pinAttempts"": {expectedGetApplicationPinAttempts2},
+                        ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications2},
+                        ""pinTimeToLive"": ""{expectedGetApplicationPinTimeToLive2}"",
+                        ""verifyPinLimit"": ""{expectedGetApplicationVerifyPinLimit2}"",
+                        ""sendPinPerApplicationLimit"": ""{expectedGetApplicationSendPinPerApplicationLimit2}"",
+                        ""sendPinPerPhoneNumberLimit"": ""{expectedGetApplicationSendPinPerPhoneNumberLimit2}""
                     }},
-                    ""enabled"": {givenEnabled2}
+                    ""enabled"": {expectedEnabled2}
                 }},
                 {{
-                    ""applicationId"": ""{givenApplicationId3}"",
-                    ""name"": ""{givenGetApplicationName3}"",
+                    ""applicationId"": ""{expectedApplicationId3}"",
+                    ""name"": ""{expectedGetApplicationName3}"",
                     ""configuration"": {{
-                        ""pinAttempts"": {givenGetApplicationPinAttempts3},
-                        ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications3},
-                        ""pinTimeToLive"": ""{givenGetApplicationPinTimeToLive3}"",
-                        ""verifyPinLimit"": ""{givenGetApplicationVerifyPinLimit3}"",
-                        ""sendPinPerApplicationLimit"": ""{givenGetApplicationSendPinPerApplicationLimit3}"",
-                        ""sendPinPerPhoneNumberLimit"": ""{givenGetApplicationSendPinPerPhoneNumberLimit3}""
+                        ""pinAttempts"": {expectedGetApplicationPinAttempts3},
+                        ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications3},
+                        ""pinTimeToLive"": ""{expectedGetApplicationPinTimeToLive3}"",
+                        ""verifyPinLimit"": ""{expectedGetApplicationVerifyPinLimit3}"",
+                        ""sendPinPerApplicationLimit"": ""{expectedGetApplicationSendPinPerApplicationLimit3}"",
+                        ""sendPinPerPhoneNumberLimit"": ""{expectedGetApplicationSendPinPerPhoneNumberLimit3}""
                     }},
-                    ""enabled"": {givenEnabled3}
+                    ""enabled"": {expectedEnabled3}
                 }}
             ]";
 
@@ -112,36 +112,36 @@ namespace ApiClient.Tests
 
                 var tfaApplicationResponse1 = tfaApplicationResponses[0];
                 Assert.IsNotNull(tfaApplicationResponse1);
-                Assert.AreEqual(givenApplicationId1, tfaApplicationResponse1.ApplicationId);
-                Assert.AreEqual(givenGetApplicationName1, tfaApplicationResponse1.Name);
-                Assert.AreEqual(givenGetApplicationPinAttempts1, tfaApplicationResponse1.VarConfiguration.PinAttempts);
-                Assert.AreEqual(bool.Parse(givenAllowMultiplePinVerifications1), tfaApplicationResponse1.VarConfiguration.AllowMultiplePinVerifications);
-                Assert.AreEqual(givenGetApplicationPinTimeToLive1, tfaApplicationResponse1.VarConfiguration.PinTimeToLive);
-                Assert.AreEqual(givenGetApplicationVerifyPinLimit1, tfaApplicationResponse1.VarConfiguration.VerifyPinLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerApplicationLimit1, tfaApplicationResponse1.VarConfiguration.SendPinPerApplicationLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerPhoneNumberLimit1, tfaApplicationResponse1.VarConfiguration.SendPinPerPhoneNumberLimit);
+                Assert.AreEqual(expectedApplicationId1, tfaApplicationResponse1.ApplicationId);
+                Assert.AreEqual(expectedGetApplicationName1, tfaApplicationResponse1.Name);
+                Assert.AreEqual(expectedGetApplicationPinAttempts1, tfaApplicationResponse1.VarConfiguration.PinAttempts);
+                Assert.AreEqual(bool.Parse(expectedAllowMultiplePinVerifications1), tfaApplicationResponse1.VarConfiguration.AllowMultiplePinVerifications);
+                Assert.AreEqual(expectedGetApplicationPinTimeToLive1, tfaApplicationResponse1.VarConfiguration.PinTimeToLive);
+                Assert.AreEqual(expectedGetApplicationVerifyPinLimit1, tfaApplicationResponse1.VarConfiguration.VerifyPinLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerApplicationLimit1, tfaApplicationResponse1.VarConfiguration.SendPinPerApplicationLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerPhoneNumberLimit1, tfaApplicationResponse1.VarConfiguration.SendPinPerPhoneNumberLimit);
 
                 var tfaApplicationResponse2 = tfaApplicationResponses[1];
                 Assert.IsNotNull(tfaApplicationResponse2);
-                Assert.AreEqual(givenApplicationId2, tfaApplicationResponse2.ApplicationId);
-                Assert.AreEqual(givenGetApplicationName2, tfaApplicationResponse2.Name);
-                Assert.AreEqual(givenGetApplicationPinAttempts2, tfaApplicationResponse2.VarConfiguration.PinAttempts);
-                Assert.AreEqual(bool.Parse(givenAllowMultiplePinVerifications2), tfaApplicationResponse2.VarConfiguration.AllowMultiplePinVerifications);
-                Assert.AreEqual(givenGetApplicationPinTimeToLive2, tfaApplicationResponse2.VarConfiguration.PinTimeToLive);
-                Assert.AreEqual(givenGetApplicationVerifyPinLimit2, tfaApplicationResponse2.VarConfiguration.VerifyPinLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerApplicationLimit2, tfaApplicationResponse2.VarConfiguration.SendPinPerApplicationLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerPhoneNumberLimit2, tfaApplicationResponse2.VarConfiguration.SendPinPerPhoneNumberLimit);
+                Assert.AreEqual(expectedApplicationId2, tfaApplicationResponse2.ApplicationId);
+                Assert.AreEqual(expectedGetApplicationName2, tfaApplicationResponse2.Name);
+                Assert.AreEqual(expectedGetApplicationPinAttempts2, tfaApplicationResponse2.VarConfiguration.PinAttempts);
+                Assert.AreEqual(bool.Parse(expectedAllowMultiplePinVerifications2), tfaApplicationResponse2.VarConfiguration.AllowMultiplePinVerifications);
+                Assert.AreEqual(expectedGetApplicationPinTimeToLive2, tfaApplicationResponse2.VarConfiguration.PinTimeToLive);
+                Assert.AreEqual(expectedGetApplicationVerifyPinLimit2, tfaApplicationResponse2.VarConfiguration.VerifyPinLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerApplicationLimit2, tfaApplicationResponse2.VarConfiguration.SendPinPerApplicationLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerPhoneNumberLimit2, tfaApplicationResponse2.VarConfiguration.SendPinPerPhoneNumberLimit);
 
                 var tfaApplicationResponse3 = tfaApplicationResponses[2];
                 Assert.IsNotNull(tfaApplicationResponse3);
-                Assert.AreEqual(givenApplicationId3, tfaApplicationResponse3.ApplicationId);
-                Assert.AreEqual(givenGetApplicationName3, tfaApplicationResponse3.Name);
-                Assert.AreEqual(givenGetApplicationPinAttempts3, tfaApplicationResponse3.VarConfiguration.PinAttempts);
-                Assert.AreEqual(bool.Parse(givenAllowMultiplePinVerifications3), tfaApplicationResponse3.VarConfiguration.AllowMultiplePinVerifications);
-                Assert.AreEqual(givenGetApplicationPinTimeToLive3, tfaApplicationResponse3.VarConfiguration.PinTimeToLive);
-                Assert.AreEqual(givenGetApplicationVerifyPinLimit3, tfaApplicationResponse3.VarConfiguration.VerifyPinLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerApplicationLimit3, tfaApplicationResponse3.VarConfiguration.SendPinPerApplicationLimit);
-                Assert.AreEqual(givenGetApplicationSendPinPerPhoneNumberLimit3, tfaApplicationResponse3.VarConfiguration.SendPinPerPhoneNumberLimit);
+                Assert.AreEqual(expectedApplicationId3, tfaApplicationResponse3.ApplicationId);
+                Assert.AreEqual(expectedGetApplicationName3, tfaApplicationResponse3.Name);
+                Assert.AreEqual(expectedGetApplicationPinAttempts3, tfaApplicationResponse3.VarConfiguration.PinAttempts);
+                Assert.AreEqual(bool.Parse(expectedAllowMultiplePinVerifications3), tfaApplicationResponse3.VarConfiguration.AllowMultiplePinVerifications);
+                Assert.AreEqual(expectedGetApplicationPinTimeToLive3, tfaApplicationResponse3.VarConfiguration.PinTimeToLive);
+                Assert.AreEqual(expectedGetApplicationVerifyPinLimit3, tfaApplicationResponse3.VarConfiguration.VerifyPinLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerApplicationLimit3, tfaApplicationResponse3.VarConfiguration.SendPinPerApplicationLimit);
+                Assert.AreEqual(expectedGetApplicationSendPinPerPhoneNumberLimit3, tfaApplicationResponse3.VarConfiguration.SendPinPerPhoneNumberLimit);
             }
 
             AssertResponse(tfaApi.GetTfaApplications(), AssertTfaGetApplicationsResponse);
@@ -154,73 +154,72 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldCreateTfaApplicationTest()
         {
-            string givenApplicationId = "1234567";
+            string expectedApplicationId = "1234567";
+            string expectedCreateApplicationName = "2fa application name";
+            int expectedCreateApplicationPinAttempts = 5;
+            string expectedAllowMultiplePinVerifications = "true";
+            string expectedCreateApplicationPinTimeToLive = "10m";
+            string expectedCreateApplicationVerifyPinLimit = "2/4s";
+            string expectedCreateApplicationSendPinPerApplicationLimit = "5000/12h";
+            string expectedCreateApplicationSendPinPerPhoneNumberLimit = "2/1d";
+            string expectedEnabled = "true";
 
-            string givenCreateApplicationName = "2fa application name";
-            int givenCreateApplicationPinAttempts = 5;
-            string givenAllowMultiplePinVerifications = "true";
-            string givenCreateApplicationPinTimeToLive = "10m";
-            string givenCreateApplicationVerifyPinLimit = "2/4s";
-            string givenCreateApplicationSendPinPerApplicationLimit = "5000/12h";
-            string givenCreateApplicationSendPinPerPhoneNumberLimit = "2/1d";
-            string givenEnabled = "true";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""name"": ""{givenCreateApplicationName}"",
-                ""enabled"": {givenEnabled},
+                ""name"": ""{expectedCreateApplicationName}"",
+                ""enabled"": {expectedEnabled},
                 ""configuration"": {{
-                    ""pinAttempts"": {givenCreateApplicationPinAttempts},
-                    ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications},
-                    ""pinTimeToLive"": ""{givenCreateApplicationPinTimeToLive}"",
-                    ""verifyPinLimit"": ""{givenCreateApplicationVerifyPinLimit}"",
-                    ""sendPinPerApplicationLimit"": ""{givenCreateApplicationSendPinPerApplicationLimit}"",
-                    ""sendPinPerPhoneNumberLimit"": ""{givenCreateApplicationSendPinPerPhoneNumberLimit}""
+                    ""pinAttempts"": {expectedCreateApplicationPinAttempts},
+                    ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications},
+                    ""pinTimeToLive"": ""{expectedCreateApplicationPinTimeToLive}"",
+                    ""verifyPinLimit"": ""{expectedCreateApplicationVerifyPinLimit}"",
+                    ""sendPinPerApplicationLimit"": ""{expectedCreateApplicationSendPinPerApplicationLimit}"",
+                    ""sendPinPerPhoneNumberLimit"": ""{expectedCreateApplicationSendPinPerPhoneNumberLimit}""
                 }}
             }}";
 
             string expectedResponse = $@"
             {{
-                ""applicationId"": ""{givenApplicationId}"",
-                ""name"": ""{givenCreateApplicationName}"",
+                ""applicationId"": ""{expectedApplicationId}"",
+                ""name"": ""{expectedCreateApplicationName}"",
                 ""configuration"": {{
-                    ""pinAttempts"": {givenCreateApplicationPinAttempts},
-                    ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications},
-                    ""pinTimeToLive"": ""{givenCreateApplicationPinTimeToLive}"",
-                    ""verifyPinLimit"": ""{givenCreateApplicationVerifyPinLimit}"",
-                    ""sendPinPerApplicationLimit"": ""{givenCreateApplicationSendPinPerApplicationLimit}"",
-                    ""sendPinPerPhoneNumberLimit"": ""{givenCreateApplicationSendPinPerPhoneNumberLimit}""
+                    ""pinAttempts"": {expectedCreateApplicationPinAttempts},
+                    ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications},
+                    ""pinTimeToLive"": ""{expectedCreateApplicationPinTimeToLive}"",
+                    ""verifyPinLimit"": ""{expectedCreateApplicationVerifyPinLimit}"",
+                    ""sendPinPerApplicationLimit"": ""{expectedCreateApplicationSendPinPerApplicationLimit}"",
+                    ""sendPinPerPhoneNumberLimit"": ""{expectedCreateApplicationSendPinPerPhoneNumberLimit}""
                 }},
-                ""enabled"": {givenEnabled}
+                ""enabled"": {expectedEnabled}
             }}";
 
-            SetUpPostRequest(TFA_APPLICATIONS, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_APPLICATIONS, givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaApplicationConfiguration = new TfaApplicationConfiguration()
             {
-                PinAttempts = givenCreateApplicationPinAttempts,
-                AllowMultiplePinVerifications = bool.Parse(givenAllowMultiplePinVerifications),
-                PinTimeToLive = givenCreateApplicationPinTimeToLive,
-                VerifyPinLimit = givenCreateApplicationVerifyPinLimit,
-                SendPinPerApplicationLimit = givenCreateApplicationSendPinPerApplicationLimit,
-                SendPinPerPhoneNumberLimit = givenCreateApplicationSendPinPerPhoneNumberLimit
+                PinAttempts = expectedCreateApplicationPinAttempts,
+                AllowMultiplePinVerifications = bool.Parse(expectedAllowMultiplePinVerifications),
+                PinTimeToLive = expectedCreateApplicationPinTimeToLive,
+                VerifyPinLimit = expectedCreateApplicationVerifyPinLimit,
+                SendPinPerApplicationLimit = expectedCreateApplicationSendPinPerApplicationLimit,
+                SendPinPerPhoneNumberLimit = expectedCreateApplicationSendPinPerPhoneNumberLimit
             };
 
             var tfaApplicationRequest = new TfaApplicationRequest(
                 varConfiguration: tfaApplicationConfiguration,
-                enabled: bool.Parse(givenEnabled),
-                name: givenCreateApplicationName
+                enabled: bool.Parse(expectedEnabled),
+                name: expectedCreateApplicationName
             );
 
             void AssertTfaCreateApplicationResponse(TfaApplicationResponse tfaApplicationResponse)
             {
                 Assert.IsNotNull(tfaApplicationResponse);
-                Assert.AreEqual(givenApplicationId, tfaApplicationResponse.ApplicationId);
-                Assert.AreEqual(givenCreateApplicationName, tfaApplicationResponse.Name);
+                Assert.AreEqual(expectedApplicationId, tfaApplicationResponse.ApplicationId);
+                Assert.AreEqual(expectedCreateApplicationName, tfaApplicationResponse.Name);
                 Assert.AreEqual(tfaApplicationConfiguration, tfaApplicationResponse.VarConfiguration);
-                Assert.AreEqual(bool.Parse(givenEnabled), tfaApplicationResponse.Enabled);
+                Assert.AreEqual(bool.Parse(expectedEnabled), tfaApplicationResponse.Enabled);
             }
 
             AssertResponse(tfaApi.CreateTfaApplication(tfaApplicationRequest), AssertTfaCreateApplicationResponse);
@@ -233,139 +232,137 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetTfaApplicationTest()
         {
-            string givenApplicationId = "1234567";
-
-            string givenGetApplicationName = "2fa application name";
-            int givenGetApplicationPinAttempts = 5;
-            string givenAllowMultiplePinVerifications = "true";
-            string givenGetApplicationPinTimeToLive = "10m";
-            string givenGetApplicationVerifyPinLimit = "2/4s";
-            string givenGetApplicationSendPinPerApplicationLimit = "5000/12h";
-            string givenGetApplicationSendPinPerPhoneNumberLimit = "2/1d";
-            string givenEnabled = "true";
+            string expectedApplicationId = "1234567";
+            string expectedGetApplicationName = "2fa application name";
+            int expectedGetApplicationPinAttempts = 5;
+            string expectedAllowMultiplePinVerifications = "true";
+            string expectedGetApplicationPinTimeToLive = "10m";
+            string expectedGetApplicationVerifyPinLimit = "2/4s";
+            string expectedGetApplicationSendPinPerApplicationLimit = "5000/12h";
+            string expectedGetApplicationSendPinPerPhoneNumberLimit = "2/1d";
+            string expectedEnabled = "true";
 
             string expectedResponse = $@"
             {{
-                ""applicationId"": ""{givenApplicationId}"",
-                ""name"": ""{givenGetApplicationName}"",
+                ""applicationId"": ""{expectedApplicationId}"",
+                ""name"": ""{expectedGetApplicationName}"",
                 ""configuration"": {{
-                    ""pinAttempts"": {givenGetApplicationPinAttempts},
-                    ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications},
-                    ""pinTimeToLive"": ""{givenGetApplicationPinTimeToLive}"",
-                    ""verifyPinLimit"": ""{givenGetApplicationVerifyPinLimit}"",
-                    ""sendPinPerApplicationLimit"": ""{givenGetApplicationSendPinPerApplicationLimit}"",
-                    ""sendPinPerPhoneNumberLimit"": ""{givenGetApplicationSendPinPerPhoneNumberLimit}""
+                    ""pinAttempts"": {expectedGetApplicationPinAttempts},
+                    ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications},
+                    ""pinTimeToLive"": ""{expectedGetApplicationPinTimeToLive}"",
+                    ""verifyPinLimit"": ""{expectedGetApplicationVerifyPinLimit}"",
+                    ""sendPinPerApplicationLimit"": ""{expectedGetApplicationSendPinPerApplicationLimit}"",
+                    ""sendPinPerPhoneNumberLimit"": ""{expectedGetApplicationSendPinPerPhoneNumberLimit}""
                 }},
-                ""enabled"": {givenEnabled}
+                ""enabled"": {expectedEnabled}
             }}";
 
-            SetUpGetRequest(TFA_APPLICATION.Replace("{appId}", givenApplicationId), expectedResponse, 200);
+            SetUpGetRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             void AssertTfaGetApplicationResponse(TfaApplicationResponse tfaApplicationResponse)
             {
-                var givenApplicationConfiguration = new TfaApplicationConfiguration()
+                var expectedApplicationConfiguration = new TfaApplicationConfiguration()
                 {
-                    PinAttempts = givenGetApplicationPinAttempts,
-                    AllowMultiplePinVerifications = bool.Parse(givenAllowMultiplePinVerifications),
-                    PinTimeToLive = givenGetApplicationPinTimeToLive,
-                    VerifyPinLimit = givenGetApplicationVerifyPinLimit,
-                    SendPinPerApplicationLimit = givenGetApplicationSendPinPerApplicationLimit,
-                    SendPinPerPhoneNumberLimit = givenGetApplicationSendPinPerPhoneNumberLimit
+                    PinAttempts = expectedGetApplicationPinAttempts,
+                    AllowMultiplePinVerifications = bool.Parse(expectedAllowMultiplePinVerifications),
+                    PinTimeToLive = expectedGetApplicationPinTimeToLive,
+                    VerifyPinLimit = expectedGetApplicationVerifyPinLimit,
+                    SendPinPerApplicationLimit = expectedGetApplicationSendPinPerApplicationLimit,
+                    SendPinPerPhoneNumberLimit = expectedGetApplicationSendPinPerPhoneNumberLimit
                 };
 
                 Assert.IsNotNull(tfaApplicationResponse);
-                Assert.AreEqual(givenApplicationId, tfaApplicationResponse.ApplicationId);
-                Assert.AreEqual(givenGetApplicationName, tfaApplicationResponse.Name);
-                Assert.AreEqual(givenApplicationConfiguration, tfaApplicationResponse.VarConfiguration);
-                Assert.AreEqual(bool.Parse(givenEnabled), tfaApplicationResponse.Enabled);
+                Assert.AreEqual(expectedApplicationId, tfaApplicationResponse.ApplicationId);
+                Assert.AreEqual(expectedGetApplicationName, tfaApplicationResponse.Name);
+                Assert.AreEqual(expectedApplicationConfiguration, tfaApplicationResponse.VarConfiguration);
+                Assert.AreEqual(bool.Parse(expectedEnabled), tfaApplicationResponse.Enabled);
             }
 
-            AssertResponse(tfaApi.GetTfaApplication(givenApplicationId), AssertTfaGetApplicationResponse);
-            AssertResponse(tfaApi.GetTfaApplicationAsync(givenApplicationId).Result, AssertTfaGetApplicationResponse);
+            AssertResponse(tfaApi.GetTfaApplication(expectedApplicationId), AssertTfaGetApplicationResponse);
+            AssertResponse(tfaApi.GetTfaApplicationAsync(expectedApplicationId).Result, AssertTfaGetApplicationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfo(givenApplicationId), AssertTfaGetApplicationResponse);
-            AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfoAsync(givenApplicationId).Result, AssertTfaGetApplicationResponse);
+            AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfo(expectedApplicationId), AssertTfaGetApplicationResponse);
+            AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfoAsync(expectedApplicationId).Result, AssertTfaGetApplicationResponse);
         }
 
         [TestMethod]
         public void ShouldUpdateTfaApplicationTest()
         {
-            string givenApplicationId = "1234567";
+            string expectedApplicationId = "1234567";
+            string expectedCreateApplicationName = "2fa application name";
+            int expectedCreateApplicationPinAttempts = 5;
+            string expectedAllowMultiplePinVerifications = "true";
+            string expectedCreateApplicationPinTimeToLive = "10m";
+            string expectedCreateApplicationVerifyPinLimit = "2/4s";
+            string expectedCreateApplicationSendPinPerApplicationLimit = "5000/12h";
+            string expectedCreateApplicationSendPinPerPhoneNumberLimit = "2/1d";
+            string expectedEnabled = "true";
 
-            string givenCreateApplicationName = "2fa application name";
-            int givenCreateApplicationPinAttempts = 5;
-            string givenAllowMultiplePinVerifications = "true";
-            string givenCreateApplicationPinTimeToLive = "10m";
-            string givenCreateApplicationVerifyPinLimit = "2/4s";
-            string givenCreateApplicationSendPinPerApplicationLimit = "5000/12h";
-            string givenCreateApplicationSendPinPerPhoneNumberLimit = "2/1d";
-            string givenEnabled = "true";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""name"": ""{givenCreateApplicationName}"",
-                ""enabled"": {givenEnabled},
+                ""name"": ""{expectedCreateApplicationName}"",
+                ""enabled"": {expectedEnabled},
                 ""configuration"": {{
-                    ""pinAttempts"": {givenCreateApplicationPinAttempts},
-                    ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications},
-                    ""pinTimeToLive"": ""{givenCreateApplicationPinTimeToLive}"",
-                    ""verifyPinLimit"": ""{givenCreateApplicationVerifyPinLimit}"",
-                    ""sendPinPerApplicationLimit"": ""{givenCreateApplicationSendPinPerApplicationLimit}"",
-                    ""sendPinPerPhoneNumberLimit"": ""{givenCreateApplicationSendPinPerPhoneNumberLimit}""
+                    ""pinAttempts"": {expectedCreateApplicationPinAttempts},
+                    ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications},
+                    ""pinTimeToLive"": ""{expectedCreateApplicationPinTimeToLive}"",
+                    ""verifyPinLimit"": ""{expectedCreateApplicationVerifyPinLimit}"",
+                    ""sendPinPerApplicationLimit"": ""{expectedCreateApplicationSendPinPerApplicationLimit}"",
+                    ""sendPinPerPhoneNumberLimit"": ""{expectedCreateApplicationSendPinPerPhoneNumberLimit}""
                 }}
             }}";
 
             string expectedResponse = $@"
             {{
-                ""applicationId"": ""{givenApplicationId}"",
-                ""name"": ""{givenCreateApplicationName}"",
+                ""applicationId"": ""{expectedApplicationId}"",
+                ""name"": ""{expectedCreateApplicationName}"",
                 ""configuration"": {{
-                    ""pinAttempts"": {givenCreateApplicationPinAttempts},
-                    ""allowMultiplePinVerifications"": {givenAllowMultiplePinVerifications},
-                    ""pinTimeToLive"": ""{givenCreateApplicationPinTimeToLive}"",
-                    ""verifyPinLimit"": ""{givenCreateApplicationVerifyPinLimit}"",
-                    ""sendPinPerApplicationLimit"": ""{givenCreateApplicationSendPinPerApplicationLimit}"",
-                    ""sendPinPerPhoneNumberLimit"": ""{givenCreateApplicationSendPinPerPhoneNumberLimit}""
+                    ""pinAttempts"": {expectedCreateApplicationPinAttempts},
+                    ""allowMultiplePinVerifications"": {expectedAllowMultiplePinVerifications},
+                    ""pinTimeToLive"": ""{expectedCreateApplicationPinTimeToLive}"",
+                    ""verifyPinLimit"": ""{expectedCreateApplicationVerifyPinLimit}"",
+                    ""sendPinPerApplicationLimit"": ""{expectedCreateApplicationSendPinPerApplicationLimit}"",
+                    ""sendPinPerPhoneNumberLimit"": ""{expectedCreateApplicationSendPinPerPhoneNumberLimit}""
                 }},
-                ""enabled"": {givenEnabled}
+                ""enabled"": {expectedEnabled}
             }}";
 
-            SetUpPutRequest(TFA_APPLICATION.Replace("{appId}", givenApplicationId), expectedRequest, expectedResponse, 200);
+            SetUpPutRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaApplicationConfiguration = new TfaApplicationConfiguration()
             {
-                PinAttempts = givenCreateApplicationPinAttempts,
-                AllowMultiplePinVerifications = bool.Parse(givenAllowMultiplePinVerifications),
-                PinTimeToLive = givenCreateApplicationPinTimeToLive,
-                VerifyPinLimit = givenCreateApplicationVerifyPinLimit,
-                SendPinPerApplicationLimit = givenCreateApplicationSendPinPerApplicationLimit,
-                SendPinPerPhoneNumberLimit = givenCreateApplicationSendPinPerPhoneNumberLimit
+                PinAttempts = expectedCreateApplicationPinAttempts,
+                AllowMultiplePinVerifications = bool.Parse(expectedAllowMultiplePinVerifications),
+                PinTimeToLive = expectedCreateApplicationPinTimeToLive,
+                VerifyPinLimit = expectedCreateApplicationVerifyPinLimit,
+                SendPinPerApplicationLimit = expectedCreateApplicationSendPinPerApplicationLimit,
+                SendPinPerPhoneNumberLimit = expectedCreateApplicationSendPinPerPhoneNumberLimit
             };
 
             var tfaApplicationRequest = new TfaApplicationRequest(
                 varConfiguration: tfaApplicationConfiguration,
-                enabled: bool.Parse(givenEnabled),
-                name: givenCreateApplicationName
+                enabled: bool.Parse(expectedEnabled),
+                name: expectedCreateApplicationName
             );
 
             void AssertTfaUpdateApplicationResponse(TfaApplicationResponse tfaApplicationResponse)
             {
                 Assert.IsNotNull(tfaApplicationResponse);
-                Assert.AreEqual(givenApplicationId, tfaApplicationResponse.ApplicationId);
-                Assert.AreEqual(givenCreateApplicationName, tfaApplicationResponse.Name);
+                Assert.AreEqual(expectedApplicationId, tfaApplicationResponse.ApplicationId);
+                Assert.AreEqual(expectedCreateApplicationName, tfaApplicationResponse.Name);
                 Assert.AreEqual(tfaApplicationConfiguration, tfaApplicationResponse.VarConfiguration);
-                Assert.AreEqual(bool.Parse(givenEnabled), tfaApplicationResponse.Enabled);
+                Assert.AreEqual(bool.Parse(expectedEnabled), tfaApplicationResponse.Enabled);
             }
 
-            AssertResponse(tfaApi.UpdateTfaApplication(givenApplicationId, tfaApplicationRequest), AssertTfaUpdateApplicationResponse);
-            AssertResponse(tfaApi.UpdateTfaApplicationAsync(givenApplicationId, tfaApplicationRequest).Result, AssertTfaUpdateApplicationResponse);
+            AssertResponse(tfaApi.UpdateTfaApplication(expectedApplicationId, tfaApplicationRequest), AssertTfaUpdateApplicationResponse);
+            AssertResponse(tfaApi.UpdateTfaApplicationAsync(expectedApplicationId, tfaApplicationRequest).Result, AssertTfaUpdateApplicationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.UpdateTfaApplicationWithHttpInfo(givenApplicationId, tfaApplicationRequest), AssertTfaUpdateApplicationResponse);
-            AssertResponseWithHttpInfo(tfaApi.UpdateTfaApplicationWithHttpInfoAsync(givenApplicationId, tfaApplicationRequest).Result, AssertTfaUpdateApplicationResponse);
+            AssertResponseWithHttpInfo(tfaApi.UpdateTfaApplicationWithHttpInfo(expectedApplicationId, tfaApplicationRequest), AssertTfaUpdateApplicationResponse);
+            AssertResponseWithHttpInfo(tfaApi.UpdateTfaApplicationWithHttpInfoAsync(expectedApplicationId, tfaApplicationRequest).Result, AssertTfaUpdateApplicationResponse);
         }
 
         [TestMethod]
@@ -373,26 +370,26 @@ namespace ApiClient.Tests
         {
             string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
 
-            string givenPinPlaceholder = "{{pin}}";
-            string givenMessageText = string.Format("Your PIN is {0}.", givenPinPlaceholder);
-            int givenPinLength = 4;
-            string givenPinType = "Alphanumeric";
-            string givenLanguage = "En";
-            string givenSenderId = "Infobip 2FA";
-            string givenRepeatDtmf = "1#";
-            double givenSpeechRate = 1;
+            string expectedPinPlaceholder = "{{pin}}";
+            string expectedMessageText = string.Format("Your PIN is {0}.", expectedPinPlaceholder);
+            int expectedPinLength = 4;
+            string expectedPinType = "Alphanumeric";
+            string expectedLanguage = "En";
+            string expectedSenderId = "Infobip 2FA";
+            string expectedRepeatDtmf = "1#";
+            double expectedSpeechRate = 1;
 
             string expectedResponse = $@"
             [
                 {{
-                    ""pinPlaceholder"": ""{givenPinPlaceholder}"",
-                    ""pinType"": ""{givenPinType}"",
-                    ""messageText"": ""{givenMessageText}"",
-                    ""pinLength"": {givenPinLength},
-                    ""language"": ""{givenLanguage}"",
-                    ""senderId"": ""{givenSenderId}"",
-                    ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                    ""speechRate"": {givenSpeechRate}
+                    ""pinPlaceholder"": ""{expectedPinPlaceholder}"",
+                    ""pinType"": ""{expectedPinType}"",
+                    ""messageText"": ""{expectedMessageText}"",
+                    ""pinLength"": {expectedPinLength},
+                    ""language"": ""{expectedLanguage}"",
+                    ""senderId"": ""{expectedSenderId}"",
+                    ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                    ""speechRate"": {expectedSpeechRate}
                 }}
             ]";
 
@@ -406,14 +403,14 @@ namespace ApiClient.Tests
                 var tfaMessage = tfaMessages[0];
 
                 Assert.IsNotNull(tfaMessage);
-                Assert.AreEqual(givenPinPlaceholder, tfaMessage.PinPlaceholder);
-                Assert.AreEqual(givenMessageText, tfaMessage.MessageText);
-                Assert.AreEqual(givenPinLength, tfaMessage.PinLength);
-                Assert.AreEqual(Enum.Parse<TfaPinType>(givenPinType), tfaMessage.PinType);
-                Assert.AreEqual(Enum.Parse<TfaLanguage>(givenLanguage), tfaMessage.Language);
-                Assert.AreEqual(givenSenderId, tfaMessage.SenderId);
-                Assert.AreEqual(givenRepeatDtmf, tfaMessage.RepeatDTMF);
-                Assert.AreEqual(givenSpeechRate, tfaMessage.SpeechRate);
+                Assert.AreEqual(expectedPinPlaceholder, tfaMessage.PinPlaceholder);
+                Assert.AreEqual(expectedMessageText, tfaMessage.MessageText);
+                Assert.AreEqual(expectedPinLength, tfaMessage.PinLength);
+                Assert.AreEqual(Enum.Parse<TfaPinType>(expectedPinType), tfaMessage.PinType);
+                Assert.AreEqual(Enum.Parse<TfaLanguage>(expectedLanguage), tfaMessage.Language);
+                Assert.AreEqual(expectedSenderId, tfaMessage.SenderId);
+                Assert.AreEqual(expectedRepeatDtmf, tfaMessage.RepeatDTMF);
+                Assert.AreEqual(expectedSpeechRate, tfaMessage.SpeechRate);
             }
 
             AssertResponse(tfaApi.GetTfaMessageTemplates(givenApplicationId), AssertTfaGetTemplatesResponse);
@@ -428,63 +425,63 @@ namespace ApiClient.Tests
         {
             string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
 
-            string givenPinPlaceholder = "{{pin}}";
-            string givenMessageText = string.Format("Your PIN is {0}.", givenPinPlaceholder);
-            int givenPinLength = 4;
-            string givenPinType = "Alphanumeric";
-            string givenLanguage = "en";
-            string givenSenderId = "Infobip 2FA";
-            string givenRepeatDtmf = "1#";
-            string givenSpeechRate = "1.0";
+            string expectedPinPlaceholder = "{{pin}}";
+            string expectedMessageText = string.Format("Your PIN is {0}.", expectedPinPlaceholder);
+            int expectedPinLength = 4;
+            string expectedPinType = "Alphanumeric";
+            string expectedLanguage = "en";
+            string expectedSenderId = "Infobip 2FA";
+            string expectedRepeatDtmf = "1#";
+            string expectedSpeechRate = "1.0";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""language"": ""{givenLanguage}"",
-                ""pinType"": ""{givenPinType}"",
-                ""messageText"": ""{givenMessageText}"",
-                ""pinLength"": {givenPinLength},
-                ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                ""senderId"": ""{givenSenderId}"",
-                ""speechRate"": {givenSpeechRate}
+                ""language"": ""{expectedLanguage}"",
+                ""pinType"": ""{expectedPinType}"",
+                ""messageText"": ""{expectedMessageText}"",
+                ""pinLength"": {expectedPinLength},
+                ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                ""senderId"": ""{expectedSenderId}"",
+                ""speechRate"": {expectedSpeechRate}
             }}";
 
             string expectedResponse = $@"
             {{
-                ""pinPlaceholder"": ""{givenPinPlaceholder}"",
-                ""pinType"": ""{givenPinType}"",
-                ""messageText"": ""{givenMessageText}"",
-                ""pinLength"": {givenPinLength},
-                ""language"": ""{givenLanguage}"",
-                ""senderId"": ""{givenSenderId}"",
-                ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                ""speechRate"": {givenSpeechRate}
+                ""pinPlaceholder"": ""{expectedPinPlaceholder}"",
+                ""pinType"": ""{expectedPinType}"",
+                ""messageText"": ""{expectedMessageText}"",
+                ""pinLength"": {expectedPinLength},
+                ""language"": ""{expectedLanguage}"",
+                ""senderId"": ""{expectedSenderId}"",
+                ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                ""speechRate"": {expectedSpeechRate}
             }}";
 
-            SetUpPostRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaCreateMessageRequest = new TfaCreateMessageRequest(
-                language: Enum.Parse<TfaLanguage>(givenLanguage, true),
-                messageText: givenMessageText,
-                pinLength: givenPinLength,
-                pinType: Enum.Parse<TfaPinType>(givenPinType, true),
-                repeatDTMF: givenRepeatDtmf,
-                senderId: givenSenderId,
-                speechRate: double.Parse(givenSpeechRate, System.Globalization.CultureInfo.InvariantCulture)
+                language: Enum.Parse<TfaLanguage>(expectedLanguage, true),
+                messageText: expectedMessageText,
+                pinLength: expectedPinLength,
+                pinType: Enum.Parse<TfaPinType>(expectedPinType, true),
+                repeatDTMF: expectedRepeatDtmf,
+                senderId: expectedSenderId,
+                speechRate: double.Parse(expectedSpeechRate, System.Globalization.CultureInfo.InvariantCulture)
             );
 
             void AssertTfaCreateTemplateResponse(TfaMessage tfaMessage)
             {
                 Assert.IsNotNull(tfaMessage);
-                Assert.AreEqual(givenPinPlaceholder, tfaMessage.PinPlaceholder);
-                Assert.AreEqual(givenMessageText, tfaMessage.MessageText);
-                Assert.AreEqual(givenPinLength, tfaMessage.PinLength);
-                Assert.AreEqual(Enum.Parse<TfaPinType>(givenPinType, true), tfaMessage.PinType);
-                Assert.AreEqual(Enum.Parse<TfaLanguage>(givenLanguage, true), tfaMessage.Language);
-                Assert.AreEqual(givenSenderId, tfaMessage.SenderId);
-                Assert.AreEqual(givenRepeatDtmf, tfaMessage.RepeatDTMF);
-                Assert.AreEqual(double.Parse(givenSpeechRate, System.Globalization.CultureInfo.InvariantCulture), tfaMessage.SpeechRate);
+                Assert.AreEqual(expectedPinPlaceholder, tfaMessage.PinPlaceholder);
+                Assert.AreEqual(expectedMessageText, tfaMessage.MessageText);
+                Assert.AreEqual(expectedPinLength, tfaMessage.PinLength);
+                Assert.AreEqual(Enum.Parse<TfaPinType>(expectedPinType, true), tfaMessage.PinType);
+                Assert.AreEqual(Enum.Parse<TfaLanguage>(expectedLanguage, true), tfaMessage.Language);
+                Assert.AreEqual(expectedSenderId, tfaMessage.SenderId);
+                Assert.AreEqual(expectedRepeatDtmf, tfaMessage.RepeatDTMF);
+                Assert.AreEqual(double.Parse(expectedSpeechRate, System.Globalization.CultureInfo.InvariantCulture), tfaMessage.SpeechRate);
             }
 
             AssertResponse(tfaApi.CreateTfaMessageTemplate(givenApplicationId, tfaCreateMessageRequest), AssertTfaCreateTemplateResponse);
@@ -500,45 +497,42 @@ namespace ApiClient.Tests
             string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
             string givenMessageId = "9C815F8AF3328";
 
-            string givenPinPlaceholder = "{{pin}}";
-            string givenMessageText = string.Format("Your PIN is {0}.", givenPinPlaceholder);
-            int givenPinLength = 4;
-            string givenPinType = "Alphanumeric";
-            string givenLanguage = "En";
-            string givenSenderId = "Infobip 2FA";
-            string givenRepeatDtmf = "1#";
-            double givenSpeechRate = 1.0;
+            string expectedPinPlaceholder = "{{pin}}";
+            string expectedMessageText = string.Format("Your PIN is {0}.", expectedPinPlaceholder);
+            int expectedPinLength = 4;
+            string expectedPinType = "Alphanumeric";
+            string expectedLanguage = "En";
+            string expectedSenderId = "Infobip 2FA";
+            string expectedRepeatDtmf = "1#";
+            double expectedSpeechRate = 1.0;
 
             string expectedResponse = $@"
             {{
-                ""pinPlaceholder"": ""{givenPinPlaceholder}"",
-                ""pinType"": ""{givenPinType}"",
-                ""messageText"": ""{givenMessageText}"",
-                ""pinLength"": {givenPinLength},
-                ""language"": ""{givenLanguage}"",
-                ""senderId"": ""{givenSenderId}"",
-                ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                ""speechRate"": {givenSpeechRate}
+                ""pinPlaceholder"": ""{expectedPinPlaceholder}"",
+                ""pinType"": ""{expectedPinType}"",
+                ""messageText"": ""{expectedMessageText}"",
+                ""pinLength"": {expectedPinLength},
+                ""language"": ""{expectedLanguage}"",
+                ""senderId"": ""{expectedSenderId}"",
+                ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                ""speechRate"": {expectedSpeechRate}
             }}";
 
-            SetUpGetRequest(
-                TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId),
-                expectedResponse,
-                200);
+            SetUpGetRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId), expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             void AssertTfaGetTemplateResponse(TfaMessage tfaMessage)
             {
                 Assert.IsNotNull(tfaMessage);
-                Assert.AreEqual(givenPinPlaceholder, tfaMessage.PinPlaceholder);
-                Assert.AreEqual(givenMessageText, tfaMessage.MessageText);
-                Assert.AreEqual(givenPinLength, tfaMessage.PinLength);
-                Assert.AreEqual(Enum.Parse<TfaPinType>(givenPinType), tfaMessage.PinType);
-                Assert.AreEqual(Enum.Parse<TfaLanguage>(givenLanguage), tfaMessage.Language);
-                Assert.AreEqual(givenSenderId, tfaMessage.SenderId);
-                Assert.AreEqual(givenRepeatDtmf, tfaMessage.RepeatDTMF);
-                Assert.AreEqual(givenSpeechRate, tfaMessage.SpeechRate);
+                Assert.AreEqual(expectedPinPlaceholder, tfaMessage.PinPlaceholder);
+                Assert.AreEqual(expectedMessageText, tfaMessage.MessageText);
+                Assert.AreEqual(expectedPinLength, tfaMessage.PinLength);
+                Assert.AreEqual(Enum.Parse<TfaPinType>(expectedPinType), tfaMessage.PinType);
+                Assert.AreEqual(Enum.Parse<TfaLanguage>(expectedLanguage), tfaMessage.Language);
+                Assert.AreEqual(expectedSenderId, tfaMessage.SenderId);
+                Assert.AreEqual(expectedRepeatDtmf, tfaMessage.RepeatDTMF);
+                Assert.AreEqual(expectedSpeechRate, tfaMessage.SpeechRate);
             }
 
             AssertResponse(tfaApi.GetTfaMessageTemplate(givenApplicationId, givenMessageId), AssertTfaGetTemplateResponse);
@@ -554,68 +548,64 @@ namespace ApiClient.Tests
             string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
             string givenMessageId = "5E3A6EA43432G5F3";
 
-            string givenPinPlaceholder = "{{pin}}";
-            string givenMessageText = string.Format("Your PIN is {0}.", givenPinPlaceholder);
-            int givenPinLength = 4;
-            string givenPinType = "Alphanumeric";
-            string givenLanguage = "en";
-            string givenSenderId = "Infobip 2FA";
-            string givenRepeatDtmf = "1#";
-            string givenSpeechRate = "1.0";
+            string expectedPinPlaceholder = "{{pin}}";
+            string expectedMessageText = string.Format("Your PIN is {0}.", expectedPinPlaceholder);
+            int expectedPinLength = 4;
+            string expectedPinType = "Alphanumeric";
+            string expectedLanguage = "en";
+            string expectedSenderId = "Infobip 2FA";
+            string expectedRepeatDtmf = "1#";
+            string expectedSpeechRate = "1.0";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""language"": ""{givenLanguage}"",
-                ""pinType"": ""{givenPinType}"",
-                ""messageText"": ""{givenMessageText}"",
-                ""pinLength"": {givenPinLength},
-                ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                ""senderId"": ""{givenSenderId}"",
-                ""speechRate"": {givenSpeechRate}
+                ""language"": ""{expectedLanguage}"",
+                ""pinType"": ""{expectedPinType}"",
+                ""messageText"": ""{expectedMessageText}"",
+                ""pinLength"": {expectedPinLength},
+                ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                ""senderId"": ""{expectedSenderId}"",
+                ""speechRate"": {expectedSpeechRate}
             }}";
 
 
             string expectedResponse = $@"
             {{
-                ""pinPlaceholder"": ""{givenPinPlaceholder}"",
-                ""pinType"": ""{givenPinType}"",
-                ""messageText"": ""{givenMessageText}"",
-                ""pinLength"": {givenPinLength},
-                ""language"": ""{givenLanguage}"",
-                ""senderId"": ""{givenSenderId}"",
-                ""repeatDTMF"": ""{givenRepeatDtmf}"",
-                ""speechRate"": {givenSpeechRate}
+                ""pinPlaceholder"": ""{expectedPinPlaceholder}"",
+                ""pinType"": ""{expectedPinType}"",
+                ""messageText"": ""{expectedMessageText}"",
+                ""pinLength"": {expectedPinLength},
+                ""language"": ""{expectedLanguage}"",
+                ""senderId"": ""{expectedSenderId}"",
+                ""repeatDTMF"": ""{expectedRepeatDtmf}"",
+                ""speechRate"": {expectedSpeechRate}
             }}";
 
-            SetUpPutRequest(
-                TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId),
-                expectedRequest,
-                expectedResponse,
-                200);
+            SetUpPutRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaUpdateMessageRequest = new TfaUpdateMessageRequest(
-                language: Enum.Parse<TfaLanguage>(givenLanguage, true),
-                messageText: givenMessageText,
-                pinLength: givenPinLength,
-                pinType: Enum.Parse<TfaPinType>(givenPinType, true),
-                repeatDTMF: givenRepeatDtmf,
-                senderId: givenSenderId,
-                speechRate: double.Parse(givenSpeechRate, System.Globalization.CultureInfo.InvariantCulture)
+                language: Enum.Parse<TfaLanguage>(expectedLanguage, true),
+                messageText: expectedMessageText,
+                pinLength: expectedPinLength,
+                pinType: Enum.Parse<TfaPinType>(expectedPinType, true),
+                repeatDTMF: expectedRepeatDtmf,
+                senderId: expectedSenderId,
+                speechRate: double.Parse(expectedSpeechRate, System.Globalization.CultureInfo.InvariantCulture)
             );
 
             void AssertTfaUpdateTemplateResponse(TfaMessage tfaMessage)
             {
                 Assert.IsNotNull(tfaMessage);
-                Assert.AreEqual(givenPinPlaceholder, tfaMessage.PinPlaceholder);
-                Assert.AreEqual(givenMessageText, tfaMessage.MessageText);
-                Assert.AreEqual(givenPinLength, tfaMessage.PinLength);
-                Assert.AreEqual(Enum.Parse<TfaPinType>(givenPinType, true), tfaMessage.PinType);
-                Assert.AreEqual(Enum.Parse<TfaLanguage>(givenLanguage, true), tfaMessage.Language);
-                Assert.AreEqual(givenSenderId, tfaMessage.SenderId);
-                Assert.AreEqual(givenRepeatDtmf, tfaMessage.RepeatDTMF);
-                Assert.AreEqual(double.Parse(givenSpeechRate, System.Globalization.CultureInfo.InvariantCulture), tfaMessage.SpeechRate);
+                Assert.AreEqual(expectedPinPlaceholder, tfaMessage.PinPlaceholder);
+                Assert.AreEqual(expectedMessageText, tfaMessage.MessageText);
+                Assert.AreEqual(expectedPinLength, tfaMessage.PinLength);
+                Assert.AreEqual(Enum.Parse<TfaPinType>(expectedPinType, true), tfaMessage.PinType);
+                Assert.AreEqual(Enum.Parse<TfaLanguage>(expectedLanguage, true), tfaMessage.Language);
+                Assert.AreEqual(expectedSenderId, tfaMessage.SenderId);
+                Assert.AreEqual(expectedRepeatDtmf, tfaMessage.RepeatDTMF);
+                Assert.AreEqual(double.Parse(expectedSpeechRate, System.Globalization.CultureInfo.InvariantCulture), tfaMessage.SpeechRate);
             }
 
             AssertResponse(tfaApi.UpdateTfaMessageTemplate(givenApplicationId, givenMessageId, tfaUpdateMessageRequest), AssertTfaUpdateTemplateResponse);
@@ -628,117 +618,115 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldCreateTfaEmailMessageTemplateTest()
         {
-            TfaPinType givenPinType = TfaPinType.Numeric;
-            int givenPinLength = 4;
-            string givenFrom = "company@example.com";
-            int givenEmailTemplateId = 1234;
+            TfaPinType expectedPinType = TfaPinType.Numeric;
+            int expectedPinLength = 4;
+            string expectedFrom = "company@example.com";
+            int expectedEmailTemplateId = 1234;
+            string expectedMessageId = "9C815F8AF3328";
+            string expectedApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
 
-            string givenMessageId = "9C815F8AF3328";
-            string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""pinType"": ""{givenPinType}"",
-                ""pinLength"": {givenPinLength},
-                ""from"": ""{givenFrom}"",
-                ""emailTemplateId"": {givenEmailTemplateId}
+                ""pinType"": ""{expectedPinType}"",
+                ""pinLength"": {expectedPinLength},
+                ""from"": ""{expectedFrom}"",
+                ""emailTemplateId"": {expectedEmailTemplateId}
             }}";
 
             string expectedResponse = $@"
             {{
-                ""messageId"": ""{givenMessageId}"",
-                ""applicationId"": ""{givenApplicationId}"",
-                ""pinLength"": {givenPinLength},
-                ""pinType"": ""{givenPinType}"",
-                ""from"": ""{givenFrom}"",
-                ""emailTemplateId"": {givenEmailTemplateId}
+                ""messageId"": ""{expectedMessageId}"",
+                ""applicationId"": ""{expectedApplicationId}"",
+                ""pinLength"": {expectedPinLength},
+                ""pinType"": ""{expectedPinType}"",
+                ""from"": ""{expectedFrom}"",
+                ""emailTemplateId"": {expectedEmailTemplateId}
             }}";
 
-            SetUpPostRequest(TFA_EMAIL_TEMPLATES.Replace("{appId}", givenApplicationId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_EMAIL_TEMPLATES.Replace("{appId}", expectedApplicationId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaCreateEmailMessageRequest = new TfaCreateEmailMessageRequest(
-                    pinType: givenPinType,
-                    pinLength: givenPinLength,
-                    from: givenFrom,
-                    emailTemplateId: givenEmailTemplateId
+                    pinType: expectedPinType,
+                    pinLength: expectedPinLength,
+                    from: expectedFrom,
+                    emailTemplateId: expectedEmailTemplateId
                 );
 
             void AssertTfaCreateEmailMessageResponse(TfaEmailMessage tfaEmailMessage) {
                 Assert.IsNotNull(tfaEmailMessage);
-                Assert.AreEqual(tfaEmailMessage.MessageId, givenMessageId);
-                Assert.AreEqual(tfaEmailMessage.ApplicationId, givenApplicationId);
-                Assert.AreEqual(tfaEmailMessage.PinLength, givenPinLength);
-                Assert.AreEqual(tfaEmailMessage.PinType, givenPinType);
-                Assert.AreEqual(tfaEmailMessage.From, givenFrom);
-                Assert.AreEqual(tfaEmailMessage.EmailTemplateId, givenEmailTemplateId);
+                Assert.AreEqual(tfaEmailMessage.MessageId, expectedMessageId);
+                Assert.AreEqual(tfaEmailMessage.ApplicationId, expectedApplicationId);
+                Assert.AreEqual(tfaEmailMessage.PinLength, expectedPinLength);
+                Assert.AreEqual(tfaEmailMessage.PinType, expectedPinType);
+                Assert.AreEqual(tfaEmailMessage.From, expectedFrom);
+                Assert.AreEqual(tfaEmailMessage.EmailTemplateId, expectedEmailTemplateId);
             }
 
-            AssertResponse(tfaApi.CreateTfaEmailMessageTemplate(givenApplicationId, tfaCreateEmailMessageRequest), AssertTfaCreateEmailMessageResponse);
-            AssertResponse(tfaApi.CreateTfaEmailMessageTemplateAsync(givenApplicationId, tfaCreateEmailMessageRequest).Result, AssertTfaCreateEmailMessageResponse);
+            AssertResponse(tfaApi.CreateTfaEmailMessageTemplate(expectedApplicationId, tfaCreateEmailMessageRequest), AssertTfaCreateEmailMessageResponse);
+            AssertResponse(tfaApi.CreateTfaEmailMessageTemplateAsync(expectedApplicationId, tfaCreateEmailMessageRequest).Result, AssertTfaCreateEmailMessageResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.CreateTfaEmailMessageTemplateWithHttpInfo(givenApplicationId, tfaCreateEmailMessageRequest), AssertTfaCreateEmailMessageResponse);
-            AssertResponseWithHttpInfo(tfaApi.CreateTfaEmailMessageTemplateWithHttpInfoAsync(givenApplicationId, tfaCreateEmailMessageRequest).Result, AssertTfaCreateEmailMessageResponse);
+            AssertResponseWithHttpInfo(tfaApi.CreateTfaEmailMessageTemplateWithHttpInfo(expectedApplicationId, tfaCreateEmailMessageRequest), AssertTfaCreateEmailMessageResponse);
+            AssertResponseWithHttpInfo(tfaApi.CreateTfaEmailMessageTemplateWithHttpInfoAsync(expectedApplicationId, tfaCreateEmailMessageRequest).Result, AssertTfaCreateEmailMessageResponse);
 
         }
 
         [TestMethod]
         public void ShouldUpdateTfaEmailMessageTemplateTest()
         {
-            TfaPinType givenPinType = TfaPinType.Numeric;
-            int givenPinLength = 4;
-            string givenFrom = "company@example.com";
-            int givenEmailTemplateId = 1234;
+            TfaPinType expectedPinType = TfaPinType.Numeric;
+            int expectedPinLength = 4;
+            string expectedFrom = "company@example.com";
+            int expectedEmailTemplateId = 1234;
+            string expectedMessageId = "9C815F8AF3328";
+            string expectedApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
 
-            string givenMessageId = "9C815F8AF3328";
-            string givenApplicationId = "HJ675435E3A6EA43432G5F37A635KJ8B";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""pinType"": ""{givenPinType}"",
-                ""pinLength"": {givenPinLength},
-                ""from"": ""{givenFrom}"",
-                ""emailTemplateId"": {givenEmailTemplateId}
+                ""pinType"": ""{expectedPinType}"",
+                ""pinLength"": {expectedPinLength},
+                ""from"": ""{expectedFrom}"",
+                ""emailTemplateId"": {expectedEmailTemplateId}
             }}";
 
             string expectedResponse = $@"
             {{
-                ""messageId"": ""{givenMessageId}"",
-                ""applicationId"": ""{givenApplicationId}"",
-                ""pinLength"": {givenPinLength},
-                ""pinType"": ""{givenPinType}"",
-                ""from"": ""{givenFrom}"",
-                ""emailTemplateId"": {givenEmailTemplateId}
+                ""messageId"": ""{expectedMessageId}"",
+                ""applicationId"": ""{expectedApplicationId}"",
+                ""pinLength"": {expectedPinLength},
+                ""pinType"": ""{expectedPinType}"",
+                ""from"": ""{expectedFrom}"",
+                ""emailTemplateId"": {expectedEmailTemplateId}
             }}";
 
-            SetUpPutRequest(TFA_EMAIL_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId), expectedRequest, expectedResponse, 200);
+            SetUpPutRequest(TFA_EMAIL_TEMPLATE.Replace("{appId}", expectedApplicationId).Replace("{msgId}", expectedMessageId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
             var tfaUpdateEmailMessageRequest = new TfaUpdateEmailMessageRequest(
-                    pinType: givenPinType,
-                    pinLength: givenPinLength,
-                    from: givenFrom,
-                    emailTemplateId: givenEmailTemplateId
+                    pinType: expectedPinType,
+                    pinLength: expectedPinLength,
+                    from: expectedFrom,
+                    emailTemplateId: expectedEmailTemplateId
                 );
 
             void AssertTfaUpdateEmailMessageResponse(TfaEmailMessage tfaEmailMessage)
             {
                 Assert.IsNotNull(tfaEmailMessage);
-                Assert.AreEqual(tfaEmailMessage.MessageId, givenMessageId);
-                Assert.AreEqual(tfaEmailMessage.ApplicationId, givenApplicationId);
-                Assert.AreEqual(tfaEmailMessage.PinLength, givenPinLength);
-                Assert.AreEqual(tfaEmailMessage.PinType, givenPinType);
-                Assert.AreEqual(tfaEmailMessage.From, givenFrom);
-                Assert.AreEqual(tfaEmailMessage.EmailTemplateId, givenEmailTemplateId);
+                Assert.AreEqual(tfaEmailMessage.MessageId, expectedMessageId);
+                Assert.AreEqual(tfaEmailMessage.ApplicationId, expectedApplicationId);
+                Assert.AreEqual(tfaEmailMessage.PinLength, expectedPinLength);
+                Assert.AreEqual(tfaEmailMessage.PinType, expectedPinType);
+                Assert.AreEqual(tfaEmailMessage.From, expectedFrom);
+                Assert.AreEqual(tfaEmailMessage.EmailTemplateId, expectedEmailTemplateId);
             }
 
-            AssertResponse(tfaApi.UpdateTfaEmailMessageTemplate(givenApplicationId, givenMessageId, tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse);
-            AssertResponse(tfaApi.UpdateTfaEmailMessageTemplateAsync(givenApplicationId, givenMessageId, tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse);
+            AssertResponse(tfaApi.UpdateTfaEmailMessageTemplate(expectedApplicationId, expectedMessageId, tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse);
+            AssertResponse(tfaApi.UpdateTfaEmailMessageTemplateAsync(expectedApplicationId, expectedMessageId, tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfo(givenApplicationId, givenMessageId, tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse);
-            AssertResponseWithHttpInfo(tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfoAsync(givenApplicationId, givenMessageId, tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse);
+            AssertResponseWithHttpInfo(tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfo(expectedApplicationId, expectedMessageId, tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse);
+            AssertResponseWithHttpInfo(tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfoAsync(expectedApplicationId, expectedMessageId, tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse);
         }
 
         [TestMethod]
@@ -749,17 +737,17 @@ namespace ApiClient.Tests
             string givenFrom = "Sender 1";
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenTo = "41793026727";
-            string givenNcStatus = "NC_DESTINATION_REACHABLE";
-            string givenSmsStatus = "MESSAGE_SENT";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedTo = "41793026727";
+            string expectedNcStatus = "NC_DESTINATION_REACHABLE";
+            string expectedSmsStatus = "MESSAGE_SENT";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""applicationId"": ""{givenApplicationId}"",
                 ""messageId"": ""{givenMessageId}"",
                 ""from"": ""{givenFrom}"",
-                ""to"": ""{givenTo}"",
+                ""to"": ""{expectedTo}"",
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
                 }}
@@ -767,13 +755,13 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": ""{givenTo}"",
-                ""ncStatus"": ""{givenNcStatus}"",
-                ""smsStatus"": ""{givenSmsStatus}""
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": ""{expectedTo}"",
+                ""ncStatus"": ""{expectedNcStatus}"",
+                ""smsStatus"": ""{expectedSmsStatus}""
             }}";
 
-            SetUpPostRequest(TFA_SEND_PIN, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_SEND_PIN, givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -783,23 +771,23 @@ namespace ApiClient.Tests
                 from: givenFrom,
                 messageId: givenMessageId,
                 placeholders: givenPlaceholders,
-                to: givenTo
+                to: expectedTo
             );
 
             void AssertTfaStartAuthenticationResponse(TfaStartAuthenticationResponse tfaStartAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartAuthenticationResponse);
-                Assert.AreEqual(givenPinId, tfaStartAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartAuthenticationResponse.To);
-                Assert.AreEqual(givenNcStatus, tfaStartAuthenticationResponse.NcStatus);
-                Assert.AreEqual(givenSmsStatus, tfaStartAuthenticationResponse.SmsStatus);
+                Assert.AreEqual(expectedPinId, tfaStartAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartAuthenticationResponse.To);
+                Assert.AreEqual(expectedNcStatus, tfaStartAuthenticationResponse.NcStatus);
+                Assert.AreEqual(expectedSmsStatus, tfaStartAuthenticationResponse.SmsStatus);
             }
 
-            AssertResponse(tfaApi.SendTfaPinCodeOverSms(ncNeeded: null, tfaStartAuthenticationRequest: tfaStartAuthenticationRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponse(tfaApi.SendTfaPinCodeOverSmsAsync(ncNeeded: null, tfaStartAuthenticationRequest: tfaStartAuthenticationRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.SendTfaPinCodeOverSms(tfaStartAuthenticationRequest: tfaStartAuthenticationRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.SendTfaPinCodeOverSmsAsync(tfaStartAuthenticationRequest: tfaStartAuthenticationRequest).Result, AssertTfaStartAuthenticationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfo(ncNeeded: null, tfaStartAuthenticationRequest: tfaStartAuthenticationRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfoAsync(ncNeeded: null, tfaStartAuthenticationRequest: tfaStartAuthenticationRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfo(tfaStartAuthenticationRequest: tfaStartAuthenticationRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfoAsync(tfaStartAuthenticationRequest: tfaStartAuthenticationRequest).Result, AssertTfaStartAuthenticationResponse);
         }
 
         [TestMethod]
@@ -807,12 +795,12 @@ namespace ApiClient.Tests
         {
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenTo = "41793026727";
-            string givenNcStatus = "NC_DESTINATION_REACHABLE";
-            string givenSmsStatus = "MESSAGE_SENT";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedTo = "41793026727";
+            string expectedNcStatus = "NC_DESTINATION_REACHABLE";
+            string expectedSmsStatus = "MESSAGE_SENT";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
@@ -821,13 +809,13 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": ""{givenTo}"",
-                ""ncStatus"": ""{givenNcStatus}"",
-                ""smsStatus"": ""{givenSmsStatus}""
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": ""{expectedTo}"",
+                ""ncStatus"": ""{expectedNcStatus}"",
+                ""smsStatus"": ""{expectedSmsStatus}""
             }}";
 
-            SetUpPostRequest(TFA_RESEND_PIN.Replace("{pinId}", givenPinId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_RESEND_PIN.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -839,17 +827,17 @@ namespace ApiClient.Tests
             void AssertTfaStartAuthenticationResponse(TfaStartAuthenticationResponse tfaStartAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartAuthenticationResponse);
-                Assert.AreEqual(givenPinId, tfaStartAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartAuthenticationResponse.To);
-                Assert.AreEqual(givenNcStatus, tfaStartAuthenticationResponse.NcStatus);
-                Assert.AreEqual(givenSmsStatus, tfaStartAuthenticationResponse.SmsStatus);
+                Assert.AreEqual(expectedPinId, tfaStartAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartAuthenticationResponse.To);
+                Assert.AreEqual(expectedNcStatus, tfaStartAuthenticationResponse.NcStatus);
+                Assert.AreEqual(expectedSmsStatus, tfaStartAuthenticationResponse.SmsStatus);
             }
 
-            AssertResponse(tfaApi.ResendTfaPinCodeOverSms(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponse(tfaApi.ResendTfaPinCodeOverSmsAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.ResendTfaPinCodeOverSms(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.ResendTfaPinCodeOverSmsAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverSmsWithHttpInfo(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverSmsWithHttpInfoAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverSmsWithHttpInfo(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverSmsWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
         }
 
         [TestMethod]
@@ -860,16 +848,16 @@ namespace ApiClient.Tests
             string givenFrom = "Sender 1";
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenTo = "41793026727";
-            string givenCallStatus = "PENDING_ACCEPTED";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedTo = "41793026727";
+            string expectedCallStatus = "PENDING_ACCEPTED";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""applicationId"": ""{givenApplicationId}"",
                 ""messageId"": ""{givenMessageId}"",
                 ""from"": ""{givenFrom}"",
-                ""to"": ""{givenTo}"",
+                ""to"": ""{expectedTo}"",
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
                 }}
@@ -877,12 +865,12 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": ""{givenTo}"",
-                ""callStatus"": ""{givenCallStatus}""
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": ""{expectedTo}"",
+                ""callStatus"": ""{expectedCallStatus}""
             }}";
 
-            SetUpPostRequest(TFA_SEND_PIN_VOICE, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_SEND_PIN_VOICE, givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -892,15 +880,15 @@ namespace ApiClient.Tests
                 from: givenFrom,
                 messageId: givenMessageId,
                 placeholders: givenPlaceholders,
-                to: givenTo
+                to: expectedTo
             );
 
             void AssertTfaStartAuthenticationResponse(TfaStartAuthenticationResponse tfaStartAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartAuthenticationResponse);
-                Assert.AreEqual(givenPinId, tfaStartAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartAuthenticationResponse.To);
-                Assert.AreEqual(givenCallStatus, tfaStartAuthenticationResponse.CallStatus);
+                Assert.AreEqual(expectedPinId, tfaStartAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartAuthenticationResponse.To);
+                Assert.AreEqual(expectedCallStatus, tfaStartAuthenticationResponse.CallStatus);
             }
 
             AssertResponse(tfaApi.SendTfaPinCodeOverVoice(tfaStartAuthenticationRequest), AssertTfaStartAuthenticationResponse);
@@ -915,11 +903,11 @@ namespace ApiClient.Tests
         {
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenTo = "41793026727";
-            string givenCallStatus = "MESSAGE_SENT";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedTo = "41793026727";
+            string expectedCallStatus = "MESSAGE_SENT";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
@@ -928,12 +916,12 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": {givenTo},
-                ""callStatus"": ""{givenCallStatus}""
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": {expectedTo},
+                ""callStatus"": ""{expectedCallStatus}""
             }}";
 
-            SetUpPostRequest(TFA_RESEND_PIN_VOICE.Replace("{pinId}", givenPinId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_RESEND_PIN_VOICE.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -945,16 +933,16 @@ namespace ApiClient.Tests
             void AssertTfaStartAuthenticationResponse(TfaStartAuthenticationResponse tfaStartAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartAuthenticationResponse);
-                Assert.AreEqual(givenPinId, tfaStartAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartAuthenticationResponse.To);
-                Assert.AreEqual(givenCallStatus, tfaStartAuthenticationResponse.CallStatus);
+                Assert.AreEqual(expectedPinId, tfaStartAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartAuthenticationResponse.To);
+                Assert.AreEqual(expectedCallStatus, tfaStartAuthenticationResponse.CallStatus);
             }
 
-            AssertResponse(tfaApi.ResendTfaPinCodeOverVoice(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse); ;
-            AssertResponse(tfaApi.ResendTfaPinCodeOverVoiceAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.ResendTfaPinCodeOverVoice(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse); ;
+            AssertResponse(tfaApi.ResendTfaPinCodeOverVoiceAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfo(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfoAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfo(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
         }
 
         [TestMethod]
@@ -962,19 +950,19 @@ namespace ApiClient.Tests
         {
             string givenApplicationId = "1234567";
             string givenMessageId = "7654321";
-            string givenTo = "john.smith@example.com";
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenEmailStatusName = "PENDING_ACCEPTED";
-            string givenEmailStatusDescription = "Message accepted, pending for delivery.";
+            string expectedTo = "john.smith@example.com";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedEmailStatusName = "PENDING_ACCEPTED";
+            string expectedEmailStatusDescription = "Message accepted, pending for delivery.";
             
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""applicationId"": ""{givenApplicationId}"",
                 ""messageId"": ""{givenMessageId}"",
-                ""to"": ""{givenTo}"",
+                ""to"": ""{expectedTo}"",
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
                 }}
@@ -982,15 +970,15 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": ""{givenTo}"",
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": ""{expectedTo}"",
                 ""emailStatus"": {{
-                    ""name"": ""{givenEmailStatusName}"",
-                    ""description"": ""{givenEmailStatusDescription}""
+                    ""name"": ""{expectedEmailStatusName}"",
+                    ""description"": ""{expectedEmailStatusDescription}""
                 }}
             }}";
 
-            SetUpPostRequest(TFA_SEND_PIN_EMAIL, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_SEND_PIN_EMAIL, givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -999,17 +987,17 @@ namespace ApiClient.Tests
             var tfaStartEmailAuthenticationRequest = new TfaStartEmailAuthenticationRequest(
                     applicationId: givenApplicationId,
                     messageId: givenMessageId,
-                    to: givenTo,
+                    to: expectedTo,
                     placeholders: givenPlaceholders
                 );
 
             void AssertTfaStartEmailAuthenticationResponse(TfaStartEmailAuthenticationResponse tfaStartEmailAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartEmailAuthenticationRequest);
-                Assert.AreEqual(givenPinId, tfaStartEmailAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartEmailAuthenticationResponse.To);
-                Assert.AreEqual(givenEmailStatusName, tfaStartEmailAuthenticationResponse.EmailStatus.Name);
-                Assert.AreEqual(givenEmailStatusDescription, tfaStartEmailAuthenticationResponse.EmailStatus.Description);
+                Assert.AreEqual(expectedPinId, tfaStartEmailAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartEmailAuthenticationResponse.To);
+                Assert.AreEqual(expectedEmailStatusName, tfaStartEmailAuthenticationResponse.EmailStatus.Name);
+                Assert.AreEqual(expectedEmailStatusDescription, tfaStartEmailAuthenticationResponse.EmailStatus.Description);
             }
 
             AssertResponse(tfaApi.Send2faPinCodeOverEmail(tfaStartEmailAuthenticationRequest), AssertTfaStartEmailAuthenticationResponse);
@@ -1024,12 +1012,12 @@ namespace ApiClient.Tests
         {
             string givenFirstName = "John";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-            string givenTo = "john.smith@example.com";
-            string givenEmailStatusName = "PENDING_ACCEPTED";
-            string givenEmailStatusDescription = "Message accepted, pending for delivery.";
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
+            string expectedTo = "john.smith@example.com";
+            string expectedEmailStatusName = "PENDING_ACCEPTED";
+            string expectedEmailStatusDescription = "Message accepted, pending for delivery.";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
@@ -1038,15 +1026,15 @@ namespace ApiClient.Tests
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""to"": ""{givenTo}"",
+                ""pinId"": ""{expectedPinId}"",
+                ""to"": ""{expectedTo}"",
                 ""emailStatus"": {{
-                    ""name"": ""{givenEmailStatusName}"",
-                    ""description"": ""{givenEmailStatusDescription}""
+                    ""name"": ""{expectedEmailStatusName}"",
+                    ""description"": ""{expectedEmailStatusDescription}""
                 }}
             }}";
 
-            SetUpPostRequest(TFA_RESEND_PIN_EMAIL.Replace("{pinId}", givenPinId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_RESEND_PIN_EMAIL.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -1058,17 +1046,17 @@ namespace ApiClient.Tests
             void AssertTfaStartAuthenticationResponse(TfaStartEmailAuthenticationResponse tfaStartEmailAuthenticationResponse)
             {
                 Assert.IsNotNull(tfaStartEmailAuthenticationResponse);
-                Assert.AreEqual(givenPinId, tfaStartEmailAuthenticationResponse.PinId);
-                Assert.AreEqual(givenTo, tfaStartEmailAuthenticationResponse.To);
-                Assert.AreEqual(givenEmailStatusName, tfaStartEmailAuthenticationResponse.EmailStatus.Name);
-                Assert.AreEqual(givenEmailStatusDescription, tfaStartEmailAuthenticationResponse.EmailStatus.Description);
+                Assert.AreEqual(expectedPinId, tfaStartEmailAuthenticationResponse.PinId);
+                Assert.AreEqual(expectedTo, tfaStartEmailAuthenticationResponse.To);
+                Assert.AreEqual(expectedEmailStatusName, tfaStartEmailAuthenticationResponse.EmailStatus.Name);
+                Assert.AreEqual(expectedEmailStatusDescription, tfaStartEmailAuthenticationResponse.EmailStatus.Description);
             }
 
-            AssertResponse(tfaApi.Resend2faPinCodeOverEmail(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse); ;
-            AssertResponse(tfaApi.Resend2faPinCodeOverEmailAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponse(tfaApi.Resend2faPinCodeOverEmail(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse); ;
+            AssertResponse(tfaApi.Resend2faPinCodeOverEmailAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfo(givenPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
-            AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfoAsync(givenPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfo(expectedPinId, tfaResendPinRequest), AssertTfaStartAuthenticationResponse);
+            AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result, AssertTfaStartAuthenticationResponse);
         }
 
         [TestMethod]
@@ -1076,25 +1064,25 @@ namespace ApiClient.Tests
         {
             string givenPin = "1598";
 
-            string givenPinId = "9C817C6F8AF3D48F9FE553282AFA2B68";
-            string givenMsisdn = "41793026726";
-            string givenVerified = "true";
-            int givenAttemptsRemaining = 0;
+            string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B68";
+            string expectedMsisdn = "41793026726";
+            string expectedVerified = "true";
+            int expectedAttemptsRemaining = 0;
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""pin"": ""{givenPin}""
             }}";
 
             string expectedResponse = $@"
             {{
-                ""pinId"": ""{givenPinId}"",
-                ""msisdn"": ""{givenMsisdn}"",
-                ""verified"": {givenVerified},
-                ""attemptsRemaining"": {givenAttemptsRemaining}
+                ""pinId"": ""{expectedPinId}"",
+                ""msisdn"": ""{expectedMsisdn}"",
+                ""verified"": {expectedVerified},
+                ""attemptsRemaining"": {expectedAttemptsRemaining}
             }}";
 
-            SetUpPostRequest(TFA_VERIFY_PIN.Replace("{pinId}", givenPinId), expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(TFA_VERIFY_PIN.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
 
             var tfaApi = new TfaApi(configuration);
 
@@ -1103,47 +1091,46 @@ namespace ApiClient.Tests
             void AssertTfaVerifyPinResponse(TfaVerifyPinResponse tfaVerifyPinResponse)
             {
                 Assert.IsNotNull(tfaVerifyPinResponse);
-                Assert.AreEqual(givenPinId, tfaVerifyPinResponse.PinId);
-                Assert.AreEqual(givenMsisdn, tfaVerifyPinResponse.Msisdn);
-                Assert.AreEqual(bool.Parse(givenVerified), tfaVerifyPinResponse.Verified);
-                Assert.AreEqual(givenAttemptsRemaining, tfaVerifyPinResponse.AttemptsRemaining);
+                Assert.AreEqual(expectedPinId, tfaVerifyPinResponse.PinId);
+                Assert.AreEqual(expectedMsisdn, tfaVerifyPinResponse.Msisdn);
+                Assert.AreEqual(bool.Parse(expectedVerified), tfaVerifyPinResponse.Verified);
+                Assert.AreEqual(expectedAttemptsRemaining, tfaVerifyPinResponse.AttemptsRemaining);
             }
 
-            AssertResponse(tfaApi.VerifyTfaPhoneNumber(givenPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse); ;
-            AssertResponse(tfaApi.VerifyTfaPhoneNumberAsync(givenPinId, tfaVerifyPinRequest).Result, AssertTfaVerifyPinResponse);
+            AssertResponse(tfaApi.VerifyTfaPhoneNumber(expectedPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse); ;
+            AssertResponse(tfaApi.VerifyTfaPhoneNumberAsync(expectedPinId, tfaVerifyPinRequest).Result, AssertTfaVerifyPinResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.VerifyTfaPhoneNumberWithHttpInfo(givenPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse);
-            AssertResponseWithHttpInfo(tfaApi.VerifyTfaPhoneNumberWithHttpInfoAsync(givenPinId, tfaVerifyPinRequest).Result, AssertTfaVerifyPinResponse);
+            AssertResponseWithHttpInfo(tfaApi.VerifyTfaPhoneNumberWithHttpInfo(expectedPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse);
+            AssertResponseWithHttpInfo(tfaApi.VerifyTfaPhoneNumberWithHttpInfoAsync(expectedPinId, tfaVerifyPinRequest).Result, AssertTfaVerifyPinResponse);
         }
 
         [TestMethod]
         public void ShouldGetTfaVerificationStatusTest()
         {
             string givenApplicationId = "16A8B5FE2BCD6CA716A2D780CB3F3390";
-            string givenMsisdn = "41793026726";
 
-            string givenVerified1 = "true";
-            long givenVerifiedAt1 = 1418364366L;
-            long givenSentAt1 = 1418364246L;
-
-            string givenVerified2 = "false";
-            long givenVerifiedAt2 = 1418364226L;
-            long givenSentAt2 = 1418333246L;
+            string expectedMsisdn = "41793026726";
+            string expectedVerified1 = "true";
+            long expectedVerifiedAt1 = 1418364366L;
+            long expectedSentAt1 = 1418364246L;
+            string expectedVerified2 = "false";
+            long expectedVerifiedAt2 = 1418364226L;
+            long expectedSentAt2 = 1418333246L;
 
             string expectedResponse = $@"
             {{
                 ""verifications"": [
                     {{
-                        ""msisdn"": ""{givenMsisdn}"",
-                        ""verified"": {givenVerified1},
-                        ""verifiedAt"": {givenVerifiedAt1},
-                        ""sentAt"": {givenSentAt1}
+                        ""msisdn"": ""{expectedMsisdn}"",
+                        ""verified"": {expectedVerified1},
+                        ""verifiedAt"": {expectedVerifiedAt1},
+                        ""sentAt"": {expectedSentAt1}
                     }},
                     {{
-                        ""msisdn"": ""{givenMsisdn}"",
-                        ""verified"": {givenVerified2},
-                        ""verifiedAt"": {givenVerifiedAt2},
-                        ""sentAt"": {givenSentAt2}
+                        ""msisdn"": ""{expectedMsisdn}"",
+                        ""verified"": {expectedVerified2},
+                        ""verifiedAt"": {expectedVerifiedAt2},
+                        ""sentAt"": {expectedSentAt2}
                     }}
                 ]
             }}";
@@ -1159,23 +1146,23 @@ namespace ApiClient.Tests
                 Assert.IsTrue(tfaVerificationResponse.Verifications.Count.Equals(2));
 
                 var tfaVerification1 = tfaVerificationResponse.Verifications[0];
-                Assert.AreEqual(givenMsisdn, tfaVerification1.Msisdn);
-                Assert.AreEqual(bool.Parse(givenVerified1), tfaVerification1.Verified);
-                Assert.AreEqual(givenVerifiedAt1, tfaVerification1.VerifiedAt);
-                Assert.AreEqual(givenSentAt1, tfaVerification1.SentAt);
+                Assert.AreEqual(expectedMsisdn, tfaVerification1.Msisdn);
+                Assert.AreEqual(bool.Parse(expectedVerified1), tfaVerification1.Verified);
+                Assert.AreEqual(expectedVerifiedAt1, tfaVerification1.VerifiedAt);
+                Assert.AreEqual(expectedSentAt1, tfaVerification1.SentAt);
 
                 var tfaVerification2 = tfaVerificationResponse.Verifications[1];
-                Assert.AreEqual(givenMsisdn, tfaVerification2.Msisdn);
-                Assert.AreEqual(bool.Parse(givenVerified2), tfaVerification2.Verified);
-                Assert.AreEqual(givenVerifiedAt2, tfaVerification2.VerifiedAt);
-                Assert.AreEqual(givenSentAt2, tfaVerification2.SentAt);
+                Assert.AreEqual(expectedMsisdn, tfaVerification2.Msisdn);
+                Assert.AreEqual(bool.Parse(expectedVerified2), tfaVerification2.Verified);
+                Assert.AreEqual(expectedVerifiedAt2, tfaVerification2.VerifiedAt);
+                Assert.AreEqual(expectedSentAt2, tfaVerification2.SentAt);
             }
 
-            AssertResponse(tfaApi.GetTfaVerificationStatus(givenMsisdn, givenApplicationId), AssertTfaVerificationResponse); ;
-            AssertResponse(tfaApi.GetTfaVerificationStatusAsync(givenMsisdn, givenApplicationId).Result, AssertTfaVerificationResponse);
+            AssertResponse(tfaApi.GetTfaVerificationStatus(expectedMsisdn, givenApplicationId), AssertTfaVerificationResponse); ;
+            AssertResponse(tfaApi.GetTfaVerificationStatusAsync(expectedMsisdn, givenApplicationId).Result, AssertTfaVerificationResponse);
 
-            AssertResponseWithHttpInfo(tfaApi.GetTfaVerificationStatusWithHttpInfo(givenMsisdn, givenApplicationId), AssertTfaVerificationResponse);
-            AssertResponseWithHttpInfo(tfaApi.GetTfaVerificationStatusWithHttpInfoAsync(givenMsisdn, givenApplicationId).Result, AssertTfaVerificationResponse);
+            AssertResponseWithHttpInfo(tfaApi.GetTfaVerificationStatusWithHttpInfo(expectedMsisdn, givenApplicationId), AssertTfaVerificationResponse);
+            AssertResponseWithHttpInfo(tfaApi.GetTfaVerificationStatusWithHttpInfoAsync(expectedMsisdn, givenApplicationId).Result, AssertTfaVerificationResponse);
         }
     }
 }

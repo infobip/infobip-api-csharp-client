@@ -101,8 +101,6 @@ namespace ApiClient.Tests
 
             AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
             AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfoAsync(smsRequest).Result, SmsResponseAssertion);
-
-            //Console.WriteLine(wireMockServer.LogEntries);
         }
 
 
@@ -254,10 +252,6 @@ namespace ApiClient.Tests
                 }}
             }}";
 
-            // TODO check if we need to emit default values for deliveryTimeWindow
-            //,
-            //""minute"": { givenDeliveryTimeFromMinuteMessage2}
-
             string givenBulkId = "BULK-ID-123-xyz";
             string givenTracking = "SMS";
             string givenTrackingType = "MY_CAMPAIGN";
@@ -401,9 +395,7 @@ namespace ApiClient.Tests
                 ""callbackData"": ""{givenCallbackDataMessage1}"",
                 ""validityPeriod"": {givenValidityPeriodMessage1}
             }}";
-            //,
-            //        ""dataCoding"": { givenDataCodingMessage1},
-            //        ""esmClass"": { givenEsmClassMessage1}
+
             string givenFromMessage2 = "41793026700";
             string givenToMessage2 = "41793026700";
             string givenHexMessage2 = "54 65 73 74 20 6d 65 73 73 61 67 65 2e";
@@ -453,9 +445,6 @@ namespace ApiClient.Tests
                 }}
             }}";
 
-            //,
-            //        ""dataCoding"": { givenDataCodingMessage2},
-            //        ""esmClass"": { givenEsmClassMessage2}
             string givenBulkId = "BULK-ID-123-xyz";
             int givenSendingSpeedLimitAmount = 10;
             string givenSendingSpeedLimitTimeUnitString = "HOUR";

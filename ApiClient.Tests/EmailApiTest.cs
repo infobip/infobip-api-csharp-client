@@ -58,11 +58,11 @@ namespace ApiClient.Tests
             string expectedReplyTo = "all.replies@somedomain.com";
             string expectedSubject = "Mail subject text";
             string expectedStatusDescription = "Message sent to next instance";
-            int givenMessageCount = 2;
+            int expectedMessageCount = 2;
             int expectedStatusId = 1;
             int expectedStatusGroupId = 1;
-            string givenMessageId = "MSG-1234";
-            string givenMessageId2 = "e7zzb1v9yirml2se9zo4";
+            string expectedMessageId = "MSG-1234";
+            string expectedMessageId2 = "e7zzb1v9yirml2se9zo4";
             string expectedBulkId = "BULK-1234";
             string expectedStatusName = "PENDING";
             string expectedText = "Rich HTML message body.";
@@ -74,8 +74,8 @@ namespace ApiClient.Tests
                 ""messages"": [
                 {{
                     ""to"": ""{expectedTo}"",
-                    ""messageCount"": {givenMessageCount},
-                    ""messageId"": ""{givenMessageId}"",
+                    ""messageCount"": {expectedMessageCount},
+                    ""messageId"": ""{expectedMessageId}"",
                     ""status"": {{
                         ""groupId"": {expectedStatusGroupId},
                         ""groupName"": ""{expectedStatusName}"",
@@ -86,7 +86,7 @@ namespace ApiClient.Tests
                 }},
                 {{
                     ""to"": ""{expectedTo2}"",
-                    ""messageId"": ""{givenMessageId2}"",
+                    ""messageId"": ""{expectedMessageId2}"",
                     ""status"": {{
                         ""groupId"": {expectedStatusGroupId},
                         ""groupName"": ""{expectedStatusName}"",
@@ -143,34 +143,20 @@ namespace ApiClient.Tests
                 bcc: expectedBccList,
                 text: expectedText,
                 bulkId: expectedBulkId,
-                messageId: givenMessageId,
-                templateId: null,
-                attachment: null,
-                inlineImage: null,
+                messageId: expectedMessageId,
                 html: expectedHtml,
-                replyTo: expectedReplyTo,
-                defaultPlaceholders: null,
-                preserveRecipients: null,
-                trackingUrl: null,
-                trackClicks: null,
-                trackOpens: null,
-                track: null,
-                callbackData: null,
-                intermediateReport: null,
-                notifyUrl: null,
-                notifyContentType: null,
-                sendAt: null
+                replyTo: expectedReplyTo
             );
 
-            Assert.AreEqual(response.Messages.Count, givenMessageCount);
-            Assert.AreEqual(response.Messages[0].MessageId, givenMessageId);
+            Assert.AreEqual(response.Messages.Count, expectedMessageCount);
+            Assert.AreEqual(response.Messages[0].MessageId, expectedMessageId);
             Assert.AreEqual(response.Messages[0].To, expectedTo);
             Assert.AreEqual(response.Messages[0].Status.Id, expectedStatusId);
             Assert.AreEqual(response.Messages[0].Status.Name, expectedStatusName);
             Assert.AreEqual(response.Messages[0].Status.GroupId, expectedStatusGroupId);
             Assert.AreEqual(response.Messages[0].Status.Description, expectedStatusDescription);
             Assert.AreEqual(response.Messages[0].Status.GroupId, expectedStatusGroupId);
-            Assert.AreEqual(response.Messages[1].MessageId, givenMessageId2);
+            Assert.AreEqual(response.Messages[1].MessageId, expectedMessageId2);
             Assert.AreEqual(response.Messages[1].To, expectedTo2);
             Assert.AreEqual(response.Messages[1].Status.Id, expectedStatusId);
             Assert.AreEqual(response.Messages[1].Status.Name, expectedStatusName);
@@ -187,10 +173,10 @@ namespace ApiClient.Tests
             string expectedReplyTo = "all.replies@somedomain.com";
             string expectedSubject = "Mail subject text";
             string expectedStatusDescription = "Message sent to next instance";
-            int givenMessageCount = 1;
+            int expectedMessageCount = 1;
             int expectedStatusId = 1;
             int expectedStatusGroupId = 1;
-            string givenMessageId = "MSG-1234";
+            string expectedMessageId = "MSG-1234";
             string expectedBulkId = "BULK-1234";
             string expectedStatusName = "PENDING";
             string expectedText = "Rich HTML message body.";
@@ -203,8 +189,8 @@ namespace ApiClient.Tests
                 ""messages"": [
                 {{
                     ""to"": ""{expectedTo}"",
-                    ""messageCount"": {givenMessageCount},
-                    ""messageId"": ""{givenMessageId}"",
+                    ""messageCount"": {expectedMessageCount},
+                    ""messageId"": ""{expectedMessageId}"",
                     ""status"": {{
                         ""groupId"": {expectedStatusGroupId},
                         ""groupName"": ""{expectedStatusName}"",
@@ -252,31 +238,16 @@ namespace ApiClient.Tests
                 from: expectedFrom,
                 to: expectedToList,
                 subject: expectedSubject,
-                cc: null,
-                bcc: null,
                 text: expectedText,
                 bulkId: expectedBulkId,
-                messageId: givenMessageId,
-                templateId: null,
+                messageId: expectedMessageId,
                 attachment: attachmentList,
-                inlineImage: null,
                 html: expectedHtml,
-                replyTo: expectedReplyTo,
-                defaultPlaceholders: null,
-                preserveRecipients: null,
-                trackingUrl: null,
-                trackClicks: null,
-                trackOpens: null,
-                track: null,
-                callbackData: null,
-                intermediateReport: null,
-                notifyUrl: null,
-                notifyContentType: null,
-                sendAt: null
+                replyTo: expectedReplyTo
             );
 
-            Assert.AreEqual(response.Messages.Count, givenMessageCount);
-            Assert.AreEqual(response.Messages[0].MessageId, givenMessageId);
+            Assert.AreEqual(response.Messages.Count, expectedMessageCount);
+            Assert.AreEqual(response.Messages[0].MessageId, expectedMessageId);
             Assert.AreEqual(response.Messages[0].To, expectedTo);
             Assert.AreEqual(response.Messages[0].Status.Id, expectedStatusId);
             Assert.AreEqual(response.Messages[0].Status.Name, expectedStatusName);
@@ -288,57 +259,57 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetEmailDeliveryReportsTest()
         {
-            string givenTo = "john.smith@somedomain.com";
-            int givenMessageCount = 1;
-            string givenMessageId = "MSG-1234";
-            string givenBulkId = "BULK-1234";
-            DateTimeOffset givenSentAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
-            DateTimeOffset givenDoneAt = new DateTimeOffset(2021, 9, 2, 9, 58, 33, TimeSpan.FromHours(0));
-            string givenCurrency = "EUR";
-            decimal givenPricePerMessage = 0.0M;
-            string givenStatusName = "DELIVERED_TO_HANDSET";
-            int givenStatusId = 5;
-            string givenStatusDescription = "Message delivered to handset";
-            int givenStatusGroupId = 3;
-            string givenStatusGroupName = "DELIVERED";
-            string givenErrorName = "NO_ERROR";
-            int givenErrorId = 5;
-            string givenErrorDescription = "No Error";
-            int givenErrorGroupId = 0;
-            string givenErrorGroupName = "OK";
-            bool givenErrorPermanent = false;
-            string givenChannel = "EMAIL";
+            string expectedTo = "john.smith@somedomain.com";
+            int expectedMessageCount = 1;
+            string expectedMessageId = "MSG-1234";
+            string expectedBulkId = "BULK-1234";
+            DateTimeOffset expectedSentAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
+            DateTimeOffset expectedDoneAt = new DateTimeOffset(2021, 9, 2, 9, 58, 33, TimeSpan.FromHours(0));
+            string expectedCurrency = "EUR";
+            decimal expectedPricePerMessage = 0.0M;
+            string expectedStatusName = "DELIVERED_TO_HANDSET";
+            int expectedStatusId = 5;
+            string expectedStatusDescription = "Message delivered to handset";
+            int expectedStatusGroupId = 3;
+            string expectedStatusGroupName = "DELIVERED";
+            string expectedErrorName = "NO_ERROR";
+            int expectedErrorId = 5;
+            string expectedErrorDescription = "No Error";
+            int expectedErrorGroupId = 0;
+            string expectedErrorGroupName = "OK";
+            bool expectedErrorPermanent = false;
+            string expectedChannel = "EMAIL";
 
             string expectedResponse = $@"
             {{
                 ""results"": [
                     {{
-                        ""bulkId"": ""{givenBulkId}"",
-                        ""messageId"": ""{givenMessageId}"",
-                        ""to"": ""{givenTo}"",
-                        ""sentAt"": ""{givenSentAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                        ""doneAt"": ""{givenDoneAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                        ""messageCount"": {givenMessageCount},
+                        ""bulkId"": ""{expectedBulkId}"",
+                        ""messageId"": ""{expectedMessageId}"",
+                        ""to"": ""{expectedTo}"",
+                        ""sentAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                        ""doneAt"": ""{expectedDoneAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                        ""messageCount"": {expectedMessageCount},
                         ""price"": {{
-                            ""pricePerMessage"": {givenPricePerMessage.ToString("N", CultureInfo.InvariantCulture)},
-                            ""currency"": ""{givenCurrency}""
+                            ""pricePerMessage"": {expectedPricePerMessage.ToString("N", CultureInfo.InvariantCulture)},
+                            ""currency"": ""{expectedCurrency}""
                         }},
                         ""status"": {{
-                            ""groupId"": {givenStatusGroupId},
-                            ""groupName"": ""{givenStatusGroupName}"",
-                            ""id"": {givenStatusId},
-                            ""name"": ""{givenStatusName}"",
-                            ""description"": ""{givenStatusDescription}""
+                            ""groupId"": {expectedStatusGroupId},
+                            ""groupName"": ""{expectedStatusGroupName}"",
+                            ""id"": {expectedStatusId},
+                            ""name"": ""{expectedStatusName}"",
+                            ""description"": ""{expectedStatusDescription}""
                         }},
                         ""error"": {{
-                            ""groupId"": {givenErrorGroupId},
-                            ""groupName"": ""{givenErrorGroupName}"",
-                            ""id"": {givenErrorId},
-                            ""name"": ""{givenErrorName}"",
-                            ""description"": ""{givenErrorDescription}"",
-                            ""permanent"": {givenErrorPermanent.ToString().ToLower()}
+                            ""groupId"": {expectedErrorGroupId},
+                            ""groupName"": ""{expectedErrorGroupName}"",
+                            ""id"": {expectedErrorId},
+                            ""name"": ""{expectedErrorName}"",
+                            ""description"": ""{expectedErrorDescription}"",
+                            ""permanent"": {expectedErrorPermanent.ToString().ToLower()}
                         }},
-                        ""channel"": ""{givenChannel}""
+                        ""channel"": ""{expectedChannel}""
                     }}
                 ]
             }}";
@@ -347,76 +318,76 @@ namespace ApiClient.Tests
 
             var sendEmailApi = new EmailApi(configuration);
 
-            EmailReportsResult response = sendEmailApi.GetEmailDeliveryReports(bulkId: givenBulkId, messageId: givenMessageId, limit: 2);
+            EmailReportsResult response = sendEmailApi.GetEmailDeliveryReports(bulkId: expectedBulkId, messageId: expectedMessageId, limit: 2);
 
             Assert.AreEqual(response.Results.Count, 1);
-            Assert.AreEqual(response.Results[0].BulkId, givenBulkId);
-            Assert.AreEqual(response.Results[0].MessageId, givenMessageId);
+            Assert.AreEqual(response.Results[0].BulkId, expectedBulkId);
+            Assert.AreEqual(response.Results[0].MessageId, expectedMessageId);
 
-            Assert.AreEqual(response.Results[0].SentAt, givenSentAt);
-            Assert.AreEqual(response.Results[0].DoneAt, givenDoneAt);
-            Assert.AreEqual(response.Results[0].MessageCount, givenMessageCount);
+            Assert.AreEqual(response.Results[0].SentAt, expectedSentAt);
+            Assert.AreEqual(response.Results[0].DoneAt, expectedDoneAt);
+            Assert.AreEqual(response.Results[0].MessageCount, expectedMessageCount);
 
-            Assert.AreEqual(response.Results[0].Status.Description, givenStatusDescription);
-            Assert.AreEqual(response.Results[0].Status.GroupId, givenStatusGroupId);
-            Assert.AreEqual(response.Results[0].Status.GroupName, givenStatusGroupName);
-            Assert.AreEqual(response.Results[0].Status.Id, givenStatusId);
-            Assert.AreEqual(response.Results[0].Status.Name, givenStatusName);
+            Assert.AreEqual(response.Results[0].Status.Description, expectedStatusDescription);
+            Assert.AreEqual(response.Results[0].Status.GroupId, expectedStatusGroupId);
+            Assert.AreEqual(response.Results[0].Status.GroupName, expectedStatusGroupName);
+            Assert.AreEqual(response.Results[0].Status.Id, expectedStatusId);
+            Assert.AreEqual(response.Results[0].Status.Name, expectedStatusName);
 
-            Assert.AreEqual(response.Results[0].Price.PricePerMessage, givenPricePerMessage);
+            Assert.AreEqual(response.Results[0].Price.PricePerMessage, expectedPricePerMessage);
 
-            Assert.AreEqual(response.Results[0].Error.Description, givenErrorDescription);
-            Assert.AreEqual(response.Results[0].Error.GroupId, givenErrorGroupId);
-            Assert.AreEqual(response.Results[0].Error.GroupName, givenErrorGroupName);
-            Assert.AreEqual(response.Results[0].Error.Id, givenErrorId);
-            Assert.AreEqual(response.Results[0].Error.Name, givenErrorName);
-            Assert.AreEqual(response.Results[0].Error.Permanent, givenErrorPermanent);
+            Assert.AreEqual(response.Results[0].Error.Description, expectedErrorDescription);
+            Assert.AreEqual(response.Results[0].Error.GroupId, expectedErrorGroupId);
+            Assert.AreEqual(response.Results[0].Error.GroupName, expectedErrorGroupName);
+            Assert.AreEqual(response.Results[0].Error.Id, expectedErrorId);
+            Assert.AreEqual(response.Results[0].Error.Name, expectedErrorName);
+            Assert.AreEqual(response.Results[0].Error.Permanent, expectedErrorPermanent);
         }
 
         [TestMethod]
         public void ShouldGetEmailLogsTest()
         {
-            string givenFrom = "Jane Doe <jane.doe@somecompany.com";
-            string givenTo = "john.smith@somedomain.com";
-            string givenText = "Mail body text";
-            int givenMessageCount = 1;
-            string givenMessageId = "MSG-1234";
-            string givenBulkId = "BULK-1234";
-            DateTimeOffset givenSentAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
-            DateTimeOffset givenDoneAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
-            string givenCurrency = "EUR";
-            decimal givenPricePerMessage = 0.0m;
-            string givenStatusName = "DELIVERED_TO_HANDSET";
-            int givenStatusId = 5;
-            string givenStatusDescription = "Message delivered to handset";
-            int givenStatusGroupId = 3;
-            string givenStatusGroupName = "DELIVERED";
-            string givenChannel = "EMAIL";
+            string expectedFrom = "Jane Doe <jane.doe@somecompany.com";
+            string expectedTo = "john.smith@somedomain.com";
+            string expectedText = "Mail body text";
+            int expectedMessageCount = 1;
+            string expectedMessageId = "MSG-1234";
+            string expectedBulkId = "BULK-1234";
+            DateTimeOffset expectedSentAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
+            DateTimeOffset expectedDoneAt = new DateTimeOffset(2021, 9, 2, 9, 57, 56, TimeSpan.FromHours(0));
+            string expectedCurrency = "EUR";
+            decimal expectedPricePerMessage = 0.0m;
+            string expectedStatusName = "DELIVERED_TO_HANDSET";
+            int expectedStatusId = 5;
+            string expectedStatusDescription = "Message delivered to handset";
+            int expectedStatusGroupId = 3;
+            string expectedStatusGroupName = "DELIVERED";
+            string expectedChannel = "EMAIL";
 
             string expectedResponse = $@"
             {{
                 ""results"": [
                 {{
-                    ""messageId"": ""{givenMessageId}"",
-                    ""to"": ""{givenTo}"",
-                    ""from"": ""{givenFrom}"",
-                    ""text"": ""{givenText}"",
-                    ""sentAt"": ""{givenSentAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                    ""doneAt"": ""{givenDoneAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                    ""messageCount"": {givenMessageCount},
+                    ""messageId"": ""{expectedMessageId}"",
+                    ""to"": ""{expectedTo}"",
+                    ""from"": ""{expectedFrom}"",
+                    ""text"": ""{expectedText}"",
+                    ""sentAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                    ""doneAt"": ""{expectedDoneAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                    ""messageCount"": {expectedMessageCount},
                     ""price"": {{
-                        ""pricePerMessage"": {givenPricePerMessage.ToString("N", CultureInfo.InvariantCulture)},
-                        ""currency"": ""{givenCurrency}""
+                        ""pricePerMessage"": {expectedPricePerMessage.ToString("N", CultureInfo.InvariantCulture)},
+                        ""currency"": ""{expectedCurrency}""
                     }},
                     ""status"": {{
-                        ""groupId"": {givenStatusGroupId},
-                        ""groupName"": ""{givenStatusGroupName}"",
-                        ""id"": {givenStatusId},
-                        ""name"": ""{givenStatusName}"",
-                        ""description"": ""{givenStatusDescription}""
+                        ""groupId"": {expectedStatusGroupId},
+                        ""groupName"": ""{expectedStatusGroupName}"",
+                        ""id"": {expectedStatusId},
+                        ""name"": ""{expectedStatusName}"",
+                        ""description"": ""{expectedStatusDescription}""
                     }},
-                    ""channel"": ""{givenChannel}"",
-                    ""bulkId"": ""{givenBulkId}""
+                    ""channel"": ""{expectedChannel}"",
+                    ""bulkId"": ""{expectedBulkId}""
                 }}
                 ]
             }}";
@@ -426,49 +397,45 @@ namespace ApiClient.Tests
             var sendEmailApi = new EmailApi(configuration);
 
             EmailLogsResponse response = sendEmailApi.GetEmailLogs(
-                from: null,
-                to: null,
-                bulkId: givenBulkId,
-                messageId: givenMessageId,
-                generalStatus: null,
-                sentSince: null,
+                bulkId: expectedBulkId,
+                messageId: expectedMessageId,
                 limit: 2
             );
 
             Assert.AreEqual(response.Results.Count, 1);
 
-            Assert.AreEqual(response.Results[0].From, givenFrom);
-            Assert.AreEqual(response.Results[0].BulkId, givenBulkId);
-            Assert.AreEqual(response.Results[0].MessageId, givenMessageId);
-            Assert.AreEqual(response.Results[0].SentAt, givenSentAt);
-            Assert.AreEqual(response.Results[0].DoneAt, givenDoneAt);
-            Assert.AreEqual(response.Results[0].Text, givenText);
-            Assert.AreEqual(response.Results[0].To, givenTo);
-            Assert.AreEqual(response.Results[0].MessageCount, givenMessageCount);
+            Assert.AreEqual(response.Results[0].From, expectedFrom);
+            Assert.AreEqual(response.Results[0].BulkId, expectedBulkId);
+            Assert.AreEqual(response.Results[0].MessageId, expectedMessageId);
+            Assert.AreEqual(response.Results[0].SentAt, expectedSentAt);
+            Assert.AreEqual(response.Results[0].DoneAt, expectedDoneAt);
+            Assert.AreEqual(response.Results[0].Text, expectedText);
+            Assert.AreEqual(response.Results[0].To, expectedTo);
+            Assert.AreEqual(response.Results[0].MessageCount, expectedMessageCount);
 
-            Assert.AreEqual(response.Results[0].Status.Description, givenStatusDescription);
-            Assert.AreEqual(response.Results[0].Status.GroupId, givenStatusGroupId);
-            Assert.AreEqual(response.Results[0].Status.GroupName, givenStatusGroupName);
-            Assert.AreEqual(response.Results[0].Status.Id, givenStatusId);
-            Assert.AreEqual(response.Results[0].Status.Name, givenStatusName);
+            Assert.AreEqual(response.Results[0].Status.Description, expectedStatusDescription);
+            Assert.AreEqual(response.Results[0].Status.GroupId, expectedStatusGroupId);
+            Assert.AreEqual(response.Results[0].Status.GroupName, expectedStatusGroupName);
+            Assert.AreEqual(response.Results[0].Status.Id, expectedStatusId);
+            Assert.AreEqual(response.Results[0].Status.Name, expectedStatusName);
 
-            Assert.AreEqual(response.Results[0].Price.PricePerMessage, givenPricePerMessage);
+            Assert.AreEqual(response.Results[0].Price.PricePerMessage, expectedPricePerMessage);
         }
 
         [TestMethod]
         public void ShouldGetScheduledEmailsTest()
         {
-            string givenExternalBulkId = "BULK-1234";
-            string givenBulkId = "1234593932111";
-            DateTimeOffset givenSentAt = new DateTimeOffset(2021, 9, 2, 9, 56, 53, TimeSpan.FromHours(0));
+            string expectedExternalBulkId = "BULK-1234";
+            string expectedBulkId = "1234593932111";
+            DateTimeOffset expectedSentAt = new DateTimeOffset(2021, 9, 2, 9, 56, 53, TimeSpan.FromHours(0));
 
             string expectedResponse = $@"
             {{
-                ""externalBulkId"": ""{givenExternalBulkId}"",
+                ""externalBulkId"": ""{expectedExternalBulkId}"",
                 ""bulks"": [
                     {{
-                        ""bulkId"": ""{givenBulkId}"",
-                        ""sendAt"": ""{givenSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
+                        ""bulkId"": ""{expectedBulkId}"",
+                        ""sendAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
                     }}
                 ]
             }}";
@@ -477,66 +444,64 @@ namespace ApiClient.Tests
 
             var scheduledEmailApi = new EmailApi(configuration);
 
-            EmailBulkScheduleResponse response = scheduledEmailApi.GetScheduledEmails(givenBulkId);
+            EmailBulkScheduleResponse response = scheduledEmailApi.GetScheduledEmails(expectedBulkId);
 
             Assert.AreEqual(response.Bulks.Count, 1);
-            Assert.AreEqual(response.ExternalBulkId, givenExternalBulkId);
+            Assert.AreEqual(response.ExternalBulkId, expectedExternalBulkId);
 
-            Assert.AreEqual(response.Bulks[0].BulkId, givenBulkId);
-            Assert.AreEqual(response.Bulks[0].SendAt, givenSentAt);
+            Assert.AreEqual(response.Bulks[0].BulkId, expectedBulkId);
+            Assert.AreEqual(response.Bulks[0].SendAt, expectedSentAt);
         }
 
         [TestMethod]
         public void ShouldRescheduleEmailsTest()
         {
-            string givenBulkId = "1234593932111";
-            DateTimeOffset givenSentAt = new DateTimeOffset(2023, 5, 16, 11, 55, 51, TimeSpan.FromHours(0));
+            string expectedBulkId = "1234593932111";
+            DateTimeOffset expectedSentAt = new DateTimeOffset(2023, 5, 16, 11, 55, 51, TimeSpan.FromHours(0));
 
             string givenRequest = $@"
             {{
-                ""sendAt"": ""{givenSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
+                ""sendAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
             }}";
 
             string expectedResponse = $@"
             {{
-                ""bulkId"": ""{givenBulkId}"",
-                ""sendAt"": ""{givenSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
+                ""bulkId"": ""{expectedBulkId}"",
+                ""sendAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
             }}";
 
             SetUpPutRequest(EMAIL_BULKS_ENDPOINT, givenRequest, expectedResponse, 200);
 
             var scheduledEmailApi = new EmailApi(configuration);
-            EmailBulkRescheduleRequest rescheduleRequest = new EmailBulkRescheduleRequest(givenSentAt);
+            EmailBulkRescheduleRequest rescheduleRequest = new EmailBulkRescheduleRequest(expectedSentAt);
 
-            EmailBulkRescheduleResponse response = scheduledEmailApi.RescheduleEmails(givenBulkId, rescheduleRequest);
+            EmailBulkRescheduleResponse response = scheduledEmailApi.RescheduleEmails(expectedBulkId, rescheduleRequest);
 
-            Assert.AreEqual(response.BulkId, givenBulkId);
-            Assert.AreEqual(response.SendAt, givenSentAt);
+            Assert.AreEqual(response.BulkId, expectedBulkId);
+            Assert.AreEqual(response.SendAt, expectedSentAt);
         }
 
         [TestMethod]
         public void ShouldGetScheduledEmailStatusTest()
         {
-            string givenExternalBulkId = "BULK-1234";
-            string givenBulkId = "1234593932111";
-            string givenBulkId2 = "1234594942111";
+            string expectedExternalBulkId = "BULK-1234";
+            string expectedBulkId = "1234593932111";
+            string expectedBulkId2 = "1234594942111";
 
-            //StatusEnum givenStatus = StatusEnum.Finished;
-            EmailBulkStatus givenStatus = EmailBulkStatus.Finished;
-            //StatusEnum givenStatus2 = StatusEnum.Pending;
-            EmailBulkStatus givenStatus2 = EmailBulkStatus.Pending;
+            EmailBulkStatus expectedStatus = EmailBulkStatus.Finished;
+            EmailBulkStatus expectedStatus2 = EmailBulkStatus.Pending;
 
             string expectedResponse = $@"
             {{
-                ""externalBulkId"": ""{givenExternalBulkId}"",
+                ""externalBulkId"": ""{expectedExternalBulkId}"",
                 ""bulks"": [
                 {{
-                    ""bulkId"": ""{givenBulkId}"",
-                    ""status"": ""{givenStatus}""
+                    ""bulkId"": ""{expectedBulkId}"",
+                    ""status"": ""{expectedStatus}""
                 }},
                 {{
-                    ""bulkId"": ""{givenBulkId2}"",
-                    ""status"": ""{givenStatus2}""
+                    ""bulkId"": ""{expectedBulkId2}"",
+                    ""status"": ""{expectedStatus2}""
                 }}
                 ]
             }}";
@@ -545,50 +510,49 @@ namespace ApiClient.Tests
 
             var scheduledEmailApi = new EmailApi(configuration);
 
-            EmailBulkStatusResponse response = scheduledEmailApi.GetScheduledEmailStatuses(givenBulkId);
+            EmailBulkStatusResponse response = scheduledEmailApi.GetScheduledEmailStatuses(expectedBulkId);
 
             Assert.AreEqual(response.Bulks.Count, 2);
-            Assert.AreEqual(response.ExternalBulkId, givenExternalBulkId);
-            Assert.AreEqual(response.Bulks[0].BulkId, givenBulkId);
-            Assert.AreEqual(response.Bulks[0].Status, givenStatus);
-            Assert.AreEqual(response.Bulks[1].BulkId, givenBulkId2);
-            Assert.AreEqual(response.Bulks[1].Status, givenStatus2);
+            Assert.AreEqual(response.ExternalBulkId, expectedExternalBulkId);
+            Assert.AreEqual(response.Bulks[0].BulkId, expectedBulkId);
+            Assert.AreEqual(response.Bulks[0].Status, expectedStatus);
+            Assert.AreEqual(response.Bulks[1].BulkId, expectedBulkId2);
+            Assert.AreEqual(response.Bulks[1].Status, expectedStatus2);
         }
 
         [TestMethod]
         public void ShouldUpdateEmailStatusTest()
         {
-            string givenBulkId = "1234593932111";
-            //EmailBulkUpdateStatusRequest.StatusEnum givenStatus = EmailBulkUpdateStatusRequest.StatusEnum.Paused;
-            EmailBulkStatus givenStatus = EmailBulkStatus.Paused;
+            string expectedBulkId = "1234593932111";
+            EmailBulkStatus expectedStatus = EmailBulkStatus.Paused;
 
             string givenRequest = $@"
             {{
-                ""status"": ""{givenStatus}"",
+                ""status"": ""{expectedStatus}"",
             }}";
 
             string expectedResponse = $@"
             {{
-                ""bulkId"": ""{givenBulkId}"",
-                ""status"": ""{givenStatus}""
+                ""bulkId"": ""{expectedBulkId}"",
+                ""status"": ""{expectedStatus}""
             }}";
 
             SetUpPutRequest(EMAIL_BULKS_STATUS_ENDPOINT, givenRequest, expectedResponse, 200);
 
             var scheduledEmailApi = new EmailApi(configuration);
 
-            EmailBulkUpdateStatusRequest updateStatusRequest = new EmailBulkUpdateStatusRequest(givenStatus);
+            EmailBulkUpdateStatusRequest updateStatusRequest = new EmailBulkUpdateStatusRequest(expectedStatus);
 
-            EmailBulkUpdateStatusResponse response = scheduledEmailApi.UpdateScheduledEmailStatuses(givenBulkId, updateStatusRequest);
+            EmailBulkUpdateStatusResponse response = scheduledEmailApi.UpdateScheduledEmailStatuses(expectedBulkId, updateStatusRequest);
 
-            Assert.AreEqual(response.BulkId, givenBulkId);
-            Assert.AreEqual(response.Status, givenStatus);
+            Assert.AreEqual(response.BulkId, expectedBulkId);
+            Assert.AreEqual(response.Status, expectedStatus);
         }
 
         [TestMethod]
         public void ValidateEmailAddressesTest()
         {
-            string givenTo = "john.smith@somedomain.com";
+            string expectedTo = "john.smith@somedomain.com";
             string expectedValidMailbox = "true";
             bool expectedValidSyntax = true;
             bool expectedCatchAll = false;
@@ -596,14 +560,14 @@ namespace ApiClient.Tests
             bool expectedDisposable = false;
             bool expectedRoleBased = true;
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""to"": ""{givenTo}"",
+                ""to"": ""{expectedTo}"",
             }}";
 
             string expectedResponse = $@"
             {{
-                ""to"": ""{givenTo}"",
+                ""to"": ""{expectedTo}"",
                 ""validMailbox"": {expectedValidMailbox},
                 ""validSyntax"": {expectedValidSyntax.ToString().ToLower()},
                 ""catchAll"": {expectedCatchAll.ToString().ToLower()},
@@ -612,15 +576,15 @@ namespace ApiClient.Tests
                 ""roleBased"": {expectedRoleBased.ToString().ToLower()}
             }}";
 
-            SetUpPostRequest(EMAIL_VALIDATE_ADDRESSES_ENDPOINT, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(EMAIL_VALIDATE_ADDRESSES_ENDPOINT, givenRequest, expectedResponse, 200);
 
             var emailValidationApi = new EmailApi(configuration);
 
-            EmailValidationRequest validationRequest = new EmailValidationRequest(givenTo);
+            EmailValidationRequest validationRequest = new EmailValidationRequest(expectedTo);
 
             EmailValidationResponse response = emailValidationApi.ValidateEmailAddresses(validationRequest);
 
-            Assert.AreEqual(response.To, givenTo);
+            Assert.AreEqual(response.To, expectedTo);
             Assert.AreEqual(response.CatchAll, expectedCatchAll);
             Assert.AreEqual(response.DidYouMean, expectedDidYouMean);
             Assert.AreEqual(response.Disposable, expectedDisposable);
@@ -632,183 +596,181 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetAllDomainsForTheAccount()
         {
-            int givenPage = 0;
-            int givenSize = 0;
-            int givenTotalPages = 0;
-            int givenTotalResults = 0;
-            int givenDomainId = 1;
-            string givenDomainName = "example.com";
-            bool givenActive = false;
-            bool givenClicks = true;
-            bool givenOpens = true;
-            bool givenUnsubscribe = true;
-            string givenRecordType = "string";
-            string givenName = "string";
-            string givenExpectedValue = "string";
-            bool givenVerified = true;
-            bool givenBlocked = false;
-            DateTimeOffset givenCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-            string givenReturnPathAddress = "returnpath@example.com";
+            int expectedPage = 0;
+            int expectedSize = 0;
+            int expectedTotalPages = 0;
+            int expectedTotalResults = 0;
+            int expectedDomainId = 1;
+            string expectedDomainName = "example.com";
+            bool expectedActive = false;
+            bool expectedClicks = true;
+            bool expectedOpens = true;
+            bool expectedUnsubscribe = true;
+            string expectedRecordType = "string";
+            string expectedName = "string";
+            string expectedExpectedValue = "string";
+            bool expectedVerified = true;
+            bool expectedBlocked = false;
+            DateTimeOffset expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
+            string expectedReturnPathAddress = "returnpath@example.com";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
                 ""paging"": {{
-                    ""page"": {givenPage},
-                    ""size"": {givenSize},
-                    ""totalPages"": {givenTotalPages},
-                    ""totalResults"": {givenTotalResults}
+                    ""page"": {expectedPage},
+                    ""size"": {expectedSize},
+                    ""totalPages"": {expectedTotalPages},
+                    ""totalResults"": {expectedTotalResults}
                 }},
                 ""results"": [
                     {{
-                         ""domainId"": {givenDomainId},
-                         ""domainName"": ""{givenDomainName}"",
-                         ""active"": {givenActive.ToString().ToLower()},
+                         ""domainId"": {expectedDomainId},
+                         ""domainName"": ""{expectedDomainName}"",
+                         ""active"": {expectedActive.ToString().ToLower()},
                          ""tracking"": {{
-                            ""clicks"": {givenClicks.ToString().ToLower()},
-                            ""opens"": {givenOpens.ToString().ToLower()},
-                            ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                            ""clicks"": {expectedClicks.ToString().ToLower()},
+                            ""opens"": {expectedOpens.ToString().ToLower()},
+                            ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
                          }},
                          ""dnsRecords"": [
                             {{
-                                ""recordType"": ""{givenRecordType}"",
-                                ""name"": ""{givenName}"",
-                                ""expectedValue"": ""{givenExpectedValue}"",
-                                ""verified"": {givenVerified.ToString().ToLower()}
+                                ""recordType"": ""{expectedRecordType}"",
+                                ""name"": ""{expectedName}"",
+                                ""expectedValue"": ""{expectedExpectedValue}"",
+                                ""verified"": {expectedVerified.ToString().ToLower()}
                             }}
                          ],
-                         ""blocked"": {givenBlocked.ToString().ToLower()},
-                         ""createdAt"": ""{givenCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                         ""returnPathAddress"": ""{givenReturnPathAddress}""
+                         ""blocked"": {expectedBlocked.ToString().ToLower()},
+                         ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                         ""returnPathAddress"": ""{expectedReturnPathAddress}""
                     }}
                 ]
             }}";
 
             var expectedQueryParameters = new Dictionary<string, string> {
-                { "size", givenSize.ToString() },
-                { "page", givenPage.ToString() }
+                { "size", expectedSize.ToString() },
+                { "page", expectedPage.ToString() }
              };
 
-            SetUpGetRequest(EMAIL_DOMAINS, expectedQueryParameters, givenResponse, 200);
+            SetUpGetRequest(EMAIL_DOMAINS, expectedQueryParameters, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             void AssertEmailAllDomainsResponse(EmailAllDomainsResponse emailAllDomainsResponse)
             {
                 Assert.IsNotNull(emailAllDomainsResponse.Paging);
-                Assert.AreEqual(emailAllDomainsResponse.Paging.Page, givenPage);
-                Assert.AreEqual(emailAllDomainsResponse.Paging.Size, givenSize);
-                Assert.AreEqual(emailAllDomainsResponse.Paging.TotalPages, givenTotalPages);
-                Assert.AreEqual(emailAllDomainsResponse.Paging.TotalResults, givenTotalResults);
+                Assert.AreEqual(emailAllDomainsResponse.Paging.Page, expectedPage);
+                Assert.AreEqual(emailAllDomainsResponse.Paging.Size, expectedSize);
+                Assert.AreEqual(emailAllDomainsResponse.Paging.TotalPages, expectedTotalPages);
+                Assert.AreEqual(emailAllDomainsResponse.Paging.TotalResults, expectedTotalResults);
 
                 Assert.IsNotNull(emailAllDomainsResponse.Results);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DomainId, givenDomainId);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DomainName, givenDomainName);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].Active, givenActive);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Clicks, givenClicks);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Opens, givenOpens);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Unsubscribe, givenUnsubscribe);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].RecordType, givenRecordType);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].Name, givenName);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].ExpectedValue, givenExpectedValue);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].Verified, givenVerified);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].Blocked, givenBlocked);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].CreatedAt, givenCreatedAt);
-                Assert.AreEqual(emailAllDomainsResponse.Results[0].ReturnPathAddress, givenReturnPathAddress);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DomainId, expectedDomainId);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DomainName, expectedDomainName);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].Active, expectedActive);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Clicks, expectedClicks);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Opens, expectedOpens);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].Tracking.Unsubscribe, expectedUnsubscribe);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].RecordType, expectedRecordType);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].Name, expectedName);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].ExpectedValue, expectedExpectedValue);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].DnsRecords[0].Verified, expectedVerified);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].Blocked, expectedBlocked);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].CreatedAt, expectedCreatedAt);
+                Assert.AreEqual(emailAllDomainsResponse.Results[0].ReturnPathAddress, expectedReturnPathAddress);
             }
 
-            AssertResponse(emailApi.GetAllDomains(givenSize, givenPage), AssertEmailAllDomainsResponse);
-            AssertResponse(emailApi.GetAllDomainsAsync(givenSize, givenPage).Result, AssertEmailAllDomainsResponse);
+            AssertResponse(emailApi.GetAllDomains(expectedSize, expectedPage), AssertEmailAllDomainsResponse);
+            AssertResponse(emailApi.GetAllDomainsAsync(expectedSize, expectedPage).Result, AssertEmailAllDomainsResponse);
 
-            AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfo(givenSize, givenPage), AssertEmailAllDomainsResponse);
-            AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfoAsync(givenSize, givenPage).Result, AssertEmailAllDomainsResponse);
+            AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfo(expectedSize, expectedPage), AssertEmailAllDomainsResponse);
+            AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfoAsync(expectedSize, expectedPage).Result, AssertEmailAllDomainsResponse);
         }
 
         [TestMethod]
         public void ShouldAddNewDomain()
         {
+            int givenDkimKeyLength = 1024;
+            long givenTargetedDailyTraffic = 1000;
+            string givenApplicationId = "string";
+            string givenEntityId = "string";
+
+            int expectedDomainId = 1;
             string expectedDomainName = "example.com";
-            int expectedDkimKeyLength = 1024;
-            long expectedTargetedDailyTraffic = 1000;
-            string expectedApplicationId = "string";
-            string expectedEntityId = "string";
-            string expectedReturnPathAddress = "string";
+            bool expectedActive = false;
+            bool expectedClicks = true;
+            bool expectedOpens = true;
+            bool expectedUnsubscribe = true;
+            string expectedRecordType = "string";
+            string expectedName = "string";
+            string expectedExpectedValue = "string";
+            bool expectedVerified = true;
+            bool expectedBlocked = false;
+            DateTimeOffset expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
+            string expectedReturnPathAddress = "returnpath@example.com";
 
-            int givenDomainId = 1;
-            string givenDomainName = "example.com";
-            bool givenActive = false;
-            bool givenClicks = true;
-            bool givenOpens = true;
-            bool givenUnsubscribe = true;
-            string givenRecordType = "string";
-            string givenName = "string";
-            string givenExpectedValue = "string";
-            bool givenVerified = true;
-            bool givenBlocked = false;
-            DateTimeOffset givenCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-            string givenReturnPathAddress = "returnpath@example.com";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""domainName"": ""{expectedDomainName}"",
-                ""dkimKeyLength"": {expectedDkimKeyLength},
-                ""targetedDailyTraffic"": {expectedTargetedDailyTraffic},
-                ""applicationId"": ""{expectedApplicationId}"",
-                ""entityId"": ""{expectedEntityId}"",
+                ""dkimKeyLength"": {givenDkimKeyLength},
+                ""targetedDailyTraffic"": {givenTargetedDailyTraffic},
+                ""applicationId"": ""{givenApplicationId}"",
+                ""entityId"": ""{givenEntityId}"",
                 ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
-                ""domainId"": {givenDomainId},
-                ""domainName"": ""{givenDomainName}"",
-                ""active"": {givenActive.ToString().ToLower()},
+                ""domainId"": {expectedDomainId},
+                ""domainName"": ""{expectedDomainName}"",
+                ""active"": {expectedActive.ToString().ToLower()},
                 ""tracking"": {{
-                    ""clicks"": {givenClicks.ToString().ToLower()},
-                    ""opens"": {givenOpens.ToString().ToLower()},
-                    ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                    ""clicks"": {expectedClicks.ToString().ToLower()},
+                    ""opens"": {expectedOpens.ToString().ToLower()},
+                    ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
                 }},
                 ""dnsRecords"": [
                     {{
-                        ""recordType"": ""{givenRecordType}"",
-                        ""name"": ""{givenName}"",
-                        ""expectedValue"": ""{givenExpectedValue}"",
-                        ""verified"": {givenVerified.ToString().ToLower()}
+                        ""recordType"": ""{expectedRecordType}"",
+                        ""name"": ""{expectedName}"",
+                        ""expectedValue"": ""{expectedExpectedValue}"",
+                        ""verified"": {expectedVerified.ToString().ToLower()}
                     }}
                 ],
-                ""blocked"": {givenBlocked.ToString().ToLower()},
-                ""createdAt"": ""{givenCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                ""returnPathAddress"": ""{givenReturnPathAddress}""
+                ""blocked"": {expectedBlocked.ToString().ToLower()},
+                ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-            SetUpPostRequest(EMAIL_DOMAINS, expectedRequest, givenResponse, 200);
+            SetUpPostRequest(EMAIL_DOMAINS, givenRequest, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             var emailAddDomainRequest = new EmailAddDomainRequest(
                     domainName: expectedDomainName,
                     dkimKeyLength: DkimKeyLengthEnum.NUMBER1024,
-                    targetedDailyTraffic: expectedTargetedDailyTraffic,
-                    applicationId: expectedApplicationId,
-                    entityId: expectedEntityId,
+                    targetedDailyTraffic: givenTargetedDailyTraffic,
+                    applicationId: givenApplicationId,
+                    entityId: givenEntityId,
                     returnPathAddress: expectedReturnPathAddress
                 );
 
             void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
             {
                 Assert.IsNotNull(emailDomainResponse);
-                Assert.AreEqual(emailDomainResponse.DomainId, givenDomainId);
-                Assert.AreEqual(emailDomainResponse.DomainName, givenDomainName);
-                Assert.AreEqual(emailDomainResponse.Active, givenActive);
-                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, givenClicks);
-                Assert.AreEqual(emailDomainResponse.Tracking.Opens, givenOpens);
-                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, givenUnsubscribe);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, givenRecordType);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, givenName);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, givenExpectedValue);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, givenVerified);
-                Assert.AreEqual(emailDomainResponse.Blocked, givenBlocked);
-                Assert.AreEqual(emailDomainResponse.CreatedAt, givenCreatedAt);
-                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, givenReturnPathAddress);
+                Assert.AreEqual(emailDomainResponse.DomainId, expectedDomainId);
+                Assert.AreEqual(emailDomainResponse.DomainName, expectedDomainName);
+                Assert.AreEqual(emailDomainResponse.Active, expectedActive);
+                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, expectedClicks);
+                Assert.AreEqual(emailDomainResponse.Tracking.Opens, expectedOpens);
+                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, expectedUnsubscribe);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, expectedRecordType);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, expectedName);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, expectedExpectedValue);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, expectedVerified);
+                Assert.AreEqual(emailDomainResponse.Blocked, expectedBlocked);
+                Assert.AreEqual(emailDomainResponse.CreatedAt, expectedCreatedAt);
+                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, expectedReturnPathAddress);
             }
 
             AssertResponse(emailApi.AddDomain(emailAddDomainRequest), AssertEmailDomainResponse);
@@ -821,70 +783,70 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetDomainDetails()
         {
-            int givenDomainId = 1;
-            string givenDomainName = "example.com";
-            bool givenActive = false;
-            bool givenClicks = true;
-            bool givenOpens = true;
-            bool givenUnsubscribe = true;
-            string givenRecordType = "string";
-            string givenName = "string";
-            string givenExpectedValue = "string";
-            bool givenVerified = true;
-            bool givenBlocked = false;
-            DateTimeOffset givenCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-            string givenReturnPathAddress = "returnpath@example.com";
+            int expectedDomainId = 1;
+            string expectedDomainName = "example.com";
+            bool expectedActive = false;
+            bool expectedClicks = true;
+            bool expectedOpens = true;
+            bool expectedUnsubscribe = true;
+            string expectedRecordType = "string";
+            string expectedName = "string";
+            string expectedExpectedValue = "string";
+            bool expectedVerified = true;
+            bool expectedBlocked = false;
+            DateTimeOffset expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
+            string expectedReturnPathAddress = "returnpath@example.com";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
-                ""domainId"": {givenDomainId},
-                ""domainName"": ""{givenDomainName}"",
-                ""active"": {givenActive.ToString().ToLower()},
+                ""domainId"": {expectedDomainId},
+                ""domainName"": ""{expectedDomainName}"",
+                ""active"": {expectedActive.ToString().ToLower()},
                 ""tracking"": {{
-                    ""clicks"": {givenClicks.ToString().ToLower()},
-                    ""opens"": {givenOpens.ToString().ToLower()},
-                    ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                    ""clicks"": {expectedClicks.ToString().ToLower()},
+                    ""opens"": {expectedOpens.ToString().ToLower()},
+                    ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
                 }},
                 ""dnsRecords"": [
                     {{
-                        ""recordType"": ""{givenRecordType}"",
-                        ""name"": ""{givenName}"",
-                        ""expectedValue"": ""{givenExpectedValue}"",
-                        ""verified"": {givenVerified.ToString().ToLower()}
+                        ""recordType"": ""{expectedRecordType}"",
+                        ""name"": ""{expectedName}"",
+                        ""expectedValue"": ""{expectedExpectedValue}"",
+                        ""verified"": {expectedVerified.ToString().ToLower()}
                     }}
                 ],
-                ""blocked"": {givenBlocked.ToString().ToLower()},
-                ""createdAt"": ""{givenCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                ""returnPathAddress"": ""{givenReturnPathAddress}""
+                ""blocked"": {expectedBlocked.ToString().ToLower()},
+                ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-            SetUpGetRequest(EMAIL_DOMAIN.Replace("{domainName}", givenDomainName), givenResponse, 200);
+            SetUpGetRequest(EMAIL_DOMAIN.Replace("{domainName}", expectedDomainName), expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
             {
                 Assert.IsNotNull(emailDomainResponse);
-                Assert.AreEqual(emailDomainResponse.DomainId, givenDomainId);
-                Assert.AreEqual(emailDomainResponse.DomainName, givenDomainName);
-                Assert.AreEqual(emailDomainResponse.Active, givenActive);
-                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, givenClicks);
-                Assert.AreEqual(emailDomainResponse.Tracking.Opens, givenOpens);
-                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, givenUnsubscribe);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, givenRecordType);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, givenName);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, givenExpectedValue);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, givenVerified);
-                Assert.AreEqual(emailDomainResponse.Blocked, givenBlocked);
-                Assert.AreEqual(emailDomainResponse.CreatedAt, givenCreatedAt);
-                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, givenReturnPathAddress);
+                Assert.AreEqual(emailDomainResponse.DomainId, expectedDomainId);
+                Assert.AreEqual(emailDomainResponse.DomainName, expectedDomainName);
+                Assert.AreEqual(emailDomainResponse.Active, expectedActive);
+                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, expectedClicks);
+                Assert.AreEqual(emailDomainResponse.Tracking.Opens, expectedOpens);
+                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, expectedUnsubscribe);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, expectedRecordType);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, expectedName);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, expectedExpectedValue);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, expectedVerified);
+                Assert.AreEqual(emailDomainResponse.Blocked, expectedBlocked);
+                Assert.AreEqual(emailDomainResponse.CreatedAt, expectedCreatedAt);
+                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, expectedReturnPathAddress);
             }
 
-            AssertResponse(emailApi.GetDomainDetails(givenDomainName), AssertEmailDomainResponse);
-            AssertResponse(emailApi.GetDomainDetailsAsync(givenDomainName).Result, AssertEmailDomainResponse);
+            AssertResponse(emailApi.GetDomainDetails(expectedDomainName), AssertEmailDomainResponse);
+            AssertResponse(emailApi.GetDomainDetailsAsync(expectedDomainName).Result, AssertEmailDomainResponse);
 
-            AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfo(givenDomainName), AssertEmailDomainResponse);
-            AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfoAsync(givenDomainName).Result, AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfo(expectedDomainName), AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfoAsync(expectedDomainName).Result, AssertEmailDomainResponse);
         }
 
         [TestMethod]
@@ -903,161 +865,161 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldUpdateTrackingEvents()
         {
-            int givenDomainId = 1;
-            string givenDomainName = "example.com";
-            bool givenActive = false;
-            bool givenClicks = true;
-            bool givenOpens = true;
-            bool givenUnsubscribe = true;
-            string givenRecordType = "string";
-            string givenName = "string";
-            string givenExpectedValue = "string";
-            bool givenVerified = true;
-            bool givenBlocked = false;
-            DateTimeOffset givenCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-            string givenReturnPathAddress = "returnpath@example.com";
+            int expectedDomainId = 1;
+            string expectedDomainName = "example.com";
+            bool expectedActive = false;
+            bool expectedClicks = true;
+            bool expectedOpens = true;
+            bool expectedUnsubscribe = true;
+            string expectedRecordType = "string";
+            string expectedName = "string";
+            string expectedExpectedValue = "string";
+            bool expectedVerified = true;
+            bool expectedBlocked = false;
+            DateTimeOffset expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
+            string expectedReturnPathAddress = "returnpath@example.com";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""open"": {givenOpens.ToString().ToLower()},
-                ""clicks"": {givenClicks.ToString().ToLower()},
-                ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                ""open"": {expectedOpens.ToString().ToLower()},
+                ""clicks"": {expectedClicks.ToString().ToLower()},
+                ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
             }}";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
-                ""domainId"": {givenDomainId},
-                ""domainName"": ""{givenDomainName}"",
-                ""active"": {givenActive.ToString().ToLower()},
+                ""domainId"": {expectedDomainId},
+                ""domainName"": ""{expectedDomainName}"",
+                ""active"": {expectedActive.ToString().ToLower()},
                 ""tracking"": {{
-                    ""clicks"": {givenClicks.ToString().ToLower()},
-                    ""opens"": {givenOpens.ToString().ToLower()},
-                    ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                    ""clicks"": {expectedClicks.ToString().ToLower()},
+                    ""opens"": {expectedOpens.ToString().ToLower()},
+                    ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
                 }},
                 ""dnsRecords"": [
                     {{
-                        ""recordType"": ""{givenRecordType}"",
-                        ""name"": ""{givenName}"",
-                        ""expectedValue"": ""{givenExpectedValue}"",
-                        ""verified"": {givenVerified.ToString().ToLower()}
+                        ""recordType"": ""{expectedRecordType}"",
+                        ""name"": ""{expectedName}"",
+                        ""expectedValue"": ""{expectedExpectedValue}"",
+                        ""verified"": {expectedVerified.ToString().ToLower()}
                     }}
                 ],
-                ""blocked"": {givenBlocked.ToString().ToLower()},
-                ""createdAt"": ""{givenCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                ""returnPathAddress"": ""{givenReturnPathAddress}""
+                ""blocked"": {expectedBlocked.ToString().ToLower()},
+                ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-            SetUpPutRequest(EMAIL_DOMAIN_TRACKING.Replace("{domainName}", givenDomainName), expectedRequest, givenResponse, 200);
+            SetUpPutRequest(EMAIL_DOMAIN_TRACKING.Replace("{domainName}", expectedDomainName), givenRequest, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             var emailTrackingEventRequest = new EmailTrackingEventRequest(
-                    open: givenOpens,
-                    clicks: givenClicks,
-                    unsubscribe: givenUnsubscribe
+                    open: expectedOpens,
+                    clicks: expectedClicks,
+                    unsubscribe: expectedUnsubscribe
                 );
 
             void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
             {
                 Assert.IsNotNull(emailDomainResponse);
-                Assert.AreEqual(emailDomainResponse.DomainId, givenDomainId);
-                Assert.AreEqual(emailDomainResponse.DomainName, givenDomainName);
-                Assert.AreEqual(emailDomainResponse.Active, givenActive);
-                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, givenClicks);
-                Assert.AreEqual(emailDomainResponse.Tracking.Opens, givenOpens);
-                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, givenUnsubscribe);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, givenRecordType);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, givenName);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, givenExpectedValue);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, givenVerified);
-                Assert.AreEqual(emailDomainResponse.Blocked, givenBlocked);
-                Assert.AreEqual(emailDomainResponse.CreatedAt, givenCreatedAt);
-                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, givenReturnPathAddress);
+                Assert.AreEqual(emailDomainResponse.DomainId, expectedDomainId);
+                Assert.AreEqual(emailDomainResponse.DomainName, expectedDomainName);
+                Assert.AreEqual(emailDomainResponse.Active, expectedActive);
+                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, expectedClicks);
+                Assert.AreEqual(emailDomainResponse.Tracking.Opens, expectedOpens);
+                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, expectedUnsubscribe);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, expectedRecordType);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, expectedName);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, expectedExpectedValue);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, expectedVerified);
+                Assert.AreEqual(emailDomainResponse.Blocked, expectedBlocked);
+                Assert.AreEqual(emailDomainResponse.CreatedAt, expectedCreatedAt);
+                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, expectedReturnPathAddress);
             }
 
-            AssertResponse(emailApi.UpdateTrackingEvents(givenDomainName, emailTrackingEventRequest), AssertEmailDomainResponse);
-            AssertResponse(emailApi.UpdateTrackingEventsAsync(givenDomainName, emailTrackingEventRequest).Result, AssertEmailDomainResponse);
+            AssertResponse(emailApi.UpdateTrackingEvents(expectedDomainName, emailTrackingEventRequest), AssertEmailDomainResponse);
+            AssertResponse(emailApi.UpdateTrackingEventsAsync(expectedDomainName, emailTrackingEventRequest).Result, AssertEmailDomainResponse);
 
-            AssertResponseWithHttpInfo(emailApi.UpdateTrackingEventsWithHttpInfo(givenDomainName, emailTrackingEventRequest), AssertEmailDomainResponse);
-            AssertResponseWithHttpInfo(emailApi.UpdateTrackingEventsWithHttpInfoAsync(givenDomainName, emailTrackingEventRequest).Result, AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.UpdateTrackingEventsWithHttpInfo(expectedDomainName, emailTrackingEventRequest), AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.UpdateTrackingEventsWithHttpInfoAsync(expectedDomainName, emailTrackingEventRequest).Result, AssertEmailDomainResponse);
         }
 
         [TestMethod]
         public void ShouldUpdateReturnPath()
         {
-            int givenDomainId = 1;
-            string givenDomainName = "example.com";
-            bool givenActive = false;
-            bool givenClicks = true;
-            bool givenOpens = true;
-            bool givenUnsubscribe = true;
-            string givenRecordType = "string";
-            string givenName = "string";
-            string givenExpectedValue = "string";
-            bool givenVerified = true;
-            bool givenBlocked = false;
-            DateTimeOffset givenCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-            string givenReturnPathAddress = "returnpath@example.com";
+            int expectedDomainId = 1;
+            string expectedDomainName = "example.com";
+            bool expectedActive = false;
+            bool expectedClicks = true;
+            bool expectedOpens = true;
+            bool expectedUnsubscribe = true;
+            string expectedRecordType = "string";
+            string expectedName = "string";
+            string expectedExpectedValue = "string";
+            bool expectedVerified = true;
+            bool expectedBlocked = false;
+            DateTimeOffset expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
+            string expectedReturnPathAddress = "returnpath@example.com";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
-                ""returnPathAddress"": ""{givenReturnPathAddress}"",
+                ""returnPathAddress"": ""{expectedReturnPathAddress}"",
             }}";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
-                ""domainId"": {givenDomainId},
-                ""domainName"": ""{givenDomainName}"",
-                ""active"": {givenActive.ToString().ToLower()},
+                ""domainId"": {expectedDomainId},
+                ""domainName"": ""{expectedDomainName}"",
+                ""active"": {expectedActive.ToString().ToLower()},
                 ""tracking"": {{
-                    ""clicks"": {givenClicks.ToString().ToLower()},
-                    ""opens"": {givenOpens.ToString().ToLower()},
-                    ""unsubscribe"": {givenUnsubscribe.ToString().ToLower()}
+                    ""clicks"": {expectedClicks.ToString().ToLower()},
+                    ""opens"": {expectedOpens.ToString().ToLower()},
+                    ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
                 }},
                 ""dnsRecords"": [
                     {{
-                        ""recordType"": ""{givenRecordType}"",
-                        ""name"": ""{givenName}"",
-                        ""expectedValue"": ""{givenExpectedValue}"",
-                        ""verified"": {givenVerified.ToString().ToLower()}
+                        ""recordType"": ""{expectedRecordType}"",
+                        ""name"": ""{expectedName}"",
+                        ""expectedValue"": ""{expectedExpectedValue}"",
+                        ""verified"": {expectedVerified.ToString().ToLower()}
                     }}
                 ],
-                ""blocked"": {givenBlocked.ToString().ToLower()},
-                ""createdAt"": ""{givenCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                ""returnPathAddress"": ""{givenReturnPathAddress}""
+                ""blocked"": {expectedBlocked.ToString().ToLower()},
+                ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
+                ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-            SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", givenDomainName), expectedRequest, givenResponse, 200);
+            SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", expectedDomainName), givenRequest, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             var emailReturnPathAddressRequest = new EmailReturnPathAddressRequest(
-                    returnPathAddress: givenReturnPathAddress
+                    returnPathAddress: expectedReturnPathAddress
                 );
 
             void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
             {
                 Assert.IsNotNull(emailDomainResponse);
-                Assert.AreEqual(emailDomainResponse.DomainId, givenDomainId);
-                Assert.AreEqual(emailDomainResponse.DomainName, givenDomainName);
-                Assert.AreEqual(emailDomainResponse.Active, givenActive);
-                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, givenClicks);
-                Assert.AreEqual(emailDomainResponse.Tracking.Opens, givenOpens);
-                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, givenUnsubscribe);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, givenRecordType);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, givenName);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, givenExpectedValue);
-                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, givenVerified);
-                Assert.AreEqual(emailDomainResponse.Blocked, givenBlocked);
-                Assert.AreEqual(emailDomainResponse.CreatedAt, givenCreatedAt);
-                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, givenReturnPathAddress);
+                Assert.AreEqual(emailDomainResponse.DomainId, expectedDomainId);
+                Assert.AreEqual(emailDomainResponse.DomainName, expectedDomainName);
+                Assert.AreEqual(emailDomainResponse.Active, expectedActive);
+                Assert.AreEqual(emailDomainResponse.Tracking.Clicks, expectedClicks);
+                Assert.AreEqual(emailDomainResponse.Tracking.Opens, expectedOpens);
+                Assert.AreEqual(emailDomainResponse.Tracking.Unsubscribe, expectedUnsubscribe);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].RecordType, expectedRecordType);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Name, expectedName);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].ExpectedValue, expectedExpectedValue);
+                Assert.AreEqual(emailDomainResponse.DnsRecords[0].Verified, expectedVerified);
+                Assert.AreEqual(emailDomainResponse.Blocked, expectedBlocked);
+                Assert.AreEqual(emailDomainResponse.CreatedAt, expectedCreatedAt);
+                Assert.AreEqual(emailDomainResponse.ReturnPathAddress, expectedReturnPathAddress);
             }
 
-            AssertResponse(emailApi.UpdateReturnPath(givenDomainName, emailReturnPathAddressRequest), AssertEmailDomainResponse);
-            AssertResponse(emailApi.UpdateReturnPathAsync(givenDomainName, emailReturnPathAddressRequest).Result, AssertEmailDomainResponse);
+            AssertResponse(emailApi.UpdateReturnPath(expectedDomainName, emailReturnPathAddressRequest), AssertEmailDomainResponse);
+            AssertResponse(emailApi.UpdateReturnPathAsync(expectedDomainName, emailReturnPathAddressRequest).Result, AssertEmailDomainResponse);
 
-            AssertResponseWithHttpInfo(emailApi.UpdateReturnPathWithHttpInfo(givenDomainName, emailReturnPathAddressRequest), AssertEmailDomainResponse);
-            AssertResponseWithHttpInfo(emailApi.UpdateReturnPathWithHttpInfoAsync(givenDomainName, emailReturnPathAddressRequest).Result, AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.UpdateReturnPathWithHttpInfo(expectedDomainName, emailReturnPathAddressRequest), AssertEmailDomainResponse);
+            AssertResponseWithHttpInfo(emailApi.UpdateReturnPathWithHttpInfoAsync(expectedDomainName, emailReturnPathAddressRequest).Result, AssertEmailDomainResponse);
         }
 
         [TestMethod]
@@ -1076,24 +1038,24 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldListAllDedicatedIpsForProvidedAccountId()
         {
-            string givenIpAddress = "11.11.11.1";
-            bool givenDedicated = true;
-            int givenAssignedDomainCount = 1;
-            string givenStatus = "ASSIGNABLE";
+            string expectedIpAddress = "11.11.11.1";
+            bool expectedDedicated = true;
+            int expectedAssignedDomainCount = 1;
+            string expectedStatus = "ASSIGNABLE";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
                 ""result"": [
                     {{
-                        ""ipAddress"": ""{givenIpAddress}"",
-                        ""dedicated"": {givenDedicated.ToString().ToLower()},
-                        ""assignedDomainCount"": {givenAssignedDomainCount},
-                        ""status"": ""{givenStatus}""
+                        ""ipAddress"": ""{expectedIpAddress}"",
+                        ""dedicated"": {expectedDedicated.ToString().ToLower()},
+                        ""assignedDomainCount"": {expectedAssignedDomainCount},
+                        ""status"": ""{expectedStatus}""
                     }}
                 ]
             }}";
 
-            SetUpGetRequest(EMAIL_IPS, givenResponse, 200);
+            SetUpGetRequest(EMAIL_IPS, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
@@ -1101,10 +1063,10 @@ namespace ApiClient.Tests
             {
                 Assert.IsNotNull(emailDomainIpResponse);
                 Assert.IsNotNull(emailDomainIpResponse.Result[0]);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].IpAddress, givenIpAddress);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].Dedicated, givenDedicated);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].AssignedDomainCount, givenAssignedDomainCount);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].Status, givenStatus);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].IpAddress, expectedIpAddress);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].Dedicated, expectedDedicated);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].AssignedDomainCount, expectedAssignedDomainCount);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].Status, expectedStatus);
             }
 
             AssertResponse(emailApi.GetAllIps(), AssertEmailDomainIpResponse);
@@ -1117,31 +1079,31 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldListAllDedicatedIpsForDomainAndForProvidedAccountId()
         {
-            string givenIpAddress = "11.11.11.1";
-            bool givenDedicated = true;
-            int givenAssignedDomainCount = 1;
-            string givenStatus = "ASSIGNABLE";
+            string expectedIpAddress = "11.11.11.1";
+            bool expectedDedicated = true;
+            int expectedAssignedDomainCount = 1;
+            string expectedStatus = "ASSIGNABLE";
 
-            string givenDomainName = "domainName";
+            string expectedDomainName = "domainName";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
                 ""result"": [
                     {{
-                        ""ipAddress"": ""{givenIpAddress}"",
-                        ""dedicated"": {givenDedicated.ToString().ToLower()},
-                        ""assignedDomainCount"": {givenAssignedDomainCount},
-                        ""status"": ""{givenStatus}""
+                        ""ipAddress"": ""{expectedIpAddress}"",
+                        ""dedicated"": {expectedDedicated.ToString().ToLower()},
+                        ""assignedDomainCount"": {expectedAssignedDomainCount},
+                        ""status"": ""{expectedStatus}""
                     }}
                 ]
             }}";
 
             var queryParameters = new Dictionary<string, string>()
             {
-                { "domainName", givenDomainName }
+                { "domainName", expectedDomainName }
             };
 
-            SetUpGetRequest(EMAIL_DOMAIN_IPS, queryParameters, givenResponse, 200);
+            SetUpGetRequest(EMAIL_DOMAIN_IPS, queryParameters, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
@@ -1149,17 +1111,17 @@ namespace ApiClient.Tests
             {
                 Assert.IsNotNull(emailDomainIpResponse);
                 Assert.IsNotNull(emailDomainIpResponse.Result[0]);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].IpAddress, givenIpAddress);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].Dedicated, givenDedicated);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].AssignedDomainCount, givenAssignedDomainCount);
-                Assert.AreEqual(emailDomainIpResponse.Result[0].Status, givenStatus);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].IpAddress, expectedIpAddress);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].Dedicated, expectedDedicated);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].AssignedDomainCount, expectedAssignedDomainCount);
+                Assert.AreEqual(emailDomainIpResponse.Result[0].Status, expectedStatus);
             }
 
-            AssertResponse(emailApi.GetAllDomainIps(givenDomainName), AssertEmailDomainIpResponse);
-            AssertResponse(emailApi.GetAllDomainIpsAsync(givenDomainName).Result, AssertEmailDomainIpResponse);
+            AssertResponse(emailApi.GetAllDomainIps(expectedDomainName), AssertEmailDomainIpResponse);
+            AssertResponse(emailApi.GetAllDomainIpsAsync(expectedDomainName).Result, AssertEmailDomainIpResponse);
 
-            AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfo(givenDomainName), AssertEmailDomainIpResponse);
-            AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfoAsync(givenDomainName).Result, AssertEmailDomainIpResponse);
+            AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfo(expectedDomainName), AssertEmailDomainIpResponse);
+            AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfoAsync(expectedDomainName).Result, AssertEmailDomainIpResponse);
         }
 
         [TestMethod]
@@ -1168,20 +1130,20 @@ namespace ApiClient.Tests
             string givenDomainName = "domain.com";
             string givenIpAddress = "11.11.11.11";
 
-            string givenResult = "OK";
+            string expectedResult = "OK";
 
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
                 ""domainName"": ""{givenDomainName}"",
                 ""ipAddress"": ""{givenIpAddress}""
             }}";
 
-            string givenResponse = $@"
+            string expectedResponse = $@"
             {{
-                ""result"": ""{givenResult}""
+                ""result"": ""{expectedResult}""
             }}";
 
-            SetUpPostRequest(EMAIL_DOMAIN_IPS, expectedRequest, givenResponse, 200);
+            SetUpPostRequest(EMAIL_DOMAIN_IPS, givenRequest, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
@@ -1193,7 +1155,7 @@ namespace ApiClient.Tests
             void AssertEmailSimpleApiResponse(EmailSimpleApiResponse emailSimpleApiResponse)
             { 
                 Assert.IsNotNull(emailSimpleApiResponse);
-                Assert.AreEqual(emailSimpleApiResponse.Result, givenResult);
+                Assert.AreEqual(emailSimpleApiResponse.Result, expectedResult);
             }
 
             AssertResponse(emailApi.AssignIpToDomain(emailDomainIpRequest), AssertEmailSimpleApiResponse);
@@ -1206,29 +1168,30 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldRemoveDedicatedIpAddressFromTheProvidedDomain()
         {
-            string givenResult = "OK";
 
             string givenDomainName = "domain.com";
             string givenIpAddress = "11.11.11.11";
 
-            string givenResponse = $@"
+            string expectedResult = "OK";
+
+            string expectedResponse = $@"
             {{
-                ""result"": ""{givenResult}""
+                ""result"": ""{expectedResult}""
             }}";
 
-            var expectedQueryParameters = new Dictionary<string, string> { 
+            var givenQueryParameters = new Dictionary<string, string> { 
                 { "domainName", givenDomainName },
                 { "ipAddress", givenIpAddress }
              };
 
-            SetUpDeleteRequestWithResponseBody(EMAIL_DOMAIN_IPS, expectedQueryParameters, givenResponse, 200);
+            SetUpDeleteRequestWithResponseBody(EMAIL_DOMAIN_IPS, givenQueryParameters, expectedResponse, 200);
 
             var emailApi = new EmailApi(configuration);
 
             void AssertEmailSimpleApiResponse(EmailSimpleApiResponse emailSimpleApiResponse)
             {
                 Assert.IsNotNull(emailSimpleApiResponse);
-                Assert.AreEqual(emailSimpleApiResponse.Result, givenResult);
+                Assert.AreEqual(emailSimpleApiResponse.Result, expectedResult);
             }
 
             AssertResponse(emailApi.RemoveIpFromDomain(givenDomainName, givenIpAddress), AssertEmailSimpleApiResponse);
@@ -1243,43 +1206,49 @@ namespace ApiClient.Tests
         [DataRow(1)]
         public void SendEmailErrorResponseTest(int errorResponseIndex)
         {
-            // ARRANGE
-            int httpCode = ErrorResponses[errorResponseIndex].Item1;
-            string messageId = ErrorResponses[errorResponseIndex].Item2;
-            string errorPhrase = ErrorResponses[errorResponseIndex].Item3;
-            string errorText = ErrorResponses[errorResponseIndex].Item4;
+            int expectedHttpCode = ErrorResponses[errorResponseIndex].Item1;
+            string expectedMessageId = ErrorResponses[errorResponseIndex].Item2;
+            string expectedErrorText = ErrorResponses[errorResponseIndex].Item4;
+            string expectedErrorPhrase = ErrorResponses[errorResponseIndex].Item3;
 
-            string to = "john.smith@somedomain.com";
-            string from = "jane.smith@somecompany.com";
-            string subject = "Mail subject text";
-            string mailText = "Mail text";
+            string givenTo = "john.smith@somedomain.com";
+            int givenMessageCount = 1;
+            string givenMessageId = "somexternalMessageId";
+            int givenGroupId = 1;
+            string givenGroupName = "PENDING";
+            int givenId = 7;
+            string givenName = "PENDING_ENROUTE";
+            string givenDescription = "Message sent to next instance";
+            string givenFrom = "jane.smith@somecompany.com";
+            string givenSubject = "Mail subject text";
+            string givenMailText = "Mail text";
 
-            string responseJson = $@"
-            {{
-                ""requestError"": {{
-                    ""serviceException"": {{
-                    ""messageId"": ""{messageId}"",
-                    ""text"": ""{errorText}""
-                    }}
-                }}
-            }}";
-
-            string expectedRequest = $@"
+            string givenRequest = $@"
             {{
               ""messages"": [
                 {{
-                  ""to"": ""{to}"",
-                  ""messageCount"": 1,
-                  ""messageId"": ""somexternalMessageId0"",
+                  ""to"": ""{givenTo}"",
+                  ""messageCount"": {givenMessageCount},
+                  ""messageId"": ""{givenMessageId}"",
                   ""status"": {{
-                    ""groupId"": 1,
-                    ""groupName"": ""PENDING"",
-                    ""id"": 7,
-                    ""name"": ""PENDING_ENROUTE"",
-                    ""description"": ""Message sent to next instance""
+                    ""groupId"": {givenGroupId},
+                    ""groupName"": ""{givenGroupName}"",
+                    ""id"": {givenId},
+                    ""name"": ""{givenName}"",
+                    ""description"": ""{givenDescription}""
                   }}
                 }}
               ]
+            }}";
+
+            string expectedJson = $@"
+            {{
+                ""requestError"": {{
+                    ""serviceException"": {{
+                        ""messageId"": ""{expectedMessageId}"",
+                        ""text"": ""{expectedErrorText}""
+                    }}
+                }}
             }}";
 
             Dictionary<string, string> responseHeaders = new Dictionary<string, string>()
@@ -1289,35 +1258,35 @@ namespace ApiClient.Tests
                 { "Content-Type", "application/json; charset=utf-8" }
             };
 
-            Multimap<string, string> parts = new Multimap<string, string>
+            Multimap<string, string> givenParts = new Multimap<string, string>
             {
-                { "from", from },
-                { "to", to },
-                { "subject", subject },
-                { "text", mailText},
+                { "from", givenFrom },
+                { "to", givenTo },
+                { "subject", givenSubject },
+                { "text", givenMailText},
             };
 
-            SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, parts, responseJson, httpCode);
+            SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, givenParts, expectedJson, expectedHttpCode);
 
             var emailApi = new EmailApi(this.configuration);
 
-            var toList = new List<String>();
-            toList.Add(to);
+            var toList = new List<string>
+            {
+                givenTo
+            };
 
             try
             {
-                // ACT
-                var result = emailApi.SendEmail(from: from, to: toList, subject: subject, text: mailText);
+                var result = emailApi.SendEmail(from: givenFrom, to: toList, subject: givenSubject, text: givenMailText);
             }
             catch (ApiException ex)
             {
-                // ASSERT
-                Assert.AreEqual(httpCode, ex.ErrorCode);
-                Assert.AreEqual(responseJson, ex.ErrorContent);
+                Assert.AreEqual(expectedHttpCode, ex.ErrorCode);
+                Assert.AreEqual(expectedJson, ex.ErrorContent);
                 Assert.IsInstanceOfType(ex, typeof(ApiException));
-                Assert.IsTrue(ex.Message.Contains(errorPhrase));
-                Assert.IsTrue(ex.ErrorContent.ToString().Contains(messageId));
-                Assert.IsTrue(ex.ErrorContent.ToString().Contains(errorText));
+                Assert.IsTrue(ex.Message.Contains(expectedErrorPhrase));
+                Assert.IsTrue(ex.ErrorContent.ToString()?.Contains(expectedMessageId) == true);
+                Assert.IsTrue(ex.ErrorContent.ToString()?.Contains(expectedErrorText) == true);
                 Assert.IsTrue(responseHeaders.All(h => ex.Headers.ContainsKey(h.Key) && ex.Headers[h.Key].First().Equals(h.Value)));
             }
         }
@@ -1327,48 +1296,49 @@ namespace ApiClient.Tests
         [DataRow(1)]
         public void GetEmailDeliveryReportsResponseTest(int errorResponseIndex)
         {
-            // ARRANGE
-            int httpCode = DeliveryReportErrorResponses[errorResponseIndex].Item1;
-            string messageId = DeliveryReportErrorResponses[errorResponseIndex].Item2;
-            string errorPhrase = DeliveryReportErrorResponses[errorResponseIndex].Item3;
-            string errorText = DeliveryReportErrorResponses[errorResponseIndex].Item4;
+            int expectedHttpCode = DeliveryReportErrorResponses[errorResponseIndex].Item1;
+            string expectedMessageId = DeliveryReportErrorResponses[errorResponseIndex].Item2;
+            string expectedErrorPhrase = DeliveryReportErrorResponses[errorResponseIndex].Item3;
+            string expectedErrorText = DeliveryReportErrorResponses[errorResponseIndex].Item4;
 
-            string responseJson = $@"
+            string givenMessageId = "MSG-TEST-123";
+            string givenBulkId = "BULK-1234";
+            int givenLimit = 2;
+
+            string expectedJson = $@"
             {{
                 ""requestError"": {{
                     ""serviceException"": {{
-                        ""messageId"": ""{messageId}"",
-                        ""text"": ""{errorPhrase}"",
-                        ""validationErrors"": ""{errorText}""
+                        ""messageId"": ""{expectedMessageId}"",
+                        ""text"": ""{expectedErrorPhrase}"",
+                        ""validationErrors"": ""{expectedErrorText}""
                     }}
                 }}
             }}";
 
             Dictionary<string, string> responseHeaders = new Dictionary<string, string>()
             {
-                { "Server", "SMS,API" },
-                { "X-Request-ID", "1608758729810312842" },
-                { "Content-Type", "application/json; charset=utf-8" }
+                { "Server", SERVER_HEADER_VALUE_COMMA },
+                { "X-Request-ID", X_REQUEST_ID_HEADER_VALUE },
+                { "Content-Type", CONTENT_TYPE_HEADER_VALUE }
             };
 
-            SetUpGetRequest(EMAIL_LOGS_ENDPOINT, responseJson, httpCode);
+            SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedJson, expectedHttpCode);
 
             var emailApi = new EmailApi(this.configuration);
 
             try
             {
-                // ACT
-                var result = emailApi.GetEmailDeliveryReports(messageId: "MSG-TEST-123", bulkId: "BULK-1234", limit: 2);
+                var result = emailApi.GetEmailDeliveryReports(messageId: givenMessageId, bulkId: givenBulkId, limit: givenLimit);
             }
             catch (ApiException ex)
             {
-                // ASSERT
-                Assert.AreEqual(httpCode, ex.ErrorCode);
-                Assert.AreEqual(responseJson, ex.ErrorContent);
+                Assert.AreEqual(expectedHttpCode, ex.ErrorCode);
+                Assert.AreEqual(expectedJson, ex.ErrorContent);
                 Assert.IsInstanceOfType(ex, typeof(ApiException));
-                Assert.IsTrue(ex.Message.Contains(errorPhrase));
-                Assert.IsTrue(ex.ErrorContent.ToString().Contains(messageId));
-                Assert.IsTrue(ex.ErrorContent.ToString().Contains(errorText));
+                Assert.IsTrue(ex.Message.Contains(expectedErrorPhrase));
+                Assert.IsTrue(ex.ErrorContent.ToString()?.Contains(expectedMessageId) == true);
+                Assert.IsTrue(ex.ErrorContent.ToString()?.Contains(expectedErrorText) == true);
                 Assert.IsTrue(responseHeaders.All(h => ex.Headers.ContainsKey(h.Key) && ex.Headers[h.Key].First().Equals(h.Value)));
             }
         }

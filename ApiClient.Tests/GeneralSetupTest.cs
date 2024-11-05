@@ -13,9 +13,9 @@ namespace ApiClient.Tests
         protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
 
         [TestMethod]
-        public void UsingExampleFromDocs() // Here is for debugging only
+        public void UsingExampleFromDocs()
         {
-            string expectedRequest = @"
+            string givenRequest = @"
             {
                 ""messages"": [
                 {
@@ -48,20 +48,20 @@ namespace ApiClient.Tests
               ]
             }";
 
-            SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, new Dictionary<string, string> { { "param1", "val1" } }, expectedRequest, expectedResponse, 200);
+            SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, new Dictionary<string, string> { { "param1", "val1" } }, givenRequest, expectedResponse, 200);
 
-            var client = new RestClient(configuration.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT);
-            client.UserAgent = "infobip-api-client-csharp/" + Configuration.Version;
-            client.Timeout = -1;
+            var client = new RestClient(configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
+            {
+                UserAgent = "infobip-api-client-csharp/" + Configuration.Version,
+                Timeout = -1
+            };
             var request = new RestRequest(Method.POST);
             request.AddHeader("Authorization", configuration.ApiKeyWithPrefix);
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             request.AddHeader("Accept", "application/json");
             request.AddQueryParameter("param1", "val1");
-            request.AddParameter("application/json", expectedRequest, ParameterType.RequestBody);
+            request.AddParameter("application/json", givenRequest, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
-            //Console.WriteLine(response.Content);
-            Console.WriteLine(wireMockServer.LogEntries);
 
             Assert.IsNotNull(response);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
