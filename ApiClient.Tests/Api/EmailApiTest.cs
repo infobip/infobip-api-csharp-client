@@ -11,7 +11,7 @@ using System.Net;
 using System.Text;
 using static Infobip.Api.Client.Model.EmailAddDomainRequest;
 
-namespace ApiClient.Tests
+namespace ApiClient.Tests.Api
 {
     [TestClass]
     public class EmailApiTest : ApiTest
@@ -1153,7 +1153,7 @@ namespace ApiClient.Tests
                 );
 
             void AssertEmailSimpleApiResponse(EmailSimpleApiResponse emailSimpleApiResponse)
-            { 
+            {
                 Assert.IsNotNull(emailSimpleApiResponse);
                 Assert.AreEqual(emailSimpleApiResponse.Result, expectedResult);
             }
@@ -1179,7 +1179,7 @@ namespace ApiClient.Tests
                 ""result"": ""{expectedResult}""
             }}";
 
-            var givenQueryParameters = new Dictionary<string, string> { 
+            var givenQueryParameters = new Dictionary<string, string> {
                 { "domainName", givenDomainName },
                 { "ipAddress", givenIpAddress }
              };
@@ -1268,7 +1268,7 @@ namespace ApiClient.Tests
 
             SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, givenParts, expectedJson, expectedHttpCode);
 
-            var emailApi = new EmailApi(this.configuration);
+            var emailApi = new EmailApi(configuration);
 
             var toList = new List<string>
             {
@@ -1325,7 +1325,7 @@ namespace ApiClient.Tests
 
             SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedJson, expectedHttpCode);
 
-            var emailApi = new EmailApi(this.configuration);
+            var emailApi = new EmailApi(configuration);
 
             try
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using ApiClient.Tests.Api;
 using Infobip.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;

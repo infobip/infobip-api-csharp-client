@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace ApiClient.Tests
+namespace ApiClient.Tests.Api
 {
     [TestClass]
     public class TfaApiTest : ApiTest
@@ -654,7 +654,8 @@ namespace ApiClient.Tests
                     emailTemplateId: expectedEmailTemplateId
                 );
 
-            void AssertTfaCreateEmailMessageResponse(TfaEmailMessage tfaEmailMessage) {
+            void AssertTfaCreateEmailMessageResponse(TfaEmailMessage tfaEmailMessage)
+            {
                 Assert.IsNotNull(tfaEmailMessage);
                 Assert.AreEqual(tfaEmailMessage.MessageId, expectedMessageId);
                 Assert.AreEqual(tfaEmailMessage.ApplicationId, expectedApplicationId);
@@ -956,7 +957,7 @@ namespace ApiClient.Tests
             string expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
             string expectedEmailStatusName = "PENDING_ACCEPTED";
             string expectedEmailStatusDescription = "Message accepted, pending for delivery.";
-            
+
 
             string givenRequest = $@"
             {{

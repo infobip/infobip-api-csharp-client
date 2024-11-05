@@ -1,4 +1,5 @@
-﻿using Infobip.Api.Client.Api;
+﻿using ApiClient.Tests.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

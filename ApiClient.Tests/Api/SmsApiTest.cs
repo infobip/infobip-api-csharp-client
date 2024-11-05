@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace ApiClient.Tests
+namespace ApiClient.Tests.Api
 {
     [TestClass]
     public class SmsApiTest : ApiTest
@@ -948,17 +948,17 @@ namespace ApiClient.Tests
         [TestMethod]
         public void ShouldGetReceivedSmsMessages()
         {
-            String givenMessageId = "817790313235066447";
-            String givenFrom = "385916242493";
-            String givenTo = "385921004026";
-            String givenText = "QUIZ Correct answer is Paris";
-            String givenCleanText = "Correct answer is Paris";
-            String givenKeyword = "QUIZ";
-            String givenReceivedAt = "2021-08-25T16:10:00.000+0500";
+            string givenMessageId = "817790313235066447";
+            string givenFrom = "385916242493";
+            string givenTo = "385921004026";
+            string givenText = "QUIZ Correct answer is Paris";
+            string givenCleanText = "Correct answer is Paris";
+            string givenKeyword = "QUIZ";
+            string givenReceivedAt = "2021-08-25T16:10:00.000+0500";
             int givenSmsCount = 1;
             decimal givenPricePerMessage = 0;
-            String givenCurrency = "EUR";
-            String givenCallbackData = "callbackData";
+            string givenCurrency = "EUR";
+            string givenCallbackData = "callbackData";
             int givenMessageCount = 1;
             int givenPendingMessageCount = 0;
 

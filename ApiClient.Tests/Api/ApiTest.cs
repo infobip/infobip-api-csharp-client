@@ -10,7 +10,7 @@ using WireMock.ResponseBuilders;
 using WireMock.Server;
 using WireMock.Types;
 
-namespace ApiClient.Tests
+namespace ApiClient.Tests.Api
 {
     public class ApiTest
     {
@@ -192,7 +192,8 @@ namespace ApiClient.Tests
                 .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
                 .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE));
 
-            req.WithBody((body) => {
+            req.WithBody((body) =>
+            {
                 var allKeysFound = givenParts.All(kvp => body.Contains($"name={kvp.Key}", StringComparison.InvariantCultureIgnoreCase));
                 var allValuesFound = givenParts.All(kvp => kvp.Value.All(value => body.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
                 return allValuesFound && allKeysFound;
