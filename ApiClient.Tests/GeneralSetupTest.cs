@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using ApiClient.Tests.Api;
 using Infobip.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 
-namespace ApiClient.Tests
-{
-    [TestClass]
-    public class GeneralSetupTest : ApiTest
-    {
-        protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
+namespace ApiClient.Tests;
 
-        [TestMethod]
-        public void UsingExampleFromDocs()
-        {
-            string givenRequest = @"
+[TestClass]
+public class GeneralSetupTest : ApiTest
+{
+    protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
+
+    [TestMethod]
+    public void UsingExampleFromDocs()
+    {
+        var givenRequest = @"
             {
                 ""messages"": [
                 {
@@ -31,7 +29,7 @@ namespace ApiClient.Tests
                 ]
             }";
 
-            string expectedResponse = @"
+        var expectedResponse = @"
             {
               ""bulkId"": ""2034072219640523072"",
               ""messages"": [
@@ -49,25 +47,24 @@ namespace ApiClient.Tests
               ]
             }";
 
-            SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, new Dictionary<string, string> { { "param1", "val1" } }, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, new Dictionary<string, string> { { "param1", "val1" } },
+            givenRequest, expectedResponse, 200);
 
-            var client = new RestClient(configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
-            {
-                UserAgent = "infobip-api-client-csharp/" + Configuration.Version,
-                Timeout = -1
-            };
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", configuration.ApiKeyWithPrefix);
-            request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            request.AddHeader("Accept", "application/json");
-            request.AddQueryParameter("param1", "val1");
-            request.AddParameter("application/json", givenRequest, ParameterType.RequestBody);
-            IRestResponse response = client.Execute(request);
+        var client = new RestClient(configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
+        {
+            UserAgent = "infobip-api-client-csharp/" + Configuration.Version,
+            Timeout = -1
+        };
+        var request = new RestRequest(Method.POST);
+        request.AddHeader("Authorization", configuration.ApiKeyWithPrefix);
+        request.AddHeader("Content-Type", "application/json; charset=utf-8");
+        request.AddHeader("Accept", "application/json");
+        request.AddQueryParameter("param1", "val1");
+        request.AddParameter("application/json", givenRequest, ParameterType.RequestBody);
+        var response = client.Execute(request);
 
-            Assert.IsNotNull(response);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.AreEqual(expectedResponse, response.Content);
-
-        }
+        Assert.IsNotNull(response);
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        Assert.AreEqual(expectedResponse, response.Content);
     }
 }
