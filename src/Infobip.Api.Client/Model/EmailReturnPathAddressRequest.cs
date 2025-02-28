@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailReturnPathAddressRequest
     /// </summary>
     [DataContract(Name = "EmailReturnPathAddressRequest")]
+    [JsonObject]
     public class EmailReturnPathAddressRequest : IEquatable<EmailReturnPathAddressRequest>
     {
         /// <summary>
@@ -51,7 +54,10 @@ namespace Infobip.Api.Client.Model
         ///     Mailbox for return path, this mailbox should be based on the same domain. If you want to disable custom return
         ///     path and use our default return path address set the value to an empty string.
         /// </value>
-        [DataMember(Name = "returnPathAddress", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "returnPathAddress", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "returnPathAddress", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("returnPathAddress")]
         public string ReturnPathAddress { get; set; }
 
         /// <summary>

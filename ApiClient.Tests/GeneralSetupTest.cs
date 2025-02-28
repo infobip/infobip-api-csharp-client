@@ -47,8 +47,8 @@ public class GeneralSetupTest : ApiTest
               ]
             }";
 
-        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, new Dictionary<string, string> { { "param1", "val1" } },
-            givenRequest, expectedResponse, 200);
+        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, 200, givenRequest, expectedResponse,
+            new Dictionary<string, string> { { "param1", "val1" } });
 
         var client = new RestClient(configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
         {

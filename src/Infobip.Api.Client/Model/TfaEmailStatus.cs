@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -21,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     the message and how to recover from an error should there be any.
     /// </summary>
     [DataContract(Name = "TfaEmailStatus")]
+    [JsonObject]
     public class TfaEmailStatus : IEquatable<TfaEmailStatus>
     {
         /// <summary>
@@ -39,6 +41,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Human-readable description of the status.</value>
         [DataMember(Name = "description", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>
@@ -46,6 +50,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>[Status name](https://www.infobip.com/docs/essentials/response-status-and-error-codes).</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>

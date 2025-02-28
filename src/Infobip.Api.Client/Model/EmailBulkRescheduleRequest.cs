@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailBulkRescheduleRequest
     /// </summary>
     [DataContract(Name = "EmailBulkRescheduleRequest")]
+    [JsonObject]
     public class EmailBulkRescheduleRequest : IEquatable<EmailBulkRescheduleRequest>
     {
         /// <summary>
@@ -50,7 +53,11 @@ namespace Infobip.Api.Client.Model
         ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
         ///     &#x60;.
         /// </value>
-        [DataMember(Name = "sendAt", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "sendAt", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "sendAt", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("sendAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset SendAt { get; set; }
 
         /// <summary>

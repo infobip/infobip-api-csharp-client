@@ -12,9 +12,9 @@
     <Description>C# library for consuming Infobip&#39;s API</Description>
     <Copyright>Copyright @ Infobip ltd. All rights reserved.</Copyright>
     <RootNamespace>Infobip.Api.Client</RootNamespace>
-    <Version>3.0.1</Version>
-    <FileVersion>3.0.1</FileVersion>
-    <AssemblyVersion>3.0.1</AssemblyVersion>
+    <Version>4.0.0</Version>
+    <FileVersion>4.0.0</FileVersion>
+    <AssemblyVersion>4.0.0</AssemblyVersion>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Infobip.Api.Client.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/infobip/infobip-api-csharp-client.git</RepositoryUrl>
@@ -29,6 +29,7 @@
     <PackageReference Include="Polly" Version="7.2.3" />
     <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	<PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>

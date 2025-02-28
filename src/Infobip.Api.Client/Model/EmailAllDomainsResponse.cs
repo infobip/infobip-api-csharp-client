@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailAllDomainsResponse
     /// </summary>
     [DataContract(Name = "EmailAllDomainsResponse")]
+    [JsonObject]
     public class EmailAllDomainsResponse : IEquatable<EmailAllDomainsResponse>
     {
         /// <summary>
@@ -39,6 +41,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Paging
         /// </summary>
         [DataMember(Name = "paging", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "paging", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("paging")]
         public EmailPaging Paging { get; set; }
 
         /// <summary>
@@ -46,6 +50,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>List of domains that belong to the account.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
         public List<EmailDomainResponse> Results { get; set; }
 
         /// <summary>

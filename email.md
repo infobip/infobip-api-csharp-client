@@ -32,10 +32,10 @@ Keep in mind following restrictions while using trial account
 - you can only use your emails address with Infobip test domain in following form `YourUserName@selfserviceib.com`
 
 ```csharp
-    string mailTo = "john.doe@company.com";
-    string mailFrom = "<set your user name>@selfserviceib.com";
-    string mailText = "This is my first email.";
-    string mailSubject = "Subject of the mail";
+    var mailTo = "john.doe@example.com";
+    var mailFrom = "<set your user name>@selfserviceib.com";
+    var mailText = "This is my first email.";
+    var mailSubject = "Subject of the mail";
     
     var response = emailApi.SendEmail(
         from: mailFrom,
@@ -44,7 +44,7 @@ Keep in mind following restrictions while using trial account
         text: mailText
     );
 
-    string bulkId = response.BulkId;
+    var bulkId = response.BulkId;
 ```
 
 #### Send Email with file attachment
@@ -54,14 +54,14 @@ Example below shows how to send email with attachment.
 ```csharp
     try
     {
-        string attachmentFilePath = "/temp/report.csv";
+        var attachmentFilePath = "/temp/report.csv";
         using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);
     
-        EmailSendResponse sendResponse = emailApi.SendEmail(
-            from: "john.smith@somedomain.com",
+        var sendResponse = emailApi.SendEmail(
+            from: "john.smith@example.com",
             to: new List<string>
             {
-                "jane.smith@somecompany.com"
+                "jane.smith@example.com"
             },
             subject: "Mail subject text",
             text: "Test message with file",
@@ -86,16 +86,17 @@ You can also send delayed emails very easily. All you need to define is the desi
 ```csharp
     try
     {
-        string attachmentFilePath = "/temp/report.csv";
-        DateTimeOffset sendAtDate = new DateTimeOffset(DateTime.UtcNow.AddMinutes(30), TimeSpan.FromHours(0));
+        var attachmentFilePath = "/temp/report.csv";
+        var sendAtDate = new DateTimeOffset(DateTime.UtcNow.AddMinutes(30), TimeSpan.FromHours(0));
         using FileStream attachmentFile = new FileStream(attachmentFilePath, FileMode.Open, FileAccess.Read);
     
-        EmailSendResponse sendResponse = emailApi.SendEmail(
-            from: "john.smith@somedomain.com",
+        var sendResponse = emailApi.SendEmail(
+            from: "john.smith@example.com",
             to: new List<string>
             {
-                "jane.smith@somecompany.com"
+                "jane.smith@example.com"
             },
+            sendAt: sendAtDate,
             subject: "Mail subject text",
             text: "Test message with file",
             attachment: new List<FileParameter>
@@ -122,10 +123,11 @@ You can filter reports by multiple parameters (see the API's documentation for f
 ```csharp
     try
     {
-        string messageId = "<set messageId>";
-        string bulkId = "<set bulk id>";
+        var messageId = "<set messageId>";
+        var bulkId = "<set bulk id>";
         int limit = 10;
-        EmailReportsResult emailReportsResult = emailApi.GetEmailDeliveryReports(
+        
+        var emailReportsResult = emailApi.GetEmailDeliveryReports(
             messageId: messageId,
             bulkId: bulkId,
             limit: limit

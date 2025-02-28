@@ -60,12 +60,12 @@ namespace Infobip.Api.Client
         ///     Gets or sets the error content (body json object).
         /// </summary>
         /// <value>The error content (Http response body).</value>
-        public object ErrorContent { get; }
+        public object ErrorContent { get; private set; }
 
         /// <summary>
         ///     Gets or sets the HTTP headers.
         /// </summary>
         /// <value>HTTP headers</value>
-        public Multimap<string, string> Headers { get; }
+        public Multimap<string, string> Headers { get; private set; }
     }
 }

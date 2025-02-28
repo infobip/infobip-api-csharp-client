@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     Detailed domain information.
     /// </summary>
     [DataContract(Name = "EmailDomainResponse")]
+    [JsonObject]
     public class EmailDomainResponse : IEquatable<EmailDomainResponse>
     {
         /// <summary>
@@ -57,6 +59,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Id of the domain.</value>
         [DataMember(Name = "domainId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "domainId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("domainId")]
         public long DomainId { get; set; }
 
         /// <summary>
@@ -64,6 +68,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Name of the domain.</value>
         [DataMember(Name = "domainName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "domainName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("domainName")]
         public string DomainName { get; set; }
 
         /// <summary>
@@ -71,12 +77,16 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Activation status of the domain.</value>
         [DataMember(Name = "active", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "active", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("active")]
         public bool Active { get; set; }
 
         /// <summary>
         ///     Gets or Sets Tracking
         /// </summary>
         [DataMember(Name = "tracking", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "tracking", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("tracking")]
         public EmailTrackingResponse Tracking { get; set; }
 
         /// <summary>
@@ -84,6 +94,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>DNS records for the domain.</value>
         [DataMember(Name = "dnsRecords", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "dnsRecords", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("dnsRecords")]
         public List<EmailDnsRecordResponse> DnsRecords { get; set; }
 
         /// <summary>
@@ -91,6 +103,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Status if the domain is blocked.</value>
         [DataMember(Name = "blocked", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blocked", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("blocked")]
         public bool Blocked { get; set; }
 
         /// <summary>
@@ -98,6 +112,9 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Date the domain was created. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.</value>
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "createdAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("createdAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
@@ -105,6 +122,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Mailbox for return path.</value>
         [DataMember(Name = "returnPathAddress", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "returnPathAddress", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("returnPathAddress")]
         public string ReturnPathAddress { get; set; }
 
         /// <summary>

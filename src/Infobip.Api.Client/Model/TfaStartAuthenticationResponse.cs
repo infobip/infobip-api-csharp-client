@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaStartAuthenticationResponse
     /// </summary>
     [DataContract(Name = "TfaStartAuthenticationResponse")]
+    [JsonObject]
     public class TfaStartAuthenticationResponse : IEquatable<TfaStartAuthenticationResponse>
     {
         /// <summary>
@@ -54,6 +56,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Call status, e.g. &#x60;PENDING_ACCEPTED&#x60;.</value>
         [DataMember(Name = "callStatus", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "callStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callStatus")]
         public string CallStatus { get; set; }
 
         /// <summary>
@@ -71,6 +75,8 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;.
         /// </value>
         [DataMember(Name = "ncStatus", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "ncStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ncStatus")]
         public string NcStatus { get; set; }
 
         /// <summary>
@@ -78,6 +84,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Sent PIN code ID.</value>
         [DataMember(Name = "pinId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinId")]
         public string PinId { get; set; }
 
         /// <summary>
@@ -85,6 +93,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Sent SMS status. Can have one of the following values: &#x60;MESSAGE_SENT&#x60;, &#x60;MESSAGE_NOT_SENT&#x60;.</value>
         [DataMember(Name = "smsStatus", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "smsStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("smsStatus")]
         public string SmsStatus { get; set; }
 
         /// <summary>
@@ -92,6 +102,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Phone number to which the 2FA message will be sent. Example: &#x60;41793026727&#x60;.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>

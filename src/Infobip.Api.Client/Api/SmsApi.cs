@@ -45,9 +45,10 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>SmsInboundMessageResult</returns>
         SmsInboundMessageResult GetInboundSmsMessages(int? limit = default, string applicationId = default,
-            string entityId = default);
+            string entityId = default, string campaignReferenceId = default);
 
         /// <summary>
         ///     Get inbound SMS messages
@@ -70,90 +71,91 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>ApiResponse of SmsInboundMessageResult</returns>
         ApiResponse<SmsInboundMessageResult> GetInboundSmsMessagesWithHttpInfo(int? limit = default,
-            string applicationId = default, string entityId = default);
+            string applicationId = default, string entityId = default, string campaignReferenceId = default);
 
         /// <summary>
         ///     Get outbound SMS message delivery reports
         /// </summary>
         /// <remarks>
-        ///     If you are for any reason unable to receive real-time delivery reports on your endpoint, you can use this API
-        ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
-        ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request in the last 48 hours.
+        ///     If you are unable to receive real-time message delivery reports towards your endpoint for various reasons, we offer
+        ///     you an API method to fetch batches of message reports to confirm whether specific messages have been delivered.
+        ///     Each request towards this endpoint will return batches of the latest message reports. Please note they will be
+        ///     returned only once.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>SmsDeliveryResult</returns>
         SmsDeliveryResult GetOutboundSmsMessageDeliveryReports(string bulkId = default, string messageId = default,
-            int? limit = default, string applicationId = default, string entityId = default,
+            int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default);
 
         /// <summary>
         ///     Get outbound SMS message delivery reports
         /// </summary>
         /// <remarks>
-        ///     If you are for any reason unable to receive real-time delivery reports on your endpoint, you can use this API
-        ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
-        ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request in the last 48 hours.
+        ///     If you are unable to receive real-time message delivery reports towards your endpoint for various reasons, we offer
+        ///     you an API method to fetch batches of message reports to confirm whether specific messages have been delivered.
+        ///     Each request towards this endpoint will return batches of the latest message reports. Please note they will be
+        ///     returned only once.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>ApiResponse of SmsDeliveryResult</returns>
         ApiResponse<SmsDeliveryResult> GetOutboundSmsMessageDeliveryReportsWithHttpInfo(string bulkId = default,
-            string messageId = default, int? limit = default, string applicationId = default, string entityId = default,
+            string messageId = default, int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs for example in the user interface. Available are the logs for the last 48 hours
-        ///     and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
+        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -162,36 +164,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -199,26 +193,26 @@ namespace Infobip.Api.Client.Api
         ///     values. (optional)
         /// </param>
         /// <returns>SmsLogsResponse</returns>
-        SmsLogsResponse GetOutboundSmsMessageLogs(string from = default, string to = default,
-            List<string> bulkId = default, List<string> messageId = default, string generalStatus = default,
-            DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string mcc = default, string mnc = default, string applicationId = default, string entityId = default,
-            List<string> campaignReferenceId = default);
+        SmsLogsResponse GetOutboundSmsMessageLogs(string mcc = default, string mnc = default, string sender = default,
+            string destination = default, List<string> bulkId = default, List<string> messageId = default,
+            MessageGeneralStatus? generalStatus = default, DateTimeOffset? sentSince = default,
+            DateTimeOffset? sentUntil = default, int? limit = default, string entityId = default,
+            string applicationId = default, List<string> campaignReferenceId = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs for example in the user interface. Available are the logs for the last 48 hours
-        ///     and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
+        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -227,36 +221,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -264,11 +250,11 @@ namespace Infobip.Api.Client.Api
         ///     values. (optional)
         /// </param>
         /// <returns>ApiResponse of SmsLogsResponse</returns>
-        ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string from = default, string to = default,
-            List<string> bulkId = default, List<string> messageId = default, string generalStatus = default,
+        ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string mcc = default, string mnc = default,
+            string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string mcc = default, string mnc = default, string applicationId = default, string entityId = default,
-            List<string> campaignReferenceId = default);
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default);
 
         /// <summary>
         ///     Get scheduled SMS messages
@@ -373,66 +359,36 @@ namespace Infobip.Api.Client.Api
         ApiResponse<SmsBulkResponse> RescheduleSmsMessagesWithHttpInfo(string bulkId, SmsBulkRequest smsBulkRequest);
 
         /// <summary>
-        ///     Send binary SMS message
+        ///     Send SMS message
         /// </summary>
         /// <remarks>
-        ///     Send single or multiple binary messages to one or more destination address. The API response will not contain the
-        ///     final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     With this API method, you can do anything from sending a basic message to one person, all the way to sending
+        ///     customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <returns>SmsResponse</returns>
-        SmsResponse SendBinarySmsMessage(SmsAdvancedBinaryRequest smsAdvancedBinaryRequest);
-
-        /// <summary>
-        ///     Send binary SMS message
-        /// </summary>
-        /// <remarks>
-        ///     Send single or multiple binary messages to one or more destination address. The API response will not contain the
-        ///     final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
-        /// <returns>ApiResponse of SmsResponse</returns>
-        ApiResponse<SmsResponse> SendBinarySmsMessageWithHttpInfo(SmsAdvancedBinaryRequest smsAdvancedBinaryRequest);
+        SmsResponse SendSmsMessages(SmsRequest smsRequest);
 
         /// <summary>
         ///     Send SMS message
         /// </summary>
         /// <remarks>
-        ///     Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a single API
-        ///     request, scheduling, URL tracking, language and transliteration configuration, etc. The API response will not
-        ///     contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     With this API method, you can do anything from sending a basic message to one person, all the way to sending
+        ///     customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <returns>SmsResponse</returns>
-        SmsResponse SendSmsMessage(SmsAdvancedTextualRequest smsAdvancedTextualRequest);
-
-        /// <summary>
-        ///     Send SMS message
-        /// </summary>
-        /// <remarks>
-        ///     Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a single API
-        ///     request, scheduling, URL tracking, language and transliteration configuration, etc. The API response will not
-        ///     contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <returns>ApiResponse of SmsResponse</returns>
-        ApiResponse<SmsResponse> SendSmsMessageWithHttpInfo(SmsAdvancedTextualRequest smsAdvancedTextualRequest);
+        ApiResponse<SmsResponse> SendSmsMessagesWithHttpInfo(SmsRequest smsRequest);
 
         /// <summary>
         ///     Update scheduled SMS messages status
@@ -491,10 +447,12 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsInboundMessageResult</returns>
         Task<SmsInboundMessageResult> GetInboundSmsMessagesAsync(int? limit = default, string applicationId = default,
-            string entityId = default, CancellationToken cancellationToken = default);
+            string entityId = default, string campaignReferenceId = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get inbound SMS messages
@@ -517,94 +475,96 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsInboundMessageResult)</returns>
         Task<ApiResponse<SmsInboundMessageResult>> GetInboundSmsMessagesWithHttpInfoAsync(int? limit = default,
-            string applicationId = default, string entityId = default, CancellationToken cancellationToken = default);
+            string applicationId = default, string entityId = default, string campaignReferenceId = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get outbound SMS message delivery reports
         /// </summary>
         /// <remarks>
-        ///     If you are for any reason unable to receive real-time delivery reports on your endpoint, you can use this API
-        ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
-        ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request in the last 48 hours.
+        ///     If you are unable to receive real-time message delivery reports towards your endpoint for various reasons, we offer
+        ///     you an API method to fetch batches of message reports to confirm whether specific messages have been delivered.
+        ///     Each request towards this endpoint will return batches of the latest message reports. Please note they will be
+        ///     returned only once.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsDeliveryResult</returns>
         Task<SmsDeliveryResult> GetOutboundSmsMessageDeliveryReportsAsync(string bulkId = default,
-            string messageId = default, int? limit = default, string applicationId = default, string entityId = default,
+            string messageId = default, int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get outbound SMS message delivery reports
         /// </summary>
         /// <remarks>
-        ///     If you are for any reason unable to receive real-time delivery reports on your endpoint, you can use this API
-        ///     method to learn if and when the message has been delivered to the recipient. Each request will return a batch of
-        ///     delivery reports - only once. The following API request will return only new reports that arrived since the last
-        ///     API request in the last 48 hours.
+        ///     If you are unable to receive real-time message delivery reports towards your endpoint for various reasons, we offer
+        ///     you an API method to fetch batches of message reports to confirm whether specific messages have been delivered.
+        ///     Each request towards this endpoint will return batches of the latest message reports. Please note they will be
+        ///     returned only once.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsDeliveryResult)</returns>
         Task<ApiResponse<SmsDeliveryResult>> GetOutboundSmsMessageDeliveryReportsWithHttpInfoAsync(
-            string bulkId = default, string messageId = default, int? limit = default, string applicationId = default,
-            string entityId = default, string campaignReferenceId = default,
+            string bulkId = default, string messageId = default, int? limit = default, string entityId = default,
+            string applicationId = default, string campaignReferenceId = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs for example in the user interface. Available are the logs for the last 48 hours
-        ///     and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
+        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -613,36 +573,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -651,26 +603,27 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsLogsResponse</returns>
-        Task<SmsLogsResponse> GetOutboundSmsMessageLogsAsync(string from = default, string to = default,
-            List<string> bulkId = default, List<string> messageId = default, string generalStatus = default,
+        Task<SmsLogsResponse> GetOutboundSmsMessageLogsAsync(string mcc = default, string mnc = default,
+            string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string mcc = default, string mnc = default, string applicationId = default, string entityId = default,
-            List<string> campaignReferenceId = default, CancellationToken cancellationToken = default);
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs for example in the user interface. Available are the logs for the last 48 hours
-        ///     and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
+        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -679,36 +632,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -717,11 +662,11 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsLogsResponse)</returns>
-        Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(string from = default,
-            string to = default, List<string> bulkId = default, List<string> messageId = default,
-            string generalStatus = default, DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default,
-            int? limit = default, string mcc = default, string mnc = default, string applicationId = default,
-            string entityId = default, List<string> campaignReferenceId = default,
+        Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(string mcc = default,
+            string mnc = default, string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
+            DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -843,74 +788,39 @@ namespace Infobip.Api.Client.Api
             SmsBulkRequest smsBulkRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Send binary SMS message
+        ///     Send SMS message
         /// </summary>
         /// <remarks>
-        ///     Send single or multiple binary messages to one or more destination address. The API response will not contain the
-        ///     final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     With this API method, you can do anything from sending a basic message to one person, all the way to sending
+        ///     customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsResponse</returns>
-        Task<SmsResponse> SendBinarySmsMessageAsync(SmsAdvancedBinaryRequest smsAdvancedBinaryRequest,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        ///     Send binary SMS message
-        /// </summary>
-        /// <remarks>
-        ///     Send single or multiple binary messages to one or more destination address. The API response will not contain the
-        ///     final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsResponse)</returns>
-        Task<ApiResponse<SmsResponse>> SendBinarySmsMessageWithHttpInfoAsync(
-            SmsAdvancedBinaryRequest smsAdvancedBinaryRequest, CancellationToken cancellationToken = default);
+        Task<SmsResponse> SendSmsMessagesAsync(SmsRequest smsRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send SMS message
         /// </summary>
         /// <remarks>
-        ///     Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a single API
-        ///     request, scheduling, URL tracking, language and transliteration configuration, etc. The API response will not
-        ///     contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     With this API method, you can do anything from sending a basic message to one person, all the way to sending
+        ///     customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsResponse</returns>
-        Task<SmsResponse> SendSmsMessageAsync(SmsAdvancedTextualRequest smsAdvancedTextualRequest,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        ///     Send SMS message
-        /// </summary>
-        /// <remarks>
-        ///     Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a single API
-        ///     request, scheduling, URL tracking, language and transliteration configuration, etc. The API response will not
-        ///     contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsResponse)</returns>
-        Task<ApiResponse<SmsResponse>> SendSmsMessageWithHttpInfoAsync(
-            SmsAdvancedTextualRequest smsAdvancedTextualRequest, CancellationToken cancellationToken = default);
+        Task<ApiResponse<SmsResponse>> SendSmsMessagesWithHttpInfoAsync(SmsRequest smsRequest,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update scheduled SMS messages status
@@ -1204,11 +1114,13 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>SmsInboundMessageResult</returns>
         public SmsInboundMessageResult GetInboundSmsMessages(int? limit = default, string applicationId = default,
-            string entityId = default)
+            string entityId = default, string campaignReferenceId = default)
         {
-            var localVarResponse = GetInboundSmsMessagesWithHttpInfo(limit, applicationId, entityId);
+            var localVarResponse =
+                GetInboundSmsMessagesWithHttpInfo(limit, applicationId, entityId, campaignReferenceId);
             return localVarResponse.Data;
         }
 
@@ -1230,9 +1142,10 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>ApiResponse of SmsInboundMessageResult</returns>
         public ApiResponse<SmsInboundMessageResult> GetInboundSmsMessagesWithHttpInfo(int? limit = default,
-            string applicationId = default, string entityId = default)
+            string applicationId = default, string entityId = default, string campaignReferenceId = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -1251,6 +1164,9 @@ namespace Infobip.Api.Client.Api
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
             if (entityId != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
+            if (campaignReferenceId != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "campaignReferenceId", campaignReferenceId));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1285,14 +1201,16 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsInboundMessageResult</returns>
         public async Task<SmsInboundMessageResult> GetInboundSmsMessagesAsync(int? limit = default,
-            string applicationId = default, string entityId = default, CancellationToken cancellationToken = default)
+            string applicationId = default, string entityId = default, string campaignReferenceId = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarResponse =
-                await GetInboundSmsMessagesWithHttpInfoAsync(limit, applicationId, entityId, cancellationToken)
-                    .ConfigureAwait(false);
+                await GetInboundSmsMessagesWithHttpInfoAsync(limit, applicationId, entityId, campaignReferenceId,
+                    cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1314,11 +1232,12 @@ namespace Infobip.Api.Client.Api
         ///     Entity id that the message is linked to. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsInboundMessageResult)</returns>
         public async Task<ApiResponse<SmsInboundMessageResult>> GetInboundSmsMessagesWithHttpInfoAsync(
             int? limit = default, string applicationId = default, string entityId = default,
-            CancellationToken cancellationToken = default)
+            string campaignReferenceId = default, CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -1337,6 +1256,9 @@ namespace Infobip.Api.Client.Api
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
             if (entityId != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
+            if (campaignReferenceId != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "campaignReferenceId", campaignReferenceId));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1356,68 +1278,68 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real-time delivery reports on
-        ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
-        ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request in the last 48 hours.
+        ///     Get outbound SMS message delivery reports If you are unable to receive real-time message delivery reports towards
+        ///     your endpoint for various reasons, we offer you an API method to fetch batches of message reports to confirm
+        ///     whether specific messages have been delivered. Each request towards this endpoint will return batches of the latest
+        ///     message reports. Please note they will be returned only once.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>SmsDeliveryResult</returns>
         public SmsDeliveryResult GetOutboundSmsMessageDeliveryReports(string bulkId = default,
-            string messageId = default, int? limit = default, string applicationId = default, string entityId = default,
+            string messageId = default, int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default)
         {
-            var localVarResponse = GetOutboundSmsMessageDeliveryReportsWithHttpInfo(bulkId, messageId, limit,
-                applicationId, entityId, campaignReferenceId);
+            var localVarResponse = GetOutboundSmsMessageDeliveryReportsWithHttpInfo(bulkId, messageId, limit, entityId,
+                applicationId, campaignReferenceId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real-time delivery reports on
-        ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
-        ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request in the last 48 hours.
+        ///     Get outbound SMS message delivery reports If you are unable to receive real-time message delivery reports towards
+        ///     your endpoint for various reasons, we offer you an API method to fetch batches of message reports to confirm
+        ///     whether specific messages have been delivered. Each request towards this endpoint will return batches of the latest
+        ///     message reports. Please note they will be returned only once.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <returns>ApiResponse of SmsDeliveryResult</returns>
         public ApiResponse<SmsDeliveryResult> GetOutboundSmsMessageDeliveryReportsWithHttpInfo(string bulkId = default,
-            string messageId = default, int? limit = default, string applicationId = default, string entityId = default,
+            string messageId = default, int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -1436,11 +1358,11 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "messageId", messageId));
             if (limit != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
+            if (entityId != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (applicationId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
-            if (entityId != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "campaignReferenceId", campaignReferenceId));
@@ -1451,7 +1373,7 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Get<SmsDeliveryResult>("/sms/1/reports", localVarRequestOptions, Configuration);
+                Client.Get<SmsDeliveryResult>("/sms/3/reports", localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("GetOutboundSmsMessageDeliveryReports", localVarResponse);
             if (exception != null)
@@ -1461,71 +1383,71 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real-time delivery reports on
-        ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
-        ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request in the last 48 hours.
+        ///     Get outbound SMS message delivery reports If you are unable to receive real-time message delivery reports towards
+        ///     your endpoint for various reasons, we offer you an API method to fetch batches of message reports to confirm
+        ///     whether specific messages have been delivered. Each request towards this endpoint will return batches of the latest
+        ///     message reports. Please note they will be returned only once.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsDeliveryResult</returns>
         public async Task<SmsDeliveryResult> GetOutboundSmsMessageDeliveryReportsAsync(string bulkId = default,
-            string messageId = default, int? limit = default, string applicationId = default, string entityId = default,
+            string messageId = default, int? limit = default, string entityId = default, string applicationId = default,
             string campaignReferenceId = default, CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetOutboundSmsMessageDeliveryReportsWithHttpInfoAsync(bulkId, messageId, limit,
-                applicationId, entityId, campaignReferenceId, cancellationToken).ConfigureAwait(false);
+                entityId, applicationId, campaignReferenceId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message delivery reports If you are for any reason unable to receive real-time delivery reports on
-        ///     your endpoint, you can use this API method to learn if and when the message has been delivered to the recipient.
-        ///     Each request will return a batch of delivery reports - only once. The following API request will return only new
-        ///     reports that arrived since the last API request in the last 48 hours.
+        ///     Get outbound SMS message delivery reports If you are unable to receive real-time message delivery reports towards
+        ///     your endpoint for various reasons, we offer you an API method to fetch batches of message reports to confirm
+        ///     whether specific messages have been delivered. Each request towards this endpoint will return batches of the latest
+        ///     message reports. Please note they will be returned only once.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">
-        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. (optional)
+        ///     The ID that uniquely identifies the request. Bulk ID will be received only when you send a message
+        ///     to more than one destination address. (optional)
         /// </param>
-        /// <param name="messageId">Unique message ID for which a report is requested. (optional)</param>
+        /// <param name="messageId">The ID that uniquely identifies the message sent. (optional)</param>
         /// <param name="limit">
         ///     Maximum number of delivery reports to be returned. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access reports for the last 48h. (optional, default to 50)
-        /// </param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access reports for the last 48h (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the message. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsDeliveryResult)</returns>
         public async Task<ApiResponse<SmsDeliveryResult>> GetOutboundSmsMessageDeliveryReportsWithHttpInfoAsync(
-            string bulkId = default, string messageId = default, int? limit = default, string applicationId = default,
-            string entityId = default, string campaignReferenceId = default,
+            string bulkId = default, string messageId = default, int? limit = default, string entityId = default,
+            string applicationId = default, string campaignReferenceId = default,
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -1544,11 +1466,11 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "messageId", messageId));
             if (limit != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
+            if (entityId != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (applicationId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
-            if (entityId != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "campaignReferenceId", campaignReferenceId));
@@ -1560,7 +1482,7 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<SmsDeliveryResult>("/sms/1/reports", localVarRequestOptions, Configuration, cancellationToken)
+                .GetAsync<SmsDeliveryResult>("/sms/3/reports", localVarRequestOptions, Configuration, cancellationToken)
                 .ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetOutboundSmsMessageDeliveryReports", localVarResponse);
@@ -1571,16 +1493,16 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs for example in the user interface. Available are
-        ///     the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
+        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -1589,36 +1511,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -1626,28 +1540,28 @@ namespace Infobip.Api.Client.Api
         ///     values. (optional)
         /// </param>
         /// <returns>SmsLogsResponse</returns>
-        public SmsLogsResponse GetOutboundSmsMessageLogs(string from = default, string to = default,
-            List<string> bulkId = default, List<string> messageId = default, string generalStatus = default,
+        public SmsLogsResponse GetOutboundSmsMessageLogs(string mcc = default, string mnc = default,
+            string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string mcc = default, string mnc = default, string applicationId = default, string entityId = default,
-            List<string> campaignReferenceId = default)
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default)
         {
-            var localVarResponse = GetOutboundSmsMessageLogsWithHttpInfo(from, to, bulkId, messageId, generalStatus,
-                sentSince, sentUntil, limit, mcc, mnc, applicationId, entityId, campaignReferenceId);
+            var localVarResponse = GetOutboundSmsMessageLogsWithHttpInfo(mcc, mnc, sender, destination, bulkId,
+                messageId, generalStatus, sentSince, sentUntil, limit, entityId, applicationId, campaignReferenceId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs for example in the user interface. Available are
-        ///     the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
+        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -1656,36 +1570,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -1693,11 +1599,11 @@ namespace Infobip.Api.Client.Api
         ///     values. (optional)
         /// </param>
         /// <returns>ApiResponse of SmsLogsResponse</returns>
-        public ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string from = default,
-            string to = default, List<string> bulkId = default, List<string> messageId = default,
-            string generalStatus = default, DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default,
-            int? limit = default, string mcc = default, string mnc = default, string applicationId = default,
-            string entityId = default, List<string> campaignReferenceId = default)
+        public ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string mcc = default,
+            string mnc = default, string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
+            DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -1709,9 +1615,15 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            if (from != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "from", from));
-            if (to != null) localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "to", to));
+            if (mcc != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mcc", mcc));
+            if (mnc != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mnc", mnc));
+            if (sender != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sender", sender));
+            if (destination != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "destination", destination));
             if (bulkId != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("multi", "bulkId", bulkId));
             if (messageId != null)
@@ -1726,15 +1638,11 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sentUntil", sentUntil));
             if (limit != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
-            if (mcc != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mcc", mcc));
-            if (mnc != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mnc", mnc));
+            if (entityId != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (applicationId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
-            if (entityId != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId));
@@ -1744,7 +1652,7 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse = Client.Get<SmsLogsResponse>("/sms/1/logs", localVarRequestOptions, Configuration);
+            var localVarResponse = Client.Get<SmsLogsResponse>("/sms/3/logs", localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("GetOutboundSmsMessageLogs", localVarResponse);
             if (exception != null)
@@ -1754,16 +1662,16 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs for example in the user interface. Available are
-        ///     the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
+        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -1772,36 +1680,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -1810,29 +1710,30 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsLogsResponse</returns>
-        public async Task<SmsLogsResponse> GetOutboundSmsMessageLogsAsync(string from = default, string to = default,
-            List<string> bulkId = default, List<string> messageId = default, string generalStatus = default,
+        public async Task<SmsLogsResponse> GetOutboundSmsMessageLogsAsync(string mcc = default, string mnc = default,
+            string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string mcc = default, string mnc = default, string applicationId = default, string entityId = default,
-            List<string> campaignReferenceId = default, CancellationToken cancellationToken = default)
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
+            CancellationToken cancellationToken = default)
         {
-            var localVarResponse = await GetOutboundSmsMessageLogsWithHttpInfoAsync(from, to, bulkId, messageId,
-                generalStatus, sentSince, sentUntil, limit, mcc, mnc, applicationId, entityId, campaignReferenceId,
-                cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetOutboundSmsMessageLogsWithHttpInfoAsync(mcc, mnc, sender, destination,
+                bulkId, messageId, generalStatus, sentSince, sentUntil, limit, entityId, applicationId,
+                campaignReferenceId, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs for example in the user interface. Available are
-        ///     the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) if your use case is to verify message delivery.\\
-        ///     Although this endpoint remains functional, starting from May 16, 2024., we recommend transitioning to the new
-        ///     endpoint provided at [Get outbound SMS message delivery reports](#channels/sms/get-outbound-sms-message-logs-v3)
-        ///     for improved support and future updates.
+        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
+        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
+        ///     delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="from">The sender ID which can be alphanumeric or numeric. (optional)</param>
-        /// <param name="to">Message destination address. (optional)</param>
+        /// <param name="mcc">Mobile Country Code. (optional)</param>
+        /// <param name="mnc">Mobile Network Code. Mobile Country Code is required if this property is used. (optional)</param>
+        /// <param name="sender">The sender ID which can be alphanumeric or numeric. (optional)</param>
+        /// <param name="destination">Message destination address. (optional)</param>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
         ///     via a single API request. May contain multiple comma-separated values. Maximum length 2048 characters. (optional)
@@ -1841,36 +1742,28 @@ namespace Infobip.Api.Client.Api
         ///     Unique message ID for which a log is requested. May contain multiple comma-separated values.
         ///     Maximum length 2048 characters. (optional)
         /// </param>
-        /// <param name="generalStatus">
-        ///     Sent [message
-        ///     status](https://www.infobip.com/docs/essentials/response-status-and-error-codes#api-status-codes). Possible values:
-        ///     &#x60;ACCEPTED&#x60;, &#x60;PENDING&#x60;, &#x60;UNDELIVERABLE&#x60;, &#x60;DELIVERED&#x60;, &#x60;REJECTED&#x60;,
-        ///     &#x60;EXPIRED&#x60;. (optional)
-        /// </param>
+        /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with &#x60;sentUntil
-        ///     &#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following
-        ///     format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with &#x60;
-        ///     sentBefore&#x60; to return a time range or if you want to fetch more than 1000 logs allowed per call. Has the
-        ///     following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. (optional)
+        ///     The logs will only include messages sent before this date. Use it together with sentSince to
+        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is &#x60;1000&#x60; and you can only access logs for the last 48h. If you want to fetch more
-        ///     than 1000 logs allowed per call, use &#x60;sentBefore&#x60; and &#x60;sentUntil&#x60; to retrieve them in pages.
-        ///     (optional)
-        /// </param>
-        /// <param name="mcc">Mobile Country Code. (optional)</param>
-        /// <param name="mnc">Mobile Network Code. (optional)</param>
-        /// <param name="applicationId">
-        ///     Application id used to send the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
+        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
+        /// </param>
+        /// <param name="applicationId">
+        ///     Application id used to send the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management). (optional)
         /// </param>
         /// <param name="campaignReferenceId">
@@ -1879,11 +1772,11 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsLogsResponse)</returns>
-        public async Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(
-            string from = default, string to = default, List<string> bulkId = default, List<string> messageId = default,
-            string generalStatus = default, DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default,
-            int? limit = default, string mcc = default, string mnc = default, string applicationId = default,
-            string entityId = default, List<string> campaignReferenceId = default,
+        public async Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(string mcc = default,
+            string mnc = default, string sender = default, string destination = default, List<string> bulkId = default,
+            List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
+            DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -1896,10 +1789,15 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            if (from != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "from", from));
-            if (to != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "to", to));
+            if (mcc != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mcc", mcc));
+            if (mnc != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mnc", mnc));
+            if (sender != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sender", sender));
+            if (destination != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "destination", destination));
             if (bulkId != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("multi", "bulkId", bulkId));
             if (messageId != null)
@@ -1914,15 +1812,11 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sentUntil", sentUntil));
             if (limit != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "limit", limit));
-            if (mcc != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mcc", mcc));
-            if (mnc != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "mnc", mnc));
+            if (entityId != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (applicationId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "applicationId", applicationId));
-            if (entityId != null)
-                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "entityId", entityId));
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId));
@@ -1934,7 +1828,7 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<SmsLogsResponse>("/sms/1/logs", localVarRequestOptions, Configuration, cancellationToken)
+                .GetAsync<SmsLogsResponse>("/sms/3/logs", localVarRequestOptions, Configuration, cancellationToken)
                 .ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetOutboundSmsMessageLogs", localVarResponse);
@@ -2437,38 +2331,39 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Send binary SMS message Send single or multiple binary messages to one or more destination address. The API
-        ///     response will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     Send SMS message With this API method, you can do anything from sending a basic message to one person, all the way
+        ///     to sending customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <returns>SmsResponse</returns>
-        public SmsResponse SendBinarySmsMessage(SmsAdvancedBinaryRequest smsAdvancedBinaryRequest)
+        public SmsResponse SendSmsMessages(SmsRequest smsRequest)
         {
-            var localVarResponse = SendBinarySmsMessageWithHttpInfo(smsAdvancedBinaryRequest);
+            var localVarResponse = SendSmsMessagesWithHttpInfo(smsRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Send binary SMS message Send single or multiple binary messages to one or more destination address. The API
-        ///     response will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     Send SMS message With this API method, you can do anything from sending a basic message to one person, all the way
+        ///     to sending customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <returns>ApiResponse of SmsResponse</returns>
-        public ApiResponse<SmsResponse> SendBinarySmsMessageWithHttpInfo(
-            SmsAdvancedBinaryRequest smsAdvancedBinaryRequest)
+        public ApiResponse<SmsResponse> SendSmsMessagesWithHttpInfo(SmsRequest smsRequest)
         {
-            // verify the required parameter 'smsAdvancedBinaryRequest' is set
-            if (smsAdvancedBinaryRequest == null)
+            // verify the required parameter 'smsRequest' is set
+            if (smsRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'smsAdvancedBinaryRequest' when calling SmsApi->SendBinarySmsMessage");
+                    "Missing required parameter 'smsRequest' when calling SmsApi->SendSmsMessages");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -2480,17 +2375,16 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.Data = smsAdvancedBinaryRequest;
+            localVarRequestOptions.Data = smsRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse =
-                Client.Post<SmsResponse>("/sms/2/binary/advanced", localVarRequestOptions, Configuration);
+            var localVarResponse = Client.Post<SmsResponse>("/sms/3/messages", localVarRequestOptions, Configuration);
 
-            var exception = ExceptionFactory?.Invoke("SendBinarySmsMessage", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("SendSmsMessages", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -2498,43 +2392,44 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Send binary SMS message Send single or multiple binary messages to one or more destination address. The API
-        ///     response will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     Send SMS message With this API method, you can do anything from sending a basic message to one person, all the way
+        ///     to sending customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsResponse</returns>
-        public async Task<SmsResponse> SendBinarySmsMessageAsync(SmsAdvancedBinaryRequest smsAdvancedBinaryRequest,
+        public async Task<SmsResponse> SendSmsMessagesAsync(SmsRequest smsRequest,
             CancellationToken cancellationToken = default)
         {
             var localVarResponse =
-                await SendBinarySmsMessageWithHttpInfoAsync(smsAdvancedBinaryRequest, cancellationToken)
-                    .ConfigureAwait(false);
+                await SendSmsMessagesWithHttpInfoAsync(smsRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Send binary SMS message Send single or multiple binary messages to one or more destination address. The API
-        ///     response will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
+        ///     Send SMS message With this API method, you can do anything from sending a basic message to one person, all the way
+        ///     to sending customized messages to thousands of recipients in one go. It comes with a range of useful features like
+        ///     transliteration, scheduling, and tracking in a unified way.\\ If utilizing Message Delivery Reports webhook, please
+        ///     consult the documentation provided at [Receive outbound SMS message
+        ///     reports](#channels/sms/receive-outbound-sms-message-report-v3).\\ This endpoint is the successor of [Send SMS
+        ///     message](#channels/sms/send-sms-message) and [Send binary SMS message](#channels/sms/send-binary-sms-message).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedBinaryRequest"></param>
+        /// <param name="smsRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsResponse)</returns>
-        public async Task<ApiResponse<SmsResponse>> SendBinarySmsMessageWithHttpInfoAsync(
-            SmsAdvancedBinaryRequest smsAdvancedBinaryRequest, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<SmsResponse>> SendSmsMessagesWithHttpInfoAsync(SmsRequest smsRequest,
+            CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'smsAdvancedBinaryRequest' is set
-            if (smsAdvancedBinaryRequest == null)
+            // verify the required parameter 'smsRequest' is set
+            if (smsRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'smsAdvancedBinaryRequest' when calling SmsApi->SendBinarySmsMessage");
+                    "Missing required parameter 'smsRequest' when calling SmsApi->SendSmsMessages");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -2547,7 +2442,7 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.Data = smsAdvancedBinaryRequest;
+            localVarRequestOptions.Data = smsRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -2556,142 +2451,10 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .PostAsync<SmsResponse>("/sms/2/binary/advanced", localVarRequestOptions, Configuration,
-                    cancellationToken).ConfigureAwait(false);
-
-            var exception = ExceptionFactory?.Invoke("SendBinarySmsMessage", localVarResponse);
-            if (exception != null)
-                throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Send SMS message Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a
-        ///     single API request, scheduling, URL tracking, language and transliteration configuration, etc. The API response
-        ///     will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <returns>SmsResponse</returns>
-        public SmsResponse SendSmsMessage(SmsAdvancedTextualRequest smsAdvancedTextualRequest)
-        {
-            var localVarResponse = SendSmsMessageWithHttpInfo(smsAdvancedTextualRequest);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Send SMS message Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a
-        ///     single API request, scheduling, URL tracking, language and transliteration configuration, etc. The API response
-        ///     will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <returns>ApiResponse of SmsResponse</returns>
-        public ApiResponse<SmsResponse> SendSmsMessageWithHttpInfo(SmsAdvancedTextualRequest smsAdvancedTextualRequest)
-        {
-            // verify the required parameter 'smsAdvancedTextualRequest' is set
-            if (smsAdvancedTextualRequest == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'smsAdvancedTextualRequest' when calling SmsApi->SendSmsMessage");
-
-            var localVarRequestOptions = new RequestOptions();
-
-            var contentType = "application/json";
-            if (contentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
-
-            var accept = "application/json";
-            if (accept != null)
-                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
-
-            localVarRequestOptions.Data = smsAdvancedTextualRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
-
-            // make the HTTP request
-            var localVarResponse =
-                Client.Post<SmsResponse>("/sms/2/text/advanced", localVarRequestOptions, Configuration);
-
-            var exception = ExceptionFactory?.Invoke("SendSmsMessage", localVarResponse);
-            if (exception != null)
-                throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Send SMS message Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a
-        ///     single API request, scheduling, URL tracking, language and transliteration configuration, etc. The API response
-        ///     will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of SmsResponse</returns>
-        public async Task<SmsResponse> SendSmsMessageAsync(SmsAdvancedTextualRequest smsAdvancedTextualRequest,
-            CancellationToken cancellationToken = default)
-        {
-            var localVarResponse = await SendSmsMessageWithHttpInfoAsync(smsAdvancedTextualRequest, cancellationToken)
+                .PostAsync<SmsResponse>("/sms/3/messages", localVarRequestOptions, Configuration, cancellationToken)
                 .ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
 
-        /// <summary>
-        ///     Send SMS message Use this endpoint to send an SMS and set up a rich set of features, such as batch sending with a
-        ///     single API request, scheduling, URL tracking, language and transliteration configuration, etc. The API response
-        ///     will not contain the final delivery status, use [Delivery
-        ///     Reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports/receive-outbound-sms-message-report)
-        ///     instead.\\ In light of improved features, this endpoint has been superseded. Please visit [Send SMS
-        ///     message](#channels/sms/send-sms-messages) for the next version.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="smsAdvancedTextualRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (SmsResponse)</returns>
-        public async Task<ApiResponse<SmsResponse>> SendSmsMessageWithHttpInfoAsync(
-            SmsAdvancedTextualRequest smsAdvancedTextualRequest, CancellationToken cancellationToken = default)
-        {
-            // verify the required parameter 'smsAdvancedTextualRequest' is set
-            if (smsAdvancedTextualRequest == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'smsAdvancedTextualRequest' when calling SmsApi->SendSmsMessage");
-
-
-            var localVarRequestOptions = new RequestOptions();
-
-            var contentType = "application/json";
-            if (contentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
-
-            var accept = "application/json";
-            if (accept != null)
-                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
-
-            localVarRequestOptions.Data = smsAdvancedTextualRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
-
-            // make the HTTP request
-
-            var localVarResponse = await AsynchronousClient
-                .PostAsync<SmsResponse>("/sms/2/text/advanced", localVarRequestOptions, Configuration,
-                    cancellationToken).ConfigureAwait(false);
-
-            var exception = ExceptionFactory?.Invoke("SendSmsMessage", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("SendSmsMessages", localVarResponse);
             if (exception != null)
                 throw exception;
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaResendPinRequest
     /// </summary>
     [DataContract(Name = "TfaResendPinRequest")]
+    [JsonObject]
     public class TfaResendPinRequest : IEquatable<TfaResendPinRequest>
     {
         /// <summary>
@@ -48,6 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     firstName\&quot;:\&quot;John\&quot;}&#x60;
         /// </value>
         [DataMember(Name = "placeholders", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "placeholders", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("placeholders")]
         public Dictionary<string, string> Placeholders { get; set; }
 
         /// <summary>

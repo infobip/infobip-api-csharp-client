@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Sets up additional configuration that changes the original message content you can preview with this call.
     /// </summary>
     [DataContract(Name = "SmsLanguageConfiguration")]
+    [JsonObject]
     public class SmsLanguageConfiguration : IEquatable<SmsLanguageConfiguration>
     {
         /// <summary>
@@ -31,7 +33,7 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;,
         ///     &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;..
         /// </param>
-        public SmsLanguageConfiguration(SmsLanguage language = default, string transliteration = default)
+        public SmsLanguageConfiguration(SmsPreviewLanguage language = default, string transliteration = default)
         {
             Language = language;
             Transliteration = transliteration;
@@ -41,7 +43,9 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Language
         /// </summary>
         [DataMember(Name = "language", EmitDefaultValue = false)]
-        public SmsLanguage Language { get; set; }
+        [JsonProperty(PropertyName = "language", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("language")]
+        public SmsPreviewLanguage Language { get; set; }
 
         /// <summary>
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;,
@@ -54,6 +58,8 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "transliteration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("transliteration")]
         public string Transliteration { get; set; }
 
         /// <summary>

@@ -1,12 +1,13 @@
 ﻿using System.Globalization;
-using System.Net;
 using System.Text;
 using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using static Infobip.Api.Client.Model.EmailAddDomainRequest;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ApiClient.Tests.Api;
 
@@ -25,8 +26,21 @@ public class EmailApiTest : ApiTest
     protected const string EMAIL_DOMAIN_TRACKING = "/email/1/domains/{domainName}/tracking";
     protected const string EMAIL_DOMAIN_RETURN_PATH = "/email/1/domains/{domainName}/return-path";
     protected const string EMAIL_DOMAIN_VERIFY = "/email/1/domains/{domainName}/verify";
-    protected const string EMAIL_IPS = "/email/1/ips";
-    protected const string EMAIL_DOMAIN_IPS = "/email/1/domain-ips";
+
+    protected const string EMAIL_SUPPRESIONS_ENDPOINT = "/email/1/suppressions";
+    protected const string EMAIL_SUPPRESIONS_DOMAINS_ENDPOINT = "/email/1/suppressions/domains";
+
+    protected const string EMAIL_IPS_ENDPOINT = "/email/1/ip-management/ips";
+    protected const string EMAIL_IP_ENDPOINT = "/email/1/ip-management/ips/{ipId}";
+    protected const string EMAIL_IP_POOLS_ENDPOINT = "/email/1/ip-management/pools";
+    protected const string EMAIL_IP_POOL_ENDPOINT = "/email/1/ip-management/pools/{poolId}";
+
+    protected const string EMAIL_IP_POOLS_IPS_ENDPOINT = "/email/1/ip-management/pools/{poolId}/ips";
+    protected const string EMAIL_IP_POOLS_IP_ENDPOINT = "/email/1/ip-management/pools/{poolId}/ips/{ipId}";
+
+    protected const string EMAIL_IP_DOMAIN_ENDPOINT = "/email/1/ip-management/domains/{domainId}";
+    protected const string EMAIL_IP_DOMAIN_POOLS_ENDPOINT = "/email/1/ip-management/domains/{domainId}/pools";
+    protected const string EMAIL_IP_DOMAIN_POOL_ENDPOINT = "/email/1/ip-management/domains/{domainId}/pools/{poolId}";
 
     protected const string DATE_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffzzz";
 
@@ -46,14 +60,14 @@ public class EmailApiTest : ApiTest
     [TestMethod]
     public void ShouldSendEmailTest()
     {
-        var expectedFrom = "Jane Doe <jane.doe@somecompany.com";
-        var expectedTo = "john.smith@somedomain.com";
-        var expectedTo2 = "Jane Doe <jane.doe@somecompany.com";
-        var expectedCc = "alice.someone@somedomain.com";
-        var expectedCc2 = "bob.someone@somedomain.com";
-        var expectedBcc = "carol.someone@somedomain.com";
-        var expectedBcc2 = "charlie.someone@somedomain.com";
-        var expectedReplyTo = "all.replies@somedomain.com";
+        var expectedFrom = "Jane Doe <jane.doe@example.com";
+        var expectedTo = "john.smith@example.com";
+        var expectedTo2 = "Jane Doe <jane.doe@example.com";
+        var expectedCc = "alice.someone@example.com";
+        var expectedCc2 = "bob.someone@example.com";
+        var expectedBcc = "carol.someone@example.com";
+        var expectedBcc2 = "charlie.someone@example.com";
+        var expectedReplyTo = "all.replies@example.com";
         var expectedSubject = "Mail subject text";
         var expectedStatusDescription = "Message sent to next instance";
         var expectedMessageCount = 2;
@@ -166,9 +180,9 @@ public class EmailApiTest : ApiTest
     [TestMethod]
     public void ShouldSendEmailWithAttachmentTest()
     {
-        var expectedFrom = "Jane Doe <jane.doe@somecompany.com";
-        var expectedTo = "john.smith@somedomain.com";
-        var expectedReplyTo = "all.replies@somedomain.com";
+        var expectedFrom = "Jane Doe <jane.doe@example.com";
+        var expectedTo = "john.smith@example.com";
+        var expectedReplyTo = "all.replies@example.com";
         var expectedSubject = "Mail subject text";
         var expectedStatusDescription = "Message sent to next instance";
         var expectedMessageCount = 1;
@@ -255,9 +269,9 @@ public class EmailApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldGetEmailDeliveryReportsTest()
+    public void ShouldGetEmailLogsTest()
     {
-        var expectedTo = "john.smith@somedomain.com";
+        var expectedTo = "john.smith@example.com";
         var expectedMessageCount = 1;
         var expectedMessageId = "MSG-1234";
         var expectedBulkId = "BULK-1234";
@@ -312,7 +326,7 @@ public class EmailApiTest : ApiTest
                 ]
             }}";
 
-        SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_LOGS_ENDPOINT, 200, expectedResponse);
 
         var sendEmailApi = new EmailApi(configuration);
 
@@ -343,10 +357,10 @@ public class EmailApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldGetEmailLogsTest()
+    public void ShouldGetEmailDeliveryReportsTest()
     {
-        var expectedFrom = "Jane Doe <jane.doe@somecompany.com";
-        var expectedTo = "john.smith@somedomain.com";
+        var expectedFrom = "Jane Doe <jane.doe@example.com";
+        var expectedTo = "john.smith@example.com";
         var expectedText = "Mail body text";
         var expectedMessageCount = 1;
         var expectedMessageId = "MSG-1234";
@@ -390,7 +404,7 @@ public class EmailApiTest : ApiTest
                 ]
             }}";
 
-        SetUpGetRequest(EMAIL_REPORTS_ENDPOINT, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_REPORTS_ENDPOINT, 200, expectedResponse);
 
         var sendEmailApi = new EmailApi(configuration);
 
@@ -438,7 +452,7 @@ public class EmailApiTest : ApiTest
                 ]
             }}";
 
-        SetUpGetRequest(EMAIL_BULKS_ENDPOINT, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_BULKS_ENDPOINT, 200, expectedResponse);
 
         var scheduledEmailApi = new EmailApi(configuration);
 
@@ -468,7 +482,7 @@ public class EmailApiTest : ApiTest
                 ""sendAt"": ""{expectedSentAt.ToUniversalTime().ToString(DATE_FORMAT)}""
             }}";
 
-        SetUpPutRequest(EMAIL_BULKS_ENDPOINT, givenRequest, expectedResponse, 200);
+        SetUpPutRequest(EMAIL_BULKS_ENDPOINT, 200, givenRequest, expectedResponse);
 
         var scheduledEmailApi = new EmailApi(configuration);
         var rescheduleRequest = new EmailBulkRescheduleRequest(expectedSentAt);
@@ -504,7 +518,7 @@ public class EmailApiTest : ApiTest
                 ]
             }}";
 
-        SetUpGetRequest(EMAIL_BULKS_STATUS_ENDPOINT, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_BULKS_STATUS_ENDPOINT, 200, expectedResponse);
 
         var scheduledEmailApi = new EmailApi(configuration);
 
@@ -535,7 +549,7 @@ public class EmailApiTest : ApiTest
                 ""status"": ""{expectedStatus}""
             }}";
 
-        SetUpPutRequest(EMAIL_BULKS_STATUS_ENDPOINT, givenRequest, expectedResponse, 200);
+        SetUpPutRequest(EMAIL_BULKS_STATUS_ENDPOINT, 200, givenRequest, expectedResponse);
 
         var scheduledEmailApi = new EmailApi(configuration);
 
@@ -550,7 +564,7 @@ public class EmailApiTest : ApiTest
     [TestMethod]
     public void ValidateEmailAddressesTest()
     {
-        var expectedTo = "john.smith@somedomain.com";
+        var expectedTo = "john.smith@example.com";
         var expectedValidMailbox = "true";
         var expectedValidSyntax = true;
         var expectedCatchAll = false;
@@ -574,7 +588,7 @@ public class EmailApiTest : ApiTest
                 ""roleBased"": {expectedRoleBased.ToString().ToLower()}
             }}";
 
-        SetUpPostRequest(EMAIL_VALIDATE_ADDRESSES_ENDPOINT, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(EMAIL_VALIDATE_ADDRESSES_ENDPOINT, 200, givenRequest, expectedResponse);
 
         var emailValidationApi = new EmailApi(configuration);
 
@@ -652,7 +666,7 @@ public class EmailApiTest : ApiTest
             { "page", expectedPage.ToString() }
         };
 
-        SetUpGetRequest(EMAIL_DOMAINS, expectedQueryParameters, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_DOMAINS, 200, expectedResponse, expectedQueryParameters);
 
         var emailApi = new EmailApi(configuration);
 
@@ -684,9 +698,9 @@ public class EmailApiTest : ApiTest
         AssertResponse(emailApi.GetAllDomainsAsync(expectedSize, expectedPage).Result, AssertEmailAllDomainsResponse);
 
         AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfo(expectedSize, expectedPage),
-            AssertEmailAllDomainsResponse);
+            AssertEmailAllDomainsResponse, 200);
         AssertResponseWithHttpInfo(emailApi.GetAllDomainsWithHttpInfoAsync(expectedSize, expectedPage).Result,
-            AssertEmailAllDomainsResponse);
+            AssertEmailAllDomainsResponse, 200);
     }
 
     [TestMethod]
@@ -744,7 +758,7 @@ public class EmailApiTest : ApiTest
                 ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-        SetUpPostRequest(EMAIL_DOMAINS, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(EMAIL_DOMAINS, 200, givenRequest, expectedResponse);
 
         var emailApi = new EmailApi(configuration);
 
@@ -778,9 +792,10 @@ public class EmailApiTest : ApiTest
         AssertResponse(emailApi.AddDomain(emailAddDomainRequest), AssertEmailDomainResponse);
         AssertResponse(emailApi.AddDomainAsync(emailAddDomainRequest).Result, AssertEmailDomainResponse);
 
-        AssertResponseWithHttpInfo(emailApi.AddDomainWithHttpInfo(emailAddDomainRequest), AssertEmailDomainResponse);
+        AssertResponseWithHttpInfo(emailApi.AddDomainWithHttpInfo(emailAddDomainRequest), AssertEmailDomainResponse,
+            200);
         AssertResponseWithHttpInfo(emailApi.AddDomainWithHttpInfoAsync(emailAddDomainRequest).Result,
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
     }
 
     [TestMethod]
@@ -823,7 +838,7 @@ public class EmailApiTest : ApiTest
                 ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-        SetUpGetRequest(EMAIL_DOMAIN.Replace("{domainName}", expectedDomainName), expectedResponse, 200);
+        SetUpGetRequest(EMAIL_DOMAIN.Replace("{domainName}", expectedDomainName), 200, expectedResponse);
 
         var emailApi = new EmailApi(configuration);
 
@@ -849,9 +864,9 @@ public class EmailApiTest : ApiTest
         AssertResponse(emailApi.GetDomainDetailsAsync(expectedDomainName).Result, AssertEmailDomainResponse);
 
         AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfo(expectedDomainName),
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
         AssertResponseWithHttpInfo(emailApi.GetDomainDetailsWithHttpInfoAsync(expectedDomainName).Result,
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
     }
 
     [TestMethod]
@@ -863,9 +878,9 @@ public class EmailApiTest : ApiTest
 
         var emailApi = new EmailApi(configuration);
 
-        AssertNoBodyResponseWithHttpInfo(emailApi.DeleteDomainWithHttpInfo(givenDomainName), HttpStatusCode.NoContent);
+        AssertNoBodyResponseWithHttpInfo(emailApi.DeleteDomainWithHttpInfo(givenDomainName), 204);
         AssertNoBodyResponseWithHttpInfo(emailApi.DeleteDomainWithHttpInfoAsync(givenDomainName).Result,
-            HttpStatusCode.NoContent);
+            204);
     }
 
     [TestMethod]
@@ -915,8 +930,8 @@ public class EmailApiTest : ApiTest
                 ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-        SetUpPutRequest(EMAIL_DOMAIN_TRACKING.Replace("{domainName}", expectedDomainName), givenRequest,
-            expectedResponse, 200);
+        SetUpPutRequest(EMAIL_DOMAIN_TRACKING.Replace("{domainName}", expectedDomainName), 200, givenRequest,
+            expectedResponse);
 
         var emailApi = new EmailApi(configuration);
 
@@ -951,10 +966,10 @@ public class EmailApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             emailApi.UpdateTrackingEventsWithHttpInfo(expectedDomainName, emailTrackingEventRequest),
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
         AssertResponseWithHttpInfo(
             emailApi.UpdateTrackingEventsWithHttpInfoAsync(expectedDomainName, emailTrackingEventRequest).Result,
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
     }
 
     [TestMethod]
@@ -1002,8 +1017,8 @@ public class EmailApiTest : ApiTest
                 ""returnPathAddress"": ""{expectedReturnPathAddress}""
             }}";
 
-        SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", expectedDomainName), givenRequest,
-            expectedResponse, 200);
+        SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", expectedDomainName), 200, givenRequest,
+            expectedResponse);
 
         var emailApi = new EmailApi(configuration);
 
@@ -1036,10 +1051,10 @@ public class EmailApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             emailApi.UpdateReturnPathWithHttpInfo(expectedDomainName, emailReturnPathAddressRequest),
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
         AssertResponseWithHttpInfo(
             emailApi.UpdateReturnPathWithHttpInfoAsync(expectedDomainName, emailReturnPathAddressRequest).Result,
-            AssertEmailDomainResponse);
+            AssertEmailDomainResponse, 200);
     }
 
     [TestMethod]
@@ -1047,186 +1062,821 @@ public class EmailApiTest : ApiTest
     {
         var givenDomainName = "domainName";
 
-        SetUpNoRequestBodyNoResponseBodyPostRequest(EMAIL_DOMAIN_VERIFY.Replace("{domainName}", givenDomainName), 202);
+        SetUpPostRequest(EMAIL_DOMAIN_VERIFY.Replace("{domainName}", givenDomainName), 202);
 
         var emailApi = new EmailApi(configuration);
 
-        AssertNoBodyResponseWithHttpInfo(emailApi.VerifyDomainWithHttpInfo(givenDomainName), HttpStatusCode.Accepted);
+        AssertNoBodyResponseWithHttpInfo(emailApi.VerifyDomainWithHttpInfo(givenDomainName), 202);
         AssertNoBodyResponseWithHttpInfo(emailApi.VerifyDomainWithHttpInfoAsync(givenDomainName).Result,
-            HttpStatusCode.Accepted);
+            202);
     }
 
     [TestMethod]
-    public void ShouldListAllDedicatedIpsForProvidedAccountId()
+    public void ShouldGetSuppresions()
     {
-        var expectedIpAddress = "11.11.11.1";
-        var expectedDedicated = true;
-        var expectedAssignedDomainCount = 1;
-        var expectedStatus = "ASSIGNABLE";
+        var expectedDomainName = "example.com";
+        var expectedEmailAddress = "jane.smith@example.org";
+        var expectedType = "BOUNCE";
+        var expectedCreatedDate = "2024-08-14T14:02:17.366Z";
+        var expectedReason = "550 5.1.1 <jane.smith@example.org>: user does not exist";
+        var expectedPage = 0;
+        var expectedSize = 100;
 
         var expectedResponse = $@"
             {{
-                ""result"": [
-                    {{
-                        ""ipAddress"": ""{expectedIpAddress}"",
-                        ""dedicated"": {expectedDedicated.ToString().ToLower()},
-                        ""assignedDomainCount"": {expectedAssignedDomainCount},
-                        ""status"": ""{expectedStatus}""
-                    }}
-                ]
+              ""results"": [
+                {{
+                  ""domainName"": ""{expectedDomainName}"",
+                  ""emailAddress"": ""{expectedEmailAddress}"",
+                  ""type"": ""{expectedType}"",
+                  ""createdDate"": ""{expectedCreatedDate}"",
+                  ""reason"": ""{expectedReason}""
+                }}
+              ],
+              ""paging"": {{
+                ""page"": {expectedPage},
+                ""size"": {expectedSize}
+              }}
             }}";
 
-        SetUpGetRequest(EMAIL_IPS, expectedResponse, 200);
-
-        var emailApi = new EmailApi(configuration);
-
-        void AssertEmailDomainIpResponse(EmailDomainIpResponse emailDomainIpResponse)
-        {
-            Assert.IsNotNull(emailDomainIpResponse);
-            Assert.IsNotNull(emailDomainIpResponse.Result[0]);
-            Assert.AreEqual(expectedIpAddress, emailDomainIpResponse.Result[0].IpAddress);
-            Assert.AreEqual(expectedDedicated, emailDomainIpResponse.Result[0].Dedicated);
-            Assert.AreEqual(expectedAssignedDomainCount, emailDomainIpResponse.Result[0].AssignedDomainCount);
-            Assert.AreEqual(expectedStatus, emailDomainIpResponse.Result[0].Status);
-        }
-
-        AssertResponse(emailApi.GetAllIps(), AssertEmailDomainIpResponse);
-        AssertResponse(emailApi.GetAllIpsAsync().Result, AssertEmailDomainIpResponse);
-
-        AssertResponseWithHttpInfo(emailApi.GetAllIpsWithHttpInfo(), AssertEmailDomainIpResponse);
-        AssertResponseWithHttpInfo(emailApi.GetAllIpsWithHttpInfoAsync().Result, AssertEmailDomainIpResponse);
-    }
-
-    [TestMethod]
-    public void ShouldListAllDedicatedIpsForDomainAndForProvidedAccountId()
-    {
-        var expectedIpAddress = "11.11.11.1";
-        var expectedDedicated = true;
-        var expectedAssignedDomainCount = 1;
-        var expectedStatus = "ASSIGNABLE";
-
-        var expectedDomainName = "domainName";
-
-        var expectedResponse = $@"
-            {{
-                ""result"": [
-                    {{
-                        ""ipAddress"": ""{expectedIpAddress}"",
-                        ""dedicated"": {expectedDedicated.ToString().ToLower()},
-                        ""assignedDomainCount"": {expectedAssignedDomainCount},
-                        ""status"": ""{expectedStatus}""
-                    }}
-                ]
-            }}";
-
-        var queryParameters = new Dictionary<string, string>
-        {
-            { "domainName", expectedDomainName }
-        };
-
-        SetUpGetRequest(EMAIL_DOMAIN_IPS, queryParameters, expectedResponse, 200);
-
-        var emailApi = new EmailApi(configuration);
-
-        void AssertEmailDomainIpResponse(EmailDomainIpResponse emailDomainIpResponse)
-        {
-            Assert.IsNotNull(emailDomainIpResponse);
-            Assert.IsNotNull(emailDomainIpResponse.Result[0]);
-            Assert.AreEqual(expectedIpAddress, emailDomainIpResponse.Result[0].IpAddress);
-            Assert.AreEqual(expectedDedicated, emailDomainIpResponse.Result[0].Dedicated);
-            Assert.AreEqual(expectedAssignedDomainCount, emailDomainIpResponse.Result[0].AssignedDomainCount);
-            Assert.AreEqual(expectedStatus, emailDomainIpResponse.Result[0].Status);
-        }
-
-        AssertResponse(emailApi.GetAllDomainIps(expectedDomainName), AssertEmailDomainIpResponse);
-        AssertResponse(emailApi.GetAllDomainIpsAsync(expectedDomainName).Result, AssertEmailDomainIpResponse);
-
-        AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfo(expectedDomainName),
-            AssertEmailDomainIpResponse);
-        AssertResponseWithHttpInfo(emailApi.GetAllDomainIpsWithHttpInfoAsync(expectedDomainName).Result,
-            AssertEmailDomainIpResponse);
-    }
-
-    [TestMethod]
-    public void ShouldAssignDedicatedIpAddressToProvidedDomainForTheAccountId()
-    {
-        var givenDomainName = "domain.com";
-        var givenIpAddress = "11.11.11.11";
-
-        var expectedResult = "OK";
-
-        var givenRequest = $@"
-            {{
-                ""domainName"": ""{givenDomainName}"",
-                ""ipAddress"": ""{givenIpAddress}""
-            }}";
-
-        var expectedResponse = $@"
-            {{
-                ""result"": ""{expectedResult}""
-            }}";
-
-        SetUpPostRequest(EMAIL_DOMAIN_IPS, givenRequest, expectedResponse, 200);
-
-        var emailApi = new EmailApi(configuration);
-
-        var emailDomainIpRequest = new EmailDomainIpRequest(
-            givenDomainName,
-            givenIpAddress
-        );
-
-        void AssertEmailSimpleApiResponse(EmailSimpleApiResponse emailSimpleApiResponse)
-        {
-            Assert.IsNotNull(emailSimpleApiResponse);
-            Assert.AreEqual(expectedResult, emailSimpleApiResponse.Result);
-        }
-
-        AssertResponse(emailApi.AssignIpToDomain(emailDomainIpRequest), AssertEmailSimpleApiResponse);
-        AssertResponse(emailApi.AssignIpToDomainAsync(emailDomainIpRequest).Result, AssertEmailSimpleApiResponse);
-
-        AssertResponseWithHttpInfo(emailApi.AssignIpToDomainWithHttpInfo(emailDomainIpRequest),
-            AssertEmailSimpleApiResponse);
-        AssertResponseWithHttpInfo(emailApi.AssignIpToDomainWithHttpInfoAsync(emailDomainIpRequest).Result,
-            AssertEmailSimpleApiResponse);
-    }
-
-    [TestMethod]
-    public void ShouldRemoveDedicatedIpAddressFromTheProvidedDomain()
-    {
-        var givenDomainName = "domain.com";
-        var givenIpAddress = "11.11.11.11";
-
-        var expectedResult = "OK";
-
-        var expectedResponse = $@"
-            {{
-                ""result"": ""{expectedResult}""
-            }}";
+        var givenDomainName = "example.com";
+        var givenType = EmailSuppressionType.Bounce;
+        var givenPage = 0;
+        var givenSize = 100;
 
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "domainName", givenDomainName },
-            { "ipAddress", givenIpAddress }
+            { "domainName", expectedEmailAddress },
+            { "type", givenType.ToString() },
+            { "page", givenPage.ToString() },
+            { "size", givenSize.ToString() }
         };
 
-        SetUpDeleteRequestWithResponseBody(EMAIL_DOMAIN_IPS, givenQueryParameters, expectedResponse, 200);
+        SetUpGetRequest(EMAIL_SUPPRESIONS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
         var emailApi = new EmailApi(configuration);
 
-        void AssertEmailSimpleApiResponse(EmailSimpleApiResponse emailSimpleApiResponse)
+        void AssertEmailSuppressionInfoPageResponse(EmailSuppressionInfoPageResponse emailSuppressionInfoPageResponse)
         {
-            Assert.IsNotNull(emailSimpleApiResponse);
-            Assert.AreEqual(expectedResult, emailSimpleApiResponse.Result);
+            Assert.IsNotNull(emailSuppressionInfoPageResponse);
+
+            var results = emailSuppressionInfoPageResponse.Results;
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
+
+            Assert.AreEqual(expectedDomainName, results[0].DomainName);
+            Assert.AreEqual(expectedEmailAddress, results[0].EmailAddress);
+            Assert.AreEqual(expectedType, results[0].Type);
+            Assert.AreEqual(DateTimeOffset.Parse(expectedCreatedDate), results[0].CreatedDate);
+            Assert.AreEqual(expectedReason, results[0].Reason);
+
+            Assert.AreEqual(expectedPage, emailSuppressionInfoPageResponse.Paging.Page);
+            Assert.AreEqual(expectedSize, emailSuppressionInfoPageResponse.Paging.Size);
         }
 
-        AssertResponse(emailApi.RemoveIpFromDomain(givenDomainName, givenIpAddress), AssertEmailSimpleApiResponse);
-        AssertResponse(emailApi.RemoveIpFromDomainAsync(givenDomainName, givenIpAddress).Result,
-            AssertEmailSimpleApiResponse);
+        AssertResponse(emailApi.GetSuppressions(givenDomainName, givenType),
+            AssertEmailSuppressionInfoPageResponse);
+        AssertResponse(emailApi.GetSuppressionsAsync(givenDomainName, givenType).Result,
+            AssertEmailSuppressionInfoPageResponse);
 
-        AssertResponseWithHttpInfo(emailApi.RemoveIpFromDomainWithHttpInfo(givenDomainName, givenIpAddress),
-            AssertEmailSimpleApiResponse);
-        AssertResponseWithHttpInfo(emailApi.RemoveIpFromDomainWithHttpInfoAsync(givenDomainName, givenIpAddress).Result,
-            AssertEmailSimpleApiResponse);
+        AssertResponseWithHttpInfo(
+            emailApi.GetSuppressionsWithHttpInfo(givenDomainName, givenType),
+            AssertEmailSuppressionInfoPageResponse, 200);
+        AssertResponseWithHttpInfo(
+            emailApi.GetSuppressionsWithHttpInfoAsync(givenDomainName, givenType).Result,
+            AssertEmailSuppressionInfoPageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldAddSuppresions()
+    {
+        var givenDomainName = "example.com";
+        var givenEmailAddress = "jane.smith@example.org";
+        var givenSecondEmailAddress = "john.doe@example.org";
+        var givenType = "BOUNCE";
+        var givenAnotherDomainName = "another.example.com";
+        var givenAnotherEmailAddress = "john.smith@example.org";
+        var givenAnotherSecondEmailAddress = "john.perry@example.org";
+        var givenAnotherType = "BOUNCE";
+
+        var givenRequest = $@"
+            {{
+              ""suppressions"": [
+                {{
+                  ""domainName"": ""{givenDomainName}"",
+                  ""emailAddress"": [
+                    ""{givenEmailAddress}"",
+                    ""{givenSecondEmailAddress}""
+                  ],
+                  ""type"": ""{givenType}""
+                }},
+                {{
+                  ""domainName"": ""{givenAnotherDomainName}"",
+                  ""emailAddress"": [
+                    ""{givenAnotherEmailAddress}"",
+                    ""{givenAnotherSecondEmailAddress}""
+                  ],
+                  ""type"": ""{givenAnotherType}""
+                }}
+              ]
+            }}";
+
+        var emailAddSuppressionRequest = new EmailAddSuppressionRequest(
+            new List<EmailAddSuppression>
+            {
+                new(
+                    givenDomainName,
+                    new List<string>
+                    {
+                        givenEmailAddress,
+                        givenSecondEmailAddress
+                    },
+                    EmailAddSuppressionType.Bounce
+                ),
+                new(
+                    givenAnotherDomainName,
+                    new List<string>
+                    {
+                        givenAnotherEmailAddress,
+                        givenAnotherSecondEmailAddress
+                    },
+                    EmailAddSuppressionType.Bounce
+                )
+            }
+        );
+
+        SetUpPostRequest(EMAIL_SUPPRESIONS_ENDPOINT, 204, givenRequest);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.AddSuppressionsWithHttpInfo(emailAddSuppressionRequest), 204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.AddSuppressionsWithHttpInfoAsync(emailAddSuppressionRequest).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldDeleteSuppresions()
+    {
+        var givenDomainName = "example.com";
+        var givenEmailAddress = "jane.smith@example.org";
+        var givenSecondEmailAddress = "john.doe@example.org";
+        var givenType = "BOUNCE";
+        var givenAnotherDomainName = "another.example.com";
+        var givenAnotherEmailAddress = "john.smith@example.org";
+        var givenAnotherSecondEmailAddress = "john.perry@example.org";
+        var givenAnotherType = "COMPLAINT";
+        var givenYetAnotherDomainName = "example.com";
+        var givenYetAnotherEmailAddress = "jack@peterson@example.org";
+        var givenYetAnotherType = "OVER_QUOTA";
+
+        var givenRequest = $@"
+            {{
+              ""suppressions"": [
+                {{
+                  ""domainName"": ""{givenDomainName}"",
+                  ""emailAddress"": [
+                    ""{givenEmailAddress}"",
+                    ""{givenSecondEmailAddress}""
+                  ],
+                  ""type"": ""{givenType}""
+                }},
+                {{
+                  ""domainName"": ""{givenAnotherDomainName}"",
+                  ""emailAddress"": [
+                    ""{givenAnotherEmailAddress}"",
+                    ""{givenAnotherSecondEmailAddress}""
+                  ],
+                  ""type"": ""{givenAnotherType}""
+                }},
+                {{
+                  ""domainName"": ""{givenYetAnotherDomainName}"",
+                  ""emailAddress"": [
+                    ""{givenYetAnotherEmailAddress}""
+                  ],
+                  ""type"": ""{givenYetAnotherType}""
+                }}
+              ]
+            }}";
+
+        var emailDeleteSuppressionRequest = new EmailDeleteSuppressionRequest(
+            new List<EmailDeleteSuppression>
+            {
+                new(
+                    givenDomainName,
+                    new List<string>
+                    {
+                        givenEmailAddress,
+                        givenSecondEmailAddress
+                    },
+                    EmailSuppressionType.Bounce
+                ),
+                new(
+                    givenAnotherDomainName,
+                    new List<string>
+                    {
+                        givenAnotherEmailAddress,
+                        givenAnotherSecondEmailAddress
+                    },
+                    EmailSuppressionType.Complaint
+                ),
+                new(
+                    givenYetAnotherDomainName,
+                    new List<string>
+                    {
+                        givenYetAnotherEmailAddress
+                    },
+                    EmailSuppressionType.OverQuota
+                )
+            }
+        );
+
+        SetUpDeleteRequest(EMAIL_SUPPRESIONS_ENDPOINT, 204, givenRequest);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.DeleteSuppressionsWithHttpInfo(emailDeleteSuppressionRequest), 204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.DeleteSuppressionsWithHttpInfoAsync(emailDeleteSuppressionRequest).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldGetSuppresionDomains()
+    {
+        var expectedDomainName = "another.example.com";
+        var expectedDataAccess = EmailDomainAccess.Owner;
+        var expectedReadBounces = true;
+        var expectedCreateBounces = true;
+        var expectedDeleteBounces = true;
+        var expectedReadComplaints = true;
+        var expectedCreateComplaints = true;
+        var expectedDeleteComplaints = true;
+        var expectedReadOverquotas = true;
+        var expectedDeleteOverquotas = true;
+        var expectedSecondDomainName = "example.com";
+        var expectedSecondDataAccess = EmailDomainAccess.Granted;
+        var expectedSecondReadBounces = true;
+        var expectedSecondCreateBounces = true;
+        var expectedSecondDeleteBounces = false;
+        var expectedSecondReadComplaints = true;
+        var expectedSecondCreateComplaints = false;
+        var expectedSecondDeleteComplaints = false;
+        var expectedSecondReadOverquotas = false;
+        var expectedSecondDeleteOverquotas = false;
+        var expectedPage = 0;
+        var expectedSize = 100;
+
+        var expectedResponse = $@"
+            {{
+              ""results"": [
+                {{
+                  ""domainName"": ""{expectedDomainName}"",
+                  ""dataAccess"": ""{GetEnumAttributeValue(expectedDataAccess)}"",
+                  ""readBounces"": {expectedReadBounces.ToString().ToLower()},
+                  ""createBounces"": {expectedCreateBounces.ToString().ToLower()},
+                  ""deleteBounces"": {expectedDeleteBounces.ToString().ToLower()},
+                  ""readComplaints"": {expectedReadComplaints.ToString().ToLower()},
+                  ""createComplaints"": {expectedCreateComplaints.ToString().ToLower()},
+                  ""deleteComplaints"": {expectedDeleteComplaints.ToString().ToLower()},
+                  ""readOverquotas"": {expectedReadOverquotas.ToString().ToLower()},
+                  ""deleteOverquotas"": {expectedDeleteOverquotas.ToString().ToLower()}
+                }},
+                {{
+                  ""domainName"": ""{expectedSecondDomainName.ToLower()}"",
+                  ""dataAccess"": ""{GetEnumAttributeValue(expectedSecondDataAccess)}"",
+                  ""readBounces"": {expectedSecondReadBounces.ToString().ToLower()},
+                  ""createBounces"": {expectedSecondCreateBounces.ToString().ToLower()},
+                  ""deleteBounces"": {expectedSecondDeleteBounces.ToString().ToLower()},
+                  ""readComplaints"": {expectedSecondReadComplaints.ToString().ToLower()},
+                  ""createComplaints"": {expectedSecondCreateComplaints.ToString().ToLower()},
+                  ""deleteComplaints"": {expectedSecondDeleteComplaints.ToString().ToLower()},
+                  ""readOverquotas"": {expectedSecondReadOverquotas.ToString().ToLower()},
+                  ""deleteOverquotas"": {expectedSecondDeleteOverquotas.ToString().ToLower()}
+                }}
+              ],
+              ""paging"": {{
+                ""page"": {expectedPage},
+                ""size"": {expectedSize}
+              }}
+            }}";
+
+        var givenPage = 0;
+        var givenSize = 100;
+        var givenQueryParameters = new Dictionary<string, string>
+        {
+            { "page", givenPage.ToString() },
+            { "size", givenSize.ToString() }
+        };
+
+        SetUpGetRequest(EMAIL_SUPPRESIONS_DOMAINS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailDomainInfoPageResponse(EmailDomainInfoPageResponse emailDomainInfoPageResponse)
+        {
+            Assert.IsNotNull(emailDomainInfoPageResponse);
+
+            var results = emailDomainInfoPageResponse.Results;
+            Assert.IsNotNull(results);
+            Assert.AreEqual(2, results.Count);
+
+            Assert.AreEqual(expectedDomainName, results[0].DomainName);
+            Assert.AreEqual(expectedDataAccess, results[0].DataAccess);
+            Assert.AreEqual(expectedReadBounces, results[0].ReadBounces);
+            Assert.AreEqual(expectedCreateBounces, results[0].CreateBounces);
+            Assert.AreEqual(expectedDeleteBounces, results[0].DeleteBounces);
+            Assert.AreEqual(expectedReadComplaints, results[0].ReadComplaints);
+            Assert.AreEqual(expectedCreateComplaints, results[0].CreateComplaints);
+            Assert.AreEqual(expectedDeleteComplaints, results[0].DeleteComplaints);
+            Assert.AreEqual(expectedReadOverquotas, results[0].ReadOverquotas);
+            Assert.AreEqual(expectedDeleteOverquotas, results[0].DeleteOverquotas);
+
+            Assert.AreEqual(expectedSecondDomainName, results[1].DomainName);
+            Assert.AreEqual(expectedSecondDataAccess, results[1].DataAccess);
+            Assert.AreEqual(expectedSecondReadBounces, results[1].ReadBounces);
+            Assert.AreEqual(expectedSecondCreateBounces, results[1].CreateBounces);
+            Assert.AreEqual(expectedSecondDeleteBounces, results[1].DeleteBounces);
+            Assert.AreEqual(expectedSecondReadComplaints, results[1].ReadComplaints);
+            Assert.AreEqual(expectedSecondCreateComplaints, results[1].CreateComplaints);
+            Assert.AreEqual(expectedSecondDeleteComplaints, results[1].DeleteComplaints);
+            Assert.AreEqual(expectedSecondReadOverquotas, results[1].ReadOverquotas);
+            Assert.AreEqual(expectedSecondDeleteOverquotas, results[1].DeleteOverquotas);
+
+            Assert.AreEqual(expectedPage, emailDomainInfoPageResponse.Paging.Page);
+            Assert.AreEqual(expectedSize, emailDomainInfoPageResponse.Paging.Size);
+        }
+
+        AssertResponse(emailApi.GetDomains(givenPage, givenSize), AssertEmailDomainInfoPageResponse);
+        AssertResponse(emailApi.GetDomainsAsync(givenPage, givenSize).Result, AssertEmailDomainInfoPageResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetDomainsWithHttpInfo(givenPage, givenSize),
+            AssertEmailDomainInfoPageResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetDomainsWithHttpInfoAsync(givenPage, givenSize).Result,
+            AssertEmailDomainInfoPageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldGetIps()
+    {
+        var expectedId = "DB3F9D439088BF73F5560443C8054AC4";
+        var expectedIp = "198.51.100.0";
+
+        var expectedResponse = $@"
+            [
+              {{
+                ""id"": ""{expectedId}"",
+                ""ip"": ""{expectedIp}""
+              }}
+            ]";
+
+        SetUpGetRequest(EMAIL_IPS_ENDPOINT, 200, expectedResponse);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpResponse(List<EmailIpResponse> emailIpResponses)
+        {
+            Assert.IsNotNull(emailIpResponses);
+            Assert.AreEqual(1, emailIpResponses.Count);
+
+            Assert.AreEqual(expectedId, emailIpResponses[0].Id);
+            Assert.AreEqual(expectedIp, emailIpResponses[0].Ip);
+        }
+
+        AssertResponse(emailApi.GetAllIps(), AssertEmailIpResponse);
+        AssertResponse(emailApi.GetAllIpsAsync().Result, AssertEmailIpResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetAllIpsWithHttpInfo(), AssertEmailIpResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetAllIpsWithHttpInfoAsync().Result, AssertEmailIpResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldGetIp()
+    {
+        var expectedId = "DB3F9D439088BF73F5560443C8054AC4";
+        var expectedIp = "198.51.100.0";
+        var expectedPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedPoolName = "IP pool name";
+
+        var expectedResponse = $@"
+            {{
+              ""id"": ""{expectedId}"",
+              ""ip"": ""{expectedIp}"",
+              ""pools"": [
+                {{
+                  ""id"": ""{expectedPoolId}"",
+                  ""name"": ""{expectedPoolName}""
+                }}
+              ]
+            }}";
+
+        var givenIpId = "DB3F9D439088BF73F5560443C8054AC4";
+
+        SetUpGetRequest(EMAIL_IP_ENDPOINT.Replace("{ipId}", givenIpId), 200, expectedResponse);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpDetailResponse(EmailIpDetailResponse emailIpDetailResponse)
+        {
+            Assert.IsNotNull(emailIpDetailResponse);
+
+            Assert.AreEqual(expectedId, emailIpDetailResponse.Id);
+            Assert.AreEqual(expectedIp, emailIpDetailResponse.Ip);
+
+            Assert.IsNotNull(emailIpDetailResponse.Pools);
+            Assert.AreEqual(1, emailIpDetailResponse.Pools.Count);
+
+            Assert.AreEqual(expectedPoolId, emailIpDetailResponse.Pools[0].Id);
+            Assert.AreEqual(expectedPoolName, emailIpDetailResponse.Pools[0].Name);
+        }
+
+        AssertResponse(emailApi.GetIpDetails(givenIpId), AssertEmailIpDetailResponse);
+        AssertResponse(emailApi.GetIpDetailsAsync(givenIpId).Result, AssertEmailIpDetailResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetIpDetailsWithHttpInfo(givenIpId), AssertEmailIpDetailResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetIpDetailsWithHttpInfoAsync(givenIpId).Result,
+            AssertEmailIpDetailResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldGetIpPools()
+    {
+        var expectedId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedName = "IP pool name";
+
+        var expectedResponse = $@"
+            [
+              {{
+                ""id"": ""{expectedId}"",
+                ""name"": ""{expectedName}""
+              }}
+            ]";
+
+        var givenName = "IP pool name";
+        var givenQueryParameters = new Dictionary<string, string>
+        {
+            { "name", givenName }
+        };
+
+        SetUpGetRequest(EMAIL_IP_POOLS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpPoolResponse(List<EmailIpPoolResponse> emailIpPoolResponses)
+        {
+            Assert.IsNotNull(emailIpPoolResponses);
+            Assert.AreEqual(1, emailIpPoolResponses.Count);
+
+            Assert.AreEqual(expectedId, emailIpPoolResponses[0].Id);
+            Assert.AreEqual(expectedName, emailIpPoolResponses[0].Name);
+        }
+
+        AssertResponse(emailApi.GetIpPools(givenName), AssertEmailIpPoolResponse);
+        AssertResponse(emailApi.GetIpPoolsAsync(givenName).Result, AssertEmailIpPoolResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetIpPoolsWithHttpInfo(givenName), AssertEmailIpPoolResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetIpPoolsWithHttpInfoAsync(givenName).Result, AssertEmailIpPoolResponse,
+            200);
+    }
+
+    [TestMethod]
+    public void ShouldCreateIpPool()
+    {
+        var expectedId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedName = "IP pool name";
+
+        var expectedResponse = $@"
+            {{
+              ""id"": ""{expectedId}"",
+              ""name"": ""{expectedName}""
+            }}";
+
+        var givenName = "IP Pool name";
+
+        var givenRequest = $@"
+            {{
+              ""name"": ""{givenName}""
+            }}";
+
+        SetUpPostRequest(EMAIL_IP_POOLS_ENDPOINT, 201, givenRequest, expectedResponse);
+
+        var emailIpPoolCreateRequest = new EmailIpPoolCreateApiRequest(
+            givenName
+        );
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpPoolResponse(EmailIpPoolResponse emailIpPoolResponse)
+        {
+            Assert.IsNotNull(emailIpPoolResponse);
+
+            Assert.AreEqual(expectedId, emailIpPoolResponse.Id);
+            Assert.AreEqual(expectedName, emailIpPoolResponse.Name);
+        }
+
+        AssertResponse(emailApi.CreateIpPool(emailIpPoolCreateRequest), AssertEmailIpPoolResponse);
+        AssertResponse(emailApi.CreateIpPoolAsync(emailIpPoolCreateRequest).Result, AssertEmailIpPoolResponse);
+
+        AssertResponseWithHttpInfo(emailApi.CreateIpPoolWithHttpInfo(emailIpPoolCreateRequest),
+            AssertEmailIpPoolResponse, 201);
+        AssertResponseWithHttpInfo(emailApi.CreateIpPoolWithHttpInfoAsync(emailIpPoolCreateRequest).Result,
+            AssertEmailIpPoolResponse, 201);
+    }
+
+    [TestMethod]
+    public void ShouldGetIpPool()
+    {
+        var expectedId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedName = "IP pool name";
+        var expectedIpsId = "DB3F9D439088BF73F5560443C8054AC4";
+        var expectedIpsIp = "example.com";
+
+        var expectedResponse = $@"
+            {{
+              ""id"": ""{expectedId}"",
+              ""name"": ""{expectedName}"",
+              ""ips"": [
+                {{
+                  ""id"": ""{expectedIpsId}"",
+                  ""ip"": ""{expectedIpsIp}""
+                }}
+              ]
+            }}";
+
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        SetUpGetRequest(EMAIL_IP_POOL_ENDPOINT.Replace("{poolId}", givenPoolId), 200, expectedResponse);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpPoolDetailResponse(EmailIpPoolDetailResponse emailIpPoolDetailResponse)
+        {
+            Assert.IsNotNull(emailIpPoolDetailResponse);
+
+            Assert.AreEqual(expectedId, emailIpPoolDetailResponse.Id);
+            Assert.AreEqual(expectedName, emailIpPoolDetailResponse.Name);
+
+            Assert.IsNotNull(emailIpPoolDetailResponse.Ips);
+            Assert.AreEqual(1, emailIpPoolDetailResponse.Ips.Count);
+
+            Assert.AreEqual(expectedIpsId, emailIpPoolDetailResponse.Ips[0].Id);
+            Assert.AreEqual(expectedIpsIp, emailIpPoolDetailResponse.Ips[0].Ip);
+        }
+
+        AssertResponse(emailApi.GetIpPool(givenPoolId), AssertEmailIpPoolDetailResponse);
+        AssertResponse(emailApi.GetIpPoolAsync(givenPoolId).Result, AssertEmailIpPoolDetailResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetIpPoolWithHttpInfo(givenPoolId), AssertEmailIpPoolDetailResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetIpPoolWithHttpInfoAsync(givenPoolId).Result,
+            AssertEmailIpPoolDetailResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldUpdateIpPool()
+    {
+        var expectedId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedName = "IP pool name";
+
+        var expectedResponse = $@"
+            {{
+              ""id"": ""{expectedId}"",
+              ""name"": ""{expectedName}""
+            }}";
+
+        var givenName = "IP Pool name";
+
+        var givenRequest = $@"
+            {{
+              ""name"": ""{givenName}""
+            }}";
+
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        SetUpPutRequest(EMAIL_IP_POOL_ENDPOINT.Replace("{poolId}", givenPoolId), 200, givenRequest, expectedResponse);
+
+        var emailIpPoolCreateRequest = new EmailIpPoolCreateApiRequest(
+            givenName
+        );
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpPoolResponse(EmailIpPoolResponse emailIpPoolResponse)
+        {
+            Assert.IsNotNull(emailIpPoolResponse);
+
+            Assert.AreEqual(expectedId, emailIpPoolResponse.Id);
+            Assert.AreEqual(expectedName, emailIpPoolResponse.Name);
+        }
+
+        AssertResponse(emailApi.UpdateIpPool(givenPoolId, emailIpPoolCreateRequest), AssertEmailIpPoolResponse);
+        AssertResponse(emailApi.UpdateIpPoolAsync(givenPoolId, emailIpPoolCreateRequest).Result,
+            AssertEmailIpPoolResponse);
+
+        AssertResponseWithHttpInfo(emailApi.UpdateIpPoolWithHttpInfo(givenPoolId, emailIpPoolCreateRequest),
+            AssertEmailIpPoolResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.UpdateIpPoolWithHttpInfoAsync(givenPoolId, emailIpPoolCreateRequest).Result,
+            AssertEmailIpPoolResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldDeletePool()
+    {
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        SetUpDeleteRequest(EMAIL_IP_POOL_ENDPOINT.Replace("{poolId}", givenPoolId), 204);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(emailApi.DeleteIpPoolWithHttpInfo(givenPoolId), 204);
+        AssertNoBodyResponseWithHttpInfo(emailApi.DeleteIpPoolWithHttpInfoAsync(givenPoolId).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldAssignIpToPool()
+    {
+        var givenIpId = "DB3F9D439088BF73F5560443C8054AC4";
+
+        var givenRequest = $@"
+            {{
+              ""ipId"": ""{givenIpId}""
+            }}";
+
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        var emailIpPoolAssignIpRequest = new EmailIpPoolAssignIpApiRequest(
+            givenIpId
+        );
+
+        SetUpPostRequest(EMAIL_IP_POOLS_IPS_ENDPOINT.Replace("{poolId}", givenPoolId), 204, givenRequest);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(emailApi.AssignIpToPoolWithHttpInfo(givenPoolId, emailIpPoolAssignIpRequest),
+            204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.AssignIpToPoolWithHttpInfoAsync(givenPoolId, emailIpPoolAssignIpRequest).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldUnassignIpFromPool()
+    {
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var givenIpId = "DB3F9D439088BF73F5560443C8054AC4";
+
+        SetUpDeleteRequest(EMAIL_IP_POOLS_IP_ENDPOINT.Replace("{poolId}", givenPoolId).Replace("{ipId}", givenIpId),
+            204);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpFromPoolWithHttpInfo(givenPoolId, givenIpId), 204);
+        AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpFromPoolWithHttpInfoAsync(givenPoolId, givenIpId).Result,
+            204);
+    }
+
+    [TestMethod]
+    public void ShouldGetDomain()
+    {
+        var expectedId = 1;
+        var expectedName = "example.com";
+        var expectedPoolsId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var expectedPoolsName = "IP pool name";
+        var expectedPoolsPriority = 0;
+        var expectedIpsId = "DB3F9D439088BF73F5560443C8054AC4";
+        var expectedIpsIp = "198.51.100.0";
+
+        var expectedResponse = $@"
+            {{
+              ""id"": {expectedId},
+              ""name"": ""{expectedName}"",
+              ""pools"": [
+                {{
+                  ""id"": ""{expectedPoolsId}"",
+                  ""name"": ""{expectedPoolsName}"",
+                  ""priority"": {expectedPoolsPriority},
+                  ""ips"": [
+                    {{
+                      ""id"": ""{expectedIpsId}"",
+                      ""ip"": ""{expectedIpsIp}""
+                    }}
+                  ]
+                }}
+              ]
+            }}";
+
+        var givenDomainId = 1;
+
+        SetUpGetRequest(EMAIL_IP_DOMAIN_ENDPOINT.Replace("{domainId}", givenDomainId.ToString()), 200,
+            expectedResponse);
+
+        var emailApi = new EmailApi(configuration);
+
+        void AssertEmailIpDomainResponse(EmailIpDomainResponse emailIpDomainResponse)
+        {
+            Assert.IsNotNull(emailIpDomainResponse);
+
+            Assert.AreEqual(expectedId, emailIpDomainResponse.Id);
+            Assert.AreEqual(expectedName, emailIpDomainResponse.Name);
+
+            var pools = emailIpDomainResponse.Pools;
+            Assert.IsNotNull(pools);
+            Assert.AreEqual(1, pools.Count);
+
+            Assert.AreEqual(expectedPoolsId, pools[0].Id);
+            Assert.AreEqual(expectedPoolsName, pools[0].Name);
+            Assert.AreEqual(expectedPoolsPriority, pools[0].Priority);
+
+            var ips = pools[0].Ips;
+            Assert.IsNotNull(ips);
+            Assert.AreEqual(1, ips.Count);
+
+            Assert.AreEqual(expectedIpsId, ips[0].Id);
+            Assert.AreEqual(expectedIpsIp, ips[0].Ip);
+        }
+
+        AssertResponse(emailApi.GetIpDomain(givenDomainId), AssertEmailIpDomainResponse);
+        AssertResponse(emailApi.GetIpDomainAsync(givenDomainId).Result, AssertEmailIpDomainResponse);
+
+        AssertResponseWithHttpInfo(emailApi.GetIpDomainWithHttpInfo(givenDomainId), AssertEmailIpDomainResponse, 200);
+        AssertResponseWithHttpInfo(emailApi.GetIpDomainWithHttpInfoAsync(givenDomainId).Result,
+            AssertEmailIpDomainResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldAssignIpPoolToDomain()
+    {
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+        var givenPriority = 0;
+
+        var givenRequest = $@"
+            {{
+              ""poolId"": ""{givenPoolId}"",
+              ""priority"": {givenPriority}
+            }}";
+
+        var emailDomainIpPoolAssignRequest = new EmailDomainIpPoolAssignApiRequest(
+            givenPoolId,
+            givenPriority
+        );
+
+        var givenDomainId = 1;
+
+        SetUpPostRequest(EMAIL_IP_DOMAIN_POOLS_ENDPOINT.Replace("{domainId}", givenDomainId.ToString()), 204,
+            givenRequest);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.AssignPoolToDomainWithHttpInfo(givenDomainId, emailDomainIpPoolAssignRequest), 204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.AssignPoolToDomainWithHttpInfoAsync(givenDomainId, emailDomainIpPoolAssignRequest).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldUpdateIpPoolSendingPriority()
+    {
+        var givenPriority = 0;
+
+        var givenRequest = $@"
+            {{
+             ""priority"": {givenPriority}
+            }}";
+
+        var givenDomainId = 1;
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        var emailDomainIpPoolUpdateRequest = new EmailDomainIpPoolUpdateApiRequest(
+            givenPriority
+        );
+
+        SetUpPutRequest(
+            EMAIL_IP_DOMAIN_POOL_ENDPOINT.Replace("{domainId}", givenDomainId.ToString())
+                .Replace("{poolId}", givenPoolId), 204, givenRequest);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.UpdateDomainPoolPriorityWithHttpInfo(givenDomainId, givenPoolId, emailDomainIpPoolUpdateRequest),
+            204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.UpdateDomainPoolPriorityWithHttpInfoAsync(givenDomainId, givenPoolId,
+                emailDomainIpPoolUpdateRequest).Result, 204);
+    }
+
+    [TestMethod]
+    public void ShouldUnassignIpPoolFromDomain()
+    {
+        var givenDomainId = 1;
+        var givenPoolId = "08A3A7608750CC6E6080325A6ADF45B6";
+
+        SetUpDeleteRequest(
+            EMAIL_IP_DOMAIN_POOL_ENDPOINT.Replace("{domainId}", givenDomainId.ToString())
+                .Replace("{poolId}", givenPoolId), 204);
+
+        var emailApi = new EmailApi(configuration);
+
+        AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpPoolFromDomainWithHttpInfo(givenDomainId, givenPoolId), 204);
+        AssertNoBodyResponseWithHttpInfo(
+            emailApi.RemoveIpPoolFromDomainWithHttpInfoAsync(givenDomainId, givenPoolId).Result, 204);
     }
 
     [DataTestMethod]
@@ -1239,7 +1889,7 @@ public class EmailApiTest : ApiTest
         var expectedErrorText = ErrorResponses[errorResponseIndex].Item4;
         var expectedErrorPhrase = ErrorResponses[errorResponseIndex].Item3;
 
-        var givenTo = "john.smith@somedomain.com";
+        var givenTo = "john.smith@example.com";
         var givenMessageCount = 1;
         var givenMessageId = "somexternalMessageId";
         var givenGroupId = 1;
@@ -1247,7 +1897,7 @@ public class EmailApiTest : ApiTest
         var givenId = 7;
         var givenName = "PENDING_ENROUTE";
         var givenDescription = "Message sent to next instance";
-        var givenFrom = "jane.smith@somecompany.com";
+        var givenFrom = "jane.smith@example.com";
         var givenSubject = "Mail subject text";
         var givenMailText = "Mail text";
 
@@ -1320,6 +1970,172 @@ public class EmailApiTest : ApiTest
         }
     }
 
+    [TestMethod]
+    public void ShouldReceiveEmailDeliveryReport()
+    {
+        var givenBulkId = "aszzmbhu62l7bxkhmyrj";
+        var givenPricePerMessage = 0;
+        var givenCurrency = "UNKNOWN";
+        var givenStatusId = 5;
+        var givenStatusGroupId = 3;
+        var givenStatusGroupName = "DELIVERED";
+        var givenStatusName = "DELIVERED_TO_HANDSET";
+        var givenStatusDescription = "Message delivered to handset";
+        var givenErrorId = 0;
+        var givenErrorName = "NO_ERROR";
+        var givenErrorDescription = "No Error";
+        var givenErrorGroupId = 0;
+        var givenErrorGroupName = "OK";
+        var givenErrorPermanent = false;
+        var givenMessageId = "hgtesn8bcmc71pujp92d";
+        var givenDoneAt = "2020-09-08T05:27:59.256+0000";
+        var givenSmsCount = 1;
+        var givenSentAt = "2020-09-08T05:27:57.628+0000";
+        var givenBrowserLink =
+            "http://tracking.domain.com/render/content?id=9A31C6F61DBAE9664D74C7A5A5A01F92283F581D11EA80A28C12E83BC83D449BC4A9F32F1AE3C3E";
+        var givenSendingIp = "1.2.3.4";
+        var givenCallbackData = "something you want back";
+        var givenTo = "john.doe@example.com";
+
+        var givenResponse = $@"
+            {{
+              ""results"": [
+                {{
+                  ""bulkId"": ""{givenBulkId}"",
+                  ""price"": {{
+                    ""pricePerMessage"": {givenPricePerMessage},
+                    ""currency"": ""{givenCurrency}""
+                  }},
+                  ""status"": {{
+                    ""id"": {givenStatusId},
+                    ""groupId"": {givenStatusGroupId},
+                    ""groupName"": ""{givenStatusGroupName}"",
+                    ""name"": ""{givenStatusName}"",
+                    ""description"": ""{givenStatusDescription}""
+                  }},
+                  ""error"": {{
+                    ""id"": {givenErrorId},
+                    ""name"": ""{givenErrorName}"",
+                    ""description"": ""{givenErrorDescription}"",
+                    ""groupId"": {givenErrorGroupId},
+                    ""groupName"": ""{givenErrorGroupName}"",
+                    ""permanent"": {givenErrorPermanent.ToString().ToLower()}
+                  }},
+                  ""messageId"": ""{givenMessageId}"",
+                  ""doneAt"": ""{givenDoneAt}"",
+                  ""smsCount"": {givenSmsCount},
+                  ""sentAt"": ""{givenSentAt}"",
+                  ""browserLink"": ""{givenBrowserLink}"",
+                  ""sendingIp"": ""{givenSendingIp}"",
+                  ""callbackData"": ""{givenCallbackData}"",
+                  ""to"": ""{givenTo}""
+                }}
+              ]
+            }}";
+
+        var emailWebhookDLRReportResponse = JsonConvert.DeserializeObject<EmailWebhookDLRReportResponse>(givenResponse);
+        AssertEmailWebhookDLRReportResponse(emailWebhookDLRReportResponse!);
+
+        var emailWebhookDLRReportResponseSystemTextJson =
+            JsonSerializer.Deserialize<EmailWebhookDLRReportResponse>(givenResponse);
+        AssertEmailWebhookDLRReportResponse(emailWebhookDLRReportResponseSystemTextJson!);
+
+        void AssertEmailWebhookDLRReportResponse(EmailWebhookDLRReportResponse emailWebhookDLRReportResponse)
+        {
+            Assert.IsNotNull(emailWebhookDLRReportResponse);
+            Assert.IsNotNull(emailWebhookDLRReportResponse.Results);
+            Assert.AreEqual(1, emailWebhookDLRReportResponse.Results.Count);
+
+            var emailWebhookDeliveryReport = emailWebhookDLRReportResponse.Results[0];
+            Assert.AreEqual(givenBulkId, emailWebhookDeliveryReport.BulkId);
+
+            Assert.AreEqual(givenPricePerMessage, emailWebhookDeliveryReport.Price.PricePerMessage);
+            Assert.AreEqual(givenCurrency, emailWebhookDeliveryReport.Price.Currency);
+
+            Assert.AreEqual(givenStatusGroupId, emailWebhookDeliveryReport.Status.GroupId);
+            Assert.AreEqual(givenStatusGroupName, emailWebhookDeliveryReport.Status.GroupName);
+            Assert.AreEqual(givenStatusId, emailWebhookDeliveryReport.Status.Id);
+            Assert.AreEqual(givenStatusName, emailWebhookDeliveryReport.Status.Name);
+            Assert.AreEqual(givenStatusDescription, emailWebhookDeliveryReport.Status.Description);
+
+            Assert.AreEqual(givenErrorGroupId, emailWebhookDeliveryReport.Error.GroupId);
+            Assert.AreEqual(givenErrorGroupName, emailWebhookDeliveryReport.Error.GroupName);
+            Assert.AreEqual(givenErrorId, emailWebhookDeliveryReport.Error.Id);
+            Assert.AreEqual(givenErrorName, emailWebhookDeliveryReport.Error.Name);
+            Assert.AreEqual(givenErrorDescription, emailWebhookDeliveryReport.Error.Description);
+
+            Assert.AreEqual(givenMessageId, emailWebhookDeliveryReport.MessageId);
+            Assert.AreEqual(DateTimeOffset.Parse(givenDoneAt), emailWebhookDeliveryReport.DoneAt);
+            Assert.AreEqual(givenSmsCount, emailWebhookDeliveryReport.SmsCount);
+            Assert.AreEqual(DateTimeOffset.Parse(givenSentAt), emailWebhookDeliveryReport.SentAt);
+            Assert.AreEqual(givenBrowserLink, emailWebhookDeliveryReport.BrowserLink);
+            Assert.AreEqual(givenSendingIp, emailWebhookDeliveryReport.SendingIp);
+            Assert.AreEqual(givenCallbackData, emailWebhookDeliveryReport.CallbackData);
+            Assert.AreEqual(givenTo, emailWebhookDeliveryReport.To);
+        }
+    }
+
+    [TestMethod]
+    public void ShouldReceiveUserEvents()
+    {
+        var givenNotificationType = "OPENED";
+        var givenDomain = "some-domain.com";
+        var givenRecipient = "john.doe@example.com";
+        var givenSendDateTime = 1704106800000;
+        var givenMessageId = "14b734recsf69n8zkao5";
+        var givenBulkId = "ikzzmbhu6223bxkhmyrj";
+        var givenCallbackData = "Callback data";
+        var givenDeviceType = "Phone";
+        var givenOs = "iOS 12";
+        var givenDeviceName = "Apple";
+        var givenCity = "Los Angeles";
+        var givenCountryName = "United States";
+
+        var givenResponse = $@"
+            {{
+              ""notificationType"": ""{givenNotificationType}"",
+              ""domain"": ""{givenDomain}"",
+              ""recipient"": ""{givenRecipient}"",
+              ""sendDateTime"": {givenSendDateTime},
+              ""messageId"": ""{givenMessageId}"",
+              ""bulkId"": ""{givenBulkId}"",
+              ""callbackData"": ""{givenCallbackData}"",
+              ""recipientInfo"": {{
+                ""deviceType"": ""{givenDeviceType}"",
+                ""os"": ""{givenOs}"",
+                ""deviceName"": ""{givenDeviceName}""
+              }},
+              ""geoLocation"": {{
+                ""city"": ""{givenCity}"",
+                ""countryName"": ""{givenCountryName}""
+              }}
+            }}";
+
+        var emailWebhookTrackResponse = JsonConvert.DeserializeObject<EmailWebhookTrackResponse>(givenResponse);
+        AssertEmailWebhookTrackResponse(emailWebhookTrackResponse!);
+
+        var emailWebhookTrackResponseSystemTextJson =
+            JsonSerializer.Deserialize<EmailWebhookTrackResponse>(givenResponse);
+        AssertEmailWebhookTrackResponse(emailWebhookTrackResponseSystemTextJson!);
+
+        void AssertEmailWebhookTrackResponse(EmailWebhookTrackResponse emailWebhookTrackResponse)
+        {
+            Assert.IsNotNull(emailWebhookTrackResponse);
+            Assert.AreEqual(givenNotificationType, emailWebhookTrackResponse.NotificationType);
+            Assert.AreEqual(givenDomain, emailWebhookTrackResponse.Domain);
+            Assert.AreEqual(givenRecipient, emailWebhookTrackResponse.Recipient);
+            Assert.AreEqual(givenSendDateTime, emailWebhookTrackResponse.SendDateTime);
+            Assert.AreEqual(givenMessageId, emailWebhookTrackResponse.MessageId);
+            Assert.AreEqual(givenBulkId, emailWebhookTrackResponse.BulkId);
+            Assert.AreEqual(givenCallbackData, emailWebhookTrackResponse.CallbackData);
+            Assert.AreEqual(givenDeviceType, emailWebhookTrackResponse.RecipientInfo.DeviceType);
+            Assert.AreEqual(givenOs, emailWebhookTrackResponse.RecipientInfo.Os);
+            Assert.AreEqual(givenDeviceName, emailWebhookTrackResponse.RecipientInfo.DeviceName);
+            Assert.AreEqual(givenCity, emailWebhookTrackResponse.GeoLocation.City);
+            Assert.AreEqual(givenCountryName, emailWebhookTrackResponse.GeoLocation.CountryName);
+        }
+    }
+
     [DataTestMethod]
     [DataRow(0)]
     [DataRow(1)]
@@ -1352,7 +2168,7 @@ public class EmailApiTest : ApiTest
             { "Content-Type", CONTENT_TYPE_HEADER_VALUE }
         };
 
-        SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedJson, expectedHttpCode);
+        SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedHttpCode, expectedJson);
 
         var emailApi = new EmailApi(configuration);
 

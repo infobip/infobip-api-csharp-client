@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,22 +23,25 @@ namespace Infobip.Api.Client.Model
     ///     SmsLogsResponse
     /// </summary>
     [DataContract(Name = "SmsLogsResponse")]
+    [JsonObject]
     public class SmsLogsResponse : IEquatable<SmsLogsResponse>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsLogsResponse" /> class.
         /// </summary>
-        /// <param name="results">Collection of logs..</param>
+        /// <param name="results">An array of message log results, one object per each message log entry..</param>
         public SmsLogsResponse(List<SmsLog> results = default)
         {
             Results = results;
         }
 
         /// <summary>
-        ///     Collection of logs.
+        ///     An array of message log results, one object per each message log entry.
         /// </summary>
-        /// <value>Collection of logs.</value>
+        /// <value>An array of message log results, one object per each message log entry.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
         public List<SmsLog> Results { get; set; }
 
         /// <summary>

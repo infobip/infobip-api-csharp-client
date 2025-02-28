@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Created 2FA application configuration.
     /// </summary>
     [DataContract(Name = "TfaApplicationConfiguration")]
+    [JsonObject]
     public class TfaApplicationConfiguration : IEquatable<TfaApplicationConfiguration>
     {
         /// <summary>
@@ -79,6 +81,9 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether multiple PIN verification is allowed.</value>
         [DataMember(Name = "allowMultiplePinVerifications", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "allowMultiplePinVerifications",
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("allowMultiplePinVerifications")]
         public bool AllowMultiplePinVerifications { get; set; }
 
         /// <summary>
@@ -86,6 +91,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Number of possible PIN attempts.</value>
         [DataMember(Name = "pinAttempts", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinAttempts", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinAttempts")]
         public int PinAttempts { get; set; }
 
         /// <summary>
@@ -101,6 +108,8 @@ namespace Infobip.Api.Client.Model
         ///     respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "pinTimeToLive", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinTimeToLive", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinTimeToLive")]
         public string PinTimeToLive { get; set; }
 
         /// <summary>
@@ -118,6 +127,8 @@ namespace Infobip.Api.Client.Model
         ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "sendPinPerApplicationLimit", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sendPinPerApplicationLimit", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sendPinPerApplicationLimit")]
         public string SendPinPerApplicationLimit { get; set; }
 
         /// <summary>
@@ -135,6 +146,8 @@ namespace Infobip.Api.Client.Model
         ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "sendPinPerPhoneNumberLimit", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sendPinPerPhoneNumberLimit", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sendPinPerPhoneNumberLimit")]
         public string SendPinPerPhoneNumberLimit { get; set; }
 
         /// <summary>
@@ -152,6 +165,8 @@ namespace Infobip.Api.Client.Model
         ///     and days respectively. Must not exceed one day, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "verifyPinLimit", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "verifyPinLimit", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("verifyPinLimit")]
         public string VerifyPinLimit { get; set; }
 
         /// <summary>

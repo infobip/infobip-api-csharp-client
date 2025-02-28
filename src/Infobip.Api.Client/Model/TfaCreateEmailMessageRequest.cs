@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaCreateEmailMessageRequest
     /// </summary>
     [DataContract(Name = "TfaCreateEmailMessageRequest")]
+    [JsonObject]
     public class TfaCreateEmailMessageRequest : IEquatable<TfaCreateEmailMessageRequest>
     {
         /// <summary>
@@ -56,6 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets PinType
         /// </summary>
         [DataMember(Name = "pinType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinType")]
         public TfaPinType? PinType { get; set; }
 
         /// <summary>
@@ -66,7 +71,10 @@ namespace Infobip.Api.Client.Model
         ///     Email template ID that should reference a previously created [Broadcast
         ///     template](https://www.infobip.com/docs/email/templates).
         /// </value>
-        [DataMember(Name = "emailTemplateId", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "emailTemplateId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "emailTemplateId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("emailTemplateId")]
         public long EmailTemplateId { get; set; }
 
         /// <summary>
@@ -78,6 +86,8 @@ namespace Infobip.Api.Client.Model
         ///     &#x60; or &#x60;Jane Smith &lt;jane.smith@somecompany.com&gt;&#x60;).
         /// </value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
         public string From { get; set; }
 
         /// <summary>
@@ -85,6 +95,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>PIN code length.</value>
         [DataMember(Name = "pinLength", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinLength", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinLength")]
         public int PinLength { get; set; }
 
         /// <summary>

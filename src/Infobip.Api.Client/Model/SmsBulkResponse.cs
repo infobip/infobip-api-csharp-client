@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsBulkResponse
     /// </summary>
     [DataContract(Name = "SmsBulkResponse")]
+    [JsonObject]
     public class SmsBulkResponse : IEquatable<SmsBulkResponse>
     {
         /// <summary>
@@ -49,6 +51,8 @@ namespace Infobip.Api.Client.Model
         ///     request.
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>
@@ -62,6 +66,9 @@ namespace Infobip.Api.Client.Model
         ///     &#39;T&#39;HH:mm:ss.SSSZ&#x60;, and can only be scheduled for no later than 180 days in advance.
         /// </value>
         [DataMember(Name = "sendAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sendAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sendAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset SendAt { get; set; }
 
         /// <summary>

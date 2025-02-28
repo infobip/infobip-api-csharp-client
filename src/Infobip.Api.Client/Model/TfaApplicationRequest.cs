@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaApplicationRequest
     /// </summary>
     [DataContract(Name = "TfaApplicationRequest")]
+    [JsonObject]
     public class TfaApplicationRequest : IEquatable<TfaApplicationRequest>
     {
         /// <summary>
@@ -49,6 +52,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets VarConfiguration
         /// </summary>
         [DataMember(Name = "configuration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "configuration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("configuration")]
         public TfaApplicationConfiguration VarConfiguration { get; set; }
 
         /// <summary>
@@ -56,13 +61,18 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether the created application is enabled.</value>
         [DataMember(Name = "enabled", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 
         /// <summary>
         ///     2FA application name.
         /// </summary>
         /// <value>2FA application name.</value>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "name", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>

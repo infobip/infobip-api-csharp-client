@@ -14,9 +14,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
 using ClientConfiguration = Infobip.Api.Client.Configuration;
+using FileParameter = Infobip.Api.Client.Client.FileParameter;
 
 namespace Infobip.Api.Client.Api
 {
@@ -48,26 +48,101 @@ namespace Infobip.Api.Client.Api
         ApiResponse<EmailDomainResponse> AddDomainWithHttpInfo(EmailAddDomainRequest emailAddDomainRequest);
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id
+        ///     Add suppressions
         /// </summary>
         /// <remarks>
-        ///     Assign dedicated ip address to the provided domain for the account id.
+        ///     This method allows you to add email addresses to the suppression list. It accepts suppression requests, saves them
+        ///     asynchronously, and automatically ignores any duplicate entries.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
-        /// <returns>EmailSimpleApiResponse</returns>
-        EmailSimpleApiResponse AssignIpToDomain(EmailDomainIpRequest emailDomainIpRequest);
+        /// <param name="emailAddSuppressionRequest"></param>
+        /// <returns></returns>
+        void AddSuppressions(EmailAddSuppressionRequest emailAddSuppressionRequest);
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id
+        ///     Add suppressions
         /// </summary>
         /// <remarks>
-        ///     Assign dedicated ip address to the provided domain for the account id.
+        ///     This method allows you to add email addresses to the suppression list. It accepts suppression requests, saves them
+        ///     asynchronously, and automatically ignores any duplicate entries.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
-        /// <returns>ApiResponse of EmailSimpleApiResponse</returns>
-        ApiResponse<EmailSimpleApiResponse> AssignIpToDomainWithHttpInfo(EmailDomainIpRequest emailDomainIpRequest);
+        /// <param name="emailAddSuppressionRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> AddSuppressionsWithHttpInfo(EmailAddSuppressionRequest emailAddSuppressionRequest);
+
+        /// <summary>
+        ///     Assign IP to pool
+        /// </summary>
+        /// <remarks>
+        ///     Assign provided dedicated IP to the provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <returns></returns>
+        void AssignIpToPool(string poolId, EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest);
+
+        /// <summary>
+        ///     Assign IP to pool
+        /// </summary>
+        /// <remarks>
+        ///     Assign provided dedicated IP to the provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> AssignIpToPoolWithHttpInfo(string poolId,
+            EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest);
+
+        /// <summary>
+        ///     Assign IP pool to domain
+        /// </summary>
+        /// <remarks>
+        ///     Assign an IP pool to the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <returns></returns>
+        void AssignPoolToDomain(long domainId, EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest);
+
+        /// <summary>
+        ///     Assign IP pool to domain
+        /// </summary>
+        /// <remarks>
+        ///     Assign an IP pool to the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> AssignPoolToDomainWithHttpInfo(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest);
+
+        /// <summary>
+        ///     Create IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Create a new IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>EmailIpPoolResponse</returns>
+        EmailIpPoolResponse CreateIpPool(EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest);
+
+        /// <summary>
+        ///     Create IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Create a new IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>ApiResponse of EmailIpPoolResponse</returns>
+        ApiResponse<EmailIpPoolResponse> CreateIpPoolWithHttpInfo(
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest);
 
         /// <summary>
         ///     Delete existing domain
@@ -92,26 +167,50 @@ namespace Infobip.Api.Client.Api
         ApiResponse<object> DeleteDomainWithHttpInfo(string domainName);
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id
+        ///     Delete IP pool
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for domain and provided account id.
+        ///     Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to domains.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <returns>EmailDomainIpResponse</returns>
-        EmailDomainIpResponse GetAllDomainIps(string domainName);
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns></returns>
+        void DeleteIpPool(string poolId);
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id
+        ///     Delete IP pool
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for domain and provided account id.
+        ///     Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to domains.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <returns>ApiResponse of EmailDomainIpResponse</returns>
-        ApiResponse<EmailDomainIpResponse> GetAllDomainIpsWithHttpInfo(string domainName);
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> DeleteIpPoolWithHttpInfo(string poolId);
+
+        /// <summary>
+        ///     Delete suppressions
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to delete email addresses from the suppression list. It accepts delete suppression requests
+        ///     and asynchronously deletes them.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <returns></returns>
+        void DeleteSuppressions(EmailDeleteSuppressionRequest emailDeleteSuppressionRequest);
+
+        /// <summary>
+        ///     Delete suppressions
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to delete email addresses from the suppression list. It accepts delete suppression requests
+        ///     and asynchronously deletes them.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> DeleteSuppressionsWithHttpInfo(EmailDeleteSuppressionRequest emailDeleteSuppressionRequest);
 
         /// <summary>
         ///     Get all domains for the account
@@ -146,24 +245,24 @@ namespace Infobip.Api.Client.Api
         ApiResponse<EmailAllDomainsResponse> GetAllDomainsWithHttpInfo(int? size = default, int? page = default);
 
         /// <summary>
-        ///     List all dedicated ips for provided account id
+        ///     Get IPs
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for the provided account id.
+        ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>EmailDomainIpResponse</returns>
-        EmailDomainIpResponse GetAllIps();
+        /// <returns>List&lt;EmailIpResponse&gt;</returns>
+        List<EmailIpResponse> GetAllIps();
 
         /// <summary>
-        ///     List all dedicated ips for provided account id
+        ///     Get IPs
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for the provided account id.
+        ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of EmailDomainIpResponse</returns>
-        ApiResponse<EmailDomainIpResponse> GetAllIpsWithHttpInfo();
+        /// <returns>ApiResponse of List&lt;EmailIpResponse&gt;</returns>
+        ApiResponse<List<EmailIpResponse>> GetAllIpsWithHttpInfo();
 
         /// <summary>
         ///     Get domain details
@@ -186,6 +285,32 @@ namespace Infobip.Api.Client.Api
         /// <param name="domainName">Domain for which the details need to be viewed.</param>
         /// <returns>ApiResponse of EmailDomainResponse</returns>
         ApiResponse<EmailDomainResponse> GetDomainDetailsWithHttpInfo(string domainName);
+
+        /// <summary>
+        ///     Get suppression domains
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to get domains that can be managed for suppressions and are either owned or have granted
+        ///     permissions.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>EmailDomainInfoPageResponse</returns>
+        EmailDomainInfoPageResponse GetDomains(int? page = default, int? size = default);
+
+        /// <summary>
+        ///     Get suppression domains
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to get domains that can be managed for suppressions and are either owned or have granted
+        ///     permissions.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>ApiResponse of EmailDomainInfoPageResponse</returns>
+        ApiResponse<EmailDomainInfoPageResponse> GetDomainsWithHttpInfo(int? page = default, int? size = default);
 
         /// <summary>
         ///     Email delivery reports
@@ -328,6 +453,94 @@ namespace Infobip.Api.Client.Api
             int? limit = default, string applicationId = default, string entityId = default);
 
         /// <summary>
+        ///     Get IP
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about provided dedicated IP.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>EmailIpDetailResponse</returns>
+        EmailIpDetailResponse GetIpDetails(string ipId);
+
+        /// <summary>
+        ///     Get IP
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about provided dedicated IP.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>ApiResponse of EmailIpDetailResponse</returns>
+        ApiResponse<EmailIpDetailResponse> GetIpDetailsWithHttpInfo(string ipId);
+
+        /// <summary>
+        ///     Get domain
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <returns>EmailIpDomainResponse</returns>
+        EmailIpDomainResponse GetIpDomain(long domainId);
+
+        /// <summary>
+        ///     Get domain
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <returns>ApiResponse of EmailIpDomainResponse</returns>
+        ApiResponse<EmailIpDomainResponse> GetIpDomainWithHttpInfo(long domainId);
+
+        /// <summary>
+        ///     Get IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>EmailIpPoolDetailResponse</returns>
+        EmailIpPoolDetailResponse GetIpPool(string poolId);
+
+        /// <summary>
+        ///     Get IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of EmailIpPoolDetailResponse</returns>
+        ApiResponse<EmailIpPoolDetailResponse> GetIpPoolWithHttpInfo(string poolId);
+
+        /// <summary>
+        ///     Get IP pools
+        /// </summary>
+        /// <remarks>
+        ///     Returns all the pools that are owned (created) by this account.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <returns>List&lt;EmailIpPoolResponse&gt;</returns>
+        List<EmailIpPoolResponse> GetIpPools(string name = default);
+
+        /// <summary>
+        ///     Get IP pools
+        /// </summary>
+        /// <remarks>
+        ///     Returns all the pools that are owned (created) by this account.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <returns>ApiResponse of List&lt;EmailIpPoolResponse&gt;</returns>
+        ApiResponse<List<EmailIpPoolResponse>> GetIpPoolsWithHttpInfo(string name = default);
+
+        /// <summary>
         ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
@@ -372,28 +585,93 @@ namespace Infobip.Api.Client.Api
         ApiResponse<EmailBulkScheduleResponse> GetScheduledEmailsWithHttpInfo(string bulkId);
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain
+        ///     Get suppressions
         /// </summary>
         /// <remarks>
-        ///     Remove dedicated ip address from the provided domain.
+        ///     This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
-        /// <returns>EmailSimpleApiResponse</returns>
-        EmailSimpleApiResponse RemoveIpFromDomain(string domainName, string ipAddress);
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>EmailSuppressionInfoPageResponse</returns>
+        EmailSuppressionInfoPageResponse GetSuppressions(string domainName, EmailSuppressionType type,
+            string emailAddress = default, string recipientDomain = default, DateTimeOffset? createdDateFrom = default,
+            DateTimeOffset? createdDateTo = default, int? page = default, int? size = default);
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain
+        ///     Get suppressions
         /// </summary>
         /// <remarks>
-        ///     Remove dedicated ip address from the provided domain.
+        ///     This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
-        /// <returns>ApiResponse of EmailSimpleApiResponse</returns>
-        ApiResponse<EmailSimpleApiResponse> RemoveIpFromDomainWithHttpInfo(string domainName, string ipAddress);
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>ApiResponse of EmailSuppressionInfoPageResponse</returns>
+        ApiResponse<EmailSuppressionInfoPageResponse> GetSuppressionsWithHttpInfo(string domainName,
+            EmailSuppressionType type, string emailAddress = default, string recipientDomain = default,
+            DateTimeOffset? createdDateFrom = default, DateTimeOffset? createdDateTo = default, int? page = default,
+            int? size = default);
+
+        /// <summary>
+        ///     Unassign IP from pool
+        /// </summary>
+        /// <remarks>
+        ///     Unassign provided IP from the specific pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns></returns>
+        void RemoveIpFromPool(string poolId, string ipId);
+
+        /// <summary>
+        ///     Unassign IP from pool
+        /// </summary>
+        /// <remarks>
+        ///     Unassign provided IP from the specific pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> RemoveIpFromPoolWithHttpInfo(string poolId, string ipId);
+
+        /// <summary>
+        ///     Unassign IP pool from domain
+        /// </summary>
+        /// <remarks>
+        ///     Unassign a specified pool from the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns></returns>
+        void RemoveIpPoolFromDomain(long domainId, string poolId);
+
+        /// <summary>
+        ///     Unassign IP pool from domain
+        /// </summary>
+        /// <remarks>
+        ///     Unassign a specified pool from the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> RemoveIpPoolFromDomainWithHttpInfo(long domainId, string poolId);
 
         /// <summary>
         ///     Reschedule Email messages
@@ -491,7 +769,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -542,9 +824,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -553,6 +835,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <returns>EmailSendResponse</returns>
         EmailSendResponse SendEmail(List<string> to, string from = default, List<string> cc = default,
@@ -565,7 +854,7 @@ namespace Infobip.Api.Client.Api
             string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
             DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default);
+            string entityId = default, string headers = default);
 
         /// <summary>
         ///     Send fully featured email
@@ -637,7 +926,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -688,9 +981,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -699,6 +992,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <returns>ApiResponse of EmailSendResponse</returns>
         ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(List<string> to, string from = default,
@@ -712,7 +1012,60 @@ namespace Infobip.Api.Client.Api
             string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
             string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default);
+            string entityId = default, string headers = default);
+
+        /// <summary>
+        ///     Update IP pool sending priority
+        /// </summary>
+        /// <remarks>
+        ///     Update specified pool&#39;s sending priority for the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <returns></returns>
+        void UpdateDomainPoolPriority(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest);
+
+        /// <summary>
+        ///     Update IP pool sending priority
+        /// </summary>
+        /// <remarks>
+        ///     Update specified pool&#39;s sending priority for the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        ApiResponse<object> UpdateDomainPoolPriorityWithHttpInfo(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest);
+
+        /// <summary>
+        ///     Update IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Update a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>EmailIpPoolResponse</returns>
+        EmailIpPoolResponse UpdateIpPool(string poolId, EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest);
+
+        /// <summary>
+        ///     Update IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Update a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>ApiResponse of EmailIpPoolResponse</returns>
+        ApiResponse<EmailIpPoolResponse> UpdateIpPoolWithHttpInfo(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest);
 
         /// <summary>
         ///     Update return path
@@ -874,30 +1227,115 @@ namespace Infobip.Api.Client.Api
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id
+        ///     Add suppressions
         /// </summary>
         /// <remarks>
-        ///     Assign dedicated ip address to the provided domain for the account id.
+        ///     This method allows you to add email addresses to the suppression list. It accepts suppression requests, saves them
+        ///     asynchronously, and automatically ignores any duplicate entries.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
+        /// <param name="emailAddSuppressionRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailSimpleApiResponse</returns>
-        Task<EmailSimpleApiResponse> AssignIpToDomainAsync(EmailDomainIpRequest emailDomainIpRequest,
+        /// <returns>Task of void</returns>
+        Task AddSuppressionsAsync(EmailAddSuppressionRequest emailAddSuppressionRequest,
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id
+        ///     Add suppressions
         /// </summary>
         /// <remarks>
-        ///     Assign dedicated ip address to the provided domain for the account id.
+        ///     This method allows you to add email addresses to the suppression list. It accepts suppression requests, saves them
+        ///     asynchronously, and automatically ignores any duplicate entries.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
+        /// <param name="emailAddSuppressionRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailSimpleApiResponse)</returns>
-        Task<ApiResponse<EmailSimpleApiResponse>> AssignIpToDomainWithHttpInfoAsync(
-            EmailDomainIpRequest emailDomainIpRequest, CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> AddSuppressionsWithHttpInfoAsync(
+            EmailAddSuppressionRequest emailAddSuppressionRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Assign IP to pool
+        /// </summary>
+        /// <remarks>
+        ///     Assign provided dedicated IP to the provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        Task AssignIpToPoolAsync(string poolId, EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Assign IP to pool
+        /// </summary>
+        /// <remarks>
+        ///     Assign provided dedicated IP to the provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> AssignIpToPoolWithHttpInfoAsync(string poolId,
+            EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Assign IP pool to domain
+        /// </summary>
+        /// <remarks>
+        ///     Assign an IP pool to the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        Task AssignPoolToDomainAsync(long domainId, EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Assign IP pool to domain
+        /// </summary>
+        /// <remarks>
+        ///     Assign an IP pool to the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> AssignPoolToDomainWithHttpInfoAsync(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Create IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Create a new IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolResponse</returns>
+        Task<EmailIpPoolResponse> CreateIpPoolAsync(EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Create IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Create a new IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolResponse)</returns>
+        Task<ApiResponse<EmailIpPoolResponse>> CreateIpPoolWithHttpInfoAsync(
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Delete existing domain
@@ -925,30 +1363,57 @@ namespace Infobip.Api.Client.Api
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id
+        ///     Delete IP pool
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for domain and provided account id.
+        ///     Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to domains.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
+        /// <param name="poolId">IP pool identifier.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainIpResponse</returns>
-        Task<EmailDomainIpResponse> GetAllDomainIpsAsync(string domainName,
+        /// <returns>Task of void</returns>
+        Task DeleteIpPoolAsync(string poolId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Delete IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to domains.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> DeleteIpPoolWithHttpInfoAsync(string poolId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id
+        ///     Delete suppressions
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for domain and provided account id.
+        ///     This method allows you to delete email addresses from the suppression list. It accepts delete suppression requests
+        ///     and asynchronously deletes them.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
+        /// <param name="emailDeleteSuppressionRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainIpResponse)</returns>
-        Task<ApiResponse<EmailDomainIpResponse>> GetAllDomainIpsWithHttpInfoAsync(string domainName,
+        /// <returns>Task of void</returns>
+        Task DeleteSuppressionsAsync(EmailDeleteSuppressionRequest emailDeleteSuppressionRequest,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Delete suppressions
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to delete email addresses from the suppression list. It accepts delete suppression requests
+        ///     and asynchronously deletes them.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> DeleteSuppressionsWithHttpInfoAsync(
+            EmailDeleteSuppressionRequest emailDeleteSuppressionRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get all domains for the account
@@ -987,26 +1452,26 @@ namespace Infobip.Api.Client.Api
             int? page = default, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     List all dedicated ips for provided account id
+        ///     Get IPs
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for the provided account id.
+        ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainIpResponse</returns>
-        Task<EmailDomainIpResponse> GetAllIpsAsync(CancellationToken cancellationToken = default);
+        /// <returns>Task of List&lt;EmailIpResponse&gt;</returns>
+        Task<List<EmailIpResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     List all dedicated ips for provided account id
+        ///     Get IPs
         /// </summary>
         /// <remarks>
-        ///     Fetch all dedicated ips for the provided account id.
+        ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainIpResponse)</returns>
-        Task<ApiResponse<EmailDomainIpResponse>> GetAllIpsWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (List&lt;EmailIpResponse&gt;)</returns>
+        Task<ApiResponse<List<EmailIpResponse>>> GetAllIpsWithHttpInfoAsync(
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1034,6 +1499,36 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of ApiResponse (EmailDomainResponse)</returns>
         Task<ApiResponse<EmailDomainResponse>> GetDomainDetailsWithHttpInfoAsync(string domainName,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get suppression domains
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to get domains that can be managed for suppressions and are either owned or have granted
+        ///     permissions.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailDomainInfoPageResponse</returns>
+        Task<EmailDomainInfoPageResponse> GetDomainsAsync(int? page = default, int? size = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get suppression domains
+        /// </summary>
+        /// <remarks>
+        ///     This method allows you to get domains that can be managed for suppressions and are either owned or have granted
+        ///     permissions.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailDomainInfoPageResponse)</returns>
+        Task<ApiResponse<EmailDomainInfoPageResponse>> GetDomainsWithHttpInfoAsync(int? page = default,
+            int? size = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Email delivery reports
@@ -1182,6 +1677,107 @@ namespace Infobip.Api.Client.Api
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        ///     Get IP
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about provided dedicated IP.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpDetailResponse</returns>
+        Task<EmailIpDetailResponse> GetIpDetailsAsync(string ipId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get IP
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about provided dedicated IP.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpDetailResponse)</returns>
+        Task<ApiResponse<EmailIpDetailResponse>> GetIpDetailsWithHttpInfoAsync(string ipId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get domain
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpDomainResponse</returns>
+        Task<EmailIpDomainResponse> GetIpDomainAsync(long domainId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get domain
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpDomainResponse)</returns>
+        Task<ApiResponse<EmailIpDomainResponse>> GetIpDomainWithHttpInfoAsync(long domainId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolDetailResponse</returns>
+        Task<EmailIpPoolDetailResponse> GetIpPoolAsync(string poolId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Get detailed information about a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolDetailResponse)</returns>
+        Task<ApiResponse<EmailIpPoolDetailResponse>> GetIpPoolWithHttpInfoAsync(string poolId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get IP pools
+        /// </summary>
+        /// <remarks>
+        ///     Returns all the pools that are owned (created) by this account.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;EmailIpPoolResponse&gt;</returns>
+        Task<List<EmailIpPoolResponse>> GetIpPoolsAsync(string name = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Get IP pools
+        /// </summary>
+        /// <remarks>
+        ///     Returns all the pools that are owned (created) by this account.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolResponse&gt;)</returns>
+        Task<ApiResponse<List<EmailIpPoolResponse>>> GetIpPoolsWithHttpInfoAsync(string name = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         ///     Get sent email bulks status
         /// </summary>
         /// <remarks>
@@ -1234,32 +1830,102 @@ namespace Infobip.Api.Client.Api
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain
+        ///     Get suppressions
         /// </summary>
         /// <remarks>
-        ///     Remove dedicated ip address from the provided domain.
+        ///     This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailSimpleApiResponse</returns>
-        Task<EmailSimpleApiResponse> RemoveIpFromDomainAsync(string domainName, string ipAddress,
+        /// <returns>Task of EmailSuppressionInfoPageResponse</returns>
+        Task<EmailSuppressionInfoPageResponse> GetSuppressionsAsync(string domainName, EmailSuppressionType type,
+            string emailAddress = default, string recipientDomain = default, DateTimeOffset? createdDateFrom = default,
+            DateTimeOffset? createdDateTo = default, int? page = default, int? size = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain
+        ///     Get suppressions
         /// </summary>
         /// <remarks>
-        ///     Remove dedicated ip address from the provided domain.
+        ///     This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailSimpleApiResponse)</returns>
-        Task<ApiResponse<EmailSimpleApiResponse>> RemoveIpFromDomainWithHttpInfoAsync(string domainName,
-            string ipAddress, CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (EmailSuppressionInfoPageResponse)</returns>
+        Task<ApiResponse<EmailSuppressionInfoPageResponse>> GetSuppressionsWithHttpInfoAsync(string domainName,
+            EmailSuppressionType type, string emailAddress = default, string recipientDomain = default,
+            DateTimeOffset? createdDateFrom = default, DateTimeOffset? createdDateTo = default, int? page = default,
+            int? size = default, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Unassign IP from pool
+        /// </summary>
+        /// <remarks>
+        ///     Unassign provided IP from the specific pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        Task RemoveIpFromPoolAsync(string poolId, string ipId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Unassign IP from pool
+        /// </summary>
+        /// <remarks>
+        ///     Unassign provided IP from the specific pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> RemoveIpFromPoolWithHttpInfoAsync(string poolId, string ipId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Unassign IP pool from domain
+        /// </summary>
+        /// <remarks>
+        ///     Unassign a specified pool from the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        Task RemoveIpPoolFromDomainAsync(long domainId, string poolId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Unassign IP pool from domain
+        /// </summary>
+        /// <remarks>
+        ///     Unassign a specified pool from the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> RemoveIpPoolFromDomainWithHttpInfoAsync(long domainId, string poolId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Reschedule Email messages
@@ -1359,7 +2025,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -1410,9 +2080,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -1421,6 +2091,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailSendResponse</returns>
@@ -1434,7 +2111,7 @@ namespace Infobip.Api.Client.Api
             string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
             DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, CancellationToken cancellationToken = default);
+            string entityId = default, string headers = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send fully featured email
@@ -1506,7 +2183,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -1557,9 +2238,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -1568,6 +2249,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
@@ -1582,7 +2270,67 @@ namespace Infobip.Api.Client.Api
             string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
             string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, CancellationToken cancellationToken = default);
+            string entityId = default, string headers = default, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update IP pool sending priority
+        /// </summary>
+        /// <remarks>
+        ///     Update specified pool&#39;s sending priority for the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        Task UpdateDomainPoolPriorityAsync(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update IP pool sending priority
+        /// </summary>
+        /// <remarks>
+        ///     Update specified pool&#39;s sending priority for the provided domain.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        Task<ApiResponse<object>> UpdateDomainPoolPriorityWithHttpInfoAsync(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Update a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolResponse</returns>
+        Task<EmailIpPoolResponse> UpdateIpPoolAsync(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Update IP pool
+        /// </summary>
+        /// <remarks>
+        ///     Update a provided IP pool.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolResponse)</returns>
+        Task<ApiResponse<EmailIpPoolResponse>> UpdateIpPoolWithHttpInfoAsync(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update return path
@@ -2079,32 +2827,30 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id Assign dedicated ip address to the provided
-        ///     domain for the account id.
+        ///     Add suppressions This method allows you to add email addresses to the suppression list. It accepts suppression
+        ///     requests, saves them asynchronously, and automatically ignores any duplicate entries.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
-        /// <returns>EmailSimpleApiResponse</returns>
-        public EmailSimpleApiResponse AssignIpToDomain(EmailDomainIpRequest emailDomainIpRequest)
+        /// <param name="emailAddSuppressionRequest"></param>
+        /// <returns></returns>
+        public void AddSuppressions(EmailAddSuppressionRequest emailAddSuppressionRequest)
         {
-            var localVarResponse = AssignIpToDomainWithHttpInfo(emailDomainIpRequest);
-            return localVarResponse.Data;
+            AddSuppressionsWithHttpInfo(emailAddSuppressionRequest);
         }
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id Assign dedicated ip address to the provided
-        ///     domain for the account id.
+        ///     Add suppressions This method allows you to add email addresses to the suppression list. It accepts suppression
+        ///     requests, saves them asynchronously, and automatically ignores any duplicate entries.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
-        /// <returns>ApiResponse of EmailSimpleApiResponse</returns>
-        public ApiResponse<EmailSimpleApiResponse> AssignIpToDomainWithHttpInfo(
-            EmailDomainIpRequest emailDomainIpRequest)
+        /// <param name="emailAddSuppressionRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> AddSuppressionsWithHttpInfo(EmailAddSuppressionRequest emailAddSuppressionRequest)
         {
-            // verify the required parameter 'emailDomainIpRequest' is set
-            if (emailDomainIpRequest == null)
+            // verify the required parameter 'emailAddSuppressionRequest' is set
+            if (emailAddSuppressionRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'emailDomainIpRequest' when calling EmailApi->AssignIpToDomain");
+                    "Missing required parameter 'emailAddSuppressionRequest' when calling EmailApi->AddSuppressions");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -2116,17 +2862,16 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.Data = emailDomainIpRequest;
+            localVarRequestOptions.Data = emailAddSuppressionRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse =
-                Client.Post<EmailSimpleApiResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration);
+            var localVarResponse = Client.Post<object>("/email/1/suppressions", localVarRequestOptions, Configuration);
 
-            var exception = ExceptionFactory?.Invoke("AssignIpToDomain", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("AddSuppressions", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -2134,36 +2879,34 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id Assign dedicated ip address to the provided
-        ///     domain for the account id.
+        ///     Add suppressions This method allows you to add email addresses to the suppression list. It accepts suppression
+        ///     requests, saves them asynchronously, and automatically ignores any duplicate entries.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
+        /// <param name="emailAddSuppressionRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailSimpleApiResponse</returns>
-        public async Task<EmailSimpleApiResponse> AssignIpToDomainAsync(EmailDomainIpRequest emailDomainIpRequest,
+        /// <returns>Task of void</returns>
+        public async Task AddSuppressionsAsync(EmailAddSuppressionRequest emailAddSuppressionRequest,
             CancellationToken cancellationToken = default)
         {
-            var localVarResponse = await AssignIpToDomainWithHttpInfoAsync(emailDomainIpRequest, cancellationToken)
-                .ConfigureAwait(false);
-            return localVarResponse.Data;
+            await AddSuppressionsWithHttpInfoAsync(emailAddSuppressionRequest, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
-        ///     Assign dedicated ip address to the provided domain for the account id Assign dedicated ip address to the provided
-        ///     domain for the account id.
+        ///     Add suppressions This method allows you to add email addresses to the suppression list. It accepts suppression
+        ///     requests, saves them asynchronously, and automatically ignores any duplicate entries.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="emailDomainIpRequest"></param>
+        /// <param name="emailAddSuppressionRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailSimpleApiResponse)</returns>
-        public async Task<ApiResponse<EmailSimpleApiResponse>> AssignIpToDomainWithHttpInfoAsync(
-            EmailDomainIpRequest emailDomainIpRequest, CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> AddSuppressionsWithHttpInfoAsync(
+            EmailAddSuppressionRequest emailAddSuppressionRequest, CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'emailDomainIpRequest' is set
-            if (emailDomainIpRequest == null)
+            // verify the required parameter 'emailAddSuppressionRequest' is set
+            if (emailAddSuppressionRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'emailDomainIpRequest' when calling EmailApi->AssignIpToDomain");
+                    "Missing required parameter 'emailAddSuppressionRequest' when calling EmailApi->AddSuppressions");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -2176,7 +2919,7 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.Data = emailDomainIpRequest;
+            localVarRequestOptions.Data = emailAddSuppressionRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -2185,10 +2928,374 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .PostAsync<EmailSimpleApiResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration,
+                .PostAsync<object>("/email/1/suppressions", localVarRequestOptions, Configuration, cancellationToken)
+                .ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("AddSuppressions", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Assign IP to pool Assign provided dedicated IP to the provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <returns></returns>
+        public void AssignIpToPool(string poolId, EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest)
+        {
+            AssignIpToPoolWithHttpInfo(poolId, emailIpPoolAssignIpApiRequest);
+        }
+
+        /// <summary>
+        ///     Assign IP to pool Assign provided dedicated IP to the provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> AssignIpToPoolWithHttpInfo(string poolId,
+            EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->AssignIpToPool");
+
+            // verify the required parameter 'emailIpPoolAssignIpApiRequest' is set
+            if (emailIpPoolAssignIpApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolAssignIpApiRequest' when calling EmailApi->AssignIpToPool");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailIpPoolAssignIpApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Post<object>("/email/1/ip-management/pools/{poolId}/ips",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("AssignIpToPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Assign IP to pool Assign provided dedicated IP to the provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task AssignIpToPoolAsync(string poolId,
+            EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest, CancellationToken cancellationToken = default)
+        {
+            await AssignIpToPoolWithHttpInfoAsync(poolId, emailIpPoolAssignIpApiRequest, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Assign IP to pool Assign provided dedicated IP to the provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolAssignIpApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> AssignIpToPoolWithHttpInfoAsync(string poolId,
+            EmailIpPoolAssignIpApiRequest emailIpPoolAssignIpApiRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->AssignIpToPool");
+
+            // verify the required parameter 'emailIpPoolAssignIpApiRequest' is set
+            if (emailIpPoolAssignIpApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolAssignIpApiRequest' when calling EmailApi->AssignIpToPool");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailIpPoolAssignIpApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<object>("/email/1/ip-management/pools/{poolId}/ips", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
-            var exception = ExceptionFactory?.Invoke("AssignIpToDomain", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("AssignIpToPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Assign IP pool to domain Assign an IP pool to the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <returns></returns>
+        public void AssignPoolToDomain(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest)
+        {
+            AssignPoolToDomainWithHttpInfo(domainId, emailDomainIpPoolAssignApiRequest);
+        }
+
+        /// <summary>
+        ///     Assign IP pool to domain Assign an IP pool to the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> AssignPoolToDomainWithHttpInfo(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest)
+        {
+            // verify the required parameter 'emailDomainIpPoolAssignApiRequest' is set
+            if (emailDomainIpPoolAssignApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDomainIpPoolAssignApiRequest' when calling EmailApi->AssignPoolToDomain");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.Data = emailDomainIpPoolAssignApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Post<object>("/email/1/ip-management/domains/{domainId}/pools",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("AssignPoolToDomain", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Assign IP pool to domain Assign an IP pool to the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task AssignPoolToDomainAsync(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest,
+            CancellationToken cancellationToken = default)
+        {
+            await AssignPoolToDomainWithHttpInfoAsync(domainId, emailDomainIpPoolAssignApiRequest, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Assign IP pool to domain Assign an IP pool to the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="emailDomainIpPoolAssignApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> AssignPoolToDomainWithHttpInfoAsync(long domainId,
+            EmailDomainIpPoolAssignApiRequest emailDomainIpPoolAssignApiRequest,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'emailDomainIpPoolAssignApiRequest' is set
+            if (emailDomainIpPoolAssignApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDomainIpPoolAssignApiRequest' when calling EmailApi->AssignPoolToDomain");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.Data = emailDomainIpPoolAssignApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<object>("/email/1/ip-management/domains/{domainId}/pools", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("AssignPoolToDomain", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Create IP pool Create a new IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>EmailIpPoolResponse</returns>
+        public EmailIpPoolResponse CreateIpPool(EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest)
+        {
+            var localVarResponse = CreateIpPoolWithHttpInfo(emailIpPoolCreateApiRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Create IP pool Create a new IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>ApiResponse of EmailIpPoolResponse</returns>
+        public ApiResponse<EmailIpPoolResponse> CreateIpPoolWithHttpInfo(
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest)
+        {
+            // verify the required parameter 'emailIpPoolCreateApiRequest' is set
+            if (emailIpPoolCreateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolCreateApiRequest' when calling EmailApi->CreateIpPool");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = emailIpPoolCreateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Post<EmailIpPoolResponse>("/email/1/ip-management/pools",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("CreateIpPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Create IP pool Create a new IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolResponse</returns>
+        public async Task<EmailIpPoolResponse> CreateIpPoolAsync(
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default)
+        {
+            var localVarResponse = await CreateIpPoolWithHttpInfoAsync(emailIpPoolCreateApiRequest, cancellationToken)
+                .ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Create IP pool Create a new IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolResponse)</returns>
+        public async Task<ApiResponse<EmailIpPoolResponse>> CreateIpPoolWithHttpInfoAsync(
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'emailIpPoolCreateApiRequest' is set
+            if (emailIpPoolCreateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolCreateApiRequest' when calling EmailApi->CreateIpPool");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = emailIpPoolCreateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PostAsync<EmailIpPoolResponse>("/email/1/ip-management/pools", localVarRequestOptions, Configuration,
+                    cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("CreateIpPool", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -2305,31 +3412,29 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id Fetch all dedicated ips for domain and provided
-        ///     account id.
+        ///     Delete IP pool Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to
+        ///     domains.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <returns>EmailDomainIpResponse</returns>
-        public EmailDomainIpResponse GetAllDomainIps(string domainName)
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns></returns>
+        public void DeleteIpPool(string poolId)
         {
-            var localVarResponse = GetAllDomainIpsWithHttpInfo(domainName);
-            return localVarResponse.Data;
+            DeleteIpPoolWithHttpInfo(poolId);
         }
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id Fetch all dedicated ips for domain and provided
-        ///     account id.
+        ///     Delete IP pool Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to
+        ///     domains.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <returns>ApiResponse of EmailDomainIpResponse</returns>
-        public ApiResponse<EmailDomainIpResponse> GetAllDomainIpsWithHttpInfo(string domainName)
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> DeleteIpPoolWithHttpInfo(string poolId)
         {
-            // verify the required parameter 'domainName' is set
-            if (domainName == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->GetAllDomainIps");
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->DeleteIpPool");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -2341,17 +3446,18 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "domainName", domainName));
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse =
-                Client.Get<EmailDomainIpResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration);
+            var localVarResponse = Client.Delete<object>("/email/1/ip-management/pools/{poolId}",
+                localVarRequestOptions, Configuration);
 
-            var exception = ExceptionFactory?.Invoke("GetAllDomainIps", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("DeleteIpPool", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -2359,36 +3465,32 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id Fetch all dedicated ips for domain and provided
-        ///     account id.
+        ///     Delete IP pool Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to
+        ///     domains.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
+        /// <param name="poolId">IP pool identifier.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainIpResponse</returns>
-        public async Task<EmailDomainIpResponse> GetAllDomainIpsAsync(string domainName,
-            CancellationToken cancellationToken = default)
+        /// <returns>Task of void</returns>
+        public async Task DeleteIpPoolAsync(string poolId, CancellationToken cancellationToken = default)
         {
-            var localVarResponse =
-                await GetAllDomainIpsWithHttpInfoAsync(domainName, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
+            await DeleteIpPoolWithHttpInfoAsync(poolId, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
-        ///     List all dedicated ips for domain and for provided account id Fetch all dedicated ips for domain and provided
-        ///     account id.
+        ///     Delete IP pool Delete provided IP pool. Deleting an IP pool also deletes any assigned IPs and any assignments to
+        ///     domains.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
+        /// <param name="poolId">IP pool identifier.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainIpResponse)</returns>
-        public async Task<ApiResponse<EmailDomainIpResponse>> GetAllDomainIpsWithHttpInfoAsync(string domainName,
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> DeleteIpPoolWithHttpInfoAsync(string poolId,
             CancellationToken cancellationToken = default)
         {
-            // verify the required parameter 'domainName' is set
-            if (domainName == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->GetAllDomainIps");
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->DeleteIpPool");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -2401,7 +3503,122 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "domainName", domainName));
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient.DeleteAsync<object>("/email/1/ip-management/pools/{poolId}",
+                localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("DeleteIpPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Delete suppressions This method allows you to delete email addresses from the suppression list. It accepts delete
+        ///     suppression requests and asynchronously deletes them.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <returns></returns>
+        public void DeleteSuppressions(EmailDeleteSuppressionRequest emailDeleteSuppressionRequest)
+        {
+            DeleteSuppressionsWithHttpInfo(emailDeleteSuppressionRequest);
+        }
+
+        /// <summary>
+        ///     Delete suppressions This method allows you to delete email addresses from the suppression list. It accepts delete
+        ///     suppression requests and asynchronously deletes them.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> DeleteSuppressionsWithHttpInfo(
+            EmailDeleteSuppressionRequest emailDeleteSuppressionRequest)
+        {
+            // verify the required parameter 'emailDeleteSuppressionRequest' is set
+            if (emailDeleteSuppressionRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDeleteSuppressionRequest' when calling EmailApi->DeleteSuppressions");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = emailDeleteSuppressionRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse =
+                Client.Delete<object>("/email/1/suppressions", localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("DeleteSuppressions", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Delete suppressions This method allows you to delete email addresses from the suppression list. It accepts delete
+        ///     suppression requests and asynchronously deletes them.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task DeleteSuppressionsAsync(EmailDeleteSuppressionRequest emailDeleteSuppressionRequest,
+            CancellationToken cancellationToken = default)
+        {
+            await DeleteSuppressionsWithHttpInfoAsync(emailDeleteSuppressionRequest, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Delete suppressions This method allows you to delete email addresses from the suppression list. It accepts delete
+        ///     suppression requests and asynchronously deletes them.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="emailDeleteSuppressionRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> DeleteSuppressionsWithHttpInfoAsync(
+            EmailDeleteSuppressionRequest emailDeleteSuppressionRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'emailDeleteSuppressionRequest' is set
+            if (emailDeleteSuppressionRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDeleteSuppressionRequest' when calling EmailApi->DeleteSuppressions");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.Data = emailDeleteSuppressionRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -2410,10 +3627,10 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<EmailDomainIpResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration,
-                    cancellationToken).ConfigureAwait(false);
+                .DeleteAsync<object>("/email/1/suppressions", localVarRequestOptions, Configuration, cancellationToken)
+                .ConfigureAwait(false);
 
-            var exception = ExceptionFactory?.Invoke("GetAllDomainIps", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("DeleteSuppressions", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -2548,22 +3765,22 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     List all dedicated ips for provided account id Fetch all dedicated ips for the provided account id.
+        ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>EmailDomainIpResponse</returns>
-        public EmailDomainIpResponse GetAllIps()
+        /// <returns>List&lt;EmailIpResponse&gt;</returns>
+        public List<EmailIpResponse> GetAllIps()
         {
             var localVarResponse = GetAllIpsWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     List all dedicated ips for provided account id Fetch all dedicated ips for the provided account id.
+        ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of EmailDomainIpResponse</returns>
-        public ApiResponse<EmailDomainIpResponse> GetAllIpsWithHttpInfo()
+        /// <returns>ApiResponse of List&lt;EmailIpResponse&gt;</returns>
+        public ApiResponse<List<EmailIpResponse>> GetAllIpsWithHttpInfo()
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -2582,7 +3799,7 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Get<EmailDomainIpResponse>("/email/1/ips", localVarRequestOptions, Configuration);
+                Client.Get<List<EmailIpResponse>>("/email/1/ip-management/ips", localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("GetAllIps", localVarResponse);
             if (exception != null)
@@ -2592,24 +3809,24 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     List all dedicated ips for provided account id Fetch all dedicated ips for the provided account id.
+        ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainIpResponse</returns>
-        public async Task<EmailDomainIpResponse> GetAllIpsAsync(CancellationToken cancellationToken = default)
+        /// <returns>Task of List&lt;EmailIpResponse&gt;</returns>
+        public async Task<List<EmailIpResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetAllIpsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     List all dedicated ips for provided account id Fetch all dedicated ips for the provided account id.
+        ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainIpResponse)</returns>
-        public async Task<ApiResponse<EmailDomainIpResponse>> GetAllIpsWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (List&lt;EmailIpResponse&gt;)</returns>
+        public async Task<ApiResponse<List<EmailIpResponse>>> GetAllIpsWithHttpInfoAsync(
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -2630,7 +3847,7 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<EmailDomainIpResponse>("/email/1/ips", localVarRequestOptions, Configuration,
+                .GetAsync<List<EmailIpResponse>>("/email/1/ip-management/ips", localVarRequestOptions, Configuration,
                     cancellationToken).ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetAllIps", localVarResponse);
@@ -2752,6 +3969,121 @@ namespace Infobip.Api.Client.Api
                     cancellationToken).ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetDomainDetails", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get suppression domains This method allows you to get domains that can be managed for suppressions and are either
+        ///     owned or have granted permissions.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>EmailDomainInfoPageResponse</returns>
+        public EmailDomainInfoPageResponse GetDomains(int? page = default, int? size = default)
+        {
+            var localVarResponse = GetDomainsWithHttpInfo(page, size);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get suppression domains This method allows you to get domains that can be managed for suppressions and are either
+        ///     owned or have granted permissions.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>ApiResponse of EmailDomainInfoPageResponse</returns>
+        public ApiResponse<EmailDomainInfoPageResponse> GetDomainsWithHttpInfo(int? page = default, int? size = default)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            if (page != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
+            if (size != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "size", size));
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Get<EmailDomainInfoPageResponse>("/email/1/suppressions/domains",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("GetDomains", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get suppression domains This method allows you to get domains that can be managed for suppressions and are either
+        ///     owned or have granted permissions.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailDomainInfoPageResponse</returns>
+        public async Task<EmailDomainInfoPageResponse> GetDomainsAsync(int? page = default, int? size = default,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await GetDomainsWithHttpInfoAsync(page, size, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get suppression domains This method allows you to get domains that can be managed for suppressions and are either
+        ///     owned or have granted permissions.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailDomainInfoPageResponse)</returns>
+        public async Task<ApiResponse<EmailDomainInfoPageResponse>> GetDomainsWithHttpInfoAsync(int? page = default,
+            int? size = default, CancellationToken cancellationToken = default)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            if (page != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
+            if (size != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "size", size));
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .GetAsync<EmailDomainInfoPageResponse>("/email/1/suppressions/domains", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("GetDomains", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -3228,6 +4560,431 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
+        ///     Get IP Get detailed information about provided dedicated IP.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>EmailIpDetailResponse</returns>
+        public EmailIpDetailResponse GetIpDetails(string ipId)
+        {
+            var localVarResponse = GetIpDetailsWithHttpInfo(ipId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP Get detailed information about provided dedicated IP.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>ApiResponse of EmailIpDetailResponse</returns>
+        public ApiResponse<EmailIpDetailResponse> GetIpDetailsWithHttpInfo(string ipId)
+        {
+            // verify the required parameter 'ipId' is set
+            if (ipId == null)
+                throw new ApiException(400, "Missing required parameter 'ipId' when calling EmailApi->GetIpDetails");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("ipId", ClientUtils.ParameterToString(ipId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Get<EmailIpDetailResponse>("/email/1/ip-management/ips/{ipId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("GetIpDetails", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get IP Get detailed information about provided dedicated IP.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpDetailResponse</returns>
+        public async Task<EmailIpDetailResponse> GetIpDetailsAsync(string ipId,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse = await GetIpDetailsWithHttpInfoAsync(ipId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP Get detailed information about provided dedicated IP.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpDetailResponse)</returns>
+        public async Task<ApiResponse<EmailIpDetailResponse>> GetIpDetailsWithHttpInfoAsync(string ipId,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'ipId' is set
+            if (ipId == null)
+                throw new ApiException(400, "Missing required parameter 'ipId' when calling EmailApi->GetIpDetails");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("ipId", ClientUtils.ParameterToString(ipId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .GetAsync<EmailIpDetailResponse>("/email/1/ip-management/ips/{ipId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("GetIpDetails", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get domain Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <returns>EmailIpDomainResponse</returns>
+        public EmailIpDomainResponse GetIpDomain(long domainId)
+        {
+            var localVarResponse = GetIpDomainWithHttpInfo(domainId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get domain Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <returns>ApiResponse of EmailIpDomainResponse</returns>
+        public ApiResponse<EmailIpDomainResponse> GetIpDomainWithHttpInfo(long domainId)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Get<EmailIpDomainResponse>("/email/1/ip-management/domains/{domainId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("GetIpDomain", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get domain Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpDomainResponse</returns>
+        public async Task<EmailIpDomainResponse> GetIpDomainAsync(long domainId,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await GetIpDomainWithHttpInfoAsync(domainId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get domain Get detailed information for provided domain such as assigned pools and their IPs.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpDomainResponse)</returns>
+        public async Task<ApiResponse<EmailIpDomainResponse>> GetIpDomainWithHttpInfoAsync(long domainId,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .GetAsync<EmailIpDomainResponse>("/email/1/ip-management/domains/{domainId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("GetIpDomain", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get IP pool Get detailed information about a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>EmailIpPoolDetailResponse</returns>
+        public EmailIpPoolDetailResponse GetIpPool(string poolId)
+        {
+            var localVarResponse = GetIpPoolWithHttpInfo(poolId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP pool Get detailed information about a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of EmailIpPoolDetailResponse</returns>
+        public ApiResponse<EmailIpPoolDetailResponse> GetIpPoolWithHttpInfo(string poolId)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->GetIpPool");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Get<EmailIpPoolDetailResponse>("/email/1/ip-management/pools/{poolId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("GetIpPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get IP pool Get detailed information about a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolDetailResponse</returns>
+        public async Task<EmailIpPoolDetailResponse> GetIpPoolAsync(string poolId,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse = await GetIpPoolWithHttpInfoAsync(poolId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP pool Get detailed information about a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolDetailResponse)</returns>
+        public async Task<ApiResponse<EmailIpPoolDetailResponse>> GetIpPoolWithHttpInfoAsync(string poolId,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->GetIpPool");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .GetAsync<EmailIpPoolDetailResponse>("/email/1/ip-management/pools/{poolId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("GetIpPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get IP pools Returns all the pools that are owned (created) by this account.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <returns>List&lt;EmailIpPoolResponse&gt;</returns>
+        public List<EmailIpPoolResponse> GetIpPools(string name = default)
+        {
+            var localVarResponse = GetIpPoolsWithHttpInfo(name);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP pools Returns all the pools that are owned (created) by this account.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <returns>ApiResponse of List&lt;EmailIpPoolResponse&gt;</returns>
+        public ApiResponse<List<EmailIpPoolResponse>> GetIpPoolsWithHttpInfo(string name = default)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            if (name != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "name", name));
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Get<List<EmailIpPoolResponse>>("/email/1/ip-management/pools",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("GetIpPools", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Get IP pools Returns all the pools that are owned (created) by this account.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;EmailIpPoolResponse&gt;</returns>
+        public async Task<List<EmailIpPoolResponse>> GetIpPoolsAsync(string name = default,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarResponse = await GetIpPoolsWithHttpInfoAsync(name, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Get IP pools Returns all the pools that are owned (created) by this account.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="name">IP pool name. (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolResponse&gt;)</returns>
+        public async Task<ApiResponse<List<EmailIpPoolResponse>>> GetIpPoolsWithHttpInfoAsync(string name = default,
+            CancellationToken cancellationToken = default)
+        {
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            if (name != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "name", name));
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .GetAsync<List<EmailIpPoolResponse>>("/email/1/ip-management/pools", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("GetIpPools", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
@@ -3452,36 +5209,49 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain Remove dedicated ip address from the provided domain.
+        ///     Get suppressions This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
-        /// <returns>EmailSimpleApiResponse</returns>
-        public EmailSimpleApiResponse RemoveIpFromDomain(string domainName, string ipAddress)
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>EmailSuppressionInfoPageResponse</returns>
+        public EmailSuppressionInfoPageResponse GetSuppressions(string domainName, EmailSuppressionType type,
+            string emailAddress = default, string recipientDomain = default, DateTimeOffset? createdDateFrom = default,
+            DateTimeOffset? createdDateTo = default, int? page = default, int? size = default)
         {
-            var localVarResponse = RemoveIpFromDomainWithHttpInfo(domainName, ipAddress);
+            var localVarResponse = GetSuppressionsWithHttpInfo(domainName, type, emailAddress, recipientDomain,
+                createdDateFrom, createdDateTo, page, size);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain Remove dedicated ip address from the provided domain.
+        ///     Get suppressions This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
-        /// <returns>ApiResponse of EmailSimpleApiResponse</returns>
-        public ApiResponse<EmailSimpleApiResponse> RemoveIpFromDomainWithHttpInfo(string domainName, string ipAddress)
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
+        /// <returns>ApiResponse of EmailSuppressionInfoPageResponse</returns>
+        public ApiResponse<EmailSuppressionInfoPageResponse> GetSuppressionsWithHttpInfo(string domainName,
+            EmailSuppressionType type, string emailAddress = default, string recipientDomain = default,
+            DateTimeOffset? createdDateFrom = default, DateTimeOffset? createdDateTo = default, int? page = default,
+            int? size = default)
         {
             // verify the required parameter 'domainName' is set
             if (domainName == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->RemoveIpFromDomain");
-
-            // verify the required parameter 'ipAddress' is set
-            if (ipAddress == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'ipAddress' when calling EmailApi->RemoveIpFromDomain");
+                    "Missing required parameter 'domainName' when calling EmailApi->GetSuppressions");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -3494,7 +5264,23 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "domainName", domainName));
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "ipAddress", ipAddress));
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "type", type));
+            if (emailAddress != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "emailAddress", emailAddress));
+            if (recipientDomain != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "recipientDomain", recipientDomain));
+            if (createdDateFrom != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "createdDateFrom", createdDateFrom));
+            if (createdDateTo != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "createdDateTo", createdDateTo));
+            if (page != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
+            if (size != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "size", size));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -3502,9 +5288,10 @@ namespace Infobip.Api.Client.Api
 
             // make the HTTP request
             var localVarResponse =
-                Client.Delete<EmailSimpleApiResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration);
+                Client.Get<EmailSuppressionInfoPageResponse>("/email/1/suppressions", localVarRequestOptions,
+                    Configuration);
 
-            var exception = ExceptionFactory?.Invoke("RemoveIpFromDomain", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("GetSuppressions", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -3512,41 +5299,53 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain Remove dedicated ip address from the provided domain.
+        ///     Get suppressions This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailSimpleApiResponse</returns>
-        public async Task<EmailSimpleApiResponse> RemoveIpFromDomainAsync(string domainName, string ipAddress,
-            CancellationToken cancellationToken = default)
+        /// <returns>Task of EmailSuppressionInfoPageResponse</returns>
+        public async Task<EmailSuppressionInfoPageResponse> GetSuppressionsAsync(string domainName,
+            EmailSuppressionType type, string emailAddress = default, string recipientDomain = default,
+            DateTimeOffset? createdDateFrom = default, DateTimeOffset? createdDateTo = default, int? page = default,
+            int? size = default, CancellationToken cancellationToken = default)
         {
-            var localVarResponse = await RemoveIpFromDomainWithHttpInfoAsync(domainName, ipAddress, cancellationToken)
-                .ConfigureAwait(false);
+            var localVarResponse = await GetSuppressionsWithHttpInfoAsync(domainName, type, emailAddress,
+                recipientDomain, createdDateFrom, createdDateTo, page, size, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Remove dedicated ip address from the provided domain Remove dedicated ip address from the provided domain.
+        ///     Get suppressions This method retrieves the suppressions for domains that are owned or have permissions granted.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ipAddress">Dedicated ip address.</param>
+        /// <param name="domainName">Name of the requested domain.</param>
+        /// <param name="type">Type of suppression.</param>
+        /// <param name="emailAddress">Email address that is suppressed. (optional)</param>
+        /// <param name="recipientDomain">Recipient domain that is suppressed. (optional)</param>
+        /// <param name="createdDateFrom">Start date for searching suppressions. (optional)</param>
+        /// <param name="createdDateTo">End date for searching suppressions. (optional)</param>
+        /// <param name="page">Requested page number. (optional, default to 0)</param>
+        /// <param name="size">Requested page size. (optional, default to 100)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailSimpleApiResponse)</returns>
-        public async Task<ApiResponse<EmailSimpleApiResponse>> RemoveIpFromDomainWithHttpInfoAsync(string domainName,
-            string ipAddress, CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (EmailSuppressionInfoPageResponse)</returns>
+        public async Task<ApiResponse<EmailSuppressionInfoPageResponse>> GetSuppressionsWithHttpInfoAsync(
+            string domainName, EmailSuppressionType type, string emailAddress = default,
+            string recipientDomain = default, DateTimeOffset? createdDateFrom = default,
+            DateTimeOffset? createdDateTo = default, int? page = default, int? size = default,
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'domainName' is set
             if (domainName == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->RemoveIpFromDomain");
-
-            // verify the required parameter 'ipAddress' is set
-            if (ipAddress == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'ipAddress' when calling EmailApi->RemoveIpFromDomain");
+                    "Missing required parameter 'domainName' when calling EmailApi->GetSuppressions");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -3560,7 +5359,23 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "domainName", domainName));
-            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "ipAddress", ipAddress));
+            localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "type", type));
+            if (emailAddress != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "emailAddress", emailAddress));
+            if (recipientDomain != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "recipientDomain", recipientDomain));
+            if (createdDateFrom != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "createdDateFrom", createdDateFrom));
+            if (createdDateTo != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "createdDateTo", createdDateTo));
+            if (page != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
+            if (size != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "size", size));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -3569,10 +5384,256 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .DeleteAsync<EmailSimpleApiResponse>("/email/1/domain-ips", localVarRequestOptions, Configuration,
-                    cancellationToken).ConfigureAwait(false);
+                .GetAsync<EmailSuppressionInfoPageResponse>("/email/1/suppressions", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
 
-            var exception = ExceptionFactory?.Invoke("RemoveIpFromDomain", localVarResponse);
+            var exception = ExceptionFactory?.Invoke("GetSuppressions", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Unassign IP from pool Unassign provided IP from the specific pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns></returns>
+        public void RemoveIpFromPool(string poolId, string ipId)
+        {
+            RemoveIpFromPoolWithHttpInfo(poolId, ipId);
+        }
+
+        /// <summary>
+        ///     Unassign IP from pool Unassign provided IP from the specific pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> RemoveIpFromPoolWithHttpInfo(string poolId, string ipId)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->RemoveIpFromPool");
+
+            // verify the required parameter 'ipId' is set
+            if (ipId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'ipId' when calling EmailApi->RemoveIpFromPool");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("ipId", ClientUtils.ParameterToString(ipId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Delete<object>("/email/1/ip-management/pools/{poolId}/ips/{ipId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("RemoveIpFromPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Unassign IP from pool Unassign provided IP from the specific pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task RemoveIpFromPoolAsync(string poolId, string ipId,
+            CancellationToken cancellationToken = default)
+        {
+            await RemoveIpFromPoolWithHttpInfoAsync(poolId, ipId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Unassign IP from pool Unassign provided IP from the specific pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="ipId">Dedicated IP identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> RemoveIpFromPoolWithHttpInfoAsync(string poolId, string ipId,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->RemoveIpFromPool");
+
+            // verify the required parameter 'ipId' is set
+            if (ipId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'ipId' when calling EmailApi->RemoveIpFromPool");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("ipId", ClientUtils.ParameterToString(ipId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .DeleteAsync<object>("/email/1/ip-management/pools/{poolId}/ips/{ipId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("RemoveIpFromPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Unassign IP pool from domain Unassign a specified pool from the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns></returns>
+        public void RemoveIpPoolFromDomain(long domainId, string poolId)
+        {
+            RemoveIpPoolFromDomainWithHttpInfo(domainId, poolId);
+        }
+
+        /// <summary>
+        ///     Unassign IP pool from domain Unassign a specified pool from the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> RemoveIpPoolFromDomainWithHttpInfo(long domainId, string poolId)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->RemoveIpPoolFromDomain");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Delete<object>("/email/1/ip-management/domains/{domainId}/pools/{poolId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("RemoveIpPoolFromDomain", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Unassign IP pool from domain Unassign a specified pool from the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task RemoveIpPoolFromDomainAsync(long domainId, string poolId,
+            CancellationToken cancellationToken = default)
+        {
+            await RemoveIpPoolFromDomainWithHttpInfoAsync(domainId, poolId, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Unassign IP pool from domain Unassign a specified pool from the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> RemoveIpPoolFromDomainWithHttpInfoAsync(long domainId, string poolId,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->RemoveIpPoolFromDomain");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            string contentType = null;
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .DeleteAsync<object>("/email/1/ip-management/domains/{domainId}/pools/{poolId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("RemoveIpPoolFromDomain", localVarResponse);
             if (exception != null)
                 throw exception;
 
@@ -3778,7 +5839,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -3829,9 +5894,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -3840,6 +5905,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <returns>EmailSendResponse</returns>
         public EmailSendResponse SendEmail(List<string> to, string from = default, List<string> cc = default,
@@ -3852,13 +5924,13 @@ namespace Infobip.Api.Client.Api
             string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
             DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default)
+            string entityId = default, string headers = default)
         {
             var localVarResponse = SendEmailWithHttpInfo(to, from, cc, bcc, subject, text, html, ampHtml, templateId,
                 attachment, inlineImage, intermediateReport, notifyUrl, notifyContentType, callbackData, track,
                 trackClicks, trackOpens, trackingUrl, bulkId, messageId, campaignReferenceId, replyTo,
                 defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders, landingPageId,
-                templateLanguageVersion, clientPriority, applicationId, entityId);
+                templateLanguageVersion, clientPriority, applicationId, entityId, headers);
             return localVarResponse.Data;
         }
 
@@ -3930,7 +6002,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -3981,9 +6057,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -3992,6 +6068,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <returns>ApiResponse of EmailSendResponse</returns>
         public ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(List<string> to, string from = default,
@@ -4005,7 +6088,7 @@ namespace Infobip.Api.Client.Api
             string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
             string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default)
+            string entityId = default, string headers = default)
         {
             // verify the required parameter 'to' is set
             if (to == null)
@@ -4047,13 +6130,12 @@ namespace Infobip.Api.Client.Api
             if (templateId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "templateId", templateId)); // form parameter
-            if (attachment != null)
-                localVarRequestOptions.FileParameters.Add("attachment", attachment);
-            if (inlineImage != null)
-                localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
+            if (attachment != null) localVarRequestOptions.FileParameters.Add("attachment", attachment);
+            if (inlineImage != null) localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
             if (intermediateReport != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport", intermediateReport)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport",
+                        intermediateReport)); // form parameter
             if (notifyUrl != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "notifyUrl", notifyUrl)); // form parameter
@@ -4083,37 +6165,45 @@ namespace Infobip.Api.Client.Api
                     ClientUtils.ParameterToMultiMap("multi", "messageId", messageId)); // form parameter
             if (campaignReferenceId != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId",
+                        campaignReferenceId)); // form parameter
             if (replyTo != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "replyTo", replyTo)); // form parameter
             if (defaultPlaceholders != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders", defaultPlaceholders)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders",
+                        defaultPlaceholders)); // form parameter
             if (preserveRecipients != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients", preserveRecipients)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients",
+                        preserveRecipients)); // form parameter
             if (sendAt != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "sendAt", sendAt)); // form parameter
             if (landingPagePlaceholders != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders", landingPagePlaceholders)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders",
+                        landingPagePlaceholders)); // form parameter
             if (landingPageId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "landingPageId", landingPageId)); // form parameter
             if (templateLanguageVersion != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion", templateLanguageVersion)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion",
+                        templateLanguageVersion)); // form parameter
             if (clientPriority != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "clientPriority", clientPriority)); // form parameterr
+                    ClientUtils.ParameterToMultiMap("multi", "clientPriority", clientPriority)); // form parameter
             if (applicationId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "applicationId", applicationId)); // form parameter
             if (entityId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "entityId", entityId)); // form parameter
+            if (headers != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "headers", headers)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -4198,7 +6288,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -4249,9 +6343,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -4260,6 +6354,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailSendResponse</returns>
@@ -4274,13 +6375,13 @@ namespace Infobip.Api.Client.Api
             string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
             string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, CancellationToken cancellationToken = default)
+            string entityId = default, string headers = default, CancellationToken cancellationToken = default)
         {
             var localVarResponse = await SendEmailWithHttpInfoAsync(to, from, cc, bcc, subject, text, html, ampHtml,
                     templateId, attachment, inlineImage, intermediateReport, notifyUrl, notifyContentType, callbackData,
                     track, trackClicks, trackOpens, trackingUrl, bulkId, messageId, campaignReferenceId, replyTo,
                     defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders, landingPageId,
-                    templateLanguageVersion, clientPriority, applicationId, entityId, cancellationToken)
+                    templateLanguageVersion, clientPriority, applicationId, entityId, headers, cancellationToken)
                 .ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -4353,7 +6454,11 @@ namespace Infobip.Api.Client.Api
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
         ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
         /// </param>
-        /// <param name="trackClicks">This parameter enables or disables track click feature. (optional)</param>
+        /// <param name="trackClicks">
+        ///     This parameter enables or disables track click feature.  Note: Option to disable click
+        ///     tracking per URL is available. For detailed usage, please refer to the
+        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
@@ -4404,9 +6509,9 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="clientPriority">
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
-        ///     MEDIUM&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
+        ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;MEDIUM&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -4415,6 +6520,13 @@ namespace Infobip.Api.Client.Api
         /// <param name="entityId">
         ///     Required for entity use in a send request for outbound traffic. Returned in notification events.
         ///     (optional)
+        /// </param>
+        /// <param name="headers">
+        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
+        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
+        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
+        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
+        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
@@ -4429,7 +6541,7 @@ namespace Infobip.Api.Client.Api
             string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
             string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, CancellationToken cancellationToken = default)
+            string entityId = default, string headers = default, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'to' is set
             if (to == null)
@@ -4472,13 +6584,12 @@ namespace Infobip.Api.Client.Api
             if (templateId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "templateId", templateId)); // form parameter
-            if (attachment != null)
-                localVarRequestOptions.FileParameters.Add("attachment", attachment);
-            if (inlineImage != null)
-                localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
+            if (attachment != null) localVarRequestOptions.FileParameters.Add("attachment", attachment);
+            if (inlineImage != null) localVarRequestOptions.FileParameters.Add("inlineImage", inlineImage);
             if (intermediateReport != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport", intermediateReport)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "intermediateReport",
+                        intermediateReport)); // form parameter
             if (notifyUrl != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "notifyUrl", notifyUrl)); // form parameter
@@ -4508,28 +6619,33 @@ namespace Infobip.Api.Client.Api
                     ClientUtils.ParameterToMultiMap("multi", "messageId", messageId)); // form parameter
             if (campaignReferenceId != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId",
+                        campaignReferenceId)); // form parameter
             if (replyTo != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "replyTo", replyTo)); // form parameter
             if (defaultPlaceholders != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders", defaultPlaceholders)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "defaultPlaceholders",
+                        defaultPlaceholders)); // form parameter
             if (preserveRecipients != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients", preserveRecipients)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "preserveRecipients",
+                        preserveRecipients)); // form parameter
             if (sendAt != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "sendAt", sendAt)); // form parameter
             if (landingPagePlaceholders != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders", landingPagePlaceholders)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "landingPagePlaceholders",
+                        landingPagePlaceholders)); // form parameter
             if (landingPageId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "landingPageId", landingPageId)); // form parameter
             if (templateLanguageVersion != null)
                 localVarRequestOptions.FormParameters.Add(
-                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion", templateLanguageVersion)); // form parameter
+                    ClientUtils.ParameterToMultiMap("multi", "templateLanguageVersion",
+                        templateLanguageVersion)); // form parameter
             if (clientPriority != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "clientPriority", clientPriority)); // form parameter
@@ -4539,6 +6655,9 @@ namespace Infobip.Api.Client.Api
             if (entityId != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "entityId", entityId)); // form parameter
+            if (headers != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "headers", headers)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -4551,6 +6670,276 @@ namespace Infobip.Api.Client.Api
                 .ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("SendEmail", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update IP pool sending priority Update specified pool&#39;s sending priority for the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <returns></returns>
+        public void UpdateDomainPoolPriority(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest)
+        {
+            UpdateDomainPoolPriorityWithHttpInfo(domainId, poolId, emailDomainIpPoolUpdateApiRequest);
+        }
+
+        /// <summary>
+        ///     Update IP pool sending priority Update specified pool&#39;s sending priority for the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <returns>ApiResponse of object(void)</returns>
+        public ApiResponse<object> UpdateDomainPoolPriorityWithHttpInfo(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->UpdateDomainPoolPriority");
+
+            // verify the required parameter 'emailDomainIpPoolUpdateApiRequest' is set
+            if (emailDomainIpPoolUpdateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDomainIpPoolUpdateApiRequest' when calling EmailApi->UpdateDomainPoolPriority");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailDomainIpPoolUpdateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Put<object>("/email/1/ip-management/domains/{domainId}/pools/{poolId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("UpdateDomainPoolPriority", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update IP pool sending priority Update specified pool&#39;s sending priority for the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async Task UpdateDomainPoolPriorityAsync(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest,
+            CancellationToken cancellationToken = default)
+        {
+            await UpdateDomainPoolPriorityWithHttpInfoAsync(domainId, poolId, emailDomainIpPoolUpdateApiRequest,
+                cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Update IP pool sending priority Update specified pool&#39;s sending priority for the provided domain.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="domainId">Domain identifier.</param>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailDomainIpPoolUpdateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async Task<ApiResponse<object>> UpdateDomainPoolPriorityWithHttpInfoAsync(long domainId, string poolId,
+            EmailDomainIpPoolUpdateApiRequest emailDomainIpPoolUpdateApiRequest,
+            CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'poolId' when calling EmailApi->UpdateDomainPoolPriority");
+
+            // verify the required parameter 'emailDomainIpPoolUpdateApiRequest' is set
+            if (emailDomainIpPoolUpdateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailDomainIpPoolUpdateApiRequest' when calling EmailApi->UpdateDomainPoolPriority");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("domainId",
+                ClientUtils.ParameterToString(domainId)); // path parameter
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailDomainIpPoolUpdateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PutAsync<object>("/email/1/ip-management/domains/{domainId}/pools/{poolId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("UpdateDomainPoolPriority", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update IP pool Update a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>EmailIpPoolResponse</returns>
+        public EmailIpPoolResponse UpdateIpPool(string poolId, EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest)
+        {
+            var localVarResponse = UpdateIpPoolWithHttpInfo(poolId, emailIpPoolCreateApiRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update IP pool Update a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <returns>ApiResponse of EmailIpPoolResponse</returns>
+        public ApiResponse<EmailIpPoolResponse> UpdateIpPoolWithHttpInfo(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->UpdateIpPool");
+
+            // verify the required parameter 'emailIpPoolCreateApiRequest' is set
+            if (emailIpPoolCreateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolCreateApiRequest' when calling EmailApi->UpdateIpPool");
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailIpPoolCreateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+            var localVarResponse = Client.Put<EmailIpPoolResponse>("/email/1/ip-management/pools/{poolId}",
+                localVarRequestOptions, Configuration);
+
+            var exception = ExceptionFactory?.Invoke("UpdateIpPool", localVarResponse);
+            if (exception != null)
+                throw exception;
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///     Update IP pool Update a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of EmailIpPoolResponse</returns>
+        public async Task<EmailIpPoolResponse> UpdateIpPoolAsync(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default)
+        {
+            var localVarResponse =
+                await UpdateIpPoolWithHttpInfoAsync(poolId, emailIpPoolCreateApiRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///     Update IP pool Update a provided IP pool.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="poolId">IP pool identifier.</param>
+        /// <param name="emailIpPoolCreateApiRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (EmailIpPoolResponse)</returns>
+        public async Task<ApiResponse<EmailIpPoolResponse>> UpdateIpPoolWithHttpInfoAsync(string poolId,
+            EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'poolId' is set
+            if (poolId == null)
+                throw new ApiException(400, "Missing required parameter 'poolId' when calling EmailApi->UpdateIpPool");
+
+            // verify the required parameter 'emailIpPoolCreateApiRequest' is set
+            if (emailIpPoolCreateApiRequest == null)
+                throw new ApiException(400,
+                    "Missing required parameter 'emailIpPoolCreateApiRequest' when calling EmailApi->UpdateIpPool");
+
+
+            var localVarRequestOptions = new RequestOptions();
+
+            var contentType = "application/json";
+            if (contentType != null)
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
+
+            var accept = "application/json";
+            if (accept != null)
+                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
+
+            localVarRequestOptions.PathParameters.Add("poolId",
+                ClientUtils.ParameterToString(poolId)); // path parameter
+            localVarRequestOptions.Data = emailIpPoolCreateApiRequest;
+
+            // authentication (APIKeyHeader) required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
+
+            // make the HTTP request
+
+            var localVarResponse = await AsynchronousClient
+                .PutAsync<EmailIpPoolResponse>("/email/1/ip-management/pools/{poolId}", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
+
+            var exception = ExceptionFactory?.Invoke("UpdateIpPool", localVarResponse);
             if (exception != null)
                 throw exception;
 

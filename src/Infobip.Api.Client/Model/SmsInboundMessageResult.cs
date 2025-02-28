@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsInboundMessageResult
     /// </summary>
     [DataContract(Name = "SmsInboundMessageResult")]
+    [JsonObject]
     public class SmsInboundMessageResult : IEquatable<SmsInboundMessageResult>
     {
         /// <summary>
@@ -43,6 +45,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The number of messages returned in the &#x60;results&#x60; array.</value>
         [DataMember(Name = "messageCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageCount")]
         public int MessageCount { get; set; }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The number of messages that have not been pulled in.</value>
         [DataMember(Name = "pendingMessageCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pendingMessageCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pendingMessageCount")]
         public int PendingMessageCount { get; set; }
 
         /// <summary>
@@ -57,6 +63,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>An array of result objects.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
         public List<SmsInboundMessage> Results { get; set; }
 
         /// <summary>

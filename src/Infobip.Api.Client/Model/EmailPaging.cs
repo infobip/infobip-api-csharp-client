@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Pagination details like page number, page size,etc.
     /// </summary>
     [DataContract(Name = "EmailPaging")]
+    [JsonObject]
     public class EmailPaging : IEquatable<EmailPaging>
     {
         /// <summary>
@@ -41,24 +43,32 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Page
         /// </summary>
         [DataMember(Name = "page", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "page", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("page")]
         public int Page { get; set; }
 
         /// <summary>
         ///     Gets or Sets Size
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "size", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("size")]
         public int Size { get; set; }
 
         /// <summary>
         ///     Gets or Sets TotalPages
         /// </summary>
         [DataMember(Name = "totalPages", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "totalPages", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("totalPages")]
         public int TotalPages { get; set; }
 
         /// <summary>
         ///     Gets or Sets TotalResults
         /// </summary>
         [DataMember(Name = "totalResults", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "totalResults", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("totalResults")]
         public int TotalResults { get; set; }
 
         /// <summary>

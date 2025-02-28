@@ -1,9 +1,9 @@
-name: .NET build
+name: .NET build and test
 
 on: [push]
 
 jobs:
-  build:
+  build-client:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,9 +14,22 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
+    - name: Restore client dependencies
+      run: dotnet restore src/Infobip.Api.Client/Infobip.Api.Client.csproj
+    - name: Build client
+      run: dotnet build --no-restore src/Infobip.Api.Client/Infobip.Api.Client.csproj
+  build-tests:
+    runs-on: ubuntu-latest
+    needs: build-client
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 6.0
+    - name: Restore test dependencies
+      run: dotnet restore ApiClient.Tests/ApiClient.Tests.csproj
+    - name: Build test project
+      run: dotnet build --no-restore ApiClient.Tests/ApiClient.Tests.csproj
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal ApiClient.Tests/ApiClient.Tests.csproj

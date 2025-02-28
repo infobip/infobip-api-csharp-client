@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailReportsResult
     /// </summary>
     [DataContract(Name = "EmailReportsResult")]
+    [JsonObject]
     public class EmailReportsResult : IEquatable<EmailReportsResult>
     {
         /// <summary>
@@ -37,6 +39,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Results
         /// </summary>
         [DataMember(Name = "results", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
         public List<EmailReport> Results { get; set; }
 
         /// <summary>

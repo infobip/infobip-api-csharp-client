@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailSendResponse
     /// </summary>
     [DataContract(Name = "EmailSendResponse")]
+    [JsonObject]
     public class EmailSendResponse : IEquatable<EmailSendResponse>
     {
         /// <summary>
@@ -40,6 +42,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID that uniquely identifies a list of message responses.</value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>
@@ -47,6 +51,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>List of message response details.</value>
         [DataMember(Name = "messages", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messages", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messages")]
         public List<EmailResponseDetails> Messages { get; set; }
 
         /// <summary>

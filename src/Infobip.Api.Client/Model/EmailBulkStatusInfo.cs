@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailBulkStatusInfo
     /// </summary>
     [DataContract(Name = "EmailBulkStatusInfo")]
+    [JsonObject]
     public class EmailBulkStatusInfo : IEquatable<EmailBulkStatusInfo>
     {
         /// <summary>
@@ -37,12 +39,16 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("status")]
         public EmailBulkStatus? Status { get; set; }
 
         /// <summary>
         ///     Gets or Sets BulkId
         /// </summary>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>

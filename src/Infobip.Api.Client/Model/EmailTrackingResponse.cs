@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Tracking details of the domain.
     /// </summary>
     [DataContract(Name = "EmailTrackingResponse")]
+    [JsonObject]
     public class EmailTrackingResponse : IEquatable<EmailTrackingResponse>
     {
         /// <summary>
@@ -40,6 +42,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether tracking of clicks is enabled.</value>
         [DataMember(Name = "clicks", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "clicks", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("clicks")]
         public bool Clicks { get; set; }
 
         /// <summary>
@@ -47,6 +51,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether tracking of opens is enabled.</value>
         [DataMember(Name = "opens", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "opens", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("opens")]
         public bool Opens { get; set; }
 
         /// <summary>
@@ -54,6 +60,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether tracking of unsubscribes is enabled.</value>
         [DataMember(Name = "unsubscribe", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "unsubscribe", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("unsubscribe")]
         public bool Unsubscribe { get; set; }
 
         /// <summary>

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,21 +21,31 @@ namespace Infobip.Api.Client.Model
     ///     Use case dependent parameters for sending SMS to phone numbers registered in South Korea.
     /// </summary>
     [DataContract(Name = "SmsSouthKoreaOptions")]
+    [JsonObject]
     public class SmsSouthKoreaOptions : IEquatable<SmsSouthKoreaOptions>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsSouthKoreaOptions" /> class.
         /// </summary>
+        /// <param name="title">Title of the message..</param>
         /// <param name="resellerCode">
         ///     Reseller identification code: 9-digit registration number in the business registration
         ///     certificate for South Korea. Resellers should submit this when sending..
         /// </param>
-        /// <param name="title">Set the title or subject of a message. South Korea only..</param>
-        public SmsSouthKoreaOptions(int resellerCode = default, string title = default)
+        public SmsSouthKoreaOptions(string title = default, int resellerCode = default)
         {
-            ResellerCode = resellerCode;
             Title = title;
+            ResellerCode = resellerCode;
         }
+
+        /// <summary>
+        ///     Title of the message.
+        /// </summary>
+        /// <value>Title of the message.</value>
+        [DataMember(Name = "title", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "title", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
 
         /// <summary>
         ///     Reseller identification code: 9-digit registration number in the business registration certificate for South Korea.
@@ -45,14 +56,9 @@ namespace Infobip.Api.Client.Model
         ///     Korea. Resellers should submit this when sending.
         /// </value>
         [DataMember(Name = "resellerCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "resellerCode", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("resellerCode")]
         public int ResellerCode { get; set; }
-
-        /// <summary>
-        ///     Set the title or subject of a message. South Korea only.
-        /// </summary>
-        /// <value>Set the title or subject of a message. South Korea only.</value>
-        [DataMember(Name = "title", EmitDefaultValue = false)]
-        public string Title { get; set; }
 
         /// <summary>
         ///     Returns true if SmsSouthKoreaOptions instances are equal
@@ -66,13 +72,13 @@ namespace Infobip.Api.Client.Model
 
             return
                 (
-                    ResellerCode == input.ResellerCode ||
-                    ResellerCode.Equals(input.ResellerCode)
-                ) &&
-                (
                     Title == input.Title ||
                     (Title != null &&
                      Title.Equals(input.Title))
+                ) &&
+                (
+                    ResellerCode == input.ResellerCode ||
+                    ResellerCode.Equals(input.ResellerCode)
                 );
         }
 
@@ -84,8 +90,8 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsSouthKoreaOptions {\n");
-            sb.Append("  ResellerCode: ").Append(ResellerCode).Append("\n");
             sb.Append("  Title: ").Append(Title).Append("\n");
+            sb.Append("  ResellerCode: ").Append(ResellerCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,9 +124,9 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                hashCode = hashCode * 59 + ResellerCode.GetHashCode();
                 if (Title != null)
                     hashCode = hashCode * 59 + Title.GetHashCode();
+                hashCode = hashCode * 59 + ResellerCode.GetHashCode();
                 return hashCode;
             }
         }

@@ -12,15 +12,16 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Indicates whether the initiated email has been successfully sent, not sent, delivered, not delivered, waiting for
-    ///     delivery or any other possible status.
+    ///     Indicates the message status.
     /// </summary>
     [DataContract(Name = "MessageStatus")]
+    [JsonObject]
     public class MessageStatus : IEquatable<MessageStatus>
     {
         /// <summary>
@@ -30,17 +31,15 @@ namespace Infobip.Api.Client.Model
         /// <param name="groupName">Status group name..</param>
         /// <param name="id">Status ID..</param>
         /// <param name="name">Status name..</param>
-        /// <param name="description">Human-readable description of the status..</param>
-        /// <param name="action">Action name..</param>
+        /// <param name="description">Status description..</param>
         public MessageStatus(int groupId = default, string groupName = default, int id = default, string name = default,
-            string description = default, string action = default)
+            string description = default)
         {
             GroupId = groupId;
             GroupName = groupName;
             Id = id;
             Name = name;
             Description = description;
-            Action = action;
         }
 
         /// <summary>
@@ -48,6 +47,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Status group ID.</value>
         [DataMember(Name = "groupId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "groupId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("groupId")]
         public int GroupId { get; set; }
 
         /// <summary>
@@ -55,6 +56,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Status group name.</value>
         [DataMember(Name = "groupName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "groupName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("groupName")]
         public string GroupName { get; set; }
 
         /// <summary>
@@ -62,6 +65,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Status ID.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
         /// <summary>
@@ -69,21 +74,18 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Status name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
-        ///     Human-readable description of the status.
+        ///     Status description.
         /// </summary>
-        /// <value>Human-readable description of the status.</value>
+        /// <value>Status description.</value>
         [DataMember(Name = "description", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
-
-        /// <summary>
-        ///     Action name.
-        /// </summary>
-        /// <value>Action name.</value>
-        [DataMember(Name = "action", EmitDefaultValue = false)]
-        public string Action { get; set; }
 
         /// <summary>
         ///     Returns true if MessageStatus instances are equal
@@ -118,11 +120,6 @@ namespace Infobip.Api.Client.Model
                     Description == input.Description ||
                     (Description != null &&
                      Description.Equals(input.Description))
-                ) &&
-                (
-                    Action == input.Action ||
-                    (Action != null &&
-                     Action.Equals(input.Action))
                 );
         }
 
@@ -139,7 +136,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
-            sb.Append("  Action: ").Append(Action).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -180,8 +176,6 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Name.GetHashCode();
                 if (Description != null)
                     hashCode = hashCode * 59 + Description.GetHashCode();
-                if (Action != null)
-                    hashCode = hashCode * 59 + Action.GetHashCode();
                 return hashCode;
             }
         }

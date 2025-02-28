@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Array of email logs, one object per each email request.
     /// </summary>
     [DataContract(Name = "EmailLog")]
+    [JsonObject]
     public class EmailLog : IEquatable<EmailLog>
     {
         /// <summary>
@@ -69,6 +71,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The Application ID sent in the email request.</value>
         [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "applicationId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
@@ -76,6 +80,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The Entity ID sent in the email request.</value>
         [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "entityId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("entityId")]
         public string EntityId { get; set; }
 
         /// <summary>
@@ -83,6 +89,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID that uniquely identifies the request.</value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>
@@ -90,6 +98,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID that uniquely identifies the sent email request.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
@@ -97,6 +107,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The recipient email address.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>
@@ -104,6 +116,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>From email address.</value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
         public string From { get; set; }
 
         /// <summary>
@@ -111,6 +125,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The text from email body.</value>
         [DataMember(Name = "text", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "text", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
         /// <summary>
@@ -118,6 +134,9 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Tells when the email was initiated. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;. </value>
         [DataMember(Name = "sentAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sentAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sentAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset SentAt { get; set; }
 
         /// <summary>
@@ -129,6 +148,9 @@ namespace Infobip.Api.Client.Model
         ///     waiting for delivery, etc.).
         /// </value>
         [DataMember(Name = "doneAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "doneAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("doneAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset DoneAt { get; set; }
 
         /// <summary>
@@ -136,24 +158,32 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Email request count.</value>
         [DataMember(Name = "messageCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageCount")]
         public int MessageCount { get; set; }
 
         /// <summary>
         ///     Gets or Sets Price
         /// </summary>
         [DataMember(Name = "price", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "price", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("price")]
         public MessagePrice Price { get; set; }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("status")]
         public MessageStatus Status { get; set; }
 
         /// <summary>
         ///     Gets or Sets Error
         /// </summary>
         [DataMember(Name = "error", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "error", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("error")]
         public MessageError Error { get; set; }
 
         /// <summary>

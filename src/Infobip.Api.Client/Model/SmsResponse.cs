@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -22,42 +24,59 @@ namespace Infobip.Api.Client.Model
     ///     SmsResponse
     /// </summary>
     [DataContract(Name = "SmsResponse")]
+    [JsonObject]
     public class SmsResponse : IEquatable<SmsResponse>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsResponse" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected SmsResponse()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="SmsResponse" /> class.
+        /// </summary>
         /// <param name="bulkId">
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
-        ///     via a single API request. Typically, used to fetch [delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports) and [message
-        ///     logs](#channels/sms/get-outbound-sms-message-logs)..
+        ///     via a single API request. If not provided, it will be auto-generated and returned in the API response. Typically
+        ///     used for fetching delivery reports and message logs..
         /// </param>
-        /// <param name="messages">An array of message objects of a single message or multiple messages sent under one bulk ID..</param>
+        /// <param name="messages">
+        ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
+        ///     (required).
+        /// </param>
         public SmsResponse(string bulkId = default, List<SmsResponseDetails> messages = default)
         {
+            // to ensure "messages" is required (not null)
+            Messages = messages ?? throw new ArgumentNullException("messages");
             BulkId = bulkId;
-            Messages = messages;
         }
 
         /// <summary>
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
-        ///     request. Typically, used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and
-        ///     [message logs](#channels/sms/get-outbound-sms-message-logs).
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically used for fetching
+        ///     delivery reports and message logs.
         /// </summary>
         /// <value>
         ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages via a single API
-        ///     request. Typically, used to fetch [delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports) and
-        ///     [message logs](#channels/sms/get-outbound-sms-message-logs).
+        ///     request. If not provided, it will be auto-generated and returned in the API response. Typically used for fetching
+        ///     delivery reports and message logs.
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>
         ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
         /// </summary>
         /// <value>An array of message objects of a single message or multiple messages sent under one bulk ID.</value>
-        [DataMember(Name = "messages", EmitDefaultValue = false)]
+        [DataMember(Name = "messages", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "messages", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("messages")]
         public List<SmsResponseDetails> Messages { get; set; }
 
         /// <summary>
