@@ -25,6 +25,7 @@ If you find out that something was not addressed properly, please submit an issu
   - Removed `Email IP` and `Email Domain IPs` endpoints as they are now deprecated and are no longer supported.
 - Added `[JsonObject]` and `[JsonProperty]` annotations to models for improved JSON Serialization/Deserialization for Newtonsoft.Json based consumers.
 - Added System.Text.Json support for consumers using .NET Core 3.0 or later.
+- Added `IDisposable` for all `IApiAccessor` implementations.
 
 ### Changed
 ⚠️ In addition to the changes listed below some products might also contain breaking changes as some of the API endpoints have changed since last major release.
@@ -38,7 +39,8 @@ If you have issues when migrating the existing implementation, please check the 
 - Introduced unified `IysRecipientType` class which replaces `SmsIysRecipientType`.
 - Introduced unified `UrlOptions` class which replaces `SmsUrlOptions`.
 - `ErrorContent` and `Headers` fields in `ApiException` now have private setters.
-- [Polly](https://github.com/App-vNext/Polly) dependency was bumped to version 7.2.4.
+- Bumped `Polly` dependency to version `7.2.4`
+- Bumped `RestSharp` dependency to version `106.12.0`
 
 ### Fixed
 - bug: 400 error when receiving forwarding SMS message (https://github.com/infobip/infobip-api-csharp-client/issues/44)
