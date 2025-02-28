@@ -1,969 +1,1202 @@
-﻿using System.Globalization;
-using Infobip.Api.Client.Api;
+﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ApiClient.Tests.Api;
 
 [TestClass]
 public class SmsApiTest : ApiTest
 {
+    protected const string SMS_SEND_MESSAGE_ENDPOINT = "/sms/3/messages";
     protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
     protected const string SMS_SEND_BINARY_ADVANCED_ENDPOINT = "/sms/2/binary/advanced";
-    protected const string SMS_LOGS_ENDPOINT = "/sms/1/logs";
-    protected const string SMS_REPORTS_ENDPOINT = "/sms/1/reports";
+    protected const string SMS_LOGS_ENDPOINT = "/sms/3/logs";
+    protected const string SMS_REPORTS_ENDPOINT = "/sms/3/reports";
     protected const string SMS_INBOX_REPORTS_ENDPOINT = "/sms/1/inbox/reports";
     protected const string SMS_SEND_PREVIEW_ENDPOINT = "/sms/1/preview";
     protected const string SMS_BULKS_ENDPOINT = "/sms/1/bulks";
     protected const string SMS_BULKS_STATUS_ENDPOINT = "/sms/1/bulks/status";
 
-    protected const int PENDING_STATUS_GROUP_ID = 1;
-    protected const string PENDING_STATUS_GROUP_NAME = "PENDING";
-    protected const int PENDING_STATUS_ID = 26;
-    protected const string PENDING_STATUS_NAME = "MESSAGE_ACCEPTED";
-    protected const string PENDING_STATUS_DESCRIPTION = "Message sent to next instance";
-
-    protected const int DELIVERED_STATUS_GROUP_ID = 3;
-    protected const string DELIVERED_STATUS_GROUP_NAME = "DELIVERED";
-    protected const int DELIVERED_STATUS_ID = 5;
-    protected const string DELIVERED_STATUS_NAME = "DELIVERED_TO_HANDSET";
-    protected const string DELIVERED_STATUS_DESCRIPTION = "Message delivered to handset";
-
-    protected const int NO_ERROR_GROUP_ID = 0;
-    protected const string NO_ERROR_GROUP_NAME = "Ok";
-    protected const int NO_ERROR_ID = 0;
-    protected const string NO_ERROR_NAME = "NO_ERROR";
-    protected const string NO_ERROR_DESCRIPTION = "No Error";
-    protected const bool NO_ERROR_IS_PERMANENT = false;
+    protected const string DATE_FORMAT = "yyyy-MM-ddTHH:mm:ss.fffzzz";
 
     [TestMethod]
     public void ShouldSendSimpleSms()
     {
-        var givenFlash = false;
+        var givenBulkId = "2034072219640523072";
+        var givenTo = "41793026727";
+        var givenMessageId = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
         var givenFrom = "InfoSMS";
-        var givenIntermediateReport = false;
         var givenText = "This is a sample message";
-        var givenIncludeSmsCountInResponse = false;
+        var givenGroupId = 1;
+        var givenGroupName = MessageGeneralStatus.Pending;
+        var givenStatusId = 26;
+        var givenStatusName = "MESSAGE_ACCEPTED";
+        var givenStatusDescription = "Message sent to next instance";
+        var givenApplicationId = "given_application_id";
+        var givenFlash = false;
+        var givenEntityId = "given_entity_id";
+        var givenMessageCount = 1;
 
-        var expectedTo = "41793026727";
-        var expectedMessageId = "This is a sample message";
-        var expectedBulkId = "2034072219640523072";
-
-        var givenRequest = $@"
-            {{
-                ""messages"": [
-                {{
-                    ""destinations"": [
-                        {{
-                            ""to"": ""{expectedTo}""
-                        }}
-                      ],
-                    ""flash"":{givenFlash.ToString().ToLower()},
-                    ""from"": ""{givenFrom}"",
-                    ""intermediateReport"":{givenIntermediateReport.ToString().ToLower()},
-                    ""text"": ""{givenText}""
+        var givenRequest = $@"{{
+            ""messages"" : [ {{
+                ""sender"" : ""{givenFrom}"",
+                ""destinations"" : [ {{
+                  ""to"" : ""{givenTo}""
+                }} ],
+                ""content"" : {{
+                  ""text"" : ""{givenText}""
+                }},
+                ""options"" : {{
+                  ""platform"" : {{
+                    ""entityId"" : ""{givenEntityId}"",
+                    ""applicationId"" : ""{givenApplicationId}""
+                  }},
+                  ""flash"" : {GetBooleanValueAsLowerString(givenFlash)}
                 }}
-                ],
-                ""includeSmsCountInResponse"":{givenIncludeSmsCountInResponse.ToString().ToLower()}
+              }} ]
             }}";
 
-        var expectedResponse = PreparePendingResponse(expectedBulkId, expectedTo, expectedMessageId);
+        var givenResponse = $@"{{
+          ""bulkId"" : ""{givenBulkId}"",
+          ""messages"" : [ {{
+            ""messageId"" : ""{givenMessageId}"",
+            ""status"" : {{
+              ""groupId"" : {givenGroupId},
+              ""groupName"" : ""{givenGroupName}"",
+              ""id"" : {givenStatusId},
+              ""name"" : ""{givenStatusName}"",
+              ""description"" : ""{givenStatusDescription}""
+            }},
+            ""destination"" : ""{givenTo}"",
+            ""details"" : {{
+              ""messageCount"" : {givenMessageCount}
+            }}
+          }} ]
+        }}";
 
-        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, givenRequest, expectedResponse, 200);
-
-        var smsApi = new SmsApi(configuration);
-
-        var destination = new SmsDestination(to: expectedTo);
-
-        var smsMessage = new SmsTextualMessage(
-            from: givenFrom,
-            destinations: new List<SmsDestination> { destination },
-            text: givenText
+        SetUpPostRequest(
+            SMS_SEND_MESSAGE_ENDPOINT,
+            200,
+            givenRequest,
+            givenResponse
         );
 
-        var smsRequest = new SmsAdvancedTextualRequest(
-            messages: new List<SmsTextualMessage> { smsMessage }
-        );
-
-        void SmsResponseAssertion(SmsResponse smsResponse)
+        var request = new SmsRequest(new List<SmsMessage>
         {
-            Assert.IsNotNull(smsResponse);
-            Assert.AreEqual(expectedBulkId, smsResponse.BulkId);
-            Assert.AreEqual(1, smsResponse.Messages.Count);
-            Assert.AreEqual(expectedMessageId, smsResponse.Messages[0].MessageId);
-            Assert.AreEqual(expectedTo, smsResponse.Messages[0].To);
+            new(
+                givenFrom,
+                new List<SmsDestination>
+                {
+                    new(givenTo)
+                },
+                new SmsMessageContent(new SmsTextContent(givenText)),
+                new SmsMessageOptions(new Platform(givenEntityId, givenApplicationId))
+            )
+        });
 
-            AssertPendingSmsResponse(smsResponse.Messages[0]);
-        }
+        var sendSmsApi = new SmsApi(configuration);
 
-        AssertResponse(smsApi.SendSmsMessage(smsRequest), SmsResponseAssertion);
-        AssertResponse(smsApi.SendSmsMessageAsync(smsRequest).Result, SmsResponseAssertion);
+        var response = sendSmsApi.SendSmsMessages(request);
 
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfoAsync(smsRequest).Result, SmsResponseAssertion);
+        var expectedResponse = new SmsResponse(
+            givenBulkId, new List<SmsResponseDetails>
+            {
+                new(
+                    givenMessageId,
+                    new SmsMessageStatus(
+                        givenGroupId,
+                        givenGroupName,
+                        givenStatusId,
+                        givenStatusName,
+                        givenStatusDescription),
+                    givenTo,
+                    new SmsMessageResponseDetails(givenMessageCount)
+                )
+            });
+
+        Assert.AreEqual(expectedResponse, response);
     }
 
 
     [TestMethod]
     public void ShouldSendFlashSms()
     {
-        var givenFlash = false;
+        var givenBulkId = "2034072219640523072";
+        var givenTo = "41793026727";
+        var givenMessageId = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
         var givenFrom = "InfoSMS";
-        var givenIntermediateReport = false;
         var givenText = "This is a sample message";
-        var givenIncludeSmsCountInResponse = false;
+        var givenGroupId = 1;
+        var givenGroupName = MessageGeneralStatus.Pending;
+        var givenStatusId = 26;
+        var givenStatusName = "MESSAGE_ACCEPTED";
+        var givenStatusDescription = "Message sent to next instance";
+        var givenApplicationId = "given_application_id";
+        var givenFlash = true;
+        var givenEntityId = "given_entity_id";
+        var givenMessageCount = 1;
 
-        var expectedTo = "41793026727";
-        var expectedMessageId = "This is a sample message";
-        var expectedBulkId = "2034072219640523072";
-
-        var givenRequest = $@"
-            {{
-                ""messages"": [
-                {{
-                    ""destinations"": [
-                        {{
-                            ""to"": ""{expectedTo}""
-                        }}
-                      ],
-                    ""flash"":{givenFlash.ToString().ToLower()},
-                    ""from"": ""{givenFrom}"",
-                    ""intermediateReport"":{givenIntermediateReport.ToString().ToLower()},
-                    ""text"": ""{givenText}""
+        var givenRequest = $@"{{
+            ""messages"" : [ {{
+                ""sender"" : ""{givenFrom}"",
+                ""destinations"" : [ {{
+                  ""to"" : ""{givenTo}""
+                }} ],
+                ""content"" : {{
+                  ""text"" : ""{givenText}""
+                }},
+                ""options"" : {{
+                  ""platform"" : {{
+                    ""entityId"" : ""{givenEntityId}"",
+                    ""applicationId"" : ""{givenApplicationId}""
+                  }},
+                  ""flash"" : {GetBooleanValueAsLowerString(givenFlash)}
                 }}
-                ],
-                ""includeSmsCountInResponse"": {givenIncludeSmsCountInResponse.ToString().ToLower()}
+              }} ]
             }}";
 
-        var expectedResponse = PreparePendingResponse(expectedBulkId, expectedTo, expectedMessageId);
+        var givenResponse = $@"{{
+          ""bulkId"" : ""{givenBulkId}"",
+          ""messages"" : [ {{
+            ""messageId"" : ""{givenMessageId}"",
+            ""status"" : {{
+              ""groupId"" : {givenGroupId},
+              ""groupName"" : ""{givenGroupName}"",
+              ""id"" : {givenStatusId},
+              ""name"" : ""{givenStatusName}"",
+              ""description"" : ""{givenStatusDescription}""
+            }},
+            ""destination"" : ""{givenTo}"",
+            ""details"" : {{
+              ""messageCount"" : {givenMessageCount}
+            }}
+          }} ]
+        }}";
 
-        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, givenRequest, expectedResponse, 200);
-
-        var smsApi = new SmsApi(configuration);
-
-        var destination = new SmsDestination(to: expectedTo);
-
-        var smsMessage = new SmsTextualMessage(
-            from: givenFrom,
-            destinations: new List<SmsDestination> { destination },
-            text: givenText,
-            flash: givenFlash
+        SetUpPostRequest(
+            SMS_SEND_MESSAGE_ENDPOINT,
+            200,
+            givenRequest,
+            givenResponse
         );
 
-        var smsRequest = new SmsAdvancedTextualRequest(
-            messages: new List<SmsTextualMessage> { smsMessage }
-        );
-
-        void SmsResponseAssertion(SmsResponse smsResponse)
+        var request = new SmsRequest(new List<SmsMessage>
         {
-            Assert.IsNotNull(smsResponse);
-            Assert.AreEqual(expectedBulkId, smsResponse.BulkId);
-            Assert.AreEqual(1, smsResponse.Messages.Count);
-            Assert.AreEqual(expectedMessageId, smsResponse.Messages[0].MessageId);
-            Assert.AreEqual(expectedTo, smsResponse.Messages[0].To);
+            new(
+                givenFrom,
+                new List<SmsDestination>
+                {
+                    new(givenTo)
+                },
+                new SmsMessageContent(new SmsTextContent(givenText)),
+                new SmsMessageOptions(new Platform(givenEntityId, givenApplicationId), flash: givenFlash)
+            )
+        });
 
-            AssertPendingSmsResponse(smsResponse.Messages[0]);
-        }
+        var sendSmsApi = new SmsApi(configuration);
 
-        AssertResponse(smsApi.SendSmsMessage(smsRequest), SmsResponseAssertion);
-        AssertResponse(smsApi.SendSmsMessageAsync(smsRequest).Result, SmsResponseAssertion);
+        var response = sendSmsApi.SendSmsMessages(request);
 
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfoAsync(smsRequest).Result, SmsResponseAssertion);
+        var expectedResponse = new SmsResponse(
+            givenBulkId, new List<SmsResponseDetails>
+            {
+                new(
+                    givenMessageId,
+                    new SmsMessageStatus(
+                        givenGroupId,
+                        givenGroupName,
+                        givenStatusId,
+                        givenStatusName,
+                        givenStatusDescription),
+                    givenTo,
+                    new SmsMessageResponseDetails(givenMessageCount)
+                )
+            });
+
+        Assert.AreEqual(expectedResponse, response);
     }
 
     [TestMethod]
     public void ShouldSendFullyFeaturedSmsMessage()
     {
-        var expectedTo1 = "41793026727";
-        var expectedMessageId1 = "MESSAGE-ID-123-xyz";
-        var expectedAnotherTo1 = "41793026834";
-        var givenFrom1 = "InfoSMS";
-        var givenText1 =
-            "Artık Ulusal Dil Tanımlayıcısı ile Türkçe karakterli smslerinizi rahatlıkla iletebilirsiniz.";
-        var givenFlash1 = false;
-        var givenLanguageCode1 = "TR";
-        var givenTransliteration1 = "TURKISH";
-        var givenIntermediateReport1 = true;
-        var givenNotifyUrl1 = "https://www.example.com/sms/advanced";
-        var givenNotifyContentType1 = "application/json";
-        var givenCallbackData1 = "DLR callback data";
-        var givenValidityPeriod1 = 720L;
+        var sender1 = "InfoSMS";
+        var sender2 = "41793026700";
+        var destination1 = "41793026727";
+        var destination2 = "41793026834";
+        var destination3 = "41793026700";
+        var messageId1 = "MESSAGE-ID-123-xyz";
+        var text1 = "Artık Ulusal Dil Tanımlayıcısı ile Türkçe karakterli smslerinizi rahatlıkla iletebilirsiniz.";
+        var text2 =
+            "A long time ago, in a galaxy far, far away... It is a period of civil war. Rebel spaceships, striking from a hidden base, have won their first victory against the evil Galactic Empire.";
+        var transliteration = SmsTransliterationCode.Turkish;
+        var validityPeriodAmount = 720;
+        var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
+        var campaignReferenceId = "summersale";
+        var deliveryUrl = "https://www.example.com/sms/advanced";
+        var intermediateReport = true;
+        var contentType = "application/json";
+        var callbackData = "DLR callback data";
+        var givenFlash = false;
+        var givenNotify = false;
+        var deliveryDays = new List<DeliveryDay>
+        {
+            DeliveryDay.Monday,
+            DeliveryDay.Tuesday,
+            DeliveryDay.Wednesday,
+            DeliveryDay.Thursday,
+            DeliveryDay.Friday,
+            DeliveryDay.Saturday,
+            DeliveryDay.Sunday
+        };
+        var deliveryFromHour = 6;
+        var deliveryFromMinute = 0;
+        var deliveryToHour = 15;
+        var deliveryToMinute = 30;
+        var bulkId = "BULK-ID-123-xyz";
 
-        var givenMessage1 = $@"
-            {{
-                ""destinations"": [
-                    {{
-                        ""to"": ""{expectedTo1}"",
-                        ""messageId"": ""{expectedMessageId1}""
-                    }},
-                    {{
-                        ""to"": ""{expectedAnotherTo1}""
-                    }}
-                  ],
-                ""flash"": {givenFlash1.ToString().ToLower()},
-                ""from"": ""{givenFrom1}"",
-                ""intermediateReport"": {givenIntermediateReport1.ToString().ToLower()},
-                ""text"": ""{givenText1}"",
-                ""language"": {{
-                    ""languageCode"": ""{givenLanguageCode1}""
-                  }},
-                ""transliteration"": ""{givenTransliteration1}"",
-                ""notifyUrl"": ""{givenNotifyUrl1}"",
-                ""notifyContentType"": ""{givenNotifyContentType1}"",
-                ""callbackData"": ""{givenCallbackData1}"",
-                ""validityPeriod"": {givenValidityPeriod1}
-            }}";
+        var sendAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var shortenUrl = true;
+        var trackClicks = true;
+        var trackingUrl = "https://example.com/click-report";
+        var removeProtocol = true;
+        var customDomain = "example.com";
+        var includeSmsCountInResponse = true;
+        var useConversionTracking = true;
+        var conversionTrackingName = "MY_CAMPAIGN";
 
-        var expectedTo2 = "41793026700";
-        var expectedMessageId2 = "2033247207850523792";
-        var givenFlash2 = false;
-        var givenFrom2 = "41793026700";
-        var givenIntermediateReport2 = false;
-        var givenText2 = "A long time ago, in a galaxy far, far away...";
-        var givenSendAt2 = "2021-08-25T16:10:00.000+05:30";
-        var givenDeliveryTimeFromHour2 = 6;
-        var givenDeliveryTimeFromMinute2 = 0;
-        var givenDeliveryTimeToHour2 = 15;
-        var givenDeliveryTimeToMinute2 = 30;
-        var givenDay1 = "MONDAY";
-        var givenDay2 = "TUESDAY";
-        var givenDay3 = "WEDNESDAY";
-        var givenContentTemplateId2 = "contentTemplateId";
-        var givenPrincipalEntityId2 = "expectedPrincipalEntityId";
-
-        var givenMessage2 = $@"
-            {{
-                ""destinations"": [
-                    {{
-                        ""to"": ""{expectedTo2}"",
-                        ""messageId"": ""{expectedMessageId2}"",
-                    }}
-                  ],
-                ""flash"": {givenFlash2.ToString().ToLower()},
-                ""from"": ""{givenFrom2}"",
-                ""intermediateReport"": {givenIntermediateReport2.ToString().ToLower()},
-                ""text"": ""{givenText2}"",
-                ""sendAt"": ""{givenSendAt2}"",
-                ""deliveryTimeWindow"": {{
-                    ""from"": {{
-                        ""hour"": {givenDeliveryTimeFromHour2}
-                      }},
-                    ""to"": {{
-                        ""hour"": {givenDeliveryTimeToHour2},
-                        ""minute"": {givenDeliveryTimeToMinute2}
-                      }},
-                    ""days"": [
-                        ""{givenDay1}"",
-                        ""{givenDay2}"",
-                        ""{givenDay3}""
-                      ]
-                  }},
-                ""regional"": {{
-                    ""indiaDlt"": {{
-                        ""contentTemplateId"": ""{givenContentTemplateId2}"",
-                        ""principalEntityId"": ""{givenPrincipalEntityId2}""
-                    }} 
-                }}
-            }}";
-
-        var givenBulkId = "BULK-ID-123-xyz";
-        var givenTracking = "SMS";
-        var givenTrackingType = "MY_CAMPAIGN";
-        var givenSendingSpeedLimitAmount = 10;
-        var givenSendingSpeedLimitTimeUnitString = "HOUR";
-        var givenIncludeSmsCountInResponse = false;
+        var bulkIdResponse = "2034072219640523072";
+        var messageIdResponse1 = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
+        var messageIdResponse2 = "3350be2d4219-3af1-23343-bbbb-1362af1edfd3";
+        var statusGroupId = 1;
+        var statusGroupName = MessageGeneralStatus.Pending;
+        var statusId = 26;
+        var statusName = "PENDING_ACCEPTED";
+        var statusDescription = "Message sent to next instance";
+        var messageCount = 1;
 
         var givenRequest = $@"
+        {{
+          ""messages"": [
             {{
-                ""messages"": [
-                    {givenMessage1},
-                    {givenMessage2}
-                ],
-                ""bulkId"": ""{givenBulkId}"",
-                ""tracking"": {{
-                    ""track"": ""{givenTracking}"",
-                    ""type"": ""{givenTrackingType}""
+              ""sender"": ""{sender1}"",
+              ""destinations"": [
+                {{
+                  ""to"": ""{destination1}"",
+                  ""messageId"": ""{messageId1}""
                 }},
-                ""sendingSpeedLimit"": {{
-                    ""amount"": {givenSendingSpeedLimitAmount},
-                    ""timeUnit"": ""{givenSendingSpeedLimitTimeUnitString}""
+                {{
+                  ""to"": ""{destination2}""
+                }}
+              ],
+              ""content"": {{
+                ""text"": ""{text1}"",
+                ""transliteration"": ""{GetEnumAttributeValue(transliteration)}""
+              }},
+              ""options"": {{
+                ""validityPeriod"": {{
+                  ""amount"": {validityPeriodAmount},
+                  ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                 }},
-                ""includeSmsCountInResponse"":{givenIncludeSmsCountInResponse.ToString().ToLower()}
-            }}";
+                ""campaignReferenceId"": ""{campaignReferenceId}"",
+                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+              }},
+              ""webhooks"": {{
+                ""delivery"": {{
+                  ""url"": ""{deliveryUrl}"",
+                  ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                  ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
+                }},
+                ""contentType"": ""{contentType}"",
+                ""callbackData"": ""{callbackData}""
+              }}
+            }},
+            {{
+              ""sender"": ""{sender2}"",
+              ""destinations"": [
+                {{
+                  ""to"": ""{destination3}""
+                }}
+              ],
+              ""content"": {{
+                ""text"": ""{text2}""
+              }},
+              ""options"": {{
+                ""deliveryTimeWindow"": {{
+                  ""days"": [
+                    {deliveryDays.Select(day => $"\"{GetEnumAttributeValue(day)}\"").Aggregate((a, b) => $"{a}, {b}")}
+                  ],
+                  ""from"": {{
+                    ""hour"": {deliveryFromHour},
+                    ""minute"": {deliveryFromMinute}
+                  }},
+                  ""to"": {{
+                    ""hour"": {deliveryToHour},
+                    ""minute"": {deliveryToMinute}
+                  }}
+                }},
+                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+              }}
+            }}
+          ],
+          ""options"": {{
+            ""schedule"": {{
+              ""bulkId"": ""{bulkId}"",
+              ""sendAt"": ""{sendAtOffset.ToString(DATE_FORMAT)}""
+            }},
+            ""tracking"": {{
+              ""shortenUrl"": {GetBooleanValueAsLowerString(shortenUrl)},
+              ""trackClicks"": {GetBooleanValueAsLowerString(trackClicks)},
+              ""trackingUrl"": ""{trackingUrl}"",
+              ""removeProtocol"": {GetBooleanValueAsLowerString(removeProtocol)},
+              ""customDomain"": ""{customDomain}""
+            }},
+            ""includeSmsCountInResponse"": {GetBooleanValueAsLowerString(includeSmsCountInResponse)},
+            ""conversionTracking"": {{
+              ""useConversionTracking"": {GetBooleanValueAsLowerString(useConversionTracking)},
+              ""conversionTrackingName"": ""{conversionTrackingName}""
+            }}
+          }}
+        }}";
 
-        var expectedResponse = PreparePendingResponse(givenBulkId, expectedTo1, expectedMessageId1,
-            expectedTo2, expectedMessageId2);
-        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, givenRequest, expectedResponse, 200);
+        var givenResponse = $@"
+        {{
+          ""bulkId"": ""{bulkIdResponse}"",
+          ""messages"": [
+            {{
+              ""messageId"": ""{messageIdResponse1}"",
+              ""status"": {{
+                ""groupId"": {statusGroupId},
+                ""groupName"": ""{statusGroupName}"",
+                ""id"": {statusId},
+                ""name"": ""{statusName}"",
+                ""description"": ""{statusDescription}""
+              }},
+              ""destination"": ""{destination1}"",
+              ""details"": {{
+                ""messageCount"": {messageCount}
+              }}
+            }},
+            {{
+              ""messageId"": ""{messageIdResponse2}"",
+              ""status"": {{
+                ""groupId"": {statusGroupId},
+                ""groupName"": ""{statusGroupName}"",
+                ""id"": {statusId},
+                ""name"": ""{statusName}"",
+                ""description"": ""{statusDescription}""
+              }},
+              ""destination"": ""{destination2}"",
+              ""details"": {{
+                ""messageCount"": {messageCount}
+              }}
+            }}
+          ]
+        }}";
+
+        SetUpPostRequest(SMS_SEND_MESSAGE_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var request = new SmsRequest(new List<SmsMessage>
+        {
+            new(
+                sender1,
+                new List<SmsDestination>
+                {
+                    new(destination1, messageId1),
+                    new(destination2)
+                },
+                new SmsMessageContent(new SmsTextContent(text1, transliteration)),
+                new SmsMessageOptions(
+                    validityPeriod: new ValidityPeriod(validityPeriodAmount, validityPeriodUnit),
+                    campaignReferenceId: campaignReferenceId),
+                new SmsWebhooks(new SmsMessageDeliveryReporting(deliveryUrl, intermediateReport), contentType,
+                    callbackData)),
+            new(
+                sender2,
+                new List<SmsDestination>
+                {
+                    new(destination3)
+                },
+                new SmsMessageContent(new SmsTextContent(text2)),
+                new SmsMessageOptions(deliveryTimeWindow: new DeliveryTimeWindow(deliveryDays,
+                    new DeliveryTime(deliveryFromHour, deliveryFromMinute),
+                    new DeliveryTime(deliveryToHour, deliveryToMinute))))
+        }, new SmsMessageRequestOptions(
+            new SmsRequestSchedulingSettings(bulkId, sendAtOffset),
+            new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
+            includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
         var smsApi = new SmsApi(configuration);
+        var response = smsApi.SendSmsMessages(request);
 
-        var destination1 = new SmsDestination(expectedMessageId1, expectedTo1);
-        var anotherDestination1 = new SmsDestination(to: expectedAnotherTo1);
+        var expectedResponse = new SmsResponse(
+            bulkIdResponse,
+            new List<SmsResponseDetails>
+            {
+                new(
+                    messageIdResponse1,
+                    new SmsMessageStatus(
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription),
+                    destination1,
+                    new SmsMessageResponseDetails(messageCount)
+                ),
+                new(
+                    messageIdResponse2,
+                    new SmsMessageStatus
+                    (
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription
+                    ),
+                    destination2,
+                    new SmsMessageResponseDetails(messageCount)
+                )
+            });
 
-        var destination2 = new SmsDestination(expectedMessageId2, expectedTo2);
-
-        var smsMessage1 = new SmsTextualMessage(
-            from: givenFrom1,
-            destinations: new List<SmsDestination> { destination1, anotherDestination1 },
-            text: givenText1,
-            flash: givenFlash1,
-            language: new SmsLanguage(givenLanguageCode1),
-            transliteration: givenTransliteration1,
-            intermediateReport: givenIntermediateReport1,
-            notifyUrl: givenNotifyUrl1,
-            notifyContentType: givenNotifyContentType1,
-            callbackData: givenCallbackData1,
-            validityPeriod: givenValidityPeriod1
-        );
-
-        var smsMessage2 = new SmsTextualMessage(
-            from: givenFrom2,
-            destinations: new List<SmsDestination> { destination2 },
-            text: givenText2,
-            sendAt: DateTimeOffset.Parse(givenSendAt2),
-            deliveryTimeWindow: new SmsDeliveryTimeWindow(
-                new List<SmsDeliveryDay> { SmsDeliveryDay.Monday, SmsDeliveryDay.Tuesday, SmsDeliveryDay.Wednesday },
-                new SmsDeliveryTimeFrom(givenDeliveryTimeFromHour2, givenDeliveryTimeFromMinute2),
-                new SmsDeliveryTimeTo(givenDeliveryTimeToHour2, givenDeliveryTimeToMinute2)
-            ),
-            regional: new SmsRegionalOptions(
-                new SmsIndiaDltOptions(givenContentTemplateId2, givenPrincipalEntityId2)
-            )
-        );
-
-        var smsRequest = new SmsAdvancedTextualRequest(
-            messages: new List<SmsTextualMessage> { smsMessage1, smsMessage2 },
-            bulkId: givenBulkId,
-            tracking: new SmsTracking(
-                track: givenTracking,
-                type: givenTrackingType
-            ),
-            sendingSpeedLimit: new SmsSendingSpeedLimit(
-                givenSendingSpeedLimitAmount,
-                SmsSpeedLimitTimeUnit.Hour
-            )
-        );
-
-        void SmsResponseAssertion(SmsResponse smsResponse)
-        {
-            Assert.IsNotNull(smsResponse);
-            Assert.AreEqual(givenBulkId, smsResponse.BulkId);
-            Assert.AreEqual(2, smsResponse.Messages.Count);
-
-            Assert.AreEqual(expectedMessageId1, smsResponse.Messages[0].MessageId);
-            Assert.AreEqual(expectedTo1, smsResponse.Messages[0].To);
-
-            Assert.AreEqual(expectedMessageId2, smsResponse.Messages[1].MessageId);
-            Assert.AreEqual(expectedTo2, smsResponse.Messages[1].To);
-
-            AssertPendingSmsResponse(smsResponse.Messages[0]);
-            AssertPendingSmsResponse(smsResponse.Messages[1]);
-        }
-
-        AssertResponse(smsApi.SendSmsMessage(smsRequest), SmsResponseAssertion);
-        AssertResponse(smsApi.SendSmsMessageAsync(smsRequest).Result, SmsResponseAssertion);
-
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
-        AssertResponseWithHttpInfo(smsApi.SendSmsMessageWithHttpInfoAsync(smsRequest).Result, SmsResponseAssertion);
+        Assert.AreEqual(expectedResponse, response);
     }
 
     [TestMethod]
-    public void ShouldSendFullyFeaturedBinaryMessage()
+    public void ShouldSendFullyFeaturedBinarySms()
     {
-        var expectedTo1 = "41793026727";
-        var expectedMessageId1 = "MESSAGE-ID-123-xyz";
-        var expectedAnotherTo1 = "41793026834";
-        var givenFlash1 = false;
-        var givenFrom1 = "InfoSMS";
-        var givenIntermediateReport1 = true;
-        var givenHex1 = "54 65 73 74 20 6d 65 73 73 61 67 65 2e";
-        var givenDataCoding1 = 0;
-        var givenEsmClass1 = 0;
-        var givenNotifyUrl1 = "https://www.example.com/sms/advanced";
-        var givenNotifyContentType1 = "application/json";
-        var givenCallbackData1 = "DLR callback data";
-        var givenValidityPeriod1 = 720L;
+        var sender1 = "InfoSMS";
+        var sender2 = "41793026700";
+        var destination1 = "41793026727";
+        var destination2 = "41793026834";
+        var destination3 = "41793026700";
+        var messageId1 = "MESSAGE-ID-123-xyz";
+        var validityPeriodAmount = 720;
+        var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
+        var campaignReferenceId = "summersale";
+        var givenFlash = false;
+        var deliveryUrl = "https://www.example.com/sms/advanced";
+        var intermediateReport = true;
+        var givenNotify = false;
+        var contentType = "application/json";
+        var callbackData = "DLR callback data";
+        var deliveryDays = new List<DeliveryDay>
+        {
+            DeliveryDay.Monday,
+            DeliveryDay.Tuesday,
+            DeliveryDay.Wednesday,
+            DeliveryDay.Thursday,
+            DeliveryDay.Friday,
+            DeliveryDay.Saturday,
+            DeliveryDay.Sunday
+        };
+        var deliveryFromHour = 6;
+        var deliveryFromMinute = 0;
+        var deliveryToHour = 15;
+        var deliveryToMinute = 30;
+        var bulkId = "BULK-ID-123-xyz";
+        var dataCoding = 0;
+        var esmClass = 0;
+        var givenHex = "41 20 6C 6F 6E 67 20 74 …20 45 6D 70 69 72 65 2E";
 
-        var givenMessage1 = $@"
-            {{
-                ""destinations"": [
-                    {{
-                        ""to"": ""{expectedTo1}"",
-                        ""messageId"": ""{expectedMessageId1}""
-                    }},
-                    {{
-                        ""to"": ""{expectedAnotherTo1}""
-                    }}
-                  ],
-                ""flash"": {givenFlash1.ToString().ToLower()},
-                ""from"": ""{givenFrom1}"",
-                ""intermediateReport"": {givenIntermediateReport1.ToString().ToLower()},
-                ""binary"": {{
-                    ""hex"": ""{givenHex1}""
-                  }},
-                ""notifyUrl"": ""{givenNotifyUrl1}"",
-                ""notifyContentType"": ""{givenNotifyContentType1}"",
-                ""callbackData"": ""{givenCallbackData1}"",
-                ""validityPeriod"": {givenValidityPeriod1}
-            }}";
+        var sendAtOffset = new DateTimeOffset(2021, 8, 23, 14, 0, 0, new TimeSpan(5, 30, 0));
+        var shortenUrl = true;
+        var trackClicks = true;
+        var trackingUrl = "https://example.com/click-report";
+        var removeProtocol = true;
+        var customDomain = "example.com";
+        var includeSmsCountInResponse = true;
+        var useConversionTracking = true;
+        var conversionTrackingName = "MY_CAMPAIGN";
 
-        var expectedTo2 = "41793026700";
-        var expectedMessageId2 = "2033247207850523792";
-        var givenFlash2 = false;
-        var givenFrom2 = "41793026700";
-        var givenIntermediateReport2 = false;
-        var givenHex2 = "54 65 73 74 20 6d 65 73 73 61 67 65 2e";
-        var givenDataCoding2 = 0;
-        var givenEsmClass2 = 0;
-        var givenSendAt2 = "2021-08-25T16:10:00.000+05:00";
-        var givenDeliveryTimeFromHour2 = 6;
-        var givenDeliveryTimeFromMinute2 = 0;
-        var givenDeliveryTimeToHour2 = 15;
-        var givenDeliveryTimeToMinute2 = 30;
-        var givenDay1 = "MONDAY";
-        var givenDay2 = "TUESDAY";
-        var givenDay3 = "WEDNESDAY";
-        var givenContentTemplateId2 = "contentTemplateId";
-        var givenPrincipalEntityId2 = "givenPrincipalEntityId";
-
-        var givenMessage2 = $@"
-            {{
-                ""destinations"": [
-                    {{
-                        ""to"": ""{expectedTo2}"",
-                        ""messageId"": ""{expectedMessageId2}""
-                    }}
-                  ],
-                ""flash"": {givenFlash2.ToString().ToLower()},
-                ""from"": ""{givenFrom2}"",
-                ""intermediateReport"": {givenIntermediateReport2.ToString().ToLower()},
-                ""binary"": {{
-                    ""hex"": ""{givenHex2}""
-                  }},                
-                ""sendAt"": ""{givenSendAt2}"",
-                ""deliveryTimeWindow"": {{
-                    ""from"": {{
-                        ""hour"": {givenDeliveryTimeFromHour2}
-                      }},
-                    ""to"": {{
-                        ""hour"": {givenDeliveryTimeToHour2},
-                        ""minute"": {givenDeliveryTimeToMinute2}
-                      }},
-                    ""days"": [
-                        ""{givenDay1}"",
-                        ""{givenDay2}"",
-                        ""{givenDay3}""
-                      ]
-                  }},
-                ""regional"": {{
-                    ""indiaDlt"": {{
-                        ""contentTemplateId"": ""{givenContentTemplateId2}"",
-                        ""principalEntityId"": ""{givenPrincipalEntityId2}""
-                    }} 
-                }}
-            }}";
-
-        var givenBulkId = "BULK-ID-123-xyz";
-        var givenSendingSpeedLimitAmount = 10;
-        var givenSendingSpeedLimitTimeUnitString = "HOUR";
+        var bulkIdResponse = "2034072219640523072";
+        var messageIdResponse1 = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
+        var messageIdResponse2 = "3350be2d4219-3af1-23343-bbbb-1362af1edfd3";
+        var statusGroupId = 1;
+        var statusGroupName = MessageGeneralStatus.Pending;
+        var statusId = 26;
+        var statusName = "PENDING_ACCEPTED";
+        var statusDescription = "Message sent to next instance";
+        var messageCount = 1;
 
         var givenRequest = $@"
-            {{
-                ""messages"": [
-                    {givenMessage1},
-                    {givenMessage2}
-                ],
-                ""bulkId"": ""{givenBulkId}"",
-                ""sendingSpeedLimit"": {{
-                    ""amount"": {givenSendingSpeedLimitAmount},
-                    ""timeUnit"": ""{givenSendingSpeedLimitTimeUnitString}""
+        {{
+            ""messages"": [
+                {{
+                    ""sender"": ""{sender1}"",
+                    ""destinations"": [
+                        {{ ""to"": ""{destination1}"", ""messageId"": ""{messageId1}"" }},
+                        {{ ""to"": ""{destination2}"" }}
+                    ],
+                    ""content"": {{
+                        ""hex"": ""{givenHex}""
+                    }},
+                    ""options"": {{
+                        ""validityPeriod"": {{
+                            ""amount"": {validityPeriodAmount},
+                            ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
+                        }},
+                        ""campaignReferenceId"": ""{campaignReferenceId}"",
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                    }},
+                    ""webhooks"": {{
+                        ""delivery"": {{
+                            ""url"": ""{deliveryUrl}"",
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
+                        }},
+                        ""contentType"": ""{contentType}"",
+                        ""callbackData"": ""{callbackData}""
+                    }}
+                }},
+                {{
+                    ""sender"": ""{sender2}"",
+                    ""destinations"": [
+                        {{ ""to"": ""{destination3}"" }}
+                    ],
+                    ""content"": {{
+                        ""hex"": ""{givenHex}""
+                    }},
+                    ""options"": {{
+                        ""deliveryTimeWindow"": {{
+                            ""days"": [
+                                {deliveryDays.Select(day => $"\"{GetEnumAttributeValue(day)}\"").Aggregate((a, b) => $"{a}, {b}")}
+                            ],
+                            ""from"": {{
+                                ""hour"": {deliveryFromHour},
+                                ""minute"": {deliveryFromMinute}
+                            }},
+                            ""to"": {{
+                                ""hour"": {deliveryToHour},
+                                ""minute"": {deliveryToMinute}
+                            }}
+                        }},
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                    }}
                 }}
-            }}";
+            ],
+            ""options"": {{
+                ""schedule"": {{
+                    ""bulkId"": ""{bulkId}"",
+                    ""sendAt"": ""{sendAtOffset.ToString(DATE_FORMAT)}""
+                }},
+                ""tracking"": {{
+                    ""shortenUrl"": {GetBooleanValueAsLowerString(shortenUrl)},
+                    ""trackClicks"": {GetBooleanValueAsLowerString(trackClicks)},
+                    ""trackingUrl"": ""{trackingUrl}"",
+                    ""removeProtocol"": {GetBooleanValueAsLowerString(removeProtocol)},
+                    ""customDomain"": ""{customDomain}""
+                }},
+                ""includeSmsCountInResponse"": {GetBooleanValueAsLowerString(includeSmsCountInResponse)},
+                ""conversionTracking"": {{
+                    ""useConversionTracking"": {GetBooleanValueAsLowerString(useConversionTracking)},
+                    ""conversionTrackingName"": ""{conversionTrackingName}""
+                }}
+            }}
+        }}";
 
-        var expectedResponse = PreparePendingResponse(givenBulkId, expectedTo1, expectedMessageId1,
-            expectedTo2, expectedMessageId2);
-        SetUpPostRequest(SMS_SEND_BINARY_ADVANCED_ENDPOINT, givenRequest, expectedResponse, 200);
+        var givenResponse = $@"
+        {{
+            ""bulkId"": ""{bulkIdResponse}"",
+            ""messages"": [
+                {{
+                    ""messageId"": ""{messageIdResponse1}"",
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""destination"": ""{destination1}"",
+                    ""details"": {{
+                        ""messageCount"": {messageCount}
+                    }}
+                }},
+                {{
+                    ""messageId"": ""{messageIdResponse2}"",
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""destination"": ""{destination2}"",
+                    ""details"": {{
+                        ""messageCount"": {messageCount}
+                    }}
+                }}
+            ]
+        }}";
+
+        SetUpPostRequest(SMS_SEND_MESSAGE_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var request = new SmsRequest(new List<SmsMessage>
+        {
+            new(
+                sender1,
+                new List<SmsDestination>
+                {
+                    new(destination1, messageId1),
+                    new(destination2)
+                },
+                new SmsMessageContent(new SmsBinaryContent(esmClass, dataCoding, givenHex)),
+                new SmsMessageOptions(
+                    validityPeriod: new ValidityPeriod(validityPeriodAmount, validityPeriodUnit),
+                    campaignReferenceId: campaignReferenceId),
+                new SmsWebhooks(new SmsMessageDeliveryReporting(deliveryUrl, intermediateReport), contentType,
+                    callbackData)),
+            new(
+                sender2,
+                new List<SmsDestination>
+                {
+                    new(destination3)
+                },
+                new SmsMessageContent(new SmsBinaryContent(esmClass, dataCoding, givenHex)),
+                new SmsMessageOptions(deliveryTimeWindow: new DeliveryTimeWindow(deliveryDays,
+                    new DeliveryTime(deliveryFromHour, deliveryFromMinute),
+                    new DeliveryTime(deliveryToHour, deliveryToMinute))))
+        }, new SmsMessageRequestOptions(
+            new SmsRequestSchedulingSettings(bulkId, sendAtOffset),
+            new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
+            includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
         var smsApi = new SmsApi(configuration);
+        var response = smsApi.SendSmsMessages(request);
 
-        var destination1 = new SmsDestination(expectedMessageId1, expectedTo1);
-        var anotherDestination1 = new SmsDestination(to: expectedAnotherTo1);
-
-        var destination2 = new SmsDestination(expectedMessageId2, expectedTo2);
-
-        var smsMessage1 = new SmsBinaryMessage(
-            from: givenFrom1,
-            destinations: new List<SmsDestination> { destination1, anotherDestination1 },
-            binary: new SmsBinaryContent
-            (
-                hex: givenHex1,
-                dataCoding: givenDataCoding1,
-                esmClass: givenEsmClass1
-            ),
-            intermediateReport: givenIntermediateReport1,
-            notifyUrl: givenNotifyUrl1,
-            notifyContentType: givenNotifyContentType1,
-            callbackData: givenCallbackData1,
-            validityPeriod: givenValidityPeriod1
-        );
-
-        var smsMessage2 = new SmsBinaryMessage(
-            from: givenFrom2,
-            destinations: new List<SmsDestination> { destination2 },
-            binary: new SmsBinaryContent
-            (
-                hex: givenHex2,
-                dataCoding: givenDataCoding2,
-                esmClass: givenEsmClass2
-            ),
-            sendAt: DateTimeOffset.Parse(givenSendAt2),
-            deliveryTimeWindow: new SmsDeliveryTimeWindow(
-                new List<SmsDeliveryDay> { SmsDeliveryDay.Monday, SmsDeliveryDay.Tuesday, SmsDeliveryDay.Wednesday },
-                new SmsDeliveryTimeFrom(givenDeliveryTimeFromHour2, givenDeliveryTimeFromMinute2),
-                new SmsDeliveryTimeTo(givenDeliveryTimeToHour2, givenDeliveryTimeToMinute2)
-            ),
-            regional: new SmsRegionalOptions(
-                new SmsIndiaDltOptions(givenContentTemplateId2, givenPrincipalEntityId2)
-            )
-        );
-
-        var smsRequest = new SmsAdvancedBinaryRequest
-        (
-            messages: new List<SmsBinaryMessage> { smsMessage1, smsMessage2 },
-            bulkId: givenBulkId,
-            sendingSpeedLimit: new SmsSendingSpeedLimit
+        var expectedResponse = new SmsResponse(
+            bulkIdResponse,
+            new List<SmsResponseDetails>
             {
-                Amount = givenSendingSpeedLimitAmount,
-                TimeUnit = SmsSpeedLimitTimeUnit.Hour
-            }
-        );
+                new(
+                    messageIdResponse1,
+                    new SmsMessageStatus(
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription),
+                    destination1,
+                    new SmsMessageResponseDetails(messageCount)
+                ),
+                new(
+                    messageIdResponse2,
+                    new SmsMessageStatus(
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription),
+                    destination2,
+                    new SmsMessageResponseDetails(messageCount)
+                )
+            });
 
-        void SmsResponseAssertion(SmsResponse smsResponse)
-        {
-            Assert.IsNotNull(smsResponse);
-            Assert.AreEqual(givenBulkId, smsResponse.BulkId);
-            Assert.AreEqual(2, smsResponse.Messages.Count);
-
-            Assert.AreEqual(expectedMessageId1, smsResponse.Messages[0].MessageId);
-            Assert.AreEqual(expectedTo1, smsResponse.Messages[0].To);
-
-            Assert.AreEqual(expectedMessageId2, smsResponse.Messages[1].MessageId);
-            Assert.AreEqual(expectedTo2, smsResponse.Messages[1].To);
-
-            AssertPendingSmsResponse(smsResponse.Messages[0]);
-            AssertPendingSmsResponse(smsResponse.Messages[1]);
-        }
-
-        AssertResponse(smsApi.SendBinarySmsMessage(smsRequest), SmsResponseAssertion);
-        AssertResponse(smsApi.SendBinarySmsMessageAsync(smsRequest).Result, SmsResponseAssertion);
-
-        AssertResponseWithHttpInfo(smsApi.SendBinarySmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
-        AssertResponseWithHttpInfo(smsApi.SendBinarySmsMessageWithHttpInfoAsync(smsRequest).Result,
-            SmsResponseAssertion);
+        Assert.AreEqual(expectedResponse, response);
     }
 
     [TestMethod]
     public void ShouldSendFlashBinarySms()
     {
-        var expectedBulkId = "2034072219640523072";
-        var expectedMessageId = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
-        var expectedTo = "41793026727";
-
-        var givenFrom = "InfoSMS";
-        var givenIntermediateReport = false;
-        var givenHex =
-            "0048 0065 006c 006c 006f 0020 0077 006f 0072 006c 0064 002c 0020 039a 03b1 03bb 03b7 03bc 03ad 03c1 03b1 0020 03ba 03cc 03c3 03bc 03b5 002c 0020 30b3 30f3 30cb 30c1 30cf";
+        var sender1 = "InfoSMS";
+        var sender2 = "41793026700";
+        var destination1 = "41793026727";
+        var destination2 = "41793026834";
+        var destination3 = "41793026700";
+        var messageId1 = "MESSAGE-ID-123-xyz";
+        var validityPeriodAmount = 720;
+        var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
+        var campaignReferenceId = "summersale";
         var givenFlash = true;
+        var deliveryUrl = "https://www.example.com/sms/advanced";
+        var intermediateReport = true;
+        var givenNotify = false;
+        var contentType = "application/json";
+        var callbackData = "DLR callback data";
+        var deliveryDays = new List<DeliveryDay>
+        {
+            DeliveryDay.Monday,
+            DeliveryDay.Tuesday,
+            DeliveryDay.Wednesday,
+            DeliveryDay.Thursday,
+            DeliveryDay.Friday,
+            DeliveryDay.Saturday,
+            DeliveryDay.Sunday
+        };
+        var deliveryFromHour = 6;
+        var deliveryFromMinute = 15;
+        var deliveryToHour = 15;
+        var deliveryToMinute = 30;
+        var bulkId = "BULK-ID-123-xyz";
+        var dataCoding = 0;
+        var esmClass = 0;
+        var givenHex = "41 20 6C 6F 6E 67 20 74 …20 45 6D 70 69 72 65 2E";
+
+        var sendAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var shortenUrl = true;
+        var trackClicks = true;
+        var trackingUrl = "https://example.com/click-report";
+        var removeProtocol = true;
+        var customDomain = "example.com";
+        var includeSmsCountInResponse = true;
+        var useConversionTracking = true;
+        var conversionTrackingName = "MY_CAMPAIGN";
+
+        var bulkIdResponse = "2034072219640523072";
+        var messageIdResponse1 = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
+        var messageIdResponse2 = "3350be2d4219-3af1-23343-bbbb-1362af1edfd3";
+        var statusGroupId = 1;
+        var statusGroupName = MessageGeneralStatus.Pending;
+        var statusId = 26;
+        var statusName = "PENDING_ACCEPTED";
+        var statusDescription = "Message sent to next instance";
+        var messageCount = 1;
 
         var givenRequest = $@"
-            {{
-                ""messages"": [
-                        {{
+        {{
+            ""messages"": [
+                {{
+                    ""sender"": ""{sender1}"",
                     ""destinations"": [
-                        {{
-                            ""to"": ""{expectedTo}""
-                        }}
-                      ],
-                    ""flash"": {givenFlash.ToString().ToLower()},
-                    ""from"": ""{givenFrom}"",
-                    ""intermediateReport"": {givenIntermediateReport.ToString().ToLower()},
-                    ""binary"": {{
+                        {{ ""to"": ""{destination1}"", ""messageId"": ""{messageId1}"" }},
+                        {{ ""to"": ""{destination2}"" }}
+                    ],
+                    ""content"": {{
                         ""hex"": ""{givenHex}""
-                      }}
-                }}
-                ]
-            }}";
-
-        var expectedResponse = PreparePendingResponse(expectedBulkId, expectedTo, expectedMessageId);
-        SetUpPostRequest(SMS_SEND_BINARY_ADVANCED_ENDPOINT, givenRequest, expectedResponse, 200);
-
-        var smsApi = new SmsApi(configuration);
-
-        var binaryMessage = new SmsBinaryMessage(
-            from: givenFrom,
-            destinations: new List<SmsDestination> { new(to: expectedTo) },
-            binary: new SmsBinaryContent(hex: givenHex),
-            flash: givenFlash
-        );
-
-        var smsRequest = new SmsAdvancedBinaryRequest
-        (
-            messages: new List<SmsBinaryMessage> { binaryMessage }
-        );
-
-        void SmsResponseAssertion(SmsResponse smsResponse)
-        {
-            Assert.IsNotNull(smsResponse);
-            Assert.AreEqual(expectedBulkId, smsResponse.BulkId);
-            Assert.AreEqual(1, smsResponse.Messages.Count);
-
-            Assert.AreEqual(expectedMessageId, smsResponse.Messages[0].MessageId);
-            Assert.AreEqual(expectedTo, smsResponse.Messages[0].To);
-
-            AssertPendingSmsResponse(smsResponse.Messages[0]);
-        }
-
-        AssertResponse(smsApi.SendBinarySmsMessage(smsRequest), SmsResponseAssertion);
-        AssertResponse(smsApi.SendBinarySmsMessageAsync(smsRequest).Result, SmsResponseAssertion);
-
-        AssertResponseWithHttpInfo(smsApi.SendBinarySmsMessageWithHttpInfo(smsRequest), SmsResponseAssertion);
-        AssertResponseWithHttpInfo(smsApi.SendBinarySmsMessageWithHttpInfoAsync(smsRequest).Result,
-            SmsResponseAssertion);
-    }
-
-    [TestMethod]
-    public void ShouldGetSmsLogs()
-    {
-        var expectedBulkId = "BULK-ID-123-xyz";
-        var expectedMessageIdMessage1 = "MESSAGE-ID-123-xyz";
-        var expectedToMessage1 = "41793026727";
-        var expectedSendAtMessage1 = "2019-11-09T16:00:00.000+0530";
-        var expectedDoneAtMessage1 = "2019-11-09T16:00:00.000+0530";
-        var expectedSmsCountMessage1 = 1;
-        var expectedPricePerMessageMessage1 = "0.01";
-        var expectedCurrencyMessage1 = "EUR";
-
-        var expectedMessageIdMessage2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
-        var expectedToMessage2 = "41793026834";
-        var expectedSendAtMessage2 = "2019-11-09T17:00:00.000+0000";
-        var expectedDoneAtMessage2 = "2019-11-09T17:00:00.000+0000";
-        var expectedSmsCountMessage2 = 5;
-        var expectedPricePerMessageMessage2 = "0.05";
-        var expectedCurrencyMessage2 = "HRK";
-
-        var expectedResponse = $@"
-            {{
-                ""results"": [
-                  {{
-                     ""bulkId"": ""{expectedBulkId}"",
-                     ""messageId"": ""{expectedMessageIdMessage1}"",
-                     ""to"": ""{expectedToMessage1}"",
-                     ""sentAt"": ""{expectedSendAtMessage1}"",
-                     ""doneAt"": ""{expectedDoneAtMessage1}"",
-                     ""smsCount"": {expectedSmsCountMessage1},
-                     ""price"":
-                     {{
-                        ""pricePerMessage"": {expectedPricePerMessageMessage1},
-                        ""currency"": ""{expectedCurrencyMessage1}""
-                     }},
-                     ""status"":
-                     {{
-                        ""groupId"": {DELIVERED_STATUS_GROUP_ID},
-                        ""groupName"": ""{DELIVERED_STATUS_GROUP_NAME}"",
-                        ""id"": {DELIVERED_STATUS_ID},
-                        ""name"": ""{DELIVERED_STATUS_NAME}"",
-                        ""description"": ""{DELIVERED_STATUS_DESCRIPTION}""
-   
-                     }},
-                     ""error"":
-                     {{
-                        ""groupId"": {NO_ERROR_GROUP_ID},
-                        ""groupName"": ""{NO_ERROR_GROUP_NAME}"",
-                        ""id"": {NO_ERROR_ID},
-                        ""name"": ""{NO_ERROR_NAME}"",
-                        ""description"": ""{NO_ERROR_DESCRIPTION}"",
-                        ""permanent"": {NO_ERROR_IS_PERMANENT.ToString().ToLower()}
-                     }}
-                  }},
-                  {{
-                    ""bulkId"": ""{expectedBulkId}"",
-                     ""messageId"": ""{expectedMessageIdMessage2}"",
-                     ""to"": ""{expectedToMessage2}"",
-                     ""sentAt"": ""{expectedSendAtMessage2}"",
-                     ""doneAt"": ""{expectedDoneAtMessage2}"",
-                     ""smsCount"": {expectedSmsCountMessage2},
-                     ""price"":
-                     {{
-                        ""pricePerMessage"": {expectedPricePerMessageMessage2},
-                        ""currency"": ""{expectedCurrencyMessage2}""
-                     }},
-                     ""status"":
-                     {{
-                        ""groupId"": {DELIVERED_STATUS_GROUP_ID},
-                        ""groupName"": ""{DELIVERED_STATUS_GROUP_NAME}"",
-                        ""id"": {DELIVERED_STATUS_ID},
-                        ""name"": ""{DELIVERED_STATUS_NAME}"",
-                        ""description"": ""{DELIVERED_STATUS_DESCRIPTION}""
-   
-                     }},
-                     ""error"":
-                     {{
-                        ""groupId"": {NO_ERROR_GROUP_ID},
-                        ""groupName"": ""{NO_ERROR_GROUP_NAME}"",
-                        ""id"": {NO_ERROR_ID},
-                        ""name"": ""{NO_ERROR_NAME}"",
-                        ""description"": ""{NO_ERROR_DESCRIPTION}"",
-                        ""permanent"": {NO_ERROR_IS_PERMANENT.ToString().ToLower()}
-                     }}
-                  }}
-                ]
-            }}";
-
-        var givenSentSinceString = "2015-02-22T17:42:05.390+0100";
-        var searchParams = new Dictionary<string, string>
-        {
-            { "bulkId", expectedBulkId },
-            { "sentSince", givenSentSinceString }
-        };
-
-        SetUpGetRequest(SMS_LOGS_ENDPOINT, searchParams, expectedResponse, 200);
-
-        void LogsResponseAssertion(SmsLogsResponse logsResponse)
-        {
-            Assert.IsNotNull(logsResponse);
-            List<SmsLog> results = logsResponse.Results;
-            Assert.IsNotNull(results);
-            Assert.AreEqual(2, results.Count);
-
-            Assert.AreEqual(expectedBulkId, results[0].BulkId);
-            Assert.AreEqual(expectedMessageIdMessage1, results[0].MessageId);
-            Assert.AreEqual(expectedToMessage1, results[0].To);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedSendAtMessage1), results[0].SentAt);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedDoneAtMessage1), results[0].DoneAt);
-            Assert.IsNull(results[0].From);
-            Assert.IsNull(results[0].Text);
-            Assert.IsNull(results[0].MccMnc);
-            Assert.AreEqual(decimal.Parse(expectedPricePerMessageMessage1, CultureInfo.InvariantCulture),
-                results[0].Price.PricePerMessage);
-            Assert.AreEqual(expectedCurrencyMessage1, results[0].Price.Currency);
-            AssertDeliveredSmsStatus(results[0].Status);
-            AssertNoError(results[0].Error);
-
-            Assert.AreEqual(expectedBulkId, results[1].BulkId);
-            Assert.AreEqual(expectedMessageIdMessage2, results[1].MessageId);
-            Assert.AreEqual(expectedToMessage2, results[1].To);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedSendAtMessage2), results[1].SentAt);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedDoneAtMessage2), results[1].DoneAt);
-            Assert.IsNull(results[1].From);
-            Assert.IsNull(results[1].Text);
-            Assert.IsNull(results[1].MccMnc);
-            Assert.AreEqual(decimal.Parse(expectedPricePerMessageMessage2, CultureInfo.InvariantCulture),
-                results[1].Price.PricePerMessage);
-            Assert.AreEqual(expectedCurrencyMessage2, results[1].Price.Currency);
-            AssertDeliveredSmsStatus(results[1].Status);
-            AssertNoError(results[1].Error);
-        }
-
-        var smsApi = new SmsApi(configuration);
-
-        AssertResponse
-        (
-            smsApi.GetOutboundSmsMessageLogs
-            (
-                sentSince: DateTimeOffset.Parse(givenSentSinceString),
-                bulkId: new List<string> { expectedBulkId }
-            ),
-            LogsResponseAssertion
-        );
-        AssertResponse
-        (
-            smsApi.GetOutboundSmsMessageLogsAsync
-            (
-                sentSince: DateTimeOffset.Parse(givenSentSinceString),
-                bulkId: new List<string> { expectedBulkId }
-            ).Result,
-            LogsResponseAssertion
-        );
-        AssertResponseWithHttpInfo
-        (
-            smsApi.GetOutboundSmsMessageLogsWithHttpInfo
-            (
-                sentSince: DateTimeOffset.Parse(givenSentSinceString),
-                bulkId: new List<string> { expectedBulkId }
-            ),
-            LogsResponseAssertion
-        );
-        AssertResponseWithHttpInfo
-        (
-            smsApi.GetOutboundSmsMessageLogsWithHttpInfoAsync
-            (
-                sentSince: DateTimeOffset.Parse(givenSentSinceString),
-                bulkId: new List<string> { expectedBulkId }
-            ).Result,
-            LogsResponseAssertion
-        );
-    }
-
-    [TestMethod]
-    public void ShouldGetSmsReports()
-    {
-        var expectedBulkId = "BULK-ID-123-xyz";
-        var expectedMessageId1 = "MESSAGE-ID-123-xyz";
-        var expectedTo1 = "41793026727";
-        var expectedSentAt1 = "2019-11-09T16:00:00.000+0000";
-        var expectedDoneAt1 = "2019-11-09T16:00:00.000+0000";
-        var expectedSmsCount = 1;
-        var expectedPricePerMessage = "0.01";
-        var expectedCurrency = "EUR";
-        var expectedEntityId = "promotional-traffic-entity";
-        var expectedApplicationId1 = "marketing-automation-application";
-
-        var expectedMessageId2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
-        var expectedTo2 = "41793026834";
-        var expectedSentAt2 = "2019-11-09T17:00:00.000+0000";
-        var expectedDoneAt2 = "2019-11-09T17:00:00.000+0000";
-        var expectedApplicationId2 = "default";
-
-        var expectedResponse = $@"
-            {{
-                ""results"": [
-                    {{
-                        ""bulkId"": ""{expectedBulkId}"",
-                        ""messageId"": ""{expectedMessageId1}"",
-                        ""to"": ""{expectedTo1}"",
-                        ""sentAt"": ""{expectedSentAt1}"",
-                        ""doneAt"": ""{expectedDoneAt1}"",
-                        ""smsCount"": {expectedSmsCount},
-                        ""price"": {{
-                            ""pricePerMessage"": {expectedPricePerMessage},
-                            ""currency"": ""{expectedCurrency}""
-                        }},
-                        ""status"": {{
-                            ""groupId"": {DELIVERED_STATUS_GROUP_ID},
-                            ""groupName"": ""{DELIVERED_STATUS_GROUP_NAME}"",
-                            ""id"": {DELIVERED_STATUS_ID},
-                            ""name"": ""{DELIVERED_STATUS_NAME}"",
-                            ""description"": ""{DELIVERED_STATUS_DESCRIPTION}""
-                        }},
-                        ""error"": {{
-                            ""groupId"": {NO_ERROR_GROUP_ID},
-                            ""groupName"": ""{NO_ERROR_GROUP_NAME}"",
-                            ""id"": {NO_ERROR_ID},
-                            ""name"": ""{NO_ERROR_NAME}"",
-                            ""description"": ""{NO_ERROR_DESCRIPTION}"",
-                            ""permanent"": {NO_ERROR_IS_PERMANENT.ToString().ToLower()}
-                        }},
-                        ""entityId"": ""{expectedEntityId}"",
-                        ""applicationId"": ""{expectedApplicationId1}""
                     }},
-                    {{
-                        ""bulkId"": ""{expectedBulkId}"",
-                        ""messageId"": ""{expectedMessageId2}"",
-                        ""to"": ""{expectedTo2}"",
-                        ""sentAt"": ""{expectedSentAt2}"",
-                        ""doneAt"": ""{expectedDoneAt2}"",
-                        ""smsCount"": {expectedSmsCount},
-                        ""price"": {{
-                            ""pricePerMessage"": {expectedPricePerMessage},
-                            ""currency"": ""{expectedCurrency}""
+                    ""options"": {{
+                        ""validityPeriod"": {{
+                            ""amount"": {validityPeriodAmount},
+                            ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                         }},
-                        ""status"": {{
-                             ""groupId"": {DELIVERED_STATUS_GROUP_ID},
-                             ""groupName"": ""{DELIVERED_STATUS_GROUP_NAME}"",
-                             ""id"": {DELIVERED_STATUS_ID},
-                             ""name"": ""{DELIVERED_STATUS_NAME}"",
-                             ""description"": ""{DELIVERED_STATUS_DESCRIPTION}""
+                        ""campaignReferenceId"": ""{campaignReferenceId}"",
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                    }},
+                    ""webhooks"": {{
+                        ""delivery"": {{
+                            ""url"": ""{deliveryUrl}"",
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
                         }},
-                        ""error"": {{
-                            ""groupId"": {NO_ERROR_GROUP_ID},
-                            ""groupName"": ""{NO_ERROR_GROUP_NAME}"",
-                            ""id"": {NO_ERROR_ID},
-                            ""name"": ""{NO_ERROR_NAME}"",
-                            ""description"": ""{NO_ERROR_DESCRIPTION}"",
-                            ""permanent"": {NO_ERROR_IS_PERMANENT.ToString().ToLower()}
-                        }},
-                        ""applicationId"": ""{expectedApplicationId2}""
+                        ""contentType"": ""{contentType}"",
+                        ""callbackData"": ""{callbackData}""
                     }}
-                ]
-            }}";
+                }},
+                {{
+                    ""sender"": ""{sender2}"",
+                    ""destinations"": [
+                        {{ ""to"": ""{destination3}"" }}
+                    ],
+                    ""content"": {{
+                        ""hex"": ""{givenHex}""
+                    }},
+                    ""options"": {{
+                        ""deliveryTimeWindow"": {{
+                            ""days"": [
+                                {deliveryDays.Select(day => $"\"{GetEnumAttributeValue(day)}\"").Aggregate((a, b) => $"{a}, {b}")}
+                            ],
+                            ""from"": {{
+                                ""hour"": {deliveryFromHour},
+                                ""minute"": {deliveryFromMinute}
+                            }},
+                            ""to"": {{
+                                ""hour"": {deliveryToHour},
+                                ""minute"": {deliveryToMinute}
+                            }}
+                        }},
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                    }}
+                }}
+            ],
+            ""options"": {{
+                ""schedule"": {{
+                    ""bulkId"": ""{bulkId}"",
+                    ""sendAt"": ""{sendAtOffset.ToString(DATE_FORMAT)}""
+                }},
+                ""tracking"": {{
+                    ""shortenUrl"": {GetBooleanValueAsLowerString(shortenUrl)},
+                    ""trackClicks"": {GetBooleanValueAsLowerString(trackClicks)},
+                    ""trackingUrl"": ""{trackingUrl}"",
+                    ""removeProtocol"": {GetBooleanValueAsLowerString(removeProtocol)},
+                    ""customDomain"": ""{customDomain}""
+                }},
+                ""includeSmsCountInResponse"": {GetBooleanValueAsLowerString(includeSmsCountInResponse)},
+                ""conversionTracking"": {{
+                    ""useConversionTracking"": {GetBooleanValueAsLowerString(useConversionTracking)},
+                    ""conversionTrackingName"": ""{conversionTrackingName}""
+                }}
+            }}
+        }}";
 
-        var givenLimit = 100;
+        var givenResponse = $@"
+        {{
+            ""bulkId"": ""{bulkIdResponse}"",
+            ""messages"": [
+                {{
+                    ""messageId"": ""{messageIdResponse1}"",
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""destination"": ""{destination1}"",
+                    ""details"": {{
+                        ""messageCount"": {messageCount}
+                    }}
+                }},
+                {{
+                    ""messageId"": ""{messageIdResponse2}"",
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""destination"": ""{destination2}"",
+                    ""details"": {{
+                        ""messageCount"": {messageCount}
+                    }}
+                }}
+            ]
+        }}";
 
-        var givenQueryParameters = new Dictionary<string, string>
+        SetUpPostRequest(SMS_SEND_MESSAGE_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var request = new SmsRequest(new List<SmsMessage>
         {
-            { "bulkId", expectedBulkId },
-            { "limit", givenLimit.ToString() }
-        };
-
-        SetUpGetRequest(SMS_REPORTS_ENDPOINT, givenQueryParameters, expectedResponse, 200);
+            new(
+                sender1,
+                new List<SmsDestination>
+                {
+                    new(destination1, messageId1),
+                    new(destination2)
+                },
+                new SmsMessageContent(new SmsBinaryContent(esmClass, dataCoding, givenHex)),
+                new SmsMessageOptions(
+                    validityPeriod: new ValidityPeriod(validityPeriodAmount, validityPeriodUnit),
+                    campaignReferenceId: campaignReferenceId, flash: givenFlash),
+                new SmsWebhooks(new SmsMessageDeliveryReporting(deliveryUrl, intermediateReport), contentType,
+                    callbackData)),
+            new(
+                sender2,
+                new List<SmsDestination>
+                {
+                    new(destination3)
+                },
+                new SmsMessageContent(new SmsBinaryContent(esmClass, dataCoding, givenHex)),
+                new SmsMessageOptions(deliveryTimeWindow: new DeliveryTimeWindow(deliveryDays,
+                        new DeliveryTime(deliveryFromHour, deliveryFromMinute),
+                        new DeliveryTime(deliveryToHour, deliveryToMinute)),
+                    flash: givenFlash))
+        }, new SmsMessageRequestOptions(
+            new SmsRequestSchedulingSettings(bulkId, sendAtOffset),
+            new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
+            includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
         var smsApi = new SmsApi(configuration);
+        var response = smsApi.SendSmsMessages(request);
 
-        void AssertSmsDeliveryResult(SmsDeliveryResult smsDeliveryResult)
+        var expectedResponse = new SmsResponse(
+            bulkIdResponse,
+            new List<SmsResponseDetails>
+            {
+                new(
+                    messageIdResponse1,
+                    new SmsMessageStatus(
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription),
+                    destination1,
+                    new SmsMessageResponseDetails(messageCount)
+                ),
+                new(
+                    messageIdResponse2,
+                    new SmsMessageStatus(
+                        statusGroupId,
+                        statusGroupName,
+                        statusId,
+                        statusName,
+                        statusDescription),
+                    destination2,
+                    new SmsMessageResponseDetails(messageCount)
+                )
+            });
+
+        Assert.AreEqual(expectedResponse, response);
+    }
+
+    [TestMethod]
+    public void ShouldGetOutboundLogs()
+    {
+        var bulkId = "BULK-ID-123-xyz";
+        var messageId1 = "MESSAGE-ID-123-xyz";
+        var messageId2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
+        var destination1 = "41793026727";
+        var destination2 = "41793026834";
+        var sentAt = "2023-08-01T16:10:00+05:30";
+        var doneAt = "2023-08-01T16:10:00+05:30";
+
+        var sentAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var doneAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var smsCount = 1;
+        var pricePerMessage = 0.01m;
+        var currency = "EUR";
+        var applicationId = "marketing-automation-application";
+        var entityId = "promotional-traffic-entity";
+        var mccMnc = "22801";
+        var text = "This is a sample message";
+
+        var statusGroupId = 3;
+        var statusGroupName = MessageGeneralStatus.Delivered;
+        var statusId = 5;
+        var statusName = "DELIVERED_TO_HANDSET";
+        var statusDescription = "Message delivered to handset";
+
+        var errorGroupId = 0;
+        var errorGroupName = MessageErrorGroup.Ok;
+        var errorId = 0;
+        var errorName = "NO_ERROR";
+        var errorDescription = "No Error";
+        var errorPermanent = false;
+
+        var expectedResponse = $@"
+        {{
+            ""results"": [
+                {{
+                    ""destination"": ""{destination1}"",
+                    ""bulkId"": ""{bulkId}"",
+                    ""messageId"": ""{messageId1}"",
+                    ""sentAt"": ""{sentAt}"",
+                    ""doneAt"": ""{doneAt}"",
+                    ""messageCount"": {smsCount},
+                    ""price"": {{ ""pricePerMessage"": {pricePerMessage}, ""currency"": ""{currency}"" }},
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {errorGroupId},
+                        ""groupName"": ""{errorGroupName}"",
+                        ""id"": {errorId},
+                        ""name"": ""{errorName}"",
+                        ""description"": ""{errorDescription}"",
+                        ""permanent"": {GetBooleanValueAsLowerString(errorPermanent)}
+                    }},
+                    ""platform"": {{ ""entityId"": ""{entityId}"", ""applicationId"": ""{applicationId}"" }},
+                    ""content"": {{ ""text"": ""{text}"" }},
+                    ""mccMnc"": ""{mccMnc}""
+                }},
+                {{
+                    ""destination"": ""{destination2}"",
+                    ""bulkId"": ""{bulkId}"",
+                    ""messageId"": ""{messageId2}"",
+                    ""sentAt"": ""{sentAt}"",
+                    ""doneAt"": ""{doneAt}"",
+                    ""messageCount"": {smsCount},
+                    ""price"": {{ ""pricePerMessage"": {pricePerMessage}, ""currency"": ""{currency}"" }},
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {errorGroupId},
+                        ""groupName"": ""{errorGroupName}"",
+                        ""id"": {errorId},
+                        ""name"": ""{errorName}"",
+                        ""description"": ""{errorDescription}"",
+                        ""permanent"": {GetBooleanValueAsLowerString(errorPermanent)}
+                    }},
+                    ""platform"": {{ ""entityId"": ""{entityId}"", ""applicationId"": ""{applicationId}"" }},
+                    ""content"": {{ ""text"": ""{text}"" }},
+                    ""mccMnc"": ""{mccMnc}""
+                }}
+            ]
+        }}";
+
+        SetUpGetRequest(SMS_LOGS_ENDPOINT, 200, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", bulkId } });
+
+        var smsApiClient = new SmsApi(configuration);
+        var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> { bulkId });
+
+        var expectedDeserializedLogs = new SmsLogsResponse(new List<SmsLog>
         {
-            Assert.IsNotNull(smsDeliveryResult);
+            new(
+                null,
+                destination1,
+                bulkId,
+                messageId1,
+                sentAtOffset,
+                doneAtOffset,
+                smsCount,
+                new MessagePrice(pricePerMessage, currency),
+                new SmsMessageStatus(statusGroupId, statusGroupName, statusId, statusName, statusDescription),
+                new SmsMessageError(errorGroupId, errorGroupName, errorId, errorName, errorDescription, errorPermanent),
+                new Platform(entityId, applicationId),
+                new SmsMessageContent(new SmsTextContent(text)),
+                mccMnc: mccMnc
+            ),
+            new(
+                null,
+                destination2,
+                bulkId,
+                messageId2,
+                sentAtOffset,
+                doneAtOffset,
+                smsCount,
+                new MessagePrice(pricePerMessage, currency),
+                new SmsMessageStatus(statusGroupId, statusGroupName, statusId, statusName, statusDescription),
+                new SmsMessageError(errorGroupId, errorGroupName, errorId, errorName, errorDescription, errorPermanent),
+                new Platform(entityId, applicationId),
+                new SmsMessageContent(new SmsTextContent(text)),
+                mccMnc: mccMnc
+            )
+        });
 
-            Assert.IsNotNull(smsDeliveryResult.Results[0]);
-            Assert.AreEqual(expectedBulkId, smsDeliveryResult.Results[0].BulkId);
-            Assert.AreEqual(expectedMessageId1, smsDeliveryResult.Results[0].MessageId);
-            Assert.AreEqual(expectedTo1, smsDeliveryResult.Results[0].To);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedSentAt1), smsDeliveryResult.Results[0].SentAt);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedDoneAt1), smsDeliveryResult.Results[0].DoneAt);
-            Assert.AreEqual(expectedSmsCount, smsDeliveryResult.Results[0].SmsCount);
-            Assert.AreEqual(decimal.Parse(expectedPricePerMessage, CultureInfo.InvariantCulture),
-                smsDeliveryResult.Results[0].Price.PricePerMessage);
-            Assert.AreEqual(expectedCurrency, smsDeliveryResult.Results[0].Price.Currency);
-            Assert.AreEqual(DELIVERED_STATUS_GROUP_ID, smsDeliveryResult.Results[0].Status.GroupId);
-            Assert.AreEqual(DELIVERED_STATUS_GROUP_NAME, smsDeliveryResult.Results[0].Status.GroupName);
-            Assert.AreEqual(DELIVERED_STATUS_ID, smsDeliveryResult.Results[0].Status.Id);
-            Assert.AreEqual(DELIVERED_STATUS_NAME, smsDeliveryResult.Results[0].Status.Name);
-            Assert.AreEqual(DELIVERED_STATUS_DESCRIPTION, smsDeliveryResult.Results[0].Status.Description);
-            Assert.AreEqual(NO_ERROR_GROUP_ID, smsDeliveryResult.Results[0].Error.GroupId);
-            Assert.AreEqual(NO_ERROR_GROUP_NAME, smsDeliveryResult.Results[0].Error.GroupName);
-            Assert.AreEqual(NO_ERROR_ID, smsDeliveryResult.Results[0].Error.Id);
-            Assert.AreEqual(NO_ERROR_NAME, smsDeliveryResult.Results[0].Error.Name);
-            Assert.AreEqual(NO_ERROR_DESCRIPTION, smsDeliveryResult.Results[0].Error.Description);
-            Assert.AreEqual(NO_ERROR_IS_PERMANENT, smsDeliveryResult.Results[0].Error.Permanent);
-            Assert.AreEqual(expectedEntityId, smsDeliveryResult.Results[0].EntityId);
-            Assert.AreEqual(expectedApplicationId1, smsDeliveryResult.Results[0].ApplicationId);
+        Assert.AreEqual(expectedDeserializedLogs, actualResponse);
+    }
 
-            Assert.IsNotNull(smsDeliveryResult.Results[1]);
-            Assert.AreEqual(expectedBulkId, smsDeliveryResult.Results[1].BulkId);
-            Assert.AreEqual(expectedMessageId2, smsDeliveryResult.Results[1].MessageId);
-            Assert.AreEqual(expectedTo2, smsDeliveryResult.Results[1].To);
-            Assert.AreEqual(smsDeliveryResult.Results[1].SentAt, DateTimeOffset.Parse(expectedSentAt2));
-            Assert.AreEqual(smsDeliveryResult.Results[1].DoneAt, DateTimeOffset.Parse(expectedDoneAt2));
-            Assert.AreEqual(expectedSmsCount, smsDeliveryResult.Results[1].SmsCount);
-            Assert.AreEqual(decimal.Parse(expectedPricePerMessage, CultureInfo.InvariantCulture),
-                smsDeliveryResult.Results[1].Price.PricePerMessage);
-            Assert.AreEqual(expectedCurrency, smsDeliveryResult.Results[1].Price.Currency);
-            Assert.AreEqual(DELIVERED_STATUS_GROUP_ID, smsDeliveryResult.Results[1].Status.GroupId);
-            Assert.AreEqual(DELIVERED_STATUS_GROUP_NAME, smsDeliveryResult.Results[1].Status.GroupName);
-            Assert.AreEqual(DELIVERED_STATUS_ID, smsDeliveryResult.Results[1].Status.Id);
-            Assert.AreEqual(DELIVERED_STATUS_NAME, smsDeliveryResult.Results[1].Status.Name);
-            Assert.AreEqual(DELIVERED_STATUS_DESCRIPTION, smsDeliveryResult.Results[1].Status.Description);
-            Assert.AreEqual(NO_ERROR_GROUP_ID, smsDeliveryResult.Results[1].Error.GroupId);
-            Assert.AreEqual(NO_ERROR_GROUP_NAME, smsDeliveryResult.Results[1].Error.GroupName);
-            Assert.AreEqual(NO_ERROR_ID, smsDeliveryResult.Results[1].Error.Id);
-            Assert.AreEqual(NO_ERROR_NAME, smsDeliveryResult.Results[1].Error.Name);
-            Assert.AreEqual(NO_ERROR_DESCRIPTION, smsDeliveryResult.Results[1].Error.Description);
-            Assert.AreEqual(NO_ERROR_IS_PERMANENT, smsDeliveryResult.Results[1].Error.Permanent);
-            Assert.AreEqual(expectedApplicationId2, smsDeliveryResult.Results[1].ApplicationId);
-        }
+    [TestMethod]
+    public void ShouldGetOutboundDeliveryReports()
+    {
+        var bulkId = "BULK-ID-123-xyz";
+        var messageId1 = "MESSAGE-ID-123-xyz";
+        var messageId2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
+        var to1 = "41793026727";
+        var to2 = "41793026834";
+        var sender = "InfoSMS";
+        var sentAt = "2023-08-01T16:10:00+05:30";
+        var doneAt = "2023-08-01T16:10:00+05:30";
 
-        AssertResponse(smsApi.GetOutboundSmsMessageDeliveryReports(expectedBulkId, limit: givenLimit),
-            AssertSmsDeliveryResult);
-        AssertResponse(smsApi.GetOutboundSmsMessageDeliveryReportsAsync(expectedBulkId, limit: givenLimit).Result,
-            AssertSmsDeliveryResult);
+        var sentAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var doneAtOffset = new DateTimeOffset(2023, 8, 1, 16, 10, 0, new TimeSpan(5, 30, 0));
+        var smsCount = 1;
+        var pricePerMessage = 0.01m;
+        var currency = "EUR";
+        var applicationId = "marketing-automation-application";
+        var entityId = "promotional-traffic-entity";
 
-        AssertResponseWithHttpInfo(
-            smsApi.GetOutboundSmsMessageDeliveryReportsWithHttpInfo(expectedBulkId, limit: givenLimit),
-            AssertSmsDeliveryResult);
-        AssertResponseWithHttpInfo(
-            smsApi.GetOutboundSmsMessageDeliveryReportsWithHttpInfoAsync(expectedBulkId, limit: givenLimit).Result,
-            AssertSmsDeliveryResult);
+        var statusGroupId = 3;
+        var statusGroupName = MessageGeneralStatus.Delivered;
+        var statusId = 5;
+        var statusName = "DELIVERED_TO_HANDSET";
+        var statusDescription = "Message delivered to handset";
+
+        var errorGroupId = 0;
+        var errorGroupName = MessageErrorGroup.Ok;
+        var errorId = 0;
+        var errorName = "NO_ERROR";
+        var errorDescription = "No Error";
+        var errorPermanent = false;
+
+        var expectedResponse = $@"
+        {{
+            ""results"": [
+                {{
+                    ""bulkId"": ""{bulkId}"",
+                    ""price"": {{ ""pricePerMessage"": {pricePerMessage}, ""currency"": ""{currency}"" }},
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {errorGroupId},
+                        ""groupName"": ""{errorGroupName}"",
+                        ""id"": {errorId},
+                        ""name"": ""{errorName}"",
+                        ""description"": ""{errorDescription}"",
+                        ""permanent"": {errorPermanent.ToString().ToLower()}
+                    }},
+                    ""messageId"": ""{messageId1}"",
+                    ""to"": ""{to1}"",
+                    ""sender"": ""{sender}"",
+                    ""sentAt"": ""{sentAt}"",
+                    ""doneAt"": ""{doneAt}"",
+                    ""messageCount"": {smsCount},
+                    ""platform"": {{ ""entityId"": ""{entityId}"", ""applicationId"": ""{applicationId}"" }}
+                }},
+                {{
+                    ""bulkId"": ""{bulkId}"",
+                    ""price"": {{ ""pricePerMessage"": {pricePerMessage}, ""currency"": ""{currency}"" }},
+                    ""status"": {{
+                        ""groupId"": {statusGroupId},
+                        ""groupName"": ""{statusGroupName}"",
+                        ""id"": {statusId},
+                        ""name"": ""{statusName}"",
+                        ""description"": ""{statusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {errorGroupId},
+                        ""groupName"": ""{errorGroupName}"",
+                        ""id"": {errorId},
+                        ""name"": ""{errorName}"",
+                        ""description"": ""{errorDescription}"",
+                        ""permanent"": {errorPermanent.ToString().ToLower()}
+                    }},
+                    ""messageId"": ""{messageId2}"",
+                    ""to"": ""{to2}"",
+                    ""sender"": ""{sender}"",
+                    ""sentAt"": ""{sentAt}"",
+                    ""doneAt"": ""{doneAt}"",
+                    ""messageCount"": {smsCount},
+                    ""platform"": {{ ""entityId"": ""{entityId}"", ""applicationId"": ""{applicationId}"" }}
+                }}
+            ]
+        }}";
+
+        SetUpGetRequest(SMS_REPORTS_ENDPOINT, 200, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", bulkId } });
+
+        var smsApiClient = new SmsApi(configuration);
+        var actualResponse = smsApiClient.GetOutboundSmsMessageDeliveryReports(bulkId);
+
+        var expectedDeserializedReport = new SmsDeliveryResult(new List<SmsDeliveryReport>
+        {
+            new(
+                bulkId,
+                new MessagePrice(pricePerMessage, currency),
+                new SmsMessageStatus(statusGroupId, statusGroupName, statusId, statusName, statusDescription),
+                new SmsMessageError(errorGroupId, errorGroupName, errorId, errorName, errorDescription, errorPermanent),
+                messageId1,
+                to1,
+                sender,
+                sentAtOffset,
+                doneAtOffset,
+                smsCount,
+                platform: new Platform(entityId, applicationId)
+            ),
+            new(
+                bulkId,
+                new MessagePrice(pricePerMessage, currency),
+                new SmsMessageStatus(statusGroupId, statusGroupName, statusId, statusName, statusDescription),
+                new SmsMessageError(errorGroupId, errorGroupName, errorId, errorName, errorDescription, errorPermanent),
+                messageId2,
+                to2,
+                sender,
+                sentAtOffset,
+                doneAtOffset,
+                smsCount,
+                platform: new Platform(entityId, applicationId)
+            )
+        });
+
+        Assert.AreEqual(expectedDeserializedReport, actualResponse);
     }
 
     [TestMethod]
@@ -1008,7 +1241,7 @@ public class SmsApiTest : ApiTest
 
         var givenLimit = 2;
         SetUpGetRequest(SMS_INBOX_REPORTS_ENDPOINT,
-            new Dictionary<string, string> { { "limit", givenLimit.ToString() } }, expectedResponse, 200);
+            200, expectedResponse, new Dictionary<string, string> { { "limit", givenLimit.ToString() } });
 
         void ResultAssertions(SmsInboundMessageResult smsInboundResult)
         {
@@ -1036,9 +1269,9 @@ public class SmsApiTest : ApiTest
         AssertResponse(receiveApi.GetInboundSmsMessages(givenLimit), ResultAssertions);
         AssertResponse(receiveApi.GetInboundSmsMessagesAsync(givenLimit).Result, ResultAssertions);
 
-        AssertResponseWithHttpInfo(receiveApi.GetInboundSmsMessagesWithHttpInfo(givenLimit), ResultAssertions);
+        AssertResponseWithHttpInfo(receiveApi.GetInboundSmsMessagesWithHttpInfo(givenLimit), ResultAssertions, 200);
         AssertResponseWithHttpInfo(receiveApi.GetInboundSmsMessagesWithHttpInfoAsync(givenLimit).Result,
-            ResultAssertions);
+            ResultAssertions, 200);
     }
 
     [TestMethod]
@@ -1070,7 +1303,7 @@ public class SmsApiTest : ApiTest
                 ]
             }}";
 
-        SetUpPostRequest(SMS_SEND_PREVIEW_ENDPOINT, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(SMS_SEND_PREVIEW_ENDPOINT, 200, givenRequest, expectedResponse);
 
         void SmsPreviewAssertions(SmsPreviewResponse response)
         {
@@ -1093,8 +1326,9 @@ public class SmsApiTest : ApiTest
 
         AssertResponse(sendSmsApi.PreviewSmsMessage(request), SmsPreviewAssertions);
         AssertResponse(sendSmsApi.PreviewSmsMessageAsync(request).Result, SmsPreviewAssertions);
-        AssertResponseWithHttpInfo(sendSmsApi.PreviewSmsMessageWithHttpInfo(request), SmsPreviewAssertions);
-        AssertResponseWithHttpInfo(sendSmsApi.PreviewSmsMessageWithHttpInfoAsync(request).Result, SmsPreviewAssertions);
+        AssertResponseWithHttpInfo(sendSmsApi.PreviewSmsMessageWithHttpInfo(request), SmsPreviewAssertions, 200);
+        AssertResponseWithHttpInfo(sendSmsApi.PreviewSmsMessageWithHttpInfoAsync(request).Result, SmsPreviewAssertions,
+            200);
     }
 
     [TestMethod]
@@ -1109,8 +1343,8 @@ public class SmsApiTest : ApiTest
                 ""sendAt"": ""{expectedSendAt}""
             }}";
 
-        SetUpGetRequest(SMS_BULKS_ENDPOINT, new Dictionary<string, string> { { "bulkId", expectedBulkId } },
-            expectedResponse, 200);
+        SetUpGetRequest(SMS_BULKS_ENDPOINT, 200, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", expectedBulkId } });
 
         void BulkResponseAssertions(SmsBulkResponse response)
         {
@@ -1124,9 +1358,9 @@ public class SmsApiTest : ApiTest
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessages(expectedBulkId), BulkResponseAssertions);
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessagesAsync(expectedBulkId).Result, BulkResponseAssertions);
         AssertResponseWithHttpInfo(scheduledSmsApi.GetScheduledSmsMessagesWithHttpInfo(expectedBulkId),
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
         AssertResponseWithHttpInfo(scheduledSmsApi.GetScheduledSmsMessagesWithHttpInfoAsync(expectedBulkId).Result,
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
     }
 
     [TestMethod]
@@ -1148,8 +1382,8 @@ public class SmsApiTest : ApiTest
                 ""sendAt"": ""{expectedSendAt}""
             }}";
 
-        SetUpPutRequest(SMS_BULKS_ENDPOINT, new Dictionary<string, string> { { "bulkId", expectedBulkId } },
-            givenRequest, expectedResponse, 200);
+        SetUpPutRequest(SMS_BULKS_ENDPOINT, 200, givenRequest, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", expectedBulkId } });
 
         void BulkResponseAssertions(SmsBulkResponse response)
         {
@@ -1165,10 +1399,10 @@ public class SmsApiTest : ApiTest
         AssertResponse(scheduledSmsApi.RescheduleSmsMessagesAsync(expectedBulkId, bulkRequest).Result,
             BulkResponseAssertions);
         AssertResponseWithHttpInfo(scheduledSmsApi.RescheduleSmsMessagesWithHttpInfo(expectedBulkId, bulkRequest),
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
         AssertResponseWithHttpInfo(
             scheduledSmsApi.RescheduleSmsMessagesWithHttpInfoAsync(expectedBulkId, bulkRequest).Result,
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
     }
 
     [TestMethod]
@@ -1184,8 +1418,8 @@ public class SmsApiTest : ApiTest
                 ""status"": ""{expectedBulkStatusString}""
             }}";
 
-        SetUpGetRequest(SMS_BULKS_STATUS_ENDPOINT, new Dictionary<string, string> { { "bulkId", expectedBulkId } },
-            expectedResponse, 200);
+        SetUpGetRequest(SMS_BULKS_STATUS_ENDPOINT, 200, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", expectedBulkId } });
 
         void BulkResponseAssertions(SmsBulkStatusResponse response)
         {
@@ -1200,10 +1434,10 @@ public class SmsApiTest : ApiTest
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessagesStatusAsync(expectedBulkId).Result,
             BulkResponseAssertions);
         AssertResponseWithHttpInfo(scheduledSmsApi.GetScheduledSmsMessagesStatusWithHttpInfo(expectedBulkId),
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
         AssertResponseWithHttpInfo(
             scheduledSmsApi.GetScheduledSmsMessagesStatusWithHttpInfoAsync(expectedBulkId).Result,
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
     }
 
 
@@ -1226,8 +1460,8 @@ public class SmsApiTest : ApiTest
                 ""status"": ""{expectedBulkStatusString}""
             }}";
 
-        SetUpPutRequest(SMS_BULKS_STATUS_ENDPOINT, new Dictionary<string, string> { { "bulkId", expectedBulkId } },
-            givenRequest, expectedResponse, 200);
+        SetUpPutRequest(SMS_BULKS_STATUS_ENDPOINT, 200, givenRequest, expectedResponse,
+            new Dictionary<string, string> { { "bulkId", expectedBulkId } });
 
         void BulkResponseAssertions(SmsBulkStatusResponse response)
         {
@@ -1246,80 +1480,269 @@ public class SmsApiTest : ApiTest
             BulkResponseAssertions);
         AssertResponseWithHttpInfo(
             scheduledSmsApi.UpdateScheduledSmsMessagesStatusWithHttpInfo(expectedBulkId, updateStatusRequest),
-            BulkResponseAssertions);
+            BulkResponseAssertions, 200);
         AssertResponseWithHttpInfo(
             scheduledSmsApi.UpdateScheduledSmsMessagesStatusWithHttpInfoAsync(expectedBulkId, updateStatusRequest)
-                .Result, BulkResponseAssertions);
+                .Result, BulkResponseAssertions, 200);
     }
 
-    private void AssertDeliveredSmsStatus(MessageStatus status)
+    [TestMethod]
+    public void ShouldReceiveInboundMessages()
     {
-        Assert.AreEqual(DELIVERED_STATUS_GROUP_ID, status.GroupId);
-        Assert.AreEqual(DELIVERED_STATUS_GROUP_NAME, status.GroupName);
-        Assert.AreEqual(DELIVERED_STATUS_ID, status.Id);
-        Assert.AreEqual(DELIVERED_STATUS_NAME, status.Name);
-        Assert.AreEqual(DELIVERED_STATUS_DESCRIPTION, status.Description);
-        Assert.IsNull(status.Action);
-    }
+        var givenMessageId = "817790313235066447";
+        var givenFrom = "385916242493";
+        var givenTo = "385921004026";
+        var givenText = "QUIZ Correct answer is Paris";
+        var givenCleanText = "Correct answer is Paris";
+        var givenKeyword = "QUIZ";
+        var givenReceivedAt = "2021-08-25T16:10:00.000+0500";
+        var givenSmsCount = 1;
+        decimal givenPricePerMessage = 0;
+        var givenCurrency = "EUR";
+        var givenCallbackData = "callbackData";
+        var givenMessageCount = 1;
+        var givenPendingMessageCount = 0;
 
-    private void AssertNoError(MessageError error)
-    {
-        Assert.AreEqual(NO_ERROR_GROUP_ID, error.GroupId);
-        Assert.AreEqual(NO_ERROR_GROUP_NAME, error.GroupName);
-        Assert.AreEqual(NO_ERROR_ID, error.Id);
-        Assert.AreEqual(NO_ERROR_NAME, error.Name);
-        Assert.AreEqual(NO_ERROR_DESCRIPTION, error.Description);
-        Assert.AreEqual(NO_ERROR_IS_PERMANENT, error.Permanent);
-    }
-
-    private void AssertPendingSmsResponse(SmsResponseDetails responseDetails)
-    {
-        Assert.AreEqual(PENDING_STATUS_GROUP_ID, responseDetails.Status.GroupId);
-        Assert.AreEqual(PENDING_STATUS_GROUP_NAME, responseDetails.Status.GroupName);
-        Assert.AreEqual(PENDING_STATUS_ID, responseDetails.Status.Id);
-        Assert.AreEqual(PENDING_STATUS_NAME, responseDetails.Status.Name);
-        Assert.AreEqual(PENDING_STATUS_DESCRIPTION, responseDetails.Status.Description);
-        Assert.IsNull(responseDetails.Status.Action);
-    }
-
-
-    private string PreparePendingResponse(string givenBulkId, string givenDestination, string givenMessageId)
-    {
-        return $@"
+        var givenResponse = $@"
             {{
-              ""bulkId"": ""{givenBulkId}"",
-              ""messages"": [
-                {PreparePendingResponseDetails(givenDestination, givenMessageId)}
-              ]
+                ""results"": [
+                 {{
+                    ""messageId"": ""{givenMessageId}"",
+                    ""from"": ""{givenFrom}"",
+                    ""to"": ""{givenTo}"",
+                    ""text"": ""{givenText}"",
+                    ""cleanText"": ""{givenCleanText}"",
+                    ""keyword"": ""{givenKeyword}"",
+                    ""receivedAt"": ""{givenReceivedAt}"",
+                    ""smsCount"": {givenSmsCount},
+                    ""price"": {{
+                        ""pricePerMessage"": {givenPricePerMessage},
+                        ""currency"": ""{givenCurrency}""
+                    }},
+                    ""callbackData"": ""{givenCallbackData}""
+                 }}
+                ],
+                ""messageCount"": {givenMessageCount},
+                ""pendingMessageCount"": {givenPendingMessageCount}
             }}";
+
+        var smsInboundResult = JsonConvert.DeserializeObject<SmsInboundMessageResult>(givenResponse);
+        AssertSmsInboundMessageResult(smsInboundResult!);
+
+        var smsInboundResultSystemTextJson = JsonSerializer.Deserialize<SmsInboundMessageResult>(givenResponse);
+        AssertSmsInboundMessageResult(smsInboundResultSystemTextJson!);
+
+        void AssertSmsInboundMessageResult(SmsInboundMessageResult smsInboundResult)
+        {
+            Assert.IsNotNull(smsInboundResult);
+            Assert.AreEqual(givenMessageCount, smsInboundResult.MessageCount);
+            Assert.AreEqual(givenPendingMessageCount, smsInboundResult.PendingMessageCount);
+
+            Assert.AreEqual(1, smsInboundResult.Results.Count);
+            var message = smsInboundResult.Results[0];
+            Assert.AreEqual(givenMessageId, message.MessageId);
+            Assert.AreEqual(givenFrom, message.From);
+            Assert.AreEqual(givenTo, message.To);
+            Assert.AreEqual(givenText, message.Text);
+            Assert.AreEqual(givenCleanText, message.CleanText);
+            Assert.AreEqual(givenKeyword, message.Keyword);
+            Assert.AreEqual(DateTimeOffset.Parse(givenReceivedAt), message.ReceivedAt);
+            Assert.AreEqual(givenSmsCount, message.SmsCount);
+            Assert.AreEqual(givenPricePerMessage, message.Price.PricePerMessage);
+            Assert.AreEqual(givenCurrency, message.Price.Currency);
+            Assert.AreEqual(givenCallbackData, message.CallbackData);
+        }
     }
 
-    private string PreparePendingResponse(string givenBulkId, string givenDestination1, string givenMessageId1,
-        string givenDestination2, string givenMessageId2)
+    [TestMethod]
+    public void ShouldReceiveOutBoundSmsMessageReport()
     {
-        return $@"
-            {{
-              ""bulkId"": ""{givenBulkId}"",
-              ""messages"": [
-                {PreparePendingResponseDetails(givenDestination1, givenMessageId1)},
-                {PreparePendingResponseDetails(givenDestination2, givenMessageId2)}
-              ]
-            }}";
-    }
+        var givenBulkId = "BULK-ID-123-xyz";
+        var givenPricePerMessage = 0.01m;
+        var givenCurrency = "EUR";
+        var givenStatusGroupId = 3;
+        var givenStatusGroupName = MessageGeneralStatus.Delivered;
+        var givenStatusId = 5;
+        var givenStatusName = "DELIVERED_TO_HANDSET";
+        var givenStatusDescription = "Message delivered to handset";
+        var givenErrorGroupId = 0;
+        var givenErrorGroupName = MessageErrorGroup.Ok;
+        var givenErrorId = 0;
+        var givenErrorName = "NO_ERROR";
+        var givenErrorDescription = "No Error";
+        var givenErrorPermanent = false;
+        var givenMessageId = "MESSAGE-ID-123-xyz";
+        var givenTo = "41793026727";
+        var givenSender = "InfoSMS";
+        var givenSentAt = "2019-11-09T16:00:00.000+0100";
+        var givenDoneAt = "2019-11-09T16:00:00.000+0100";
+        var givenMessageCount = 1;
+        var givenCallbackData = "callbackData";
+        var givenApplicationId = "marketing-automation-application";
+        var givenEntityId = "promotional-traffic-entity";
 
-    private string PreparePendingResponseDetails(string givenDestination, string givenMessageId)
-    {
-        return $@"
-            {{
-                ""to"": ""{givenDestination}"",
-                ""status"": {{
-                    ""groupId"": 1,
-                    ""groupName"": ""PENDING"",
-                    ""id"": 26,
-                    ""name"": ""MESSAGE_ACCEPTED"",
-                    ""description"": ""Message sent to next instance""
+        var givenSecondBulkId = "BULK-ID-123-xyz";
+        var givenSecondPricePerMessage = 0.01m;
+        var givenSecondCurrency = "EUR";
+        var givenSecondStatusGroupId = 3;
+        var givenSecondStatusGroupName = MessageGeneralStatus.Delivered;
+        var givenSecondStatusId = 5;
+        var givenSecondStatusName = "DELIVERED_TO_HANDSET";
+        var givenSecondStatusDescription = "Message delivered to handset";
+        var givenSecondErrorGroupId = 0;
+        var givenSecondErrorGroupName = MessageErrorGroup.Ok;
+        var givenSecondErrorId = 0;
+        var givenSecondErrorName = "NO_ERROR";
+        var givenSecondErrorDescription = "No Error";
+        var givenSecondErrorPermanent = false;
+        var givenSecondMessageId = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
+        var givenSecondTo = "41793026834";
+        var givenSecondSender = "InfoSMS";
+        var givenSecondSentAt = "2019-11-09T17:00:00.000+0100";
+        var givenSecondDoneAt = "2019-11-09T17:00:00.000+0100";
+        var givenSecondMessageCount = 1;
+        var givenSecondApplicationId = "marketing-automation-application";
+        var givenSecondEntityId = "promotional-traffic-entity";
+
+        var givenResponse = $@"
+        {{
+            ""results"": [
+                {{
+                    ""bulkId"": ""{givenBulkId}"",
+                    ""price"": {{ 
+                        ""pricePerMessage"": {givenPricePerMessage},
+                        ""currency"": ""{givenCurrency}""
+                    }},
+                    ""status"": {{
+                        ""groupId"": {givenStatusGroupId},
+                        ""groupName"": ""{givenStatusGroupName}"",
+                        ""id"": {givenStatusId},
+                        ""name"": ""{givenStatusName}"",
+                        ""description"": ""{givenStatusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {givenErrorGroupId},
+                        ""groupName"": ""{givenErrorGroupName}"",
+                        ""id"": {givenErrorId},
+                        ""name"": ""{givenErrorName}"",
+                        ""description"": ""{givenErrorDescription}"",
+                        ""permanent"": {givenErrorPermanent.ToString().ToLower()}
+                    }},
+                    ""messageId"": ""{givenMessageId}"",
+                    ""to"": ""{givenTo}"",
+                    ""sender"": ""{givenSender}"",
+                    ""sentAt"": ""{givenSentAt}"",
+                    ""doneAt"": ""{givenDoneAt}"",
+                    ""messageCount"": {givenMessageCount},
+                    ""callbackData"": ""{givenCallbackData}"",
+                    ""platform"": {{
+                        ""entityId"": ""{givenEntityId}"",
+                        ""applicationId"": ""{givenApplicationId}""
+                    }}
                 }},
-                ""messageId"": ""{givenMessageId}""
-            }}";
+                {{
+                    ""bulkId"": ""{givenSecondBulkId}"",
+                    ""price"": {{
+                        ""pricePerMessage"": {givenSecondPricePerMessage},
+                        ""currency"": ""{givenSecondCurrency}""
+                    }},
+                    ""status"": {{
+                        ""groupId"": {givenSecondStatusGroupId},
+                        ""groupName"": ""{givenSecondStatusGroupName}"",
+                        ""id"": {givenSecondStatusId},
+                        ""name"": ""{givenSecondStatusName}"",
+                        ""description"": ""{givenSecondStatusDescription}""
+                    }},
+                    ""error"": {{
+                        ""groupId"": {givenSecondErrorGroupId},
+                        ""groupName"": ""{givenSecondErrorGroupName}"",
+                        ""id"": {givenSecondErrorId},
+                        ""name"": ""{givenSecondErrorName}"",
+                        ""description"": ""{givenSecondErrorDescription}"",
+                        ""permanent"": {givenSecondErrorPermanent.ToString().ToLower()}
+                    }},
+                    ""messageId"": ""{givenSecondMessageId}"",
+                    ""to"": ""{givenSecondTo}"",
+                    ""sender"": ""{givenSecondSender}"",
+                    ""sentAt"": ""{givenSecondSentAt}"",
+                    ""doneAt"": ""{givenSecondDoneAt}"",
+                    ""messageCount"": {givenSecondMessageCount},
+                    ""platform"": {{
+                        ""entityId"": ""{givenSecondEntityId}"",
+                        ""applicationId"": ""{givenSecondApplicationId}""
+                    }}
+                }}
+            ]
+        }}";
+
+        var smsDeliveryResult = JsonConvert.DeserializeObject<SmsDeliveryResult>(givenResponse);
+        AssertSmsDeliveryResult(smsDeliveryResult!);
+
+        var smsDeliveryResultSystemTextJson = JsonSerializer.Deserialize<SmsDeliveryResult>(givenResponse);
+        AssertSmsDeliveryResult(smsDeliveryResultSystemTextJson!);
+
+        void AssertSmsDeliveryResult(SmsDeliveryResult smsDeliveryResult)
+        {
+            Assert.IsNotNull(smsDeliveryResult);
+            Assert.IsNotNull(smsDeliveryResult.Results);
+            Assert.AreEqual(2, smsDeliveryResult.Results.Count);
+
+            var smsDeliveryReport = smsDeliveryResult.Results[0];
+            Assert.AreEqual(givenBulkId, smsDeliveryReport.BulkId);
+
+            Assert.AreEqual(givenPricePerMessage, smsDeliveryReport.Price.PricePerMessage);
+            Assert.AreEqual(givenCurrency, smsDeliveryReport.Price.Currency);
+
+            Assert.AreEqual(givenStatusGroupId, smsDeliveryReport.Status.GroupId);
+            Assert.AreEqual(givenStatusGroupName, smsDeliveryReport.Status.GroupName);
+            Assert.AreEqual(givenStatusId, smsDeliveryReport.Status.Id);
+            Assert.AreEqual(givenStatusName, smsDeliveryReport.Status.Name);
+            Assert.AreEqual(givenStatusDescription, smsDeliveryReport.Status.Description);
+
+            Assert.AreEqual(givenErrorGroupId, smsDeliveryReport.Error.GroupId);
+            Assert.AreEqual(givenErrorGroupName, smsDeliveryReport.Error.GroupName);
+            Assert.AreEqual(givenErrorId, smsDeliveryReport.Error.Id);
+            Assert.AreEqual(givenErrorName, smsDeliveryReport.Error.Name);
+            Assert.AreEqual(givenErrorDescription, smsDeliveryReport.Error.Description);
+
+            Assert.AreEqual(givenMessageId, smsDeliveryReport.MessageId);
+            Assert.AreEqual(givenTo, smsDeliveryReport.To);
+            Assert.AreEqual(givenSender, smsDeliveryReport.Sender);
+            Assert.AreEqual(DateTimeOffset.Parse(givenSentAt), smsDeliveryReport.SentAt);
+            Assert.AreEqual(DateTimeOffset.Parse(givenDoneAt), smsDeliveryReport.DoneAt);
+            Assert.AreEqual(givenMessageCount, smsDeliveryReport.MessageCount);
+            Assert.AreEqual(givenCallbackData, smsDeliveryReport.CallbackData);
+
+            Assert.AreEqual(givenEntityId, smsDeliveryReport.Platform.EntityId);
+            Assert.AreEqual(givenApplicationId, smsDeliveryReport.Platform.ApplicationId);
+
+            var smsSecondDeliveryReport = smsDeliveryResult.Results[1];
+            Assert.AreEqual(givenSecondBulkId, smsSecondDeliveryReport.BulkId);
+
+            Assert.AreEqual(givenSecondPricePerMessage, smsSecondDeliveryReport.Price.PricePerMessage);
+            Assert.AreEqual(givenSecondCurrency, smsSecondDeliveryReport.Price.Currency);
+
+            Assert.AreEqual(givenSecondStatusGroupId, smsSecondDeliveryReport.Status.GroupId);
+            Assert.AreEqual(givenSecondStatusGroupName, smsSecondDeliveryReport.Status.GroupName);
+            Assert.AreEqual(givenSecondStatusId, smsSecondDeliveryReport.Status.Id);
+            Assert.AreEqual(givenSecondStatusName, smsSecondDeliveryReport.Status.Name);
+            Assert.AreEqual(givenSecondStatusDescription, smsSecondDeliveryReport.Status.Description);
+
+            Assert.AreEqual(givenSecondErrorGroupId, smsSecondDeliveryReport.Error.GroupId);
+            Assert.AreEqual(givenSecondErrorGroupName, smsSecondDeliveryReport.Error.GroupName);
+            Assert.AreEqual(givenSecondErrorId, smsSecondDeliveryReport.Error.Id);
+            Assert.AreEqual(givenSecondErrorName, smsSecondDeliveryReport.Error.Name);
+            Assert.AreEqual(givenSecondErrorDescription, smsSecondDeliveryReport.Error.Description);
+
+            Assert.AreEqual(givenSecondMessageId, smsSecondDeliveryReport.MessageId);
+            Assert.AreEqual(givenSecondTo, smsSecondDeliveryReport.To);
+            Assert.AreEqual(givenSecondSender, smsSecondDeliveryReport.Sender);
+            Assert.AreEqual(DateTimeOffset.Parse(givenSecondSentAt), smsSecondDeliveryReport.SentAt);
+            Assert.AreEqual(DateTimeOffset.Parse(givenSecondDoneAt), smsSecondDeliveryReport.DoneAt);
+            Assert.AreEqual(givenSecondMessageCount, smsSecondDeliveryReport.MessageCount);
+
+            Assert.AreEqual(givenSecondEntityId, smsSecondDeliveryReport.Platform.EntityId);
+            Assert.AreEqual(givenSecondApplicationId, smsSecondDeliveryReport.Platform.ApplicationId);
+        }
     }
 }

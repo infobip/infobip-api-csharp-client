@@ -10,8 +10,9 @@
 
 
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
+using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -24,6 +25,7 @@ namespace Infobip.Api.Client.Model
     ///     default to English (&#x60;en&#x60;).
     /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TfaLanguage
     {
         /// <summary>

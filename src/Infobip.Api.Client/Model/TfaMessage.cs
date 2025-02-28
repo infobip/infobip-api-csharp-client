@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaMessage
     /// </summary>
     [DataContract(Name = "TfaMessage")]
+    [JsonObject]
     public class TfaMessage : IEquatable<TfaMessage>
     {
         /// <summary>
@@ -54,11 +56,20 @@ namespace Infobip.Api.Client.Model
         ///     In case PIN message is sent by Voice, the speed of speech can be set for the message.
         ///     Supported range is from &#x60;0.5&#x60; to &#x60;2&#x60;..
         /// </param>
+        /// <param name="voiceName">
+        ///     Defines the voice that will be used for the chosen language (example: Joanna). For each
+        ///     supported language, we may offer different voices (learn more
+        ///     [here](https://www.infobip.com/docs/voice-and-video/reference#text-to-speech-languages)). You can use this
+        ///     [method](https://www.infobip.com/docs/api/channels/voice/voice-message/get-voices) to retrieve all voices for the
+        ///     given language. If not defined, it will default to the standard voice for the selected language (if available). If
+        ///     the standard voice is not available, the request will fail. To avoid that, you can choose one of the neural voices
+        ///     (charges will apply)..
+        /// </param>
         public TfaMessage(string applicationId = default, long emailTemplateId = default, string from = default,
             TfaLanguage? language = default, string messageId = default, string messageText = default,
             int pinLength = default, string pinPlaceholder = default, TfaPinType? pinType = default,
             TfaRegionalOptions regional = default, string repeatDTMF = default, string senderId = default,
-            double speechRate = default)
+            double speechRate = default, string voiceName = default)
         {
             ApplicationId = applicationId;
             EmailTemplateId = emailTemplateId;
@@ -73,18 +84,23 @@ namespace Infobip.Api.Client.Model
             RepeatDTMF = repeatDTMF;
             SenderId = senderId;
             SpeechRate = speechRate;
+            VoiceName = voiceName;
         }
 
         /// <summary>
         ///     Gets or Sets Language
         /// </summary>
         [DataMember(Name = "language", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "language", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("language")]
         public TfaLanguage? Language { get; set; }
 
         /// <summary>
         ///     Gets or Sets PinType
         /// </summary>
         [DataMember(Name = "pinType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinType")]
         public TfaPinType? PinType { get; set; }
 
         /// <summary>
@@ -96,6 +112,8 @@ namespace Infobip.Api.Client.Model
         ///     for which the requested message has been created.
         /// </value>
         [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "applicationId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
@@ -107,6 +125,8 @@ namespace Infobip.Api.Client.Model
         ///     [Email message templates](#channels/sms/create-2fa-email-message-template).
         /// </value>
         [DataMember(Name = "emailTemplateId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "emailTemplateId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("emailTemplateId")]
         public long EmailTemplateId { get; set; }
 
         /// <summary>
@@ -120,6 +140,8 @@ namespace Infobip.Api.Client.Model
         ///     templates](#channels/sms/create-2fa-email-message-template).
         /// </value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
         public string From { get; set; }
 
         /// <summary>
@@ -127,6 +149,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
@@ -134,6 +158,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Text of a message that will be sent. Message text must contain &#x60;pinPlaceholder&#x60;.</value>
         [DataMember(Name = "messageText", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageText", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageText")]
         public string MessageText { get; set; }
 
         /// <summary>
@@ -141,6 +167,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>PIN code length.</value>
         [DataMember(Name = "pinLength", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinLength", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinLength")]
         public int PinLength { get; set; }
 
         /// <summary>
@@ -148,12 +176,16 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The PIN code placeholder that will be replaced with a generated PIN code.</value>
         [DataMember(Name = "pinPlaceholder", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinPlaceholder", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinPlaceholder")]
         public string PinPlaceholder { get; set; }
 
         /// <summary>
         ///     Gets or Sets Regional
         /// </summary>
         [DataMember(Name = "regional", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "regional", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("regional")]
         public TfaRegionalOptions Regional { get; set; }
 
         /// <summary>
@@ -161,6 +193,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>In case PIN message is sent by Voice, DTMF code will enable replaying the message.</value>
         [DataMember(Name = "repeatDTMF", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "repeatDTMF", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("repeatDTMF")]
         public string RepeatDTMF { get; set; }
 
         /// <summary>
@@ -168,6 +202,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The sender of the 2FA message (Example: CompanyName).</value>
         [DataMember(Name = "senderId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "senderId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("senderId")]
         public string SenderId { get; set; }
 
         /// <summary>
@@ -179,7 +215,32 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;0.5&#x60; to &#x60;2&#x60;.
         /// </value>
         [DataMember(Name = "speechRate", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "speechRate", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("speechRate")]
         public double SpeechRate { get; set; }
+
+        /// <summary>
+        ///     Defines the voice that will be used for the chosen language (example: Joanna). For each supported language, we may
+        ///     offer different voices (learn more
+        ///     [here](https://www.infobip.com/docs/voice-and-video/reference#text-to-speech-languages)). You can use this
+        ///     [method](https://www.infobip.com/docs/api/channels/voice/voice-message/get-voices) to retrieve all voices for the
+        ///     given language. If not defined, it will default to the standard voice for the selected language (if available). If
+        ///     the standard voice is not available, the request will fail. To avoid that, you can choose one of the neural voices
+        ///     (charges will apply).
+        /// </summary>
+        /// <value>
+        ///     Defines the voice that will be used for the chosen language (example: Joanna). For each supported language, we
+        ///     may offer different voices (learn more
+        ///     [here](https://www.infobip.com/docs/voice-and-video/reference#text-to-speech-languages)). You can use this
+        ///     [method](https://www.infobip.com/docs/api/channels/voice/voice-message/get-voices) to retrieve all voices for the
+        ///     given language. If not defined, it will default to the standard voice for the selected language (if available). If
+        ///     the standard voice is not available, the request will fail. To avoid that, you can choose one of the neural voices
+        ///     (charges will apply).
+        /// </value>
+        [DataMember(Name = "voiceName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "voiceName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("voiceName")]
+        public string VoiceName { get; set; }
 
         /// <summary>
         ///     Returns true if TfaMessage instances are equal
@@ -251,6 +312,11 @@ namespace Infobip.Api.Client.Model
                 (
                     SpeechRate == input.SpeechRate ||
                     SpeechRate.Equals(input.SpeechRate)
+                ) &&
+                (
+                    VoiceName == input.VoiceName ||
+                    (VoiceName != null &&
+                     VoiceName.Equals(input.VoiceName))
                 );
         }
 
@@ -275,6 +341,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  RepeatDTMF: ").Append(RepeatDTMF).Append("\n");
             sb.Append("  SenderId: ").Append(SenderId).Append("\n");
             sb.Append("  SpeechRate: ").Append(SpeechRate).Append("\n");
+            sb.Append("  VoiceName: ").Append(VoiceName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -328,6 +395,8 @@ namespace Infobip.Api.Client.Model
                 if (SenderId != null)
                     hashCode = hashCode * 59 + SenderId.GetHashCode();
                 hashCode = hashCode * 59 + SpeechRate.GetHashCode();
+                if (VoiceName != null)
+                    hashCode = hashCode * 59 + VoiceName.GetHashCode();
                 return hashCode;
             }
         }

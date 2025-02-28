@@ -10,8 +10,9 @@
 
 
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
+using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -19,6 +20,7 @@ namespace Infobip.Api.Client.Model
     ///     Defines EmailBulkStatus.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
     public enum EmailBulkStatus
     {
         /// <summary>

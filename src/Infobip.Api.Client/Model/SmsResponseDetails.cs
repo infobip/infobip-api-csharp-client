@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,60 +21,61 @@ namespace Infobip.Api.Client.Model
     ///     An array of message objects of a single message or multiple messages sent under one bulk ID.
     /// </summary>
     [DataContract(Name = "SmsResponseDetails")]
+    [JsonObject]
     public class SmsResponseDetails : IEquatable<SmsResponseDetails>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsResponseDetails" /> class.
         /// </summary>
         /// <param name="messageId">
-        ///     Unique message ID. If not passed, it will be automatically generated and returned in a
+        ///     Unique message ID. If not provided, it will be auto-generated and returned in the API
         ///     response..
         /// </param>
         /// <param name="status">status.</param>
-        /// <param name="to">The destination address of the message..</param>
-        /// <param name="smsCount">
-        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and
-        ///     messages longer than that limit will be split into multiple SMS and reflected in the total count of SMS submitted..
-        /// </param>
-        public SmsResponseDetails(string messageId = default, MessageStatus status = default, string to = default,
-            int smsCount = default)
+        /// <param name="destination">The destination address of the message, i.e., its recipient..</param>
+        /// <param name="details">details.</param>
+        public SmsResponseDetails(string messageId = default, SmsMessageStatus status = default,
+            string destination = default, SmsMessageResponseDetails details = default)
         {
             MessageId = messageId;
             Status = status;
-            To = to;
-            SmsCount = smsCount;
+            Destination = destination;
+            Details = details;
         }
 
         /// <summary>
-        ///     Unique message ID. If not passed, it will be automatically generated and returned in a response.
+        ///     Unique message ID. If not provided, it will be auto-generated and returned in the API response.
         /// </summary>
-        /// <value>Unique message ID. If not passed, it will be automatically generated and returned in a response.</value>
+        /// <value>Unique message ID. If not provided, it will be auto-generated and returned in the API response.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public MessageStatus Status { get; set; }
+        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        public SmsMessageStatus Status { get; set; }
 
         /// <summary>
-        ///     The destination address of the message.
+        ///     The destination address of the message, i.e., its recipient.
         /// </summary>
-        /// <value>The destination address of the message.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        public string To { get; set; }
+        /// <value>The destination address of the message, i.e., its recipient.</value>
+        [DataMember(Name = "destination", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "destination", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("destination")]
+        public string Destination { get; set; }
 
         /// <summary>
-        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and messages longer
-        ///     than that limit will be split into multiple SMS and reflected in the total count of SMS submitted.
+        ///     Gets or Sets Details
         /// </summary>
-        /// <value>
-        ///     This is the total count of SMS submitted in the request. SMS messages have a character limit and messages longer
-        ///     than that limit will be split into multiple SMS and reflected in the total count of SMS submitted.
-        /// </value>
-        [DataMember(Name = "smsCount", EmitDefaultValue = false)]
-        public int SmsCount { get; set; }
+        [DataMember(Name = "details", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "details", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("details")]
+        public SmsMessageResponseDetails Details { get; set; }
 
         /// <summary>
         ///     Returns true if SmsResponseDetails instances are equal
@@ -97,13 +99,14 @@ namespace Infobip.Api.Client.Model
                      Status.Equals(input.Status))
                 ) &&
                 (
-                    To == input.To ||
-                    (To != null &&
-                     To.Equals(input.To))
+                    Destination == input.Destination ||
+                    (Destination != null &&
+                     Destination.Equals(input.Destination))
                 ) &&
                 (
-                    SmsCount == input.SmsCount ||
-                    SmsCount.Equals(input.SmsCount)
+                    Details == input.Details ||
+                    (Details != null &&
+                     Details.Equals(input.Details))
                 );
         }
 
@@ -117,8 +120,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("class SmsResponseDetails {\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  To: ").Append(To).Append("\n");
-            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
+            sb.Append("  Destination: ").Append(Destination).Append("\n");
+            sb.Append("  Details: ").Append(Details).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -155,9 +158,10 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
                 if (Status != null)
                     hashCode = hashCode * 59 + Status.GetHashCode();
-                if (To != null)
-                    hashCode = hashCode * 59 + To.GetHashCode();
-                hashCode = hashCode * 59 + SmsCount.GetHashCode();
+                if (Destination != null)
+                    hashCode = hashCode * 59 + Destination.GetHashCode();
+                if (Details != null)
+                    hashCode = hashCode * 59 + Details.GetHashCode();
                 return hashCode;
             }
         }

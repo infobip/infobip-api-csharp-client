@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     List of message response details.
     /// </summary>
     [DataContract(Name = "EmailResponseDetails")]
+    [JsonObject]
     public class EmailResponseDetails : IEquatable<EmailResponseDetails>
     {
         /// <summary>
@@ -28,8 +30,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="to">The destination address of the message..</param>
         /// <param name="messageId">The ID that uniquely identifies a message response..</param>
         /// <param name="status">status.</param>
-        public EmailResponseDetails(string to = default, string messageId = default,
-            EmailSingleMessageStatus status = default)
+        public EmailResponseDetails(string to = default, string messageId = default, MessageStatus status = default)
         {
             To = to;
             MessageId = messageId;
@@ -41,6 +42,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The destination address of the message.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>
@@ -48,13 +51,17 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID that uniquely identifies a message response.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public EmailSingleMessageStatus Status { get; set; }
+        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        public MessageStatus Status { get; set; }
 
         /// <summary>
         ///     Returns true if EmailResponseDetails instances are equal

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Geolocation data such as Country and  City. This data will be available only for opens, clicks and unsubscribes.
     /// </summary>
     [DataContract(Name = "EmailWebhookGeoLocation")]
+    [JsonObject]
     public class EmailWebhookGeoLocation : IEquatable<EmailWebhookGeoLocation>
     {
         /// <summary>
@@ -38,6 +40,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Country where the user action is recorded.</value>
         [DataMember(Name = "countryName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "countryName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("countryName")]
         public string CountryName { get; set; }
 
         /// <summary>
@@ -45,6 +49,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>City where the user action is recorded.</value>
         [DataMember(Name = "city", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "city", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("city")]
         public string City { get; set; }
 
         /// <summary>

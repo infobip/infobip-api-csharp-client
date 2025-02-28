@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Records for the domain.
     /// </summary>
     [DataContract(Name = "EmailDnsRecordResponse")]
+    [JsonObject]
     public class EmailDnsRecordResponse : IEquatable<EmailDnsRecordResponse>
     {
         /// <summary>
@@ -43,6 +45,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Type of the record.</value>
         [DataMember(Name = "recordType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "recordType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("recordType")]
         public string RecordType { get; set; }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Name of the record.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -57,6 +63,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Expected value to be set for the given record.</value>
         [DataMember(Name = "expectedValue", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "expectedValue", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("expectedValue")]
         public string ExpectedValue { get; set; }
 
         /// <summary>
@@ -64,6 +72,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Boolean value representing if the record is verified or not.</value>
         [DataMember(Name = "verified", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 
         /// <summary>

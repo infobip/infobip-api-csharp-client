@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     An array of destination objects for where messages are being sent. A valid destination is required.
     /// </summary>
     [DataContract(Name = "SmsDestination")]
+    [JsonObject]
     public class SmsDestination : IEquatable<SmsDestination>
     {
         /// <summary>
@@ -33,31 +36,57 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsDestination" /> class.
         /// </summary>
+        /// <param name="to">The destination address of the message. (required).</param>
         /// <param name="messageId">The ID that uniquely identifies the message sent..</param>
-        /// <param name="to">
-        ///     Message destination address. Addresses must be in international format (Example: &#x60;41793026727
-        ///     &#x60;). (required).
+        /// <param name="networkId">
+        ///     Available in US and Canada only if networkId is known for Network Operator of the destination.
+        ///     Returned in [SMS message delivery
+        ///     reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports) and [Inbound
+        ///     SMS](https://www.infobip.com/docs/api/channels/sms/sms-messaging/inbound-sms); contact Infobip Support to enable..
         /// </param>
-        public SmsDestination(string messageId = default, string to = default)
+        public SmsDestination(string to = default, string messageId = default, int networkId = default)
         {
             // to ensure "to" is required (not null)
             To = to ?? throw new ArgumentNullException("to");
             MessageId = messageId;
+            NetworkId = networkId;
         }
+
+        /// <summary>
+        ///     The destination address of the message.
+        /// </summary>
+        /// <value>The destination address of the message.</value>
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("to")]
+        public string To { get; set; }
 
         /// <summary>
         ///     The ID that uniquely identifies the message sent.
         /// </summary>
         /// <value>The ID that uniquely identifies the message sent.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
-        ///     Message destination address. Addresses must be in international format (Example: &#x60;41793026727&#x60;).
+        ///     Available in US and Canada only if networkId is known for Network Operator of the destination. Returned in [SMS
+        ///     message delivery reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports) and
+        ///     [Inbound SMS](https://www.infobip.com/docs/api/channels/sms/sms-messaging/inbound-sms); contact Infobip Support to
+        ///     enable.
         /// </summary>
-        /// <value>Message destination address. Addresses must be in international format (Example: &#x60;41793026727&#x60;).</value>
-        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
-        public string To { get; set; }
+        /// <value>
+        ///     Available in US and Canada only if networkId is known for Network Operator of the destination. Returned in [SMS
+        ///     message delivery reports](https://www.infobip.com/docs/api/channels/sms/sms-messaging/logs-and-status-reports) and
+        ///     [Inbound SMS](https://www.infobip.com/docs/api/channels/sms/sms-messaging/inbound-sms); contact Infobip Support to
+        ///     enable.
+        /// </value>
+        [DataMember(Name = "networkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "networkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("networkId")]
+        public int NetworkId { get; set; }
 
         /// <summary>
         ///     Returns true if SmsDestination instances are equal
@@ -71,14 +100,18 @@ namespace Infobip.Api.Client.Model
 
             return
                 (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                ) &&
+                (
                     MessageId == input.MessageId ||
                     (MessageId != null &&
                      MessageId.Equals(input.MessageId))
                 ) &&
                 (
-                    To == input.To ||
-                    (To != null &&
-                     To.Equals(input.To))
+                    NetworkId == input.NetworkId ||
+                    NetworkId.Equals(input.NetworkId)
                 );
         }
 
@@ -90,8 +123,9 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsDestination {\n");
-            sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  MessageId: ").Append(MessageId).Append("\n");
+            sb.Append("  NetworkId: ").Append(NetworkId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -124,10 +158,11 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                if (MessageId != null)
-                    hashCode = hashCode * 59 + MessageId.GetHashCode();
                 if (To != null)
                     hashCode = hashCode * 59 + To.GetHashCode();
+                if (MessageId != null)
+                    hashCode = hashCode * 59 + MessageId.GetHashCode();
+                hashCode = hashCode * 59 + NetworkId.GetHashCode();
                 return hashCode;
             }
         }

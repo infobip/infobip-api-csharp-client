@@ -9,10 +9,9 @@
  */
 
 
-using Infobip.Api.Client.Client;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
+using Infobip.Api.Client.Client;
 
 namespace Infobip.Api.Client
 {

@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsUpdateStatusRequest
     /// </summary>
     [DataContract(Name = "SmsUpdateStatusRequest")]
+    [JsonObject]
     public class SmsUpdateStatusRequest : IEquatable<SmsUpdateStatusRequest>
     {
         /// <summary>
@@ -42,7 +45,10 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
-        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "status", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("status")]
         public SmsBulkStatus Status { get; set; }
 
         /// <summary>

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailValidationResponse
     /// </summary>
     [DataContract(Name = "EmailValidationResponse")]
+    [JsonObject]
     public class EmailValidationResponse : IEquatable<EmailValidationResponse>
     {
         /// <summary>
@@ -70,6 +72,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Email address of the recipient.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>
@@ -77,6 +81,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Represents status of recipient email address.</value>
         [DataMember(Name = "validMailbox", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "validMailbox", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("validMailbox")]
         public string ValidMailbox { get; set; }
 
         /// <summary>
@@ -84,6 +90,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Represents syntax of recipient email address.</value>
         [DataMember(Name = "validSyntax", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "validSyntax", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("validSyntax")]
         public bool ValidSyntax { get; set; }
 
         /// <summary>
@@ -91,6 +99,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Denotes catch all status of recipient email address.</value>
         [DataMember(Name = "catchAll", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "catchAll", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("catchAll")]
         public bool CatchAll { get; set; }
 
         /// <summary>
@@ -98,18 +108,24 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Suggests alternate addresses that maybe valid.</value>
         [DataMember(Name = "didYouMean", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "didYouMean", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("didYouMean")]
         public string DidYouMean { get; set; }
 
         /// <summary>
         ///     Gets or Sets Disposable
         /// </summary>
         [DataMember(Name = "disposable", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "disposable", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("disposable")]
         public bool Disposable { get; set; }
 
         /// <summary>
         ///     Gets or Sets RoleBased
         /// </summary>
         [DataMember(Name = "roleBased", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "roleBased", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("roleBased")]
         public bool RoleBased { get; set; }
 
         /// <summary>
@@ -127,6 +143,8 @@ namespace Infobip.Api.Client.Model
         ///     Mail server temporarily rejected. 6. UNABLE_TO_CONNECT - Unable to connect to the Mail Server.
         /// </value>
         [DataMember(Name = "reason", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "reason", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("reason")]
         public string Reason { get; set; }
 
         /// <summary>
@@ -138,6 +156,8 @@ namespace Infobip.Api.Client.Model
         ///     validMailbox has that status.
         /// </value>
         [DataMember(Name = "detailedReasons", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "detailedReasons", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("detailedReasons")]
         public string DetailedReasons { get; set; }
 
         /// <summary>
@@ -151,6 +171,8 @@ namespace Infobip.Api.Client.Model
         ///     low risk addresses have very low chances of bouncing and damaging the sender&#39;s reputation.
         /// </value>
         [DataMember(Name = "risk", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "risk", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("risk")]
         public string Risk { get; set; }
 
         /// <summary>

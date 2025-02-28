@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailValidationRequest
     /// </summary>
     [DataContract(Name = "EmailValidationRequest")]
+    [JsonObject]
     public class EmailValidationRequest : IEquatable<EmailValidationRequest>
     {
         /// <summary>
@@ -44,7 +47,10 @@ namespace Infobip.Api.Client.Model
         ///     Email address of the recipient.
         /// </summary>
         /// <value>Email address of the recipient.</value>
-        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>

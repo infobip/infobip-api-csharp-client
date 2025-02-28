@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailWebhookDeliveryReport
     /// </summary>
     [DataContract(Name = "EmailWebhookDeliveryReport")]
+    [JsonObject]
     public class EmailWebhookDeliveryReport : IEquatable<EmailWebhookDeliveryReport>
     {
         /// <summary>
@@ -29,36 +31,39 @@ namespace Infobip.Api.Client.Model
         ///     The ID that uniquely identifies a list of email messages. This is either defined by user in the
         ///     request or auto generated..
         /// </param>
-        /// <param name="messageId">The ID that uniquely identifies the email sent to the recipient..</param>
-        /// <param name="to">Destination email address..</param>
-        /// <param name="sentAt">Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..</param>
-        /// <param name="doneAt">Delivery date and time..</param>
-        /// <param name="smsCount">The number of emails sent..</param>
-        /// <param name="callbackData">Callback data sent through &#x60;callbackData&#x60; field in fully featured email..</param>
         /// <param name="price">price.</param>
         /// <param name="status">status.</param>
         /// <param name="error">error.</param>
+        /// <param name="messageId">The ID that uniquely identifies the email sent to the recipient..</param>
+        /// <param name="doneAt">Delivery date and time..</param>
+        /// <param name="smsCount">The number of emails sent..</param>
+        /// <param name="sentAt">Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..</param>
         /// <param name="browserLink">
         ///     Contains the link to the HTML sent to recipient. This will be present only if the _view in
-        ///     browser_ feature is used in the email. (*Please note that this feature is not activated automatically for Email
+        ///     browser_ feature is used in the email. (Please note that this feature is not activated automatically for Email
         ///     traffic sent over API. If you would like to utilize it please reach out to your Infobip person of contact.).
         /// </param>
-        public EmailWebhookDeliveryReport(string bulkId = default, string messageId = default, string to = default,
-            DateTimeOffset sentAt = default, DateTimeOffset doneAt = default, int smsCount = default,
-            string callbackData = default, MessagePrice price = default, MessageStatus status = default,
-            MessageError error = default, string browserLink = default)
+        /// <param name="sendingIp">The IP address that was used to send out the email..</param>
+        /// <param name="callbackData">Callback data sent through &#x60;callbackData&#x60; field in fully featured email..</param>
+        /// <param name="to">Destination email address..</param>
+        public EmailWebhookDeliveryReport(string bulkId = default, MessagePrice price = default,
+            MessageStatus status = default, MessageError error = default, string messageId = default,
+            DateTimeOffset doneAt = default, int smsCount = default, DateTimeOffset sentAt = default,
+            string browserLink = default, string sendingIp = default, string callbackData = default,
+            string to = default)
         {
             BulkId = bulkId;
-            MessageId = messageId;
-            To = to;
-            SentAt = sentAt;
-            DoneAt = doneAt;
-            SmsCount = smsCount;
-            CallbackData = callbackData;
             Price = price;
             Status = status;
             Error = error;
+            MessageId = messageId;
+            DoneAt = doneAt;
+            SmsCount = smsCount;
+            SentAt = sentAt;
             BrowserLink = browserLink;
+            SendingIp = sendingIp;
+            CallbackData = callbackData;
+            To = to;
         }
 
         /// <summary>
@@ -70,34 +75,51 @@ namespace Infobip.Api.Client.Model
         ///     generated.
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Price
+        /// </summary>
+        [DataMember(Name = "price", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "price", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("price")]
+        public MessagePrice Price { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Status
+        /// </summary>
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("status")]
+        public MessageStatus Status { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Error
+        /// </summary>
+        [DataMember(Name = "error", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "error", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("error")]
+        public MessageError Error { get; set; }
 
         /// <summary>
         ///     The ID that uniquely identifies the email sent to the recipient.
         /// </summary>
         /// <value>The ID that uniquely identifies the email sent to the recipient.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
-
-        /// <summary>
-        ///     Destination email address.
-        /// </summary>
-        /// <value>Destination email address.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        public string To { get; set; }
-
-        /// <summary>
-        ///     Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
-        /// </summary>
-        /// <value>Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.</value>
-        [DataMember(Name = "sentAt", EmitDefaultValue = false)]
-        public DateTimeOffset SentAt { get; set; }
 
         /// <summary>
         ///     Delivery date and time.
         /// </summary>
         /// <value>Delivery date and time.</value>
         [DataMember(Name = "doneAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "doneAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("doneAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset DoneAt { get; set; }
 
         /// <summary>
@@ -105,45 +127,61 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The number of emails sent.</value>
         [DataMember(Name = "smsCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "smsCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("smsCount")]
         public int SmsCount { get; set; }
+
+        /// <summary>
+        ///     Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.
+        /// </summary>
+        /// <value>Send date and time. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;.</value>
+        [DataMember(Name = "sentAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sentAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sentAt")]
+        [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
+        public DateTimeOffset SentAt { get; set; }
+
+        /// <summary>
+        ///     Contains the link to the HTML sent to recipient. This will be present only if the _view in browser_ feature is used
+        ///     in the email. (Please note that this feature is not activated automatically for Email traffic sent over API. If you
+        ///     would like to utilize it please reach out to your Infobip person of contact.)
+        /// </summary>
+        /// <value>
+        ///     Contains the link to the HTML sent to recipient. This will be present only if the _view in browser_ feature is
+        ///     used in the email. (Please note that this feature is not activated automatically for Email traffic sent over API.
+        ///     If you would like to utilize it please reach out to your Infobip person of contact.)
+        /// </value>
+        [DataMember(Name = "browserLink", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "browserLink", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("browserLink")]
+        public string BrowserLink { get; set; }
+
+        /// <summary>
+        ///     The IP address that was used to send out the email.
+        /// </summary>
+        /// <value>The IP address that was used to send out the email.</value>
+        [DataMember(Name = "sendingIp", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sendingIp", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sendingIp")]
+        public string SendingIp { get; set; }
 
         /// <summary>
         ///     Callback data sent through &#x60;callbackData&#x60; field in fully featured email.
         /// </summary>
         /// <value>Callback data sent through &#x60;callbackData&#x60; field in fully featured email.</value>
         [DataMember(Name = "callbackData", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "callbackData", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callbackData")]
         public string CallbackData { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Price
+        ///     Destination email address.
         /// </summary>
-        [DataMember(Name = "price", EmitDefaultValue = false)]
-        public MessagePrice Price { get; set; }
-
-        /// <summary>
-        ///     Gets or Sets Status
-        /// </summary>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public MessageStatus Status { get; set; }
-
-        /// <summary>
-        ///     Gets or Sets Error
-        /// </summary>
-        [DataMember(Name = "error", EmitDefaultValue = false)]
-        public MessageError Error { get; set; }
-
-        /// <summary>
-        ///     Contains the link to the HTML sent to recipient. This will be present only if the _view in browser_ feature is used
-        ///     in the email. (*Please note that this feature is not activated automatically for Email traffic sent over API. If
-        ///     you would like to utilize it please reach out to your Infobip person of contact.)
-        /// </summary>
-        /// <value>
-        ///     Contains the link to the HTML sent to recipient. This will be present only if the _view in browser_ feature is
-        ///     used in the email. (*Please note that this feature is not activated automatically for Email traffic sent over API.
-        ///     If you would like to utilize it please reach out to your Infobip person of contact.)
-        /// </value>
-        [DataMember(Name = "browserLink", EmitDefaultValue = false)]
-        public string BrowserLink { get; set; }
+        /// <value>Destination email address.</value>
+        [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
+        public string To { get; set; }
 
         /// <summary>
         ///     Returns true if EmailWebhookDeliveryReport instances are equal
@@ -162,35 +200,6 @@ namespace Infobip.Api.Client.Model
                      BulkId.Equals(input.BulkId))
                 ) &&
                 (
-                    MessageId == input.MessageId ||
-                    (MessageId != null &&
-                     MessageId.Equals(input.MessageId))
-                ) &&
-                (
-                    To == input.To ||
-                    (To != null &&
-                     To.Equals(input.To))
-                ) &&
-                (
-                    SentAt == input.SentAt ||
-                    (SentAt != null &&
-                     SentAt.Equals(input.SentAt))
-                ) &&
-                (
-                    DoneAt == input.DoneAt ||
-                    (DoneAt != null &&
-                     DoneAt.Equals(input.DoneAt))
-                ) &&
-                (
-                    SmsCount == input.SmsCount ||
-                    SmsCount.Equals(input.SmsCount)
-                ) &&
-                (
-                    CallbackData == input.CallbackData ||
-                    (CallbackData != null &&
-                     CallbackData.Equals(input.CallbackData))
-                ) &&
-                (
                     Price == input.Price ||
                     (Price != null &&
                      Price.Equals(input.Price))
@@ -206,9 +215,43 @@ namespace Infobip.Api.Client.Model
                      Error.Equals(input.Error))
                 ) &&
                 (
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
+                ) &&
+                (
+                    DoneAt == input.DoneAt ||
+                    (DoneAt != null &&
+                     DoneAt.Equals(input.DoneAt))
+                ) &&
+                (
+                    SmsCount == input.SmsCount ||
+                    SmsCount.Equals(input.SmsCount)
+                ) &&
+                (
+                    SentAt == input.SentAt ||
+                    (SentAt != null &&
+                     SentAt.Equals(input.SentAt))
+                ) &&
+                (
                     BrowserLink == input.BrowserLink ||
                     (BrowserLink != null &&
                      BrowserLink.Equals(input.BrowserLink))
+                ) &&
+                (
+                    SendingIp == input.SendingIp ||
+                    (SendingIp != null &&
+                     SendingIp.Equals(input.SendingIp))
+                ) &&
+                (
+                    CallbackData == input.CallbackData ||
+                    (CallbackData != null &&
+                     CallbackData.Equals(input.CallbackData))
+                ) &&
+                (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
                 );
         }
 
@@ -221,16 +264,17 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class EmailWebhookDeliveryReport {\n");
             sb.Append("  BulkId: ").Append(BulkId).Append("\n");
-            sb.Append("  MessageId: ").Append(MessageId).Append("\n");
-            sb.Append("  To: ").Append(To).Append("\n");
-            sb.Append("  SentAt: ").Append(SentAt).Append("\n");
-            sb.Append("  DoneAt: ").Append(DoneAt).Append("\n");
-            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
-            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
             sb.Append("  Price: ").Append(Price).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
+            sb.Append("  MessageId: ").Append(MessageId).Append("\n");
+            sb.Append("  DoneAt: ").Append(DoneAt).Append("\n");
+            sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
+            sb.Append("  SentAt: ").Append(SentAt).Append("\n");
             sb.Append("  BrowserLink: ").Append(BrowserLink).Append("\n");
+            sb.Append("  SendingIp: ").Append(SendingIp).Append("\n");
+            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
+            sb.Append("  To: ").Append(To).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -265,25 +309,27 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (BulkId != null)
                     hashCode = hashCode * 59 + BulkId.GetHashCode();
-                if (MessageId != null)
-                    hashCode = hashCode * 59 + MessageId.GetHashCode();
-                if (To != null)
-                    hashCode = hashCode * 59 + To.GetHashCode();
-                if (SentAt != null)
-                    hashCode = hashCode * 59 + SentAt.GetHashCode();
-                if (DoneAt != null)
-                    hashCode = hashCode * 59 + DoneAt.GetHashCode();
-                hashCode = hashCode * 59 + SmsCount.GetHashCode();
-                if (CallbackData != null)
-                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
                 if (Price != null)
                     hashCode = hashCode * 59 + Price.GetHashCode();
                 if (Status != null)
                     hashCode = hashCode * 59 + Status.GetHashCode();
                 if (Error != null)
                     hashCode = hashCode * 59 + Error.GetHashCode();
+                if (MessageId != null)
+                    hashCode = hashCode * 59 + MessageId.GetHashCode();
+                if (DoneAt != null)
+                    hashCode = hashCode * 59 + DoneAt.GetHashCode();
+                hashCode = hashCode * 59 + SmsCount.GetHashCode();
+                if (SentAt != null)
+                    hashCode = hashCode * 59 + SentAt.GetHashCode();
                 if (BrowserLink != null)
                     hashCode = hashCode * 59 + BrowserLink.GetHashCode();
+                if (SendingIp != null)
+                    hashCode = hashCode * 59 + SendingIp.GetHashCode();
+                if (CallbackData != null)
+                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
+                if (To != null)
+                    hashCode = hashCode * 59 + To.GetHashCode();
                 return hashCode;
             }
         }

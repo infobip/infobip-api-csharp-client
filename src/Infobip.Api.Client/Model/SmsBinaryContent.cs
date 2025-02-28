@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsBinaryContent
     /// </summary>
     [DataContract(Name = "SmsBinaryContent")]
+    [JsonObject]
     public class SmsBinaryContent : IEquatable<SmsBinaryContent>
     {
         /// <summary>
@@ -35,17 +38,17 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="dataCoding">
         ///     Binary content data coding. The default value is (&#x60;0&#x60;) for GSM7. Example: (&#x60;8
-        ///     &#x60;) for  Unicode data..
+        ///     &#x60;) for  Unicode data. (default to 0).
         /// </param>
         /// <param name="esmClass">
         ///     “Esm_class” parameter. Indicate special message attributes associated with the SMS. Default
-        ///     value is (&#x60;0&#x60;)..
+        ///     value is (&#x60;0&#x60;). (default to 0).
         /// </param>
         /// <param name="hex">
         ///     Hexadecimal string. This is the representation of your binary data. Two hex digits represent one
-        ///     byte. They should be separated by the space character (Example: &#x60;0f c2 4a bf 34 13 ba&#x60;). (required).
+        ///     byte. They should be separated by the space character. (required).
         /// </param>
-        public SmsBinaryContent(int dataCoding = default, int esmClass = default, string hex = default)
+        public SmsBinaryContent(int dataCoding = 0, int esmClass = 0, string hex = default)
         {
             // to ensure "hex" is required (not null)
             Hex = hex ?? throw new ArgumentNullException("hex");
@@ -62,6 +65,8 @@ namespace Infobip.Api.Client.Model
         ///     data.
         /// </value>
         [DataMember(Name = "dataCoding", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "dataCoding", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("dataCoding")]
         public int DataCoding { get; set; }
 
         /// <summary>
@@ -73,17 +78,22 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;).
         /// </value>
         [DataMember(Name = "esmClass", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "esmClass", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("esmClass")]
         public int EsmClass { get; set; }
 
         /// <summary>
         ///     Hexadecimal string. This is the representation of your binary data. Two hex digits represent one byte. They should
-        ///     be separated by the space character (Example: &#x60;0f c2 4a bf 34 13 ba&#x60;).
+        ///     be separated by the space character.
         /// </summary>
         /// <value>
         ///     Hexadecimal string. This is the representation of your binary data. Two hex digits represent one byte. They
-        ///     should be separated by the space character (Example: &#x60;0f c2 4a bf 34 13 ba&#x60;).
+        ///     should be separated by the space character.
         /// </value>
-        [DataMember(Name = "hex", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "hex", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "hex", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("hex")]
         public string Hex { get; set; }
 
         /// <summary>

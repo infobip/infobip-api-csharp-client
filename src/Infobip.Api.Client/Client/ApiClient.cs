@@ -19,11 +19,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Polly;
+using FileParameter = Infobip.Api.Client.Client.FileParameter;
 
 namespace Infobip.Api.Client
 {
@@ -442,19 +442,19 @@ namespace Infobip.Api.Client
             var boundary = "---------" + Guid.NewGuid().ToString().ToUpperInvariant();
             var multipartContent = new MultipartFormDataContent(boundary);
             foreach (var formParameter in options.FormParameters)
-                foreach (var parameterValue in formParameter.Value)
-                    multipartContent.Add(new StringContent(parameterValue), formParameter.Key);
+            foreach (var parameterValue in formParameter.Value)
+                multipartContent.Add(new StringContent(parameterValue), formParameter.Key);
 
             if (options.FileParameters != null && options.FileParameters.Count > 0)
                 foreach (var fileParameter in options.FileParameters)
-                    foreach (var parameterValue in fileParameter.Value)
-                    {
-                        var content = new StreamContent(parameterValue.Content);
-                        content.Headers.ContentType = new MediaTypeHeaderValue(parameterValue.ContentType);
-                        var fileStreamName = parameterValue.Name ?? "no_name_provided";
+                foreach (var parameterValue in fileParameter.Value)
+                {
+                    var content = new StreamContent(parameterValue.Content);
+                    content.Headers.ContentType = new MediaTypeHeaderValue(parameterValue.ContentType);
+                    var fileStreamName = parameterValue.Name ?? "no_name_provided";
 
-                        multipartContent.Add(content, fileParameter.Key, fileStreamName);
-                    }
+                    multipartContent.Add(content, fileParameter.Key, fileStreamName);
+                }
 
             return multipartContent;
         }

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -21,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     to requires additional information.
     /// </summary>
     [DataContract(Name = "SmsRegionalOptions")]
+    [JsonObject]
     public class SmsRegionalOptions : IEquatable<SmsRegionalOptions>
     {
         /// <summary>
@@ -29,7 +31,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="indiaDlt">indiaDlt.</param>
         /// <param name="turkeyIys">turkeyIys.</param>
         /// <param name="southKorea">southKorea.</param>
-        public SmsRegionalOptions(SmsIndiaDltOptions indiaDlt = default, SmsTurkeyIysOptions turkeyIys = default,
+        public SmsRegionalOptions(SmsIndiaDltOptions indiaDlt = default, TurkeyIysOptions turkeyIys = default,
             SmsSouthKoreaOptions southKorea = default)
         {
             IndiaDlt = indiaDlt;
@@ -41,18 +43,24 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets IndiaDlt
         /// </summary>
         [DataMember(Name = "indiaDlt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "indiaDlt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("indiaDlt")]
         public SmsIndiaDltOptions IndiaDlt { get; set; }
 
         /// <summary>
         ///     Gets or Sets TurkeyIys
         /// </summary>
         [DataMember(Name = "turkeyIys", EmitDefaultValue = false)]
-        public SmsTurkeyIysOptions TurkeyIys { get; set; }
+        [JsonProperty(PropertyName = "turkeyIys", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("turkeyIys")]
+        public TurkeyIysOptions TurkeyIys { get; set; }
 
         /// <summary>
         ///     Gets or Sets SouthKorea
         /// </summary>
         [DataMember(Name = "southKorea", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "southKorea", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("southKorea")]
         public SmsSouthKoreaOptions SouthKorea { get; set; }
 
         /// <summary>

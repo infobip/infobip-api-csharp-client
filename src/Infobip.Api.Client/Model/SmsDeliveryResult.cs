@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,22 +23,26 @@ namespace Infobip.Api.Client.Model
     ///     SmsDeliveryResult
     /// </summary>
     [DataContract(Name = "SmsDeliveryResult")]
+    [JsonObject]
     public class SmsDeliveryResult : IEquatable<SmsDeliveryResult>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsDeliveryResult" /> class.
         /// </summary>
-        /// <param name="results">results.</param>
-        public SmsDeliveryResult(List<SmsReport> results = default)
+        /// <param name="results">Collection of reports, one per every message..</param>
+        public SmsDeliveryResult(List<SmsDeliveryReport> results = default)
         {
             Results = results;
         }
 
         /// <summary>
-        ///     Gets or Sets Results
+        ///     Collection of reports, one per every message.
         /// </summary>
+        /// <value>Collection of reports, one per every message.</value>
         [DataMember(Name = "results", EmitDefaultValue = false)]
-        public List<SmsReport> Results { get; set; }
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
+        public List<SmsDeliveryReport> Results { get; set; }
 
         /// <summary>
         ///     Returns true if SmsDeliveryResult instances are equal

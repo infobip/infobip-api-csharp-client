@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -22,6 +24,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaStartAuthenticationRequest
     /// </summary>
     [DataContract(Name = "TfaStartAuthenticationRequest")]
+    [JsonObject]
     public class TfaStartAuthenticationRequest : IEquatable<TfaStartAuthenticationRequest>
     {
         /// <summary>
@@ -70,7 +73,10 @@ namespace Infobip.Api.Client.Model
         ///     The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.
         /// </summary>
         /// <value>The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.</value>
-        [DataMember(Name = "applicationId", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "applicationId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "applicationId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
@@ -82,13 +88,18 @@ namespace Infobip.Api.Client.Model
         ///     [created](#channels/sms/create-2fa-message-template) message template parameter &#x60;senderId&#x60;.
         /// </value>
         [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
         public string From { get; set; }
 
         /// <summary>
         ///     The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.
         /// </summary>
         /// <value>The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.</value>
-        [DataMember(Name = "messageId", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "messageId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "messageId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
@@ -102,13 +113,18 @@ namespace Infobip.Api.Client.Model
         ///     firstName\&quot;:\&quot;John\&quot;}&#x60;
         /// </value>
         [DataMember(Name = "placeholders", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "placeholders", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("placeholders")]
         public Dictionary<string, string> Placeholders { get; set; }
 
         /// <summary>
         ///     Phone number to which the 2FA message will be sent. Example: 41793026727.
         /// </summary>
         /// <value>Phone number to which the 2FA message will be sent. Example: 41793026727.</value>
-        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>

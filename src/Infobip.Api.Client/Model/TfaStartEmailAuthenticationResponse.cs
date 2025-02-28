@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaStartEmailAuthenticationResponse
     /// </summary>
     [DataContract(Name = "TfaStartEmailAuthenticationResponse")]
+    [JsonObject]
     public class TfaStartEmailAuthenticationResponse : IEquatable<TfaStartEmailAuthenticationResponse>
     {
         /// <summary>
@@ -40,6 +42,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets EmailStatus
         /// </summary>
         [DataMember(Name = "emailStatus", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "emailStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("emailStatus")]
         public TfaEmailStatus EmailStatus { get; set; }
 
         /// <summary>
@@ -47,6 +51,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Sent PIN code ID.</value>
         [DataMember(Name = "pinId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinId")]
         public string PinId { get; set; }
 
         /// <summary>
@@ -54,6 +60,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Email address to which the 2FA message has been sent. Example: john.smith@example.com.</value>
         [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>

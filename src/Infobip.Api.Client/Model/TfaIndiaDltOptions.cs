@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -21,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     India.
     /// </summary>
     [DataContract(Name = "TfaIndiaDltOptions")]
+    [JsonObject]
     public class TfaIndiaDltOptions : IEquatable<TfaIndiaDltOptions>
     {
         /// <summary>
@@ -36,11 +39,14 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="contentTemplateId">Registered DLT content template ID which matches message you are sending..</param>
         /// <param name="principalEntityId">Your assigned DLT principal entity ID. (required).</param>
-        public TfaIndiaDltOptions(string contentTemplateId = default, string principalEntityId = default)
+        /// <param name="teleMarketerId">Your assigned Telemarketer ID (required for Aggregators)..</param>
+        public TfaIndiaDltOptions(string contentTemplateId = default, string principalEntityId = default,
+            string teleMarketerId = default)
         {
             // to ensure "principalEntityId" is required (not null)
             PrincipalEntityId = principalEntityId ?? throw new ArgumentNullException("principalEntityId");
             ContentTemplateId = contentTemplateId;
+            TeleMarketerId = teleMarketerId;
         }
 
         /// <summary>
@@ -48,14 +54,28 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Registered DLT content template ID which matches message you are sending.</value>
         [DataMember(Name = "contentTemplateId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "contentTemplateId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("contentTemplateId")]
         public string ContentTemplateId { get; set; }
 
         /// <summary>
         ///     Your assigned DLT principal entity ID.
         /// </summary>
         /// <value>Your assigned DLT principal entity ID.</value>
-        [DataMember(Name = "principalEntityId", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "principalEntityId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "principalEntityId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("principalEntityId")]
         public string PrincipalEntityId { get; set; }
+
+        /// <summary>
+        ///     Your assigned Telemarketer ID (required for Aggregators).
+        /// </summary>
+        /// <value>Your assigned Telemarketer ID (required for Aggregators).</value>
+        [DataMember(Name = "teleMarketerId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "teleMarketerId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("teleMarketerId")]
+        public string TeleMarketerId { get; set; }
 
         /// <summary>
         ///     Returns true if TfaIndiaDltOptions instances are equal
@@ -77,6 +97,11 @@ namespace Infobip.Api.Client.Model
                     PrincipalEntityId == input.PrincipalEntityId ||
                     (PrincipalEntityId != null &&
                      PrincipalEntityId.Equals(input.PrincipalEntityId))
+                ) &&
+                (
+                    TeleMarketerId == input.TeleMarketerId ||
+                    (TeleMarketerId != null &&
+                     TeleMarketerId.Equals(input.TeleMarketerId))
                 );
         }
 
@@ -90,6 +115,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class TfaIndiaDltOptions {\n");
             sb.Append("  ContentTemplateId: ").Append(ContentTemplateId).Append("\n");
             sb.Append("  PrincipalEntityId: ").Append(PrincipalEntityId).Append("\n");
+            sb.Append("  TeleMarketerId: ").Append(TeleMarketerId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -126,6 +152,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + ContentTemplateId.GetHashCode();
                 if (PrincipalEntityId != null)
                     hashCode = hashCode * 59 + PrincipalEntityId.GetHashCode();
+                if (TeleMarketerId != null)
+                    hashCode = hashCode * 59 + TeleMarketerId.GetHashCode();
                 return hashCode;
             }
         }

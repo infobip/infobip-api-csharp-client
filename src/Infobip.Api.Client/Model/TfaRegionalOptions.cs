@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -21,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     message to requires additional information.
     /// </summary>
     [DataContract(Name = "TfaRegionalOptions")]
+    [JsonObject]
     public class TfaRegionalOptions : IEquatable<TfaRegionalOptions>
     {
         /// <summary>
@@ -36,6 +38,8 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets IndiaDlt
         /// </summary>
         [DataMember(Name = "indiaDlt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "indiaDlt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("indiaDlt")]
         public TfaIndiaDltOptions IndiaDlt { get; set; }
 
         /// <summary>

@@ -22,12 +22,13 @@ The application represents your service. It’s good practice to have separate a
 
 ```csharp
     var tfaApplicationRequest = new TfaApplicationRequest(
-        name: "2FA Application"
+        name: "2FA Application",
+        enabled: true
     );
 
     var tfaApplication = tfaApi.CreateTfaApplication(tfaApplicationRequest);
 
-    string applicationId = tfaApplication.ApplicationId;
+    var applicationId = tfaApplication.ApplicationId;
 ```
 
 #### Message template setup
@@ -43,7 +44,7 @@ Message template is the message body with the PIN placeholder that is sent to en
 
     var tfaMessage = tfaApi.CreateTfaMessageTemplate(applicationId, tfaCreateMessageRequest);
 
-    string messageId = tfaMessage.MessageId;
+    var messageId = tfaMessage.MessageId;
 ```
 
 #### Send 2FA code via SMS

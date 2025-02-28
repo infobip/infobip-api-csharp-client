@@ -100,7 +100,7 @@ public class TfaApiTest : ApiTest
                 }}
             ]";
 
-        SetUpGetRequest(TFA_APPLICATIONS, expectedResponse, 200);
+        SetUpGetRequest(TFA_APPLICATIONS, 200, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -161,9 +161,9 @@ public class TfaApiTest : ApiTest
         AssertResponse(tfaApi.GetTfaApplications(), AssertTfaGetApplicationsResponse);
         AssertResponse(tfaApi.GetTfaApplicationsAsync().Result, AssertTfaGetApplicationsResponse);
 
-        AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationsWithHttpInfo(), AssertTfaGetApplicationsResponse);
+        AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationsWithHttpInfo(), AssertTfaGetApplicationsResponse, 200);
         AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationsWithHttpInfoAsync().Result,
-            AssertTfaGetApplicationsResponse);
+            AssertTfaGetApplicationsResponse, 200);
     }
 
     [TestMethod]
@@ -208,7 +208,7 @@ public class TfaApiTest : ApiTest
                 ""enabled"": {expectedEnabled}
             }}";
 
-        SetUpPostRequest(TFA_APPLICATIONS, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_APPLICATIONS, 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -242,9 +242,9 @@ public class TfaApiTest : ApiTest
             AssertTfaCreateApplicationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.CreateTfaApplicationWithHttpInfo(tfaApplicationRequest),
-            AssertTfaCreateApplicationResponse);
+            AssertTfaCreateApplicationResponse, 200);
         AssertResponseWithHttpInfo(tfaApi.CreateTfaApplicationWithHttpInfoAsync(tfaApplicationRequest).Result,
-            AssertTfaCreateApplicationResponse);
+            AssertTfaCreateApplicationResponse, 200);
     }
 
     [TestMethod]
@@ -275,7 +275,7 @@ public class TfaApiTest : ApiTest
                 ""enabled"": {expectedEnabled}
             }}";
 
-        SetUpGetRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), expectedResponse, 200);
+        SetUpGetRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), 200, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -302,9 +302,9 @@ public class TfaApiTest : ApiTest
         AssertResponse(tfaApi.GetTfaApplicationAsync(expectedApplicationId).Result, AssertTfaGetApplicationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfo(expectedApplicationId),
-            AssertTfaGetApplicationResponse);
+            AssertTfaGetApplicationResponse, 200);
         AssertResponseWithHttpInfo(tfaApi.GetTfaApplicationWithHttpInfoAsync(expectedApplicationId).Result,
-            AssertTfaGetApplicationResponse);
+            AssertTfaGetApplicationResponse, 200);
     }
 
     [TestMethod]
@@ -349,7 +349,7 @@ public class TfaApiTest : ApiTest
                 ""enabled"": {expectedEnabled}
             }}";
 
-        SetUpPutRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), givenRequest, expectedResponse, 200);
+        SetUpPutRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -385,10 +385,10 @@ public class TfaApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaApplicationWithHttpInfo(expectedApplicationId, tfaApplicationRequest),
-            AssertTfaUpdateApplicationResponse);
+            AssertTfaUpdateApplicationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaApplicationWithHttpInfoAsync(expectedApplicationId, tfaApplicationRequest).Result,
-            AssertTfaUpdateApplicationResponse);
+            AssertTfaUpdateApplicationResponse, 200);
     }
 
     [TestMethod]
@@ -419,7 +419,7 @@ public class TfaApiTest : ApiTest
                 }}
             ]";
 
-        SetUpGetRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), expectedResponse, 200);
+        SetUpGetRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), 200, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -443,9 +443,9 @@ public class TfaApiTest : ApiTest
         AssertResponse(tfaApi.GetTfaMessageTemplatesAsync(givenApplicationId).Result, AssertTfaGetTemplatesResponse);
 
         AssertResponseWithHttpInfo(tfaApi.GetTfaMessageTemplatesWithHttpInfo(givenApplicationId),
-            AssertTfaGetTemplatesResponse);
+            AssertTfaGetTemplatesResponse, 200);
         AssertResponseWithHttpInfo(tfaApi.GetTfaMessageTemplatesWithHttpInfoAsync(givenApplicationId).Result,
-            AssertTfaGetTemplatesResponse);
+            AssertTfaGetTemplatesResponse, 200);
     }
 
     [TestMethod]
@@ -485,7 +485,7 @@ public class TfaApiTest : ApiTest
                 ""speechRate"": {expectedSpeechRate}
             }}";
 
-        SetUpPostRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -519,10 +519,10 @@ public class TfaApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             tfaApi.CreateTfaMessageTemplateWithHttpInfo(givenApplicationId, tfaCreateMessageRequest),
-            AssertTfaCreateTemplateResponse);
+            AssertTfaCreateTemplateResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.CreateTfaMessageTemplateWithHttpInfoAsync(givenApplicationId, tfaCreateMessageRequest).Result,
-            AssertTfaCreateTemplateResponse);
+            AssertTfaCreateTemplateResponse, 200);
     }
 
     [TestMethod]
@@ -553,7 +553,7 @@ public class TfaApiTest : ApiTest
             }}";
 
         SetUpGetRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId),
-            expectedResponse, 200);
+            200, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -575,10 +575,10 @@ public class TfaApiTest : ApiTest
             AssertTfaGetTemplateResponse);
 
         AssertResponseWithHttpInfo(tfaApi.GetTfaMessageTemplateWithHttpInfo(givenApplicationId, givenMessageId),
-            AssertTfaGetTemplateResponse);
+            AssertTfaGetTemplateResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.GetTfaMessageTemplateWithHttpInfoAsync(givenApplicationId, givenMessageId).Result,
-            AssertTfaGetTemplateResponse);
+            AssertTfaGetTemplateResponse, 200);
     }
 
     [TestMethod]
@@ -620,8 +620,8 @@ public class TfaApiTest : ApiTest
                 ""speechRate"": {expectedSpeechRate}
             }}";
 
-        SetUpPutRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId),
-            givenRequest, expectedResponse, 200);
+        SetUpPutRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId), 200,
+            givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -656,10 +656,10 @@ public class TfaApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaMessageTemplateWithHttpInfo(givenApplicationId, givenMessageId, tfaUpdateMessageRequest),
-            AssertTfaUpdateTemplateResponse);
+            AssertTfaUpdateTemplateResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaMessageTemplateWithHttpInfoAsync(givenApplicationId, givenMessageId,
-                tfaUpdateMessageRequest).Result, AssertTfaUpdateTemplateResponse);
+                tfaUpdateMessageRequest).Result, AssertTfaUpdateTemplateResponse, 200);
     }
 
     [TestMethod]
@@ -690,8 +690,8 @@ public class TfaApiTest : ApiTest
                 ""emailTemplateId"": {expectedEmailTemplateId}
             }}";
 
-        SetUpPostRequest(TFA_EMAIL_TEMPLATES.Replace("{appId}", expectedApplicationId), givenRequest, expectedResponse,
-            200);
+        SetUpPostRequest(TFA_EMAIL_TEMPLATES.Replace("{appId}", expectedApplicationId), 200, givenRequest,
+            expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -721,10 +721,10 @@ public class TfaApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             tfaApi.CreateTfaEmailMessageTemplateWithHttpInfo(expectedApplicationId, tfaCreateEmailMessageRequest),
-            AssertTfaCreateEmailMessageResponse);
+            AssertTfaCreateEmailMessageResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.CreateTfaEmailMessageTemplateWithHttpInfoAsync(expectedApplicationId, tfaCreateEmailMessageRequest)
-                .Result, AssertTfaCreateEmailMessageResponse);
+                .Result, AssertTfaCreateEmailMessageResponse, 200);
     }
 
     [TestMethod]
@@ -757,7 +757,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPutRequest(
             TFA_EMAIL_TEMPLATE.Replace("{appId}", expectedApplicationId).Replace("{msgId}", expectedMessageId),
-            givenRequest, expectedResponse, 200);
+            200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -788,10 +788,10 @@ public class TfaApiTest : ApiTest
 
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfo(expectedApplicationId, expectedMessageId,
-                tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse);
+                tfaUpdateEmailMessageRequest), AssertTfaUpdateEmailMessageResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.UpdateTfaEmailMessageTemplateWithHttpInfoAsync(expectedApplicationId, expectedMessageId,
-                tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse);
+                tfaUpdateEmailMessageRequest).Result, AssertTfaUpdateEmailMessageResponse, 200);
     }
 
     [TestMethod]
@@ -826,7 +826,7 @@ public class TfaApiTest : ApiTest
                 ""smsStatus"": ""{expectedSmsStatus}""
             }}";
 
-        SetUpPostRequest(TFA_SEND_PIN, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_SEND_PIN, 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -854,9 +854,9 @@ public class TfaApiTest : ApiTest
             AssertTfaStartAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfo(tfaStartAuthenticationRequest),
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverSmsWithHttpInfoAsync(tfaStartAuthenticationRequest).Result,
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -884,7 +884,7 @@ public class TfaApiTest : ApiTest
                 ""smsStatus"": ""{expectedSmsStatus}""
             }}";
 
-        SetUpPostRequest(TFA_RESEND_PIN.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_RESEND_PIN.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -908,10 +908,10 @@ public class TfaApiTest : ApiTest
             AssertTfaStartAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverSmsWithHttpInfo(expectedPinId, tfaResendPinRequest),
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.ResendTfaPinCodeOverSmsWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result,
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -944,7 +944,7 @@ public class TfaApiTest : ApiTest
                 ""callStatus"": ""{expectedCallStatus}""
             }}";
 
-        SetUpPostRequest(TFA_SEND_PIN_VOICE, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_SEND_PIN_VOICE, 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -971,10 +971,10 @@ public class TfaApiTest : ApiTest
             AssertTfaStartAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.SendTfaPinCodeOverVoiceWithHttpInfo(tfaStartAuthenticationRequest),
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.SendTfaPinCodeOverVoiceWithHttpInfoAsync(tfaStartAuthenticationRequest).Result,
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -1000,7 +1000,7 @@ public class TfaApiTest : ApiTest
                 ""callStatus"": ""{expectedCallStatus}""
             }}";
 
-        SetUpPostRequest(TFA_RESEND_PIN_VOICE.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_RESEND_PIN_VOICE.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -1024,10 +1024,10 @@ public class TfaApiTest : ApiTest
             AssertTfaStartAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfo(expectedPinId, tfaResendPinRequest),
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.ResendTfaPinCodeOverVoiceWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result,
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -1063,7 +1063,7 @@ public class TfaApiTest : ApiTest
                 }}
             }}";
 
-        SetUpPostRequest(TFA_SEND_PIN_EMAIL, givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_SEND_PIN_EMAIL, 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -1093,10 +1093,10 @@ public class TfaApiTest : ApiTest
             AssertTfaStartEmailAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.Send2faPinCodeOverEmailWithHttpInfo(tfaStartEmailAuthenticationRequest),
-            AssertTfaStartEmailAuthenticationResponse);
+            AssertTfaStartEmailAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.Send2faPinCodeOverEmailWithHttpInfoAsync(tfaStartEmailAuthenticationRequest).Result,
-            AssertTfaStartEmailAuthenticationResponse);
+            AssertTfaStartEmailAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -1126,7 +1126,7 @@ public class TfaApiTest : ApiTest
                 }}
             }}";
 
-        SetUpPostRequest(TFA_RESEND_PIN_EMAIL.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_RESEND_PIN_EMAIL.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -1153,10 +1153,10 @@ public class TfaApiTest : ApiTest
             AssertTfaStartAuthenticationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfo(expectedPinId, tfaResendPinRequest),
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.Resend2faPinCodeOverEmailWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result,
-            AssertTfaStartAuthenticationResponse);
+            AssertTfaStartAuthenticationResponse, 200);
     }
 
     [TestMethod]
@@ -1182,7 +1182,7 @@ public class TfaApiTest : ApiTest
                 ""attemptsRemaining"": {expectedAttemptsRemaining}
             }}";
 
-        SetUpPostRequest(TFA_VERIFY_PIN.Replace("{pinId}", expectedPinId), givenRequest, expectedResponse, 200);
+        SetUpPostRequest(TFA_VERIFY_PIN.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -1203,10 +1203,10 @@ public class TfaApiTest : ApiTest
             AssertTfaVerifyPinResponse);
 
         AssertResponseWithHttpInfo(tfaApi.VerifyTfaPhoneNumberWithHttpInfo(expectedPinId, tfaVerifyPinRequest),
-            AssertTfaVerifyPinResponse);
+            AssertTfaVerifyPinResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.VerifyTfaPhoneNumberWithHttpInfoAsync(expectedPinId, tfaVerifyPinRequest).Result,
-            AssertTfaVerifyPinResponse);
+            AssertTfaVerifyPinResponse, 200);
     }
 
     [TestMethod]
@@ -1240,7 +1240,7 @@ public class TfaApiTest : ApiTest
                 ]
             }}";
 
-        SetUpGetRequest(TFA_VERIFICATION_STATUS.Replace("{appId}", givenApplicationId), expectedResponse, 200);
+        SetUpGetRequest(TFA_VERIFICATION_STATUS.Replace("{appId}", givenApplicationId), 200, expectedResponse);
 
         var tfaApi = new TfaApi(configuration);
 
@@ -1270,9 +1270,9 @@ public class TfaApiTest : ApiTest
             AssertTfaVerificationResponse);
 
         AssertResponseWithHttpInfo(tfaApi.GetTfaVerificationStatusWithHttpInfo(expectedMsisdn, givenApplicationId),
-            AssertTfaVerificationResponse);
+            AssertTfaVerificationResponse, 200);
         AssertResponseWithHttpInfo(
             tfaApi.GetTfaVerificationStatusWithHttpInfoAsync(expectedMsisdn, givenApplicationId).Result,
-            AssertTfaVerificationResponse);
+            AssertTfaVerificationResponse, 200);
     }
 }

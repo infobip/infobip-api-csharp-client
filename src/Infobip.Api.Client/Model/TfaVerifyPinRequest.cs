@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaVerifyPinRequest
     /// </summary>
     [DataContract(Name = "TfaVerifyPinRequest")]
+    [JsonObject]
     public class TfaVerifyPinRequest : IEquatable<TfaVerifyPinRequest>
     {
         /// <summary>
@@ -44,7 +47,10 @@ namespace Infobip.Api.Client.Model
         ///     The PIN code to verify.
         /// </summary>
         /// <value>The PIN code to verify.</value>
-        [DataMember(Name = "pin", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "pin", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "pin", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("pin")]
         public string Pin { get; set; }
 
         /// <summary>

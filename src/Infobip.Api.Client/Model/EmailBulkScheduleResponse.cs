@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailBulkScheduleResponse
     /// </summary>
     [DataContract(Name = "EmailBulkScheduleResponse")]
+    [JsonObject]
     public class EmailBulkScheduleResponse : IEquatable<EmailBulkScheduleResponse>
     {
         /// <summary>
@@ -39,12 +41,16 @@ namespace Infobip.Api.Client.Model
         ///     Gets or Sets ExternalBulkId
         /// </summary>
         [DataMember(Name = "externalBulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "externalBulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalBulkId")]
         public string ExternalBulkId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Bulks
         /// </summary>
         [DataMember(Name = "bulks", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulks", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulks")]
         public List<EmailBulkInfo> Bulks { get; set; }
 
         /// <summary>

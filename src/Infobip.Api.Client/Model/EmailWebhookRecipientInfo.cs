@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Recipient information such as device type, OS, device name.
     /// </summary>
     [DataContract(Name = "EmailWebhookRecipientInfo")]
+    [JsonObject]
     public class EmailWebhookRecipientInfo : IEquatable<EmailWebhookRecipientInfo>
     {
         /// <summary>
@@ -40,6 +42,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The type of device used by the recipient to do the user action.</value>
         [DataMember(Name = "deviceType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "deviceType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("deviceType")]
         public string DeviceType { get; set; }
 
         /// <summary>
@@ -47,6 +51,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The type OS present in the device used by the recipient.</value>
         [DataMember(Name = "os", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "os", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("os")]
         public string Os { get; set; }
 
         /// <summary>
@@ -54,6 +60,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Device name of the action originating device.</value>
         [DataMember(Name = "deviceName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "deviceName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("deviceName")]
         public string DeviceName { get; set; }
 
         /// <summary>

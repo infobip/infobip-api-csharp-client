@@ -12,41 +12,71 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsLanguage
+    ///     Sets the language parameters for the message being sent.
     /// </summary>
     [DataContract(Name = "SmsLanguage")]
+    [JsonObject]
     public class SmsLanguage : IEquatable<SmsLanguage>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsLanguage" /> class.
         /// </summary>
-        /// <param name="languageCode">
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish,
-        ///     &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the
-        ///     character set based on message content..
+        /// <param name="languageCode">languageCode.</param>
+        /// <param name="singleShift">
+        ///     Uses a single shift table which enhances only the extension table of the GSM default
+        ///     alphabet. Allows you to selectively improve character support without altering the entire message. (default to
+        ///     false).
         /// </param>
-        public SmsLanguage(string languageCode = default)
+        /// <param name="lockingShift">
+        ///     Uses a locking shift table which allows you to represent characters beyond the standard GSM
+        ///     default alphabet. This flexibility enables better language support. (default to false).
+        /// </param>
+        public SmsLanguage(SmsLanguageCode? languageCode = default, bool singleShift = false, bool lockingShift = false)
         {
             LanguageCode = languageCode;
+            SingleShift = singleShift;
+            LockingShift = lockingShift;
         }
 
         /// <summary>
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-        ///     message content.
+        ///     Gets or Sets LanguageCode
+        /// </summary>
+        [DataMember(Name = "languageCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "languageCode", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("languageCode")]
+        public SmsLanguageCode? LanguageCode { get; set; }
+
+        /// <summary>
+        ///     Uses a single shift table which enhances only the extension table of the GSM default alphabet. Allows you to
+        ///     selectively improve character support without altering the entire message.
         /// </summary>
         /// <value>
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-        ///     message content.
+        ///     Uses a single shift table which enhances only the extension table of the GSM default alphabet. Allows you to
+        ///     selectively improve character support without altering the entire message.
         /// </value>
-        [DataMember(Name = "languageCode", EmitDefaultValue = false)]
-        public string LanguageCode { get; set; }
+        [DataMember(Name = "singleShift", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "singleShift", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("singleShift")]
+        public bool SingleShift { get; set; }
+
+        /// <summary>
+        ///     Uses a locking shift table which allows you to represent characters beyond the standard GSM default alphabet. This
+        ///     flexibility enables better language support.
+        /// </summary>
+        /// <value>
+        ///     Uses a locking shift table which allows you to represent characters beyond the standard GSM default alphabet.
+        ///     This flexibility enables better language support.
+        /// </value>
+        [DataMember(Name = "lockingShift", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "lockingShift", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("lockingShift")]
+        public bool LockingShift { get; set; }
 
         /// <summary>
         ///     Returns true if SmsLanguage instances are equal
@@ -59,9 +89,18 @@ namespace Infobip.Api.Client.Model
                 return false;
 
             return
-                LanguageCode == input.LanguageCode ||
-                (LanguageCode != null &&
-                 LanguageCode.Equals(input.LanguageCode));
+                (
+                    LanguageCode == input.LanguageCode ||
+                    LanguageCode.Equals(input.LanguageCode)
+                ) &&
+                (
+                    SingleShift == input.SingleShift ||
+                    SingleShift.Equals(input.SingleShift)
+                ) &&
+                (
+                    LockingShift == input.LockingShift ||
+                    LockingShift.Equals(input.LockingShift)
+                );
         }
 
         /// <summary>
@@ -73,6 +112,8 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class SmsLanguage {\n");
             sb.Append("  LanguageCode: ").Append(LanguageCode).Append("\n");
+            sb.Append("  SingleShift: ").Append(SingleShift).Append("\n");
+            sb.Append("  LockingShift: ").Append(LockingShift).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -105,8 +146,9 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                if (LanguageCode != null)
-                    hashCode = hashCode * 59 + LanguageCode.GetHashCode();
+                hashCode = hashCode * 59 + LanguageCode.GetHashCode();
+                hashCode = hashCode * 59 + SingleShift.GetHashCode();
+                hashCode = hashCode * 59 + LockingShift.GetHashCode();
                 return hashCode;
             }
         }

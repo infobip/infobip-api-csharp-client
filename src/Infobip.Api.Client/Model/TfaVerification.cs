@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaVerification
     /// </summary>
     [DataContract(Name = "TfaVerification")]
+    [JsonObject]
     public class TfaVerification : IEquatable<TfaVerification>
     {
         /// <summary>
@@ -43,6 +45,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Phone number (MSISDN) for which verification status is checked.</value>
         [DataMember(Name = "msisdn", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "msisdn", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("msisdn")]
         public string Msisdn { get; set; }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Sent UNIX timestamp (in millis), if the phone number (MSISDN) is verified.</value>
         [DataMember(Name = "sentAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sentAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sentAt")]
         public long SentAt { get; set; }
 
         /// <summary>
@@ -57,6 +63,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID.</value>
         [DataMember(Name = "verified", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 
         /// <summary>
@@ -64,6 +72,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Verification UNIX timestamp (in millis), if the phone number (MSISDN) is verified.</value>
         [DataMember(Name = "verifiedAt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "verifiedAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("verifiedAt")]
         public long VerifiedAt { get; set; }
 
         /// <summary>

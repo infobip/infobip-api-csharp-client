@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsPreviewResponse
     /// </summary>
     [DataContract(Name = "SmsPreviewResponse")]
+    [JsonObject]
     public class SmsPreviewResponse : IEquatable<SmsPreviewResponse>
     {
         /// <summary>
@@ -43,6 +45,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Message content supplied in the request.</value>
         [DataMember(Name = "originalText", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "originalText", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("originalText")]
         public string OriginalText { get; set; }
 
         /// <summary>
@@ -53,6 +57,8 @@ namespace Infobip.Api.Client.Model
         ///     it.
         /// </value>
         [DataMember(Name = "previews", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "previews", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("previews")]
         public List<SmsPreview> Previews { get; set; }
 
         /// <summary>

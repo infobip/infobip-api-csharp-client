@@ -5,6 +5,49 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [4.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.0) ] - 2025-02-28
+
+🎉 **NEW Major Version of `Infobip.Api.Client`.**
+
+⚠️ **IMPORTANT NOTE:** This release contains breaking changes.
+All changes, including breaking changes, are addressed and explained in the list below.
+If you find out that something was not addressed properly, please submit an issue.
+
+### Added
+- Support for [Infobip Moments](https://www.infobip.com/docs/api/customer-engagement/moments).
+- Support for [Infobip Voice API](https://www.infobip.com/docs/api/channels/voice).
+- Most recent [Infobip SMS API](https://www.infobip.com/docs/api/channels/sms) feature set.
+  - Introduced `/sms/3/messages (V3)`  replacing the `/sms/2/text/advanced (V2)` and `/sms/2/binary/advanced (V2)` endpoints.
+  - Introduced `/sms/3/reports (V3)` replacing `/sms/1/reports (V1)` endpoint.
+  - Introduced `/sms/3/logs (V3)` replacing `/sms/1/logs (V1)` endpoint.
+- Most recent [Infobip Email API](https://www.infobip.com/docs/api/channels/email) feature set.
+  - Added `Email IP management` endpoints.
+  - Removed `Email IP` and `Email Domain IPs` endpoints as they are now deprecated and are no longer supported.
+- Added `[JsonObject]` and `[JsonProperty]` annotations to models for improved JSON Serialization/Deserialization for Newtonsoft.Json based consumers.
+- Added System.Text.Json support for consumers using .NET Core 3.0 or later.
+
+### Changed
+⚠️ In addition to the changes listed below some products might also contain breaking changes as some of the API endpoints have changed since last major release.
+If you have issues when migrating the existing implementation, please check the official API documentation or submit an issue.
+- Introduced unified `DeliveryTimeWindow` class which replaces `SmsDeliveryTimeWindow` as it is now used in multiple APIs.
+- Introduced unified `DeliveryTime` class which replaces `SmsDeliveryTime` as it is now used in multiple APIs.
+- Introduced unified `DeliverDay` class which replaces `SmsDeliveryDay` as it is now used in multiple APIs.
+- Renamed `SmsReport` to `SmsDeliveryReport` in order to improve naming consistency with `SmsDeliveryResult`.
+- Introduced unified `SpeedLimitTimeUnit` class which replaces `SmsSpeedLimitTimeUnit`.
+- Introduced unified `TurkeyIysOptions` class which replaces `SmsTurkeyIysOptions`.
+- Introduced unified `IysRecipientType` class which replaces `SmsIysRecipientType`.
+- Introduced unified `UrlOptions` class which replaces `SmsUrlOptions`.
+- `ErrorContent` and `Headers` fields in `ApiException` now have private setters.
+- [Polly](https://github.com/App-vNext/Polly) dependency was bumped to version 7.2.4.
+
+### Fixed
+- bug: 400 error when receiving forwarding SMS message (https://github.com/infobip/infobip-api-csharp-client/issues/44)
+- Add support for System.Text.Json (https://github.com/infobip/infobip-api-csharp-client/issues/31)
+
+### Removed
+- Unused model classes.
+- API methods for calling APIs that were deprecated.
+
 ## [ [3.0.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v3.0.1) ] - 2024-08-28
 
 ### Fixed

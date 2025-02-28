@@ -12,79 +12,53 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Sets up tracking parameters to track conversion metrics and type.
+    ///     Allows you to set up tracking parameters to track conversion metrics. For more details on SMS Conversion, see:
+    ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
     /// </summary>
     [DataContract(Name = "SmsTracking")]
+    [JsonObject]
     public class SmsTracking : IEquatable<SmsTracking>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsTracking" /> class.
         /// </summary>
-        /// <param name="baseUrl">
-        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use
-        ///     &#x60;urlOptions&#x60; instead..
+        /// <param name="useConversionTracking">
+        ///     Indicates if a message has to be tracked for conversion rates. Default \&quot;
+        ///     false\&quot;..
         /// </param>
-        /// <param name="processKey">The process key which uniquely identifies conversion tracking..</param>
-        /// <param name="track">
-        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and
-        ///     &#x60;URL&#x60;. &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS
-        ///     Conversion, see: [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion)..
+        /// <param name="conversionTrackingName">
+        ///     Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or
+        ///     &#x60;SOCIAL_INVITES&#x60;..
         /// </param>
-        /// <param name="type">
-        ///     Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;
-        ///     SOCIAL_INVITES&#x60;..
-        /// </param>
-        public SmsTracking(string baseUrl = default, string processKey = default, string track = default,
-            string type = default)
+        public SmsTracking(bool useConversionTracking = default, string conversionTrackingName = default)
         {
-            BaseUrl = baseUrl;
-            ProcessKey = processKey;
-            Track = track;
-            Type = type;
+            UseConversionTracking = useConversionTracking;
+            ConversionTrackingName = conversionTrackingName;
         }
 
         /// <summary>
-        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use &#x60;urlOptions&#x60;
-        ///     instead.
+        ///     Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.
         /// </summary>
-        /// <value>
-        ///     Custom base URL for shortened links in messages when tracking URL conversions. Legacy - use &#x60;urlOptions
-        ///     &#x60; instead.
-        /// </value>
-        [DataMember(Name = "baseUrl", EmitDefaultValue = false)]
-        public string BaseUrl { get; set; }
-
-        /// <summary>
-        ///     The process key which uniquely identifies conversion tracking.
-        /// </summary>
-        /// <value>The process key which uniquely identifies conversion tracking.</value>
-        [DataMember(Name = "processKey", EmitDefaultValue = false)]
-        public string ProcessKey { get; set; }
-
-        /// <summary>
-        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and &#x60;URL&#x60;.
-        ///     &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS Conversion, see:
-        ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
-        /// </summary>
-        /// <value>
-        ///     Indicates if a message has to be tracked for conversion rates. Values are: &#x60;SMS&#x60; and &#x60;URL&#x60;.
-        ///     &#x60;URL&#x60; is a legacy value. Use &#x60;urlOptions&#x60; instead. For more details on SMS Conversion, see:
-        ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
-        /// </value>
-        [DataMember(Name = "track", EmitDefaultValue = false)]
-        public string Track { get; set; }
+        /// <value>Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.</value>
+        [DataMember(Name = "useConversionTracking", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "useConversionTracking", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("useConversionTracking")]
+        public bool UseConversionTracking { get; set; }
 
         /// <summary>
         ///     Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;SOCIAL_INVITES&#x60;.
         /// </summary>
         /// <value>Sets a custom conversion type naming convention, e.g. &#x60;ONE_TIME_PIN&#x60; or &#x60;SOCIAL_INVITES&#x60;.</value>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
+        [DataMember(Name = "conversionTrackingName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "conversionTrackingName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("conversionTrackingName")]
+        public string ConversionTrackingName { get; set; }
 
         /// <summary>
         ///     Returns true if SmsTracking instances are equal
@@ -98,24 +72,13 @@ namespace Infobip.Api.Client.Model
 
             return
                 (
-                    BaseUrl == input.BaseUrl ||
-                    (BaseUrl != null &&
-                     BaseUrl.Equals(input.BaseUrl))
+                    UseConversionTracking == input.UseConversionTracking ||
+                    UseConversionTracking.Equals(input.UseConversionTracking)
                 ) &&
                 (
-                    ProcessKey == input.ProcessKey ||
-                    (ProcessKey != null &&
-                     ProcessKey.Equals(input.ProcessKey))
-                ) &&
-                (
-                    Track == input.Track ||
-                    (Track != null &&
-                     Track.Equals(input.Track))
-                ) &&
-                (
-                    Type == input.Type ||
-                    (Type != null &&
-                     Type.Equals(input.Type))
+                    ConversionTrackingName == input.ConversionTrackingName ||
+                    (ConversionTrackingName != null &&
+                     ConversionTrackingName.Equals(input.ConversionTrackingName))
                 );
         }
 
@@ -127,10 +90,8 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsTracking {\n");
-            sb.Append("  BaseUrl: ").Append(BaseUrl).Append("\n");
-            sb.Append("  ProcessKey: ").Append(ProcessKey).Append("\n");
-            sb.Append("  Track: ").Append(Track).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  UseConversionTracking: ").Append(UseConversionTracking).Append("\n");
+            sb.Append("  ConversionTrackingName: ").Append(ConversionTrackingName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -163,14 +124,9 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                if (BaseUrl != null)
-                    hashCode = hashCode * 59 + BaseUrl.GetHashCode();
-                if (ProcessKey != null)
-                    hashCode = hashCode * 59 + ProcessKey.GetHashCode();
-                if (Track != null)
-                    hashCode = hashCode * 59 + Track.GetHashCode();
-                if (Type != null)
-                    hashCode = hashCode * 59 + Type.GetHashCode();
+                hashCode = hashCode * 59 + UseConversionTracking.GetHashCode();
+                if (ConversionTrackingName != null)
+                    hashCode = hashCode * 59 + ConversionTrackingName.GetHashCode();
                 return hashCode;
             }
         }

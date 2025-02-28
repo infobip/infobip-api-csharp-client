@@ -37,17 +37,17 @@ Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Clie
 #### Package Manager Console
 Alternatively, also within Visual Studio, use the Package Manager Console command:
 
-    Install-Package Infobip.Api.Client -Version 3.0.1
+    Install-Package Infobip.Api.Client -Version 4.0.0
 
 #### .NET CLI
 If you are used to .NET CLI, the following command is going to be sufficient for you:
 
-    dotnet add package Infobip.Api.Client --version 3.0.1
+    dotnet add package Infobip.Api.Client --version 4.0.0
 
 ### Package reference
 Including the package directly into project file is also valid option.
 
-    <PackageReference Include="Infobip.Api.Client" Version="3.0.1" />
+    <PackageReference Include="Infobip.Api.Client" Version="4.0.0" />
 
 ## Quickstart
 
@@ -76,20 +76,24 @@ Since library is utilizing the `HttpClient` behind the scene for handling the HT
 ```
 
 #### Send an SMS
-Here's a simple example for sending an SMS message. First prepare the message by creating an instance of `SmsAdvancedTextualRequest` and its nested objects.
+Here's a simple example for sending an SMS message. First prepare the message by creating an instance of `SmsRequest` and its nested objects.
 
 ```csharp
-    var smsMessage = new SmsTextualMessage(
-        from: "SMSInfo",
+    var smsMessage = new SmsMessage(
+        sender: "SMSInfo",
         destinations: new List<SmsDestination>()
         {
             new SmsDestination(to: "41793026727")
         },
-        text: "This is a dummy SMS message sent using Infobip.Api.Client"
+        content: new SmsMessageContent(
+            new SmsTextContent(
+                text: "This is a dummy SMS message sent using Infobip.Api.Client"
+            )
+        )
     );
 
-    var smsRequest = new SmsAdvancedTextualRequest(
-        messages: new List<SmsTextualMessage>
+    var smsRequest = new SmsRequest(
+        messages: new List<SmsMessage>
         {
             smsMessage
         }
@@ -102,7 +106,7 @@ You can get the HTTP status code from `ErrorCode` property, and more details abo
 ```csharp
     try
     {
-        var smsResponse = smsApi.SendSmsMessage(smsRequest);
+        var smsResponse = smsApi.SendSmsMessages(smsRequest);
 
         System.Diagnostics.Debug.WriteLine($"Status: {smsResponse.Messages.First().Status}");
     }
@@ -118,8 +122,8 @@ Additionally, from the successful response (`SmsResponse` object) you can pull o
 Bulk ID will be received only when you send a message to more than one destination address or multiple messages in a single request.
 
 ```csharp
-    string bulkId = smsResponse.BulkId;
-    string messageId = smsResponse.Messages.First().MessageId;
+    var bulkId = smsResponse.BulkId;
+    var messageId = smsResponse.Messages.First().MessageId;
 ```
 
 #### Receive sent SMS report
@@ -150,12 +154,13 @@ Each request will return a batch of delivery reports - only once.
 You can filter reports by multiple parameters (see API's documentation for full list), for example, by `bulkId`, `bulkId` and `limit` like in the snippet below:
 
 ```csharp
-    int numberOfReportsLimit = 10;
+    var numberOfReportsLimit = 10;
     var smsDeliveryResult = smsApi.GetOutboundSmsMessageDeliveryReports(
-        bulkId: bulkId, 
-        messageId: messageId, 
+        bulkId: bulkId,
+        messageId: messageId,
         limit: numberOfReportsLimit
     );
+
     foreach (var smsReport in smsDeliveryResult.Results)
     {
         Console.WriteLine($"{smsReport.MessageId} - {smsReport.Status.Name}");
@@ -196,6 +201,9 @@ For 2FA quick start guide please check [these examples](two-factor-authenticatio
 
 #### Send email
 For send email quick start guide please check [these examples](email.md).
+
+#### Moments
+For Flow & Forms quick start guide please check [these examples](moments.md).
 
 ## Ask for help
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -22,6 +23,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaVerificationResponse
     /// </summary>
     [DataContract(Name = "TfaVerificationResponse")]
+    [JsonObject]
     public class TfaVerificationResponse : IEquatable<TfaVerificationResponse>
     {
         /// <summary>
@@ -38,6 +40,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Collection of verifications</value>
         [DataMember(Name = "verifications", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "verifications", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("verifications")]
         public List<TfaVerification> Verifications { get; set; }
 
         /// <summary>

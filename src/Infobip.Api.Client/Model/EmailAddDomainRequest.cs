@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailAddDomainRequest
     /// </summary>
     [DataContract(Name = "EmailAddDomainRequest")]
+    [JsonObject]
     public class EmailAddDomainRequest : IEquatable<EmailAddDomainRequest>
     {
         /// <summary>
@@ -78,26 +81,33 @@ namespace Infobip.Api.Client.Model
             ReturnPathAddress = returnPathAddress;
         }
 
-
         /// <summary>
         ///     Value for DKIM key length.
         /// </summary>
         /// <value>Value for DKIM key length.</value>
         [DataMember(Name = "dkimKeyLength", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "dkimKeyLength", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("dkimKeyLength")]
         public DkimKeyLengthEnum? DkimKeyLength { get; set; }
 
         /// <summary>
         ///     Unique name for the domain.
         /// </summary>
         /// <value>Unique name for the domain.</value>
-        [DataMember(Name = "domainName", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "domainName", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "domainName", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("domainName")]
         public string DomainName { get; set; }
 
         /// <summary>
         ///     Targeted daily traffic.
         /// </summary>
         /// <value>Targeted daily traffic.</value>
-        [DataMember(Name = "targetedDailyTraffic", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "targetedDailyTraffic", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "targetedDailyTraffic", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("targetedDailyTraffic")]
         public long TargetedDailyTraffic { get; set; }
 
         /// <summary>
@@ -105,6 +115,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Required for application use in a send request for outbound traffic. Returned in notification events.</value>
         [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "applicationId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
@@ -112,6 +124,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Required for entity use in a send request for outbound traffic. Returned in notification events.</value>
         [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "entityId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("entityId")]
         public string EntityId { get; set; }
 
         /// <summary>
@@ -123,6 +137,8 @@ namespace Infobip.Api.Client.Model
         ///     bounces.
         /// </value>
         [DataMember(Name = "returnPathAddress", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "returnPathAddress", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("returnPathAddress")]
         public string ReturnPathAddress { get; set; }
 
         /// <summary>

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaVerifyPinResponse
     /// </summary>
     [DataContract(Name = "TfaVerifyPinResponse")]
+    [JsonObject]
     public class TfaVerifyPinResponse : IEquatable<TfaVerifyPinResponse>
     {
         /// <summary>
@@ -45,6 +47,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Number of remaining PIN attempts.</value>
         [DataMember(Name = "attemptsRemaining", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "attemptsRemaining", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("attemptsRemaining")]
         public int AttemptsRemaining { get; set; }
 
         /// <summary>
@@ -52,6 +56,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Phone number (&#x60;MSISDN&#x60;) to which the 2FA message was sent.</value>
         [DataMember(Name = "msisdn", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "msisdn", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("msisdn")]
         public string Msisdn { get; set; }
 
         /// <summary>
@@ -59,6 +65,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether an error has occurred during PIN verification.</value>
         [DataMember(Name = "pinError", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinError", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinError")]
         public string PinError { get; set; }
 
         /// <summary>
@@ -66,6 +74,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Sent PIN code ID.</value>
         [DataMember(Name = "pinId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pinId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pinId")]
         public string PinId { get; set; }
 
         /// <summary>
@@ -73,6 +83,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified.</value>
         [DataMember(Name = "verified", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 
         /// <summary>

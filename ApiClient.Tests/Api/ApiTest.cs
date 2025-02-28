@@ -1,4 +1,5 @@
-using System.Net;
+using System.Reflection;
+using System.Runtime.Serialization;
 using Infobip.Api.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WireMock.Matchers;
@@ -43,35 +44,18 @@ public class ApiTest
         wireMockServer!.Stop();
     }
 
-    protected void SetUpGetRequest(string url, string expectedResponse, int statusCode)
+    protected void SetUpGetRequest(string url, int statusCode, string expectedResponse,
+        Dictionary<string, string>? givenParameters = null)
     {
-        SetUpGetRequest(url, new Dictionary<string, string>(), expectedResponse, statusCode);
-    }
+        var request = Request.Create().UsingGet().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
+            .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE));
 
-    protected void SetUpPostRequest(string url, string givenRequest, string expectedResponse, int statusCode)
-    {
-        SetUpPostRequest(url, new Dictionary<string, string>(), givenRequest, expectedResponse, statusCode);
-    }
+        if (givenParameters != null && givenParameters.Count > 0)
+            request = request.WithParam(EqualToParams(givenParameters));
 
-    protected void SetUpPutRequest(string url, string givenRequest, string expectedResponse, int statusCode)
-    {
-        SetUpPutRequest(url, new Dictionary<string, string>(), givenRequest, expectedResponse, statusCode);
-    }
-
-    protected void SetUpDeleteRequest(string url, int statusCode)
-    {
-        SetUpDeleteRequest(url, new Dictionary<string, string>(), statusCode);
-    }
-
-    protected void SetUpGetRequest(string url, Dictionary<string, string> givenParameters, string expectedResponse,
-        int statusCode)
-    {
-        wireMockServer!.Given(Request.Create().UsingGet().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-            )
+        wireMockServer!.Given(request)
             .RespondWith(Response.Create()
                 .WithStatusCode(statusCode)
                 .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
@@ -81,17 +65,17 @@ public class ApiTest
             );
     }
 
-    protected void SetUpPostRequest(string url, Dictionary<string, string> givenParameters, string givenRequest,
-        string expectedResponse, int statusCode)
+    protected void SetUpGetRequestBinary(string url, int statusCode, string expectedResponse,
+        Dictionary<string, string>? givenParameters = null)
     {
-        wireMockServer!.Given(Request.Create().UsingPost().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-                .WithBody(new JsonMatcher(givenRequest, true))
-            )
+        var request = Request.Create().UsingGet().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher("application/octet-stream"));
+
+        if (givenParameters != null && givenParameters.Count > 0)
+            request = request.WithParam(EqualToParams(givenParameters));
+
+        wireMockServer!.Given(request)
             .RespondWith(Response.Create()
                 .WithStatusCode(statusCode)
                 .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
@@ -101,89 +85,104 @@ public class ApiTest
             );
     }
 
-    protected void SetUpPostRequestBinary(string url, Dictionary<string, string> givenParameters, byte[] givenRequest,
-        string expectedResponse, int statusCode)
+    protected void SetUpPostRequest(string url, int statusCode, string? givenRequest = null,
+        string? expectedResponse = null, Dictionary<string, string>? givenParameters = null)
     {
-        wireMockServer!.Given(Request.Create().UsingPost().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Content-Type", new ExactMatcher("application/octet-stream"))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
+        var request = Request.Create().UsingPost().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
+            .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE));
+
+        if (givenParameters != null) request = request.WithParam(EqualToParams(givenParameters));
+
+        if (!string.IsNullOrEmpty(givenRequest))
+            request = request.WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
+                .WithBody(new JsonMatcher(givenRequest, true));
+
+        var response = Response.Create().WithStatusCode(statusCode)
+            .WithHeader("Server", SERVER_HEADER_VALUE)
+            .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE);
+
+        if (!string.IsNullOrEmpty(expectedResponse))
+            response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
+                .WithBody(expectedResponse);
+
+        wireMockServer!.Given(request).RespondWith(response);
+    }
+
+    protected void SetUpPatchRequest(string url, int statusCode, string givenRequest, string? expectedResponse = null,
+        Dictionary<string, string>? givenParameters = null)
+    {
+        var request = Request.Create().UsingPatch().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
+            .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
+            .WithBody(new JsonMatcher(givenRequest, true));
+
+        if (givenParameters != null && givenParameters.Count > 0)
+            request = request.WithParam(EqualToParams(givenParameters));
+
+        var response = Response.Create()
+            .WithStatusCode(statusCode)
+            .WithHeader("Server", SERVER_HEADER_VALUE)
+            .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE);
+
+        if (!string.IsNullOrEmpty(expectedResponse))
+            response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
+                .WithBody(expectedResponse);
+
+        wireMockServer!.Given(request).RespondWith(response);
+    }
+
+    protected void SetUpPutRequest(string url, int statusCode, string givenRequest, string? expectedResponse = null,
+        Dictionary<string, string>? givenParameters = null)
+    {
+        var request = Request.Create().UsingPut().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
+            .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
+            .WithBody(new JsonMatcher(givenRequest, true));
+
+        if (givenParameters != null && givenParameters.Count > 0)
+            request = request.WithParam(EqualToParams(givenParameters));
+
+        var response = Response.Create()
+            .WithStatusCode(statusCode)
+            .WithHeader("Server", SERVER_HEADER_VALUE)
+            .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE);
+
+        if (!string.IsNullOrEmpty(expectedResponse))
+            response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
+                .WithBody(expectedResponse);
+
+        wireMockServer!.Given(request).RespondWith(response);
+    }
+
+    protected void SetUpDeleteRequest(string url, int statusCode, string? givenRequest = null,
+        string? expectedResponse = null, Dictionary<string, string>? givenParameters = null)
+    {
+        var request = Request.Create().UsingDelete().WithPath(url)
+            .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
+            .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE));
+
+        if (givenParameters != null) request = request.WithParam(EqualToParams(givenParameters));
+
+        if (!string.IsNullOrEmpty(givenRequest))
+            request = request.WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
                 .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-                .WithBody(givenRequest)
-            )
-            .RespondWith(Response.Create()
-                .WithStatusCode(statusCode)
-                .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
-                .WithHeader("Server", SERVER_HEADER_VALUE)
-                .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
-                .WithBody(expectedResponse)
-            );
-    }
+                .WithBody(new JsonMatcher(givenRequest, true));
 
-    protected void SetUpNoRequestBodyNoResponseBodyPostRequest(string url, int statusCode)
-    {
-        wireMockServer!.Given(Request.Create().UsingPost().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
-            )
-            .RespondWith(Response.Create()
-                .WithStatusCode(statusCode)
-                .WithHeader("Server", SERVER_HEADER_VALUE)
-                .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
-            );
-    }
+        var response = Response.Create().WithStatusCode(statusCode)
+            .WithHeader("Server", SERVER_HEADER_VALUE)
+            .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE);
 
-    protected void SetUpPutRequest(string url, Dictionary<string, string> givenParameters, string givenRequest,
-        string expectedResponse, int statusCode)
-    {
-        wireMockServer!.Given(Request.Create().UsingPut().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Content-Type", new ExactMatcher(CONTENT_TYPE_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithHeader("User-Agent", new ExactMatcher(USER_AGENT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-                .WithBody(new JsonMatcher(givenRequest, true))
-            )
-            .RespondWith(Response.Create()
-                .WithStatusCode(statusCode)
-                .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
-                .WithHeader("Server", SERVER_HEADER_VALUE)
-                .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
-                .WithBody(expectedResponse)
-            );
-    }
+        if (!string.IsNullOrEmpty(expectedResponse))
+            response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
+                .WithBody(expectedResponse);
 
-    protected void SetUpDeleteRequest(string url, Dictionary<string, string> givenParameters, int statusCode)
-    {
-        wireMockServer!.Given(Request.Create().UsingDelete().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-            )
-            .RespondWith(Response.Create()
-                .WithStatusCode(statusCode)
-                .WithHeader("Server", SERVER_HEADER_VALUE)
-                .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
-            );
-    }
-
-    protected void SetUpDeleteRequestWithResponseBody(string url, Dictionary<string, string> givenParameters,
-        string expectedResponse, int statusCode)
-    {
-        wireMockServer!.Given(Request.Create().UsingDelete().WithPath(url)
-                .WithHeader("Authorization", new ExactMatcher(API_KEY_HEADER_VALUE))
-                .WithHeader("Accept", new ExactMatcher(ACCEPT_HEADER_VALUE))
-                .WithParam(EqualToParams(givenParameters))
-            )
-            .RespondWith(Response.Create()
-                .WithStatusCode(statusCode)
-                .WithHeader("Server", SERVER_HEADER_VALUE)
-                .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
-                .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
-                .WithBody(expectedResponse)
-            );
+        wireMockServer!.Given(request).RespondWith(response);
     }
 
     protected void SetUpMultipartFormRequest(string url, Multimap<string, string> givenParts, string expectedResponse,
@@ -231,9 +230,10 @@ public class ApiTest
         assertion.Invoke(apiResponse);
     }
 
-    public static void AssertResponseWithHttpInfo<T>(ApiResponse<T> apiResponse, Action<T> assertion)
+    public static void AssertResponseWithHttpInfo<T>(ApiResponse<T> apiResponse, Action<T> assertion,
+        int expectedHttpStatusCode)
     {
-        Assert.AreEqual(HttpStatusCode.OK, apiResponse.StatusCode);
+        Assert.AreEqual(expectedHttpStatusCode, (int)apiResponse.StatusCode);
 
         Assert.AreEqual(SERVER_HEADER_VALUE_COMMA, apiResponse.Headers["Server"][0]);
         Assert.AreEqual(X_REQUEST_ID_HEADER_VALUE, apiResponse.Headers["X-Request-ID"][0]);
@@ -243,11 +243,23 @@ public class ApiTest
     }
 
     public static void AssertNoBodyResponseWithHttpInfo<T>(ApiResponse<T> apiResponse,
-        HttpStatusCode expectedHttpStatusCode)
+        int expectedHttpStatusCode)
     {
-        Assert.AreEqual(expectedHttpStatusCode, apiResponse.StatusCode);
+        Assert.AreEqual(expectedHttpStatusCode, (int)apiResponse.StatusCode);
 
         Assert.AreEqual(SERVER_HEADER_VALUE_COMMA, apiResponse.Headers["Server"][0]);
         Assert.AreEqual(X_REQUEST_ID_HEADER_VALUE, apiResponse.Headers["X-Request-ID"][0]);
+    }
+
+    public static string GetEnumAttributeValue(Enum value)
+    {
+        return value.GetType().GetField(value.ToString())?
+                   .GetCustomAttribute<EnumMemberAttribute>()?.Value
+               ?? value.ToString();
+    }
+
+    public static string GetBooleanValueAsLowerString(bool value)
+    {
+        return value.ToString().ToLower();
     }
 }

@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Sent email price.
     /// </summary>
     [DataContract(Name = "MessagePrice")]
+    [JsonObject]
     public class MessagePrice : IEquatable<MessagePrice>
     {
         /// <summary>
@@ -38,6 +40,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Price per one email request.</value>
         [DataMember(Name = "pricePerMessage", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "pricePerMessage", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("pricePerMessage")]
         public decimal PricePerMessage { get; set; }
 
         /// <summary>
@@ -45,6 +49,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The currency in which the price is expressed.</value>
         [DataMember(Name = "currency", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "currency", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("currency")]
         public string Currency { get; set; }
 
         /// <summary>

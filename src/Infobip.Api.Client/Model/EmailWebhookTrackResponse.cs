@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     EmailWebhookTrackResponse
     /// </summary>
     [DataContract(Name = "EmailWebhookTrackResponse")]
+    [JsonObject]
     public class EmailWebhookTrackResponse : IEquatable<EmailWebhookTrackResponse>
     {
         /// <summary>
@@ -70,6 +72,8 @@ namespace Infobip.Api.Client.Model
         ///     COMPLAINED&#x60;, &#x60;UNSUBSCRIBED&#x60;.
         /// </value>
         [DataMember(Name = "notificationType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notificationType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("notificationType")]
         public string NotificationType { get; set; }
 
         /// <summary>
@@ -77,6 +81,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The sending domain used to send the email to the recipient.</value>
         [DataMember(Name = "domain", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "domain", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("domain")]
         public string Domain { get; set; }
 
         /// <summary>
@@ -84,6 +90,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Recipient of the email.</value>
         [DataMember(Name = "recipient", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "recipient", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("recipient")]
         public string Recipient { get; set; }
 
         /// <summary>
@@ -95,6 +103,8 @@ namespace Infobip.Api.Client.Model
         ///     CLICKED&#x60;.
         /// </value>
         [DataMember(Name = "url", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "url", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
         /// <summary>
@@ -102,6 +112,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The time at which the email was sent. Time is in milliseconds.</value>
         [DataMember(Name = "sendDateTime", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sendDateTime", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sendDateTime")]
         public decimal SendDateTime { get; set; }
 
         /// <summary>
@@ -109,6 +121,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID that uniquely identifies the message sent to the recipient.</value>
         [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
@@ -120,6 +134,8 @@ namespace Infobip.Api.Client.Model
         ///     generated.
         /// </value>
         [DataMember(Name = "bulkId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
         /// <summary>
@@ -127,18 +143,24 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The callback data sent through the callbackData field in your fully featured Email message.</value>
         [DataMember(Name = "callbackData", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "callbackData", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callbackData")]
         public string CallbackData { get; set; }
 
         /// <summary>
         ///     Gets or Sets RecipientInfo
         /// </summary>
         [DataMember(Name = "recipientInfo", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "recipientInfo", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("recipientInfo")]
         public EmailWebhookRecipientInfo RecipientInfo { get; set; }
 
         /// <summary>
         ///     Gets or Sets GeoLocation
         /// </summary>
         [DataMember(Name = "geoLocation", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "geoLocation", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("geoLocation")]
         public EmailWebhookGeoLocation GeoLocation { get; set; }
 
         /// <summary>

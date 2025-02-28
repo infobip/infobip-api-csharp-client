@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     TfaApplicationResponse
     /// </summary>
     [DataContract(Name = "TfaApplicationResponse")]
+    [JsonObject]
     public class TfaApplicationResponse : IEquatable<TfaApplicationResponse>
     {
         /// <summary>
@@ -46,12 +48,16 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>The ID of the application that represents your service, e.g. 2FA for login, 2FA for changing the password, etc.</value>
         [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "applicationId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("applicationId")]
         public string ApplicationId { get; set; }
 
         /// <summary>
         ///     Gets or Sets VarConfiguration
         /// </summary>
         [DataMember(Name = "configuration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "configuration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("configuration")]
         public TfaApplicationConfiguration VarConfiguration { get; set; }
 
         /// <summary>
@@ -59,6 +65,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Indicates whether the created application is enabled.</value>
         [DataMember(Name = "enabled", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 
         /// <summary>
@@ -66,6 +74,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>2FA application name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>

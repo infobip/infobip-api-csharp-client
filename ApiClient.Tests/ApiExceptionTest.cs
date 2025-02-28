@@ -9,7 +9,7 @@ namespace ApiClient.Tests;
 [TestClass]
 public class ApiExceptionTest : ApiTest
 {
-    protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
+    protected const string SMS_MESSAGES_ENDPOINT = "/sms/3/messages";
 
     internal static readonly Tuple<int, string, string, string>[] ErrorResponses =
     {
@@ -39,7 +39,7 @@ public class ApiExceptionTest : ApiTest
         var errorText = ErrorResponses[errorResponseIndex].Item4;
 
         var to = "41793026727";
-        var from = "InfoSMS";
+        var sender = "InfoSMS";
         var message = "This is a sample message";
 
         var responseJson = $@"
@@ -53,22 +53,21 @@ public class ApiExceptionTest : ApiTest
             }}";
 
         var expectedRequest = $@"
+        {{
+          ""messages"": [
             {{
-                ""messages"": [
+              ""sender"": ""{sender}"",
+              ""destinations"": [
                 {{
-                    ""destinations"": [
-                    {{
-                        ""to"": ""{to}""
-                    }}
-                      ],
-                    ""flash"":false,
-                    ""from"": ""{from}"",
-                    ""intermediateReport"":false,
-                    ""text"": ""{message}""
+                  ""to"": ""{to}""
                 }}
-                ],
-                    ""includeSmsCountInResponse"":false
-            }}";
+              ],
+              ""content"": {{
+                ""text"": ""{message}""
+              }}
+            }}
+          ]
+        }}";
 
         var responseHeaders = new Dictionary<string, string>
         {
@@ -77,22 +76,24 @@ public class ApiExceptionTest : ApiTest
             { "Content-Type", "application/json; charset=utf-8" }
         };
 
-        SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, expectedRequest, responseJson, httpCode);
+        SetUpPostRequest(SMS_MESSAGES_ENDPOINT, httpCode, expectedRequest, responseJson);
 
         var smsApi = new SmsApi(configuration);
 
-        var request = new SmsAdvancedTextualRequest(
-            messages: new List<SmsTextualMessage>
+        var request = new SmsRequest(
+            new List<SmsMessage>
             {
                 new(
-                    from: from, text: message, destinations: new List<SmsDestination> { new(to: to) }
+                    sender, content: new SmsMessageContent(new SmsTextContent(message)),
+                    destinations: new List<SmsDestination> { new(to) }
                 )
             }
         );
 
         try
         {
-            var result = smsApi.SendSmsMessage(request);
+            //It gets exceptions ErrorResponses as defined at the start of the class but for each it throws Newtonsoft.Json.JsonSerializationException: 'Required property 'messages' not found in JSON.
+            var result = smsApi.SendSmsMessages(request);
         }
         catch (ApiException ex)
         {

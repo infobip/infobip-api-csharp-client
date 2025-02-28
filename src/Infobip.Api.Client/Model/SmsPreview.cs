@@ -12,6 +12,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
@@ -20,6 +21,7 @@ namespace Infobip.Api.Client.Model
     ///     Allows for previewing the original message content once additional language configuration has been applied to it.
     /// </summary>
     [DataContract(Name = "SmsPreview")]
+    [JsonObject]
     public class SmsPreview : IEquatable<SmsPreview>
     {
         /// <summary>
@@ -43,6 +45,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Preview of the message content as it should appear on the recipient’s device.</value>
         [DataMember(Name = "textPreview", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "textPreview", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("textPreview")]
         public string TextPreview { get; set; }
 
         /// <summary>
@@ -50,6 +54,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Number of SMS message parts required to deliver the message.</value>
         [DataMember(Name = "messageCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageCount")]
         public int MessageCount { get; set; }
 
         /// <summary>
@@ -57,12 +63,16 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Number of remaining characters in the last part of the SMS.</value>
         [DataMember(Name = "charactersRemaining", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "charactersRemaining", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("charactersRemaining")]
         public int CharactersRemaining { get; set; }
 
         /// <summary>
         ///     Gets or Sets VarConfiguration
         /// </summary>
         [DataMember(Name = "configuration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "configuration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("configuration")]
         public SmsLanguageConfiguration VarConfiguration { get; set; }
 
         /// <summary>

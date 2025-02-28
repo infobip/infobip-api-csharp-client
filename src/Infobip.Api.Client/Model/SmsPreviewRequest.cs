@@ -12,7 +12,9 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -20,6 +22,7 @@ namespace Infobip.Api.Client.Model
     ///     SmsPreviewRequest
     /// </summary>
     [DataContract(Name = "SmsPreviewRequest")]
+    [JsonObject]
     public class SmsPreviewRequest : IEquatable<SmsPreviewRequest>
     {
         /// <summary>
@@ -58,7 +61,10 @@ namespace Infobip.Api.Client.Model
         ///     Content of the message being sent.
         /// </summary>
         /// <value>Content of the message being sent.</value>
-        [DataMember(Name = "text", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "text", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "text", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
         /// <summary>
@@ -72,6 +78,8 @@ namespace Infobip.Api.Client.Model
         ///     message content.
         /// </value>
         [DataMember(Name = "languageCode", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "languageCode", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("languageCode")]
         public string LanguageCode { get; set; }
 
         /// <summary>
@@ -89,6 +97,8 @@ namespace Infobip.Api.Client.Model
         ///     &#x60;ALL&#x60; and &#x60;NONE&#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "transliteration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("transliteration")]
         public string Transliteration { get; set; }
 
         /// <summary>

@@ -12,25 +12,27 @@
 using System;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Indicates whether the error occurred during the query execution.
+    ///     MessageError
     /// </summary>
     [DataContract(Name = "MessageError")]
+    [JsonObject]
     public class MessageError : IEquatable<MessageError>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessageError" /> class.
         /// </summary>
-        /// <param name="groupId">Error group ID..</param>
-        /// <param name="groupName">Error group name..</param>
-        /// <param name="id">Error ID..</param>
-        /// <param name="name">Error name..</param>
-        /// <param name="description">Human-readable description of the error..</param>
-        /// <param name="permanent">Indicator of whether the error is permanent..</param>
+        /// <param name="groupId">groupId.</param>
+        /// <param name="groupName">groupName.</param>
+        /// <param name="id">id.</param>
+        /// <param name="name">name.</param>
+        /// <param name="description">description.</param>
+        /// <param name="permanent">permanent.</param>
         public MessageError(int groupId = default, string groupName = default, int id = default, string name = default,
             string description = default, bool permanent = default)
         {
@@ -43,45 +45,51 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Error group ID.
+        ///     Gets or Sets GroupId
         /// </summary>
-        /// <value>Error group ID.</value>
         [DataMember(Name = "groupId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "groupId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("groupId")]
         public int GroupId { get; set; }
 
         /// <summary>
-        ///     Error group name.
+        ///     Gets or Sets GroupName
         /// </summary>
-        /// <value>Error group name.</value>
         [DataMember(Name = "groupName", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "groupName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("groupName")]
         public string GroupName { get; set; }
 
         /// <summary>
-        ///     Error ID.
+        ///     Gets or Sets Id
         /// </summary>
-        /// <value>Error ID.</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
         /// <summary>
-        ///     Error name.
+        ///     Gets or Sets Name
         /// </summary>
-        /// <value>Error name.</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
-        ///     Human-readable description of the error.
+        ///     Gets or Sets Description
         /// </summary>
-        /// <value>Human-readable description of the error.</value>
         [DataMember(Name = "description", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>
-        ///     Indicator of whether the error is permanent.
+        ///     Gets or Sets Permanent
         /// </summary>
-        /// <value>Indicator of whether the error is permanent.</value>
         [DataMember(Name = "permanent", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("permanent")]
         public bool Permanent { get; set; }
 
         /// <summary>
