@@ -197,21 +197,25 @@ Example of webhook implementation:
     }
 ```
 #### Two-Factor Authentication (2FA)
-For 2FA quick start guide please check [these examples](two-factor-authentication.md).
+For the 2FA quick start guide please check [these examples](two-factor-authentication.md).
 
 #### Send email
-For send email quick start guide please check [these examples](email.md).
+For the send email quick start guide please check [these examples](email.md).
 
 #### Moments
-For Flow & Forms quick start guide please check [these examples](moments.md).
+For the Flow & Forms quick start guide please check [these examples](moments.md).
+
+## Versioning
+
+This project follows a pragmatic Semantic Versioning approach.  
+For full details on how versions are managed, please see our [Versioning guide][versioning].
 
 ## Ask for help
 
-Feel free to open issues on the repository for any issue or feature request. 
+Feel free to open an issue on the repository if you see any problem or want to request a feature.
 Check the `CONTRIBUTING` [file][contributing] for details about contributions - in short, we will not merge any pull requests since this code is auto-generated.
 
-However, if you find something that requires our imminent attention feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
-
+However, if you find something that requires our immediate attention, feel free to contact us @ [support@infobip.com](mailto:support@infobip.com).
 [apidocs]: https://www.infobip.com/docs/api
 [freetrial]: https://www.infobip.com/docs/essentials/getting-started/free-trial
 [signup]: https://www.infobip.com/signup
@@ -221,3 +225,4 @@ However, if you find something that requires our imminent attention feel free to
 [authentication-apikey]: https://www.infobip.com/docs/essentials/api-authentication#api-key-header
 [datetimeformat]: https://www.infobip.com/docs/essentials/api-essentials/integration-best-practices#date-formats-backward-compatibility
 [receive-inbound-sms]: https://www.infobip.com/docs/api/channels/sms/inbound-sms/receive-inbound-sms-messages
+[versioning]: VERSIONING.md
