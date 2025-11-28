@@ -77,7 +77,7 @@ This ensures the SDK remains reliable and accurate for production usage.
 
 ### 4.1 Minimum C# Version Changes
 
-Increasing the **minimum targeted .NET/C# framework version** (e.g.,.NET Standard 2.0 → .NET Standard 2.1) is always treated as a **MAJOR** version change. Such a change breaks compilation and runtime compatibility for existing users and therefore constitutes a breaking API change.
+Increasing the **minimum targeted .NET framework version** (e.g.,.NET Standard 2.0 → .NET Standard 2.1) is always treated as a **MAJOR** version change. Such a change may break compilation and runtime compatibility for existing users and therefore constitutes a breaking API change.
 
 ### 4.2 Dependency Upgrade Policy
 
