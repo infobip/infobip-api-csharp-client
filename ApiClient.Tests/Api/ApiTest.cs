@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Infobip.Api.Client;
@@ -29,6 +30,8 @@ public class ApiTest
     [TestInitialize]
     public void StartMockServer()
     {
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+        
         wireMockServer = WireMockServer.Start();
 
         configuration = new Configuration

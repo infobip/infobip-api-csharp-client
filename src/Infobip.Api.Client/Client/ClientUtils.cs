@@ -14,6 +14,8 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -117,8 +119,27 @@ namespace Infobip.Api.Client
                 return boolean ? "true" : "false";
             if (obj is ICollection collection)
                 return string.Join(",", collection.Cast<object>());
+            if (obj is Enum)
+                return EnumToString(obj);
 
             return Convert.ToString(obj, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        ///     Returns the string value of an enum, preferring [EnumMember(Value=...)] if present, otherwise ToString().
+        /// </summary>
+        /// <param name="enumValue">The enum value to be transformed into string.</param>
+        /// <returns>A string representation of the enum value.</returns>
+        public static string EnumToString(object enumValue)
+        {
+            var type = enumValue.GetType();
+            var enumType = Nullable.GetUnderlyingType(type) ?? type;
+            if (!enumType.IsEnum)
+                return Convert.ToString(enumValue, CultureInfo.InvariantCulture);
+            var name = Convert.ToString(enumValue, CultureInfo.InvariantCulture);
+            var member = enumType.GetMember(name).FirstOrDefault();
+            var attr = member?.GetCustomAttribute<EnumMemberAttribute>();
+            return attr?.Value ?? name.ToUpperInvariant();
         }
 
         /// <summary>

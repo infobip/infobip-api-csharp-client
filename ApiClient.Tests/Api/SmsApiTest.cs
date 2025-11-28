@@ -1027,10 +1027,10 @@ public class SmsApiTest : ApiTest
         }}";
 
         SetUpGetRequest(SMS_LOGS_ENDPOINT, 200, expectedResponse,
-            new Dictionary<string, string> { { "bulkId", bulkId } });
+            new Dictionary<string, string> { { "bulkId", bulkId }, {"generalStatus", GetEnumAttributeValue(MessageGeneralStatus.Accepted)}});
 
         var smsApiClient = new SmsApi(configuration);
-        var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> { bulkId });
+        var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> {bulkId}, generalStatus: MessageGeneralStatus.Accepted);
 
         var expectedDeserializedLogs = new SmsLogsResponse(new List<SmsLog>
         {
