@@ -41,7 +41,7 @@ namespace Infobip.Api.Client
         ///     Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "4.0.0";
+        public const string Version = "4.0.1";
 
         private string _dateTimeFormat = Iso8601DateTimeFormat;
 
@@ -54,7 +54,7 @@ namespace Infobip.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = "infobip-api-client-csharp/4.0.0";
+            UserAgent = "infobip-api-client-csharp/4.0.1";
             BasePath = "http://localhost";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
 

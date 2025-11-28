@@ -5,6 +5,12 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [4.0.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.1) ] - 2025-12-01
+
+### Fixed
+- Error parsing Enums for the query parameter (https://github.com/infobip/infobip-api-csharp-client/issues/49)
+- Tests are now culture-invariant: their results should no longer depend on the system's locale/culture settings.
+
 ## [ [4.0.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.0) ] - 2025-02-28
 
 🎉 **NEW Major Version of `Infobip.Api.Client`.**
