@@ -18,7 +18,7 @@ public class ClientUtilsTest
     [TestMethod]
     public void ParameterToStringTest()
     {
-        var dateTime = new DateTime(2025, 12, 1, 15, 30, 45);
+        var dateTime = new DateTime(2025, 12, 1, 15, 30, 45, DateTimeKind.Utc);
         var dateTimeOffset = new DateTimeOffset(dateTime);
         var booleanValue = true;
         var list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
@@ -26,8 +26,8 @@ public class ClientUtilsTest
         var randomNumber = 5;
         var randomString = "axT3!er_hOp7&";
 
-        Assert.AreEqual(ClientUtils.ParameterToString(dateTime), "2025-12-01T15:30:45.000+01:00");
-        Assert.AreEqual(ClientUtils.ParameterToString(dateTimeOffset), "2025-12-01T15:30:45.000+01:00");
+        Assert.AreEqual(ClientUtils.ParameterToString(dateTime), "2025-12-01T15:30:45.000+00:00");
+        Assert.AreEqual(ClientUtils.ParameterToString(dateTimeOffset), "2025-12-01T15:30:45.000+00:00");
         Assert.AreEqual(ClientUtils.ParameterToString(booleanValue), "true");
         Assert.AreEqual(ClientUtils.ParameterToString(list), "1,2,3,4,5,6,7,8,9,10,11,12");
         Assert.AreEqual(ClientUtils.ParameterToString(enumValue), "ALSO_OK");
