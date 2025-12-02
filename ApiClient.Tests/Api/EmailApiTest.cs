@@ -4,7 +4,6 @@ using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using static Infobip.Api.Client.Model.EmailAddDomainRequest;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -1879,7 +1878,7 @@ public class EmailApiTest : ApiTest
             emailApi.RemoveIpPoolFromDomainWithHttpInfoAsync(givenDomainId, givenPoolId).Result, 204);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0)]
     [DataRow(1)]
     public void SendEmailErrorResponseTest(int errorResponseIndex)
@@ -2136,7 +2135,7 @@ public class EmailApiTest : ApiTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0)]
     [DataRow(1)]
     public void GetEmailDeliveryReportsResponseTest(int errorResponseIndex)

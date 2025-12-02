@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ApiClient.Tests;
 
@@ -33,7 +32,7 @@ public class DateTimeSerializationTest
     [DataRow("2035-08-18T10:38:42.777-0130", 6)]
     [DataRow("2035-08-18T17:38:42.777+0530", 7)]
     [DataRow("2035-08-18T06:38:42.777-0530", 8)]
-    [DataTestMethod]
+    [TestMethod]
     public void DateTimeFormatDeserializationTest(string dateString, int dateValueIndex)
     {
         var expected = DateTimeValues[dateValueIndex];
@@ -60,7 +59,7 @@ public class DateTimeSerializationTest
     [DataRow(6, "2035-08-18T10:38:42.777-01:30")]
     [DataRow(7, "2035-08-18T17:38:42.777+05:30")]
     [DataRow(8, "2035-08-18T06:38:42.777-05:30")]
-    [DataTestMethod]
+    [TestMethod]
     public void DateTimeFormatSerializationTest(int dateValueIndex, string expected)
     {
         var initialDate = DateTimeValues[dateValueIndex];

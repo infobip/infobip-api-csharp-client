@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Infobip.Api.Client;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WireMock.Matchers;
 using WireMock.RequestBuilders;
 using WireMock.ResponseBuilders;
@@ -200,9 +199,9 @@ public class ApiTest
         req.WithBody(body =>
         {
             var allKeysFound = givenParts.All(kvp =>
-                body.Contains($"name={kvp.Key}", StringComparison.InvariantCultureIgnoreCase));
+                body!.Contains($"name={kvp.Key}", StringComparison.InvariantCultureIgnoreCase));
             var allValuesFound = givenParts.All(kvp =>
-                kvp.Value.All(value => body.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+                kvp.Value.All(value => body!.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
             return allValuesFound && allKeysFound;
         });
 
