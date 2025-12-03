@@ -6430,7 +6430,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -6505,7 +6505,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -6814,7 +6814,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -7000,7 +7000,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -7186,7 +7186,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenRequest = @"
@@ -7457,7 +7457,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -7639,7 +7639,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"
@@ -7821,7 +7821,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenRequest = @"
@@ -7865,7 +7865,7 @@ public class CallsApiTest : ApiTest
         var givenLocation = CallsRecordingLocation.Frankfurt;
         var givenQueryParameters = new Dictionary<string, string>
         {
-            { "location", givenLocation.ToString() }
+            { "location", GetEnumAttributeValue(givenLocation) }
         };
 
         var givenResponse = @"

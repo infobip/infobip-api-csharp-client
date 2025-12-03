@@ -1,7 +1,6 @@
 ﻿using ApiClient.Tests.Api;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ApiException = Infobip.Api.Client.ApiException;
 
 namespace ApiClient.Tests;
@@ -23,7 +22,7 @@ public class ApiExceptionTest : ApiTest
         Tuple.Create(503, "0", "Service Unavailable", "Error processing email validation request! Please try again")
     };
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0)]
     [DataRow(1)]
     [DataRow(2)]

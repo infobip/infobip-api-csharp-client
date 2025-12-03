@@ -4,7 +4,6 @@ using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using static Infobip.Api.Client.Model.EmailAddDomainRequest;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -1107,7 +1106,7 @@ public class EmailApiTest : ApiTest
         var givenQueryParameters = new Dictionary<string, string>
         {
             { "domainName", expectedEmailAddress },
-            { "type", givenType.ToString() },
+            { "type", GetEnumAttributeValue(EmailSuppressionType.Bounce) },
             { "page", givenPage.ToString() },
             { "size", givenSize.ToString() }
         };
@@ -1134,16 +1133,16 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedSize, emailSuppressionInfoPageResponse.Paging.Size);
         }
 
-        AssertResponse(emailApi.GetSuppressions(givenDomainName, givenType),
+        AssertResponse(emailApi.GetSuppressions(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize),
             AssertEmailSuppressionInfoPageResponse);
-        AssertResponse(emailApi.GetSuppressionsAsync(givenDomainName, givenType).Result,
+        AssertResponse(emailApi.GetSuppressionsAsync(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize).Result,
             AssertEmailSuppressionInfoPageResponse);
 
         AssertResponseWithHttpInfo(
-            emailApi.GetSuppressionsWithHttpInfo(givenDomainName, givenType),
+            emailApi.GetSuppressionsWithHttpInfo(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize),
             AssertEmailSuppressionInfoPageResponse, 200);
         AssertResponseWithHttpInfo(
-            emailApi.GetSuppressionsWithHttpInfoAsync(givenDomainName, givenType).Result,
+            emailApi.GetSuppressionsWithHttpInfoAsync(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize).Result,
             AssertEmailSuppressionInfoPageResponse, 200);
     }
 
@@ -1879,7 +1878,7 @@ public class EmailApiTest : ApiTest
             emailApi.RemoveIpPoolFromDomainWithHttpInfoAsync(givenDomainId, givenPoolId).Result, 204);
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0)]
     [DataRow(1)]
     public void SendEmailErrorResponseTest(int errorResponseIndex)
@@ -2136,7 +2135,7 @@ public class EmailApiTest : ApiTest
         }
     }
 
-    [DataTestMethod]
+    [TestMethod]
     [DataRow(0)]
     [DataRow(1)]
     public void GetEmailDeliveryReportsResponseTest(int errorResponseIndex)
