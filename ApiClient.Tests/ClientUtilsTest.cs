@@ -1,6 +1,5 @@
 using System.Runtime.Serialization;
 using Infobip.Api.Client;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests;
 

@@ -77,7 +77,7 @@ public class ApiExceptionTest : ApiTest
 
         SetUpPostRequest(SMS_MESSAGES_ENDPOINT, httpCode, expectedRequest, responseJson);
 
-        var smsApi = new SmsApi(configuration);
+        var smsApi = new SmsApi(Configuration);
 
         var request = new SmsRequest(
             new List<SmsMessage>
@@ -92,7 +92,7 @@ public class ApiExceptionTest : ApiTest
         try
         {
             //It gets exceptions ErrorResponses as defined at the start of the class but for each it throws Newtonsoft.Json.JsonSerializationException: 'Required property 'messages' not found in JSON.
-            var result = smsApi.SendSmsMessages(request);
+            smsApi.SendSmsMessages(request);
         }
         catch (ApiException ex)
         {

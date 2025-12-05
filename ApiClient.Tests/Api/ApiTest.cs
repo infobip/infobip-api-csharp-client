@@ -22,28 +22,28 @@ public class ApiTest
     protected const string SERVER_HEADER_VALUE_COMMA = "SMS,API";
     protected const string X_REQUEST_ID_HEADER_VALUE = "1608758729810312842";
 
-    protected Configuration? configuration;
+    protected Configuration? Configuration;
 
-    protected WireMockServer? wireMockServer;
+    protected WireMockServer? WireMockServer;
 
     [TestInitialize]
     public void StartMockServer()
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         
-        wireMockServer = WireMockServer.Start();
+        WireMockServer = WireMockServer.Start();
 
-        configuration = new Configuration
+        Configuration = new Configuration
         {
             ApiKey = API_KEY,
-            BasePath = "http://localhost:" + wireMockServer.Ports[0]
+            BasePath = "http://localhost:" + WireMockServer.Ports[0]
         };
     }
 
     [TestCleanup]
     public void TearDown()
     {
-        wireMockServer!.Stop();
+        WireMockServer!.Stop();
     }
 
     protected void SetUpGetRequest(string url, int statusCode, string expectedResponse,
@@ -57,7 +57,7 @@ public class ApiTest
         if (givenParameters != null && givenParameters.Count > 0)
             request = request.WithParam(EqualToParams(givenParameters));
 
-        wireMockServer!.Given(request)
+        WireMockServer!.Given(request)
             .RespondWith(Response.Create()
                 .WithStatusCode(statusCode)
                 .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
@@ -77,7 +77,7 @@ public class ApiTest
         if (givenParameters != null && givenParameters.Count > 0)
             request = request.WithParam(EqualToParams(givenParameters));
 
-        wireMockServer!.Given(request)
+        WireMockServer!.Given(request)
             .RespondWith(Response.Create()
                 .WithStatusCode(statusCode)
                 .WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
@@ -109,7 +109,7 @@ public class ApiTest
             response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
                 .WithBody(expectedResponse);
 
-        wireMockServer!.Given(request).RespondWith(response);
+        WireMockServer!.Given(request).RespondWith(response);
     }
 
     protected void SetUpPatchRequest(string url, int statusCode, string givenRequest, string? expectedResponse = null,
@@ -134,7 +134,7 @@ public class ApiTest
             response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
                 .WithBody(expectedResponse);
 
-        wireMockServer!.Given(request).RespondWith(response);
+        WireMockServer!.Given(request).RespondWith(response);
     }
 
     protected void SetUpPutRequest(string url, int statusCode, string givenRequest, string? expectedResponse = null,
@@ -159,7 +159,7 @@ public class ApiTest
             response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
                 .WithBody(expectedResponse);
 
-        wireMockServer!.Given(request).RespondWith(response);
+        WireMockServer!.Given(request).RespondWith(response);
     }
 
     protected void SetUpDeleteRequest(string url, int statusCode, string? givenRequest = null,
@@ -184,7 +184,7 @@ public class ApiTest
             response = response.WithHeader("Content-Type", CONTENT_TYPE_HEADER_VALUE)
                 .WithBody(expectedResponse);
 
-        wireMockServer!.Given(request).RespondWith(response);
+        WireMockServer!.Given(request).RespondWith(response);
     }
 
     protected void SetUpMultipartFormRequest(string url, Multimap<string, string> givenParts, string expectedResponse,
@@ -212,7 +212,7 @@ public class ApiTest
             .WithHeader("X-Request-Id", X_REQUEST_ID_HEADER_VALUE)
             .WithBody(expectedResponse);
 
-        wireMockServer!.Given(req).RespondWith(resp);
+        WireMockServer!.Given(req).RespondWith(resp);
     }
 
     private Func<IDictionary<string, WireMockList<string>>, bool>[] EqualToParams(Dictionary<string, string> parameters)

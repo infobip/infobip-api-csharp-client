@@ -3,7 +3,6 @@ using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests.Api;
 
@@ -223,7 +222,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALLS_ENDPOINT, 200, givenResponse, givenParameters);
 
-        var callsApi = new CallsApi(configuration);
+        var callsApi = new CallsApi(Configuration);
 
         var response = callsApi.GetCalls(givenType, givenCallsConfigurationId, givenApplicationId, givenFrom, givenTo,
             givenDirection, givenStatus, givenStartTimeAfter, givenConferenceId, givenDialogId, givenBulkId, givenPage,
@@ -335,7 +334,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_CALL_ENDPOINT, 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallRequest(
             new CallsWebRtcEndpoint("Bob"),
@@ -435,7 +434,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_CALL_ENDPOINT, 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallRequest(
             new CallsWebRtcEndpoint("Bob"),
@@ -518,7 +517,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALL_ENDPOINT.Replace("{callId}", givenCallId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.GetCall(givenCallId);
 
@@ -647,7 +646,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALLS_HISTORY_ENDPOINT, 200, givenResponse, queryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.GetCallsHistory(givenType, givenCallsConfigurationId, givenApplicationId, givenFrom, givenTo,
             givenDirection, givenStatus, givenStartTimeAfter, givenEndTimeBefore, givenConferenceId, givenDialogId,
@@ -756,7 +755,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALL_HISTORY_ENDPOINT.Replace("{callId}", givenCallId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.GetCallHistory(givenCallId);
 
@@ -858,7 +857,7 @@ public class CallsApiTest : ApiTest
           }
         }";
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConnectRequest(
             new List<string>
@@ -1028,7 +1027,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONNECT_WITH_NEW_CALL_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConnectWithNewCallRequest(
             new CallsActionCallRequest(
@@ -1131,7 +1130,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(SEND_RINGING_ENDPOINT.Replace("{callId}", givenCallId), 200, null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.SendRinging(givenCallId);
 
@@ -1161,7 +1160,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(PRE_ANSWER_CALL_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsPreAnswerRequest(
             false,
@@ -1209,7 +1208,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(ANSWER_CALL_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsAnswerRequest(
             new Dictionary<string, string>
@@ -1284,7 +1283,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(HANGUP_CALL_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsHangupRequest
         {
@@ -1352,7 +1351,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_PLAY_FILE_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsPlayRequest(
             content: new CallsFilePlayContent(
@@ -1394,7 +1393,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_PLAY_FILE_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsPlayRequest(
             content: new CallsUrlPlayContent(
@@ -1435,7 +1434,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CALL_STOP_PLAYING_FILE_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsStopPlayRequest(
             new Dictionary<string, string>
@@ -1479,7 +1478,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_SAY_TEXT_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsSayRequest(
             "This is an advanced example of text to speech",
@@ -1520,7 +1519,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_SEND_DTMF_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDtmfSendRequest(dtmf: "341#");
 
@@ -1551,7 +1550,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_CAPTURE_DTMF_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDtmfCaptureRequest(
             4,
@@ -1593,7 +1592,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CALL_CAPTURE_SPEECH_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsSpeechCaptureRequest(
             CallsLanguage.EnGb,
@@ -1632,7 +1631,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CALL_START_TRANSCRIPTION_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsStartTranscriptionRequest(
             new CallsTranscription(
@@ -1661,7 +1660,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_STOP_TRANSCRIPTION_ENDPOINT.Replace("{callId}", givenCallId), 200, null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.CallStopTranscription(givenCallId);
 
@@ -1698,7 +1697,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CALL_START_RECORDING_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsRecordingStartRequest(
             new CallsRecordingRequest(
@@ -1736,7 +1735,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALL_STOP_RECORDING_ENDPOINT.Replace("{callId}", givenCallId), 200, null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.CallStopRecording(givenCallId);
 
@@ -1768,7 +1767,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(START_MEDIA_STREAM_ENDPOINT.Replace("{callId}", givenCallId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsStartMediaStreamRequest(
             new CallsMediaStream(
@@ -1799,7 +1798,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(STOP_MEDIA_STREAM_ENDPOINT.Replace("{callId}", givenCallId), 200, null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.StopMediaStream(givenCallId);
 
@@ -1828,7 +1827,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(APPLICATION_TRANSFER.Replace("{callId}", givenCallId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsApplicationTransferRequest(
             "dc5942707c704551a00cd2ea",
@@ -1859,7 +1858,7 @@ public class CallsApiTest : ApiTest
             APPLICATION_TRANSFER_ACCEPT.Replace("{callId}", givenCallId).Replace("{transferId}", givenTransferId), 200,
             null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.ApplicationTransferAccept(givenCallId, givenTransferId);
 
@@ -1881,7 +1880,7 @@ public class CallsApiTest : ApiTest
             APPLICATION_TRANSFER_REJECT.Replace("{callId}", givenCallId).Replace("{transferId}", givenTransferId), 200,
             null, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.ApplicationTransferReject(givenCallId, givenTransferId);
 
@@ -1962,7 +1961,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CONFERENCES, 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.GetConferences(
             givenName,
@@ -2082,7 +2081,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_CONFERENCE, 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConferenceRequest(
             callsConfigurationId: "dc5942707c704551a00cd2ea",
@@ -2188,7 +2187,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CONFERENCE.Replace("{conferenceId}", givenConferenceId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var response = api.GetConference(givenConferenceId);
 
@@ -2249,7 +2248,7 @@ public class CallsApiTest : ApiTest
         SetUpPatchRequest(UPDATE_CONFERENCE.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
             false,
@@ -2398,7 +2397,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CONFERENCES_HISTORY, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConferenceLogPage(
             new List<CallsConferenceLog>
@@ -2512,7 +2511,6 @@ public class CallsApiTest : ApiTest
                 1
             )
         );
-        ;
 
         var response = api.GetConferencesHistory(givenName, givenCallId, givenCallsConfigurationId, givenApplicationId,
             givenStartTimeAfter, givenEndTimeBefore, givenPage, givenSize);
@@ -2625,7 +2623,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CONFERENCE_HISTORY.Replace("{conferenceId}", givenConferenceId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConferenceLog(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -2839,7 +2837,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(ADD_NEW_CONFERENCE_CALL.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsAddNewCallRequest(
             new CallsActionCallRequest(
@@ -2974,7 +2972,7 @@ public class CallsApiTest : ApiTest
             ADD_EXISTING_CONFERENCE_CALL.Replace("{conferenceId}", givenConferenceId).Replace("{callId}", givenCallId),
             200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsAddExistingCallRequest(
             false,
@@ -3030,7 +3028,7 @@ public class CallsApiTest : ApiTest
             REMOVE_CONFERENCE_CALL.Replace("{conferenceId}", givenConferenceId).Replace("{callId}", givenCallId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsActionResponse(
             CallsActionStatus.Pending
@@ -3062,7 +3060,7 @@ public class CallsApiTest : ApiTest
             UPDATE_CONFERENCE_CALL.Replace("{conferenceId}", givenConferenceId).Replace("{callId}", givenCallId), 200,
             givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
             false,
@@ -3135,7 +3133,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(HANGUP_CONFERENCE.Replace("{conferenceId}", givenConferenceId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConference(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -3198,7 +3196,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_PLAY_FILE.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConferencePlayRequest(
             content: new CallsFilePlayContent(
@@ -3228,7 +3226,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_STOP_PLAYING_FILE.Replace("{conferenceId}", givenConferenceId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsActionResponse(
             CallsActionStatus.Pending
@@ -3263,7 +3261,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_SAY_TEXT.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsSayRequest(
             "string",
@@ -3305,7 +3303,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_START_RECORDING.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConferenceRecordingRequest(
             CallsRecordingType.Audio,
@@ -3336,7 +3334,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_STOP_RECORDING.Replace("{conferenceId}", givenConferenceId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsActionResponse(
             CallsActionStatus.Pending
@@ -3365,7 +3363,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(CONFERENCE_BROADCAST_WEBRTC_TEXT.Replace("{conferenceId}", givenConferenceId), 200,
             givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConferenceBroadcastWebrtcTextRequest(
             "This meeting will end in 5 minutes."
@@ -3481,7 +3479,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_DIALOGS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogPage(
             new List<CallsDialogResponse>
@@ -3653,7 +3651,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_DIALOG, 201, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogRequest(
             "d8d84155-3831-43fb-91c9-bb897149a79d",
@@ -3837,7 +3835,7 @@ public class CallsApiTest : ApiTest
             CREATE_DIALOG_WITH_EXISTING_CALLS.Replace("{parentCallId}", givenParentCallId)
                 .Replace("{childCallId}", givenChildCallId), 201, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogWithExistingCallRequest(
             new CallsDialogRecordingRequest(
@@ -3987,7 +3985,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_DIALOG.Replace("{dialogId}", givenDialogId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogResponse(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -4172,7 +4170,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_DIALOGS_HISTORY, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogLogPage(
             new List<CallsDialogLogResponse>
@@ -4381,7 +4379,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_DIALOG_HISTORY.Replace("{dialogId}", givenDialogId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogLogResponse(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -4554,7 +4552,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(HANGUP_DIALOG.Replace("{dialogId}", givenDialogId), 200, expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogResponse(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -4633,7 +4631,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(DIALOG_PLAY_FILE.Replace("{dialogId}", givenDialogId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogPlayRequest(
             3,
@@ -4675,7 +4673,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(DIALOG_SAY_TEXT.Replace("{dialogId}", givenDialogId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogSayRequest(
             "Hello world",
@@ -4710,7 +4708,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(DIALOG_STOP_PLAYING_FILE.Replace("{dialogId}", givenDialogId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsActionResponse(
             CallsActionStatus.Pending
@@ -4746,7 +4744,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(DIALOG_START_RECORDING.Replace("{dialogId}", givenDialogId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogRecordingRequest(
             CallsRecordingType.AudioAndVideo,
@@ -4783,7 +4781,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(DIALOG_STOP_RECORDING.Replace("{dialogId}", givenDialogId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsActionResponse(
             CallsActionStatus.Pending
@@ -4812,7 +4810,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(DIALOG_BROADCAST_WEBRTC_TEXT.Replace("{dialogId}", givenDialogId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsDialogBroadcastWebrtcTextRequest(
             "This dialog will end in 5 minutes."
@@ -4925,7 +4923,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_SIP_TRUNKS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsSipTrunkPage(
             new List<CallsSipTrunkResponse>
@@ -5103,7 +5101,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_SIP_TRUNK, 202, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsStaticSipTrunkRequest(
             name: "Static SIP trunk",
@@ -5240,7 +5238,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_SIP_TRUNK.Replace("{sipTrunkId}", givenSipTrunkId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsStaticSipTrunkResponse(
             id: "a8cbf843-12b9-4ad6-be1e-d186fe63963d",
@@ -5370,7 +5368,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPutRequest(UPDATE_SIP_TRUNK.Replace("{sipTrunkId}", givenSipTrunkId), 202, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsStaticSipTrunkUpdateRequest(
             name: "Static SIP trunk",
@@ -5500,7 +5498,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_SIP_TRUNK.Replace("{sipTrunkId}", givenSipTrunkId), 202,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsStaticSipTrunkResponse(
             id: "a8cbf843-12b9-4ad6-be1e-d186fe63963d",
@@ -5566,7 +5564,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(RESET_SIP_TRUNK_PASSWORD.Replace("{sipTrunkId}", givenSipTrunkId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsSipTrunkRegistrationCredentials(
             "426c8402-691c-11ee-8c99-0242ac120002",
@@ -5596,7 +5594,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_SIP_TRUNK_STATUS.Replace("{sipTrunkId}", givenSipTrunkId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsExtendedSipTrunkStatusResponse(
             CallsSipTrunkAdminStatus.Disabled,
@@ -5630,7 +5628,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(SET_SIP_TRUNK_STATUS.Replace("{sipTrunkId}", givenSipTrunkId), 200, givenRequest,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsSipTrunkStatusRequest(
             CallsSipTrunkAdminStatus.Enabled
@@ -5692,7 +5690,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_SIP_TRUNK_SERVICE_ADDRESSES, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsSipTrunkServiceAddressPage(
             new List<CallsPublicSipTrunkServiceAddress>
@@ -5761,7 +5759,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_SIP_TRUNK_SERVICE_ADDRESS, 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsPublicSipTrunkServiceAddressRequest(
             "Location address name",
@@ -5822,7 +5820,7 @@ public class CallsApiTest : ApiTest
             GET_SIP_TRUNK_SERVICE_ADDRESS.Replace("{sipTrunkServiceAddressId}", givenSipTrunkServiceAddressId), 200,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsPublicSipTrunkServiceAddress(
             "abc-def-ghi",
@@ -5884,7 +5882,7 @@ public class CallsApiTest : ApiTest
             UPDATE_SIP_TRUNK_SERVICE_ADDRESS.Replace("{sipTrunkServiceAddressId}", givenSipTrunkServiceAddressId), 200,
             givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsPublicSipTrunkServiceAddressRequest(
             "Location address name",
@@ -5945,7 +5943,7 @@ public class CallsApiTest : ApiTest
             DELETE_SIP_TRUNK_SERVICE_ADDRESS.Replace("{sipTrunkServiceAddressId}", givenSipTrunkServiceAddressId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsPublicSipTrunkServiceAddress(
             "abc-def-ghi",
@@ -5990,7 +5988,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_COUNTRIES, 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new List<CallsPublicCountry>
         {
@@ -6043,7 +6041,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_REGIONS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new List<CallsPublicRegion>
         {
@@ -6104,7 +6102,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALLS_FILES, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsFilePage(
             new List<CallsFile>
@@ -6157,7 +6155,7 @@ public class CallsApiTest : ApiTest
 
         SetUpMultipartFormRequest(UPLOAD_CALLS_AUDIO_FILE, parts, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsFile(
             "218eceba-c044-430d-9f26-8f1a7f0g2d03",
@@ -6194,7 +6192,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALLS_FILE.Replace("{fileId}", givenFileId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsFile(
             "218eceba-c044-430d-9f26-8f1a7f0g2d03",
@@ -6231,7 +6229,7 @@ public class CallsApiTest : ApiTest
 
         SetUpDeleteRequest(DELETE_CALLS_FILE.Replace("{fileId}", givenFileId), 200, expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsFile(
             "218eceba-c044-430d-9f26-8f1a7f0g2d03",
@@ -6347,7 +6345,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALLS_RECORDINGS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallRecordingPage(
             new List<CallRecording>
@@ -6463,7 +6461,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CALL_RECORDINGS.Replace("{callId}", givenCallId), 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallRecording(
             "d8d84155-3831-43fb-91c9-bb897149a79d",
@@ -6539,7 +6537,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_CALL_RECORDINGS.Replace("{callId}", givenCallId), 200,
             expectedResponse: givenResponse, givenParameters: givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallRecording(
             "d8d84155-3831-43fb-91c9-bb897149a79d",
@@ -6702,7 +6700,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_CONFERENCES_RECORDINGS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConferenceRecordingPage(
             new List<CallsConferenceRecording>
@@ -6901,7 +6899,7 @@ public class CallsApiTest : ApiTest
         SetUpGetRequest(GET_CONFERENCE_RECORDINGS.Replace("{conferenceId}", givenConferenceId), 200, givenResponse,
             givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConferenceRecording(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -7087,7 +7085,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_CONFERENCE_RECORDINGS.Replace("{conferenceId}", givenConferenceId), 200,
             expectedResponse: givenResponse, givenParameters: givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConferenceRecording(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -7205,7 +7203,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(COMPOSE_CONFERENCE_RECORDING.Replace("{conferenceId}", givenConferenceId), 200, givenRequest,
             givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsOnDemandComposition(
             true,
@@ -7347,7 +7345,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_DIALOGS_RECORDINGS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogRecordingPage(
             new List<CallsDialogRecordingResponse>
@@ -7542,7 +7540,7 @@ public class CallsApiTest : ApiTest
         SetUpGetRequest(GET_DIALOG_RECORDINGS.Replace("{dialogId}", givenDialogId), 200, givenResponse,
             givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogRecordingResponse(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -7724,7 +7722,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_DIALOG_RECORDINGS.Replace("{dialogId}", givenDialogId), 200,
             expectedResponse: givenResponse, givenParameters: givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsDialogRecordingResponse(
             "034e622a-cc7e-456d-8a10-0ba43b11aa5e",
@@ -7840,7 +7838,7 @@ public class CallsApiTest : ApiTest
         SetUpPostRequest(COMPOSE_DIALOG_RECORDING.Replace("{dialogId}", givenDialogId), 200, givenRequest,
             givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsOnDemandComposition(
             true,
@@ -7888,7 +7886,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_RECORDING_FILE.Replace("{fileId}", givenFileId), 200, expectedResponse: givenResponse,
             givenParameters: givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsRecordingFile(
             "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
@@ -7950,7 +7948,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_MEDIA_STREAM_CONFIGS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsMediaStreamConfigPage(
             new List<CallsMediaStreamConfigResponse>
@@ -8005,7 +8003,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_MEDIA_STREAM_CONFIG, 201, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsMediaStreamingConfigRequest(
             name: "Media-stream config",
@@ -8044,7 +8042,7 @@ public class CallsApiTest : ApiTest
         SetUpGetRequest(GET_MEDIA_STREAM_CONFIG.Replace("{mediaStreamConfigId}", givenMediaStreamConfigId), 200,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsMediaStreamConfigResponse(
             "63467c6e2885a5389ba11d80",
@@ -8086,7 +8084,7 @@ public class CallsApiTest : ApiTest
         SetUpPutRequest(UPDATE_MEDIA_STREAM_CONFIG.Replace("{mediaStreamConfigId}", givenMediaStreamConfigId), 200,
             givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsMediaStreamingConfigRequest(
             name: "Media-stream config",
@@ -8125,7 +8123,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(DELETE_MEDIA_STREAM_CONFIG.Replace("{mediaStreamConfigId}", givenMediaStreamConfigId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsMediaStreamConfigResponse(
             "63467c6e2885a5389ba11d80",
@@ -8268,7 +8266,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CREATE_BULK, 201, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallBulkRequest(
             "46ab0413-448f-4153-ada9-b68b14242dc3",
@@ -8407,7 +8405,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(GET_BULK_STATUS.Replace("{bulkId}", givenBulkId), 200, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallBulkStatus(
             "46ab0413-448f-4153-ada9-b68b14242dc3",
@@ -8439,7 +8437,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(RESCHEDULE_BULK.Replace("{bulkId}", givenBulkId), 200, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsRescheduleRequest(
             DateTimeOffset.Parse("2025-02-19T12:44:30Z")
@@ -8470,7 +8468,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(PAUSE_BULK.Replace("{bulkId}", givenBulkId), 200, expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallBulkStatus(
             "46ab0413-448f-4153-ada9-b68b14242dc3",
@@ -8497,7 +8495,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(RESUME_BULK.Replace("{bulkId}", givenBulkId), 200, expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallBulkStatus(
             "46ab0413-448f-4153-ada9-b68b14242dc3",
@@ -8524,7 +8522,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CANCEL_BULK.Replace("{bulkId}", givenBulkId), 200, expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallBulkStatus(
             "46ab0413-448f-4153-ada9-b68b14242dc3",
@@ -8566,7 +8564,7 @@ public class CallsApiTest : ApiTest
 
         SetUpGetRequest(CALLS_CONFIGURATIONS, 200, givenResponse, givenQueryParameters);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConfigurationPage(
             new List<CallsConfigurationResponse>
@@ -8606,7 +8604,7 @@ public class CallsApiTest : ApiTest
 
         SetUpPostRequest(CALLS_CONFIGURATIONS, 201, givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConfigurationCreateRequest(
             "63467c6e2885a5389ba11d80",
@@ -8637,7 +8635,7 @@ public class CallsApiTest : ApiTest
         SetUpGetRequest(CALLS_CONFIGURATION.Replace("{callsConfigurationId}", givenCallsConfigurationId), 200,
             givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConfigurationResponse(
             "63467c6e2885a5389ba11d80",
@@ -8668,7 +8666,7 @@ public class CallsApiTest : ApiTest
         SetUpPutRequest(CALLS_CONFIGURATION.Replace("{callsConfigurationId}", givenCallsConfigurationId), 200,
             givenRequest, givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var request = new CallsConfigurationUpdateRequest(
             "Calls configuration"
@@ -8698,7 +8696,7 @@ public class CallsApiTest : ApiTest
         SetUpDeleteRequest(CALLS_CONFIGURATION.Replace("{callsConfigurationId}", givenCallsConfigurationId), 200,
             expectedResponse: givenResponse);
 
-        var api = new CallsApi(configuration);
+        var api = new CallsApi(Configuration);
 
         var expectedResponse = new CallsConfigurationResponse(
             "63467c6e2885a5389ba11d80",

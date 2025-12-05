@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -44,7 +43,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpGetRequest(NUMBER_MASKING_CONFIGURATIONS_ENDPOINT, 200, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         void AssertNumberMaskingSetupResponse(List<NumberMaskingSetupResponse> numberMaskingSetupResponses)
         {
@@ -107,7 +106,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpPostRequest(NUMBER_MASKING_CONFIGURATIONS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         var numberMaskingSetupBody = new NumberMaskingSetupBody(
             givenName,
@@ -164,7 +163,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpGetRequest(NUMBER_MASKING_CONFIGURATION_ENDPOINT.Replace("{key}", givenKey), 200, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         void AssertNumberMaskingSetupResponse(NumberMaskingSetupResponse numberMaskingSetupResponse)
         {
@@ -224,7 +223,7 @@ public class NumberMaskingApiTest : ApiTest
         SetUpPutRequest(NUMBER_MASKING_CONFIGURATION_ENDPOINT.Replace("{key}", givenKey), 200, givenRequest,
             expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         var numberMaskingSetupBody = new NumberMaskingSetupBody(
             givenName,
@@ -264,7 +263,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpDeleteRequest(NUMBER_MASKING_CONFIGURATION_ENDPOINT.Replace("{key}", givenKey), 200);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(numberMaskingApi.DeleteNumberMaskingConfigurationWithHttpInfo(givenKey), 200);
         AssertNoBodyResponseWithHttpInfo(
@@ -290,7 +289,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpPostRequest(NUMBER_MASKING_UPLOAD_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         var numberMaskingUploadBody = new NumberMaskingUploadBody(
             givenUrl
@@ -480,7 +479,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpGetRequest(NUMBER_MASKING_CREDENTIALS_ENDPOINT, 200, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         void AssertNumberMaskingCredentialsResponse(NumberMaskingCredentialsResponse numberMaskingCredentialsResponse)
         {
@@ -521,7 +520,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpPutRequest(NUMBER_MASKING_CREDENTIALS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         var numberMaskingCredentialsBody = new NumberMaskingCredentialsBody(
             givenApiId,
@@ -570,7 +569,7 @@ public class NumberMaskingApiTest : ApiTest
 
         SetUpPostRequest(NUMBER_MASKING_CREDENTIALS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         var numberMaskingCredentialsBody = new NumberMaskingCredentialsBody(
             givenApiId,
@@ -601,7 +600,7 @@ public class NumberMaskingApiTest : ApiTest
     {
         SetUpDeleteRequest(NUMBER_MASKING_CREDENTIALS_ENDPOINT, 204);
 
-        var numberMaskingApi = new NumberMaskingApi(configuration);
+        var numberMaskingApi = new NumberMaskingApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(numberMaskingApi.DeleteNumberMaskingCredentialsWithHttpInfo(), 204);
         AssertNoBodyResponseWithHttpInfo(numberMaskingApi.DeleteNumberMaskingCredentialsWithHttpInfoAsync().Result,
