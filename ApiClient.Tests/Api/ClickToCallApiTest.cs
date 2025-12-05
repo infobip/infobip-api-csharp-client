@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests.Api;
 
@@ -122,7 +121,7 @@ public class ClickToCallApiTest : ApiTest
 
         SetUpPostRequest(SEND_CTC_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var clickToCallApi = new ClickToCallApi(configuration);
+        var clickToCallApi = new ClickToCallApi(Configuration);
 
         var callsClickToCallMessageBody = new CallsClickToCallMessageBody(
             givenBulkId,

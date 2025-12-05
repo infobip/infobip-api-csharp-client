@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using ApiClient.Tests.Api;
 using Infobip.Api.Client;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 
 namespace ApiClient.Tests;
@@ -50,13 +49,13 @@ public class GeneralSetupTest : ApiTest
         SetUpPostRequest(SMS_SEND_TEXT_ADVANCED_ENDPOINT, 200, givenRequest, expectedResponse,
             new Dictionary<string, string> { { "param1", "val1" } });
 
-        var client = new RestClient(configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
+        var client = new RestClient(Configuration!.BasePath + SMS_SEND_TEXT_ADVANCED_ENDPOINT)
         {
             UserAgent = "infobip-api-client-csharp/" + Configuration.Version,
             Timeout = -1
         };
         var request = new RestRequest(Method.POST);
-        request.AddHeader("Authorization", configuration.ApiKeyWithPrefix);
+        request.AddHeader("Authorization", Configuration.ApiKeyWithPrefix);
         request.AddHeader("Content-Type", "application/json; charset=utf-8");
         request.AddHeader("Accept", "application/json");
         request.AddQueryParameter("param1", "val1");

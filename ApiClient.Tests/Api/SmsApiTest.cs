@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -10,8 +9,6 @@ namespace ApiClient.Tests.Api;
 public class SmsApiTest : ApiTest
 {
     protected const string SMS_SEND_MESSAGE_ENDPOINT = "/sms/3/messages";
-    protected const string SMS_SEND_TEXT_ADVANCED_ENDPOINT = "/sms/2/text/advanced";
-    protected const string SMS_SEND_BINARY_ADVANCED_ENDPOINT = "/sms/2/binary/advanced";
     protected const string SMS_LOGS_ENDPOINT = "/sms/3/logs";
     protected const string SMS_REPORTS_ENDPOINT = "/sms/3/reports";
     protected const string SMS_INBOX_REPORTS_ENDPOINT = "/sms/1/inbox/reports";
@@ -96,7 +93,7 @@ public class SmsApiTest : ApiTest
             )
         });
 
-        var sendSmsApi = new SmsApi(configuration);
+        var sendSmsApi = new SmsApi(Configuration);
 
         var response = sendSmsApi.SendSmsMessages(request);
 
@@ -195,7 +192,7 @@ public class SmsApiTest : ApiTest
             )
         });
 
-        var sendSmsApi = new SmsApi(configuration);
+        var sendSmsApi = new SmsApi(Configuration);
 
         var response = sendSmsApi.SendSmsMessages(request);
 
@@ -427,7 +424,7 @@ public class SmsApiTest : ApiTest
             new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
             includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
-        var smsApi = new SmsApi(configuration);
+        var smsApi = new SmsApi(Configuration);
         var response = smsApi.SendSmsMessages(request);
 
         var expectedResponse = new SmsResponse(
@@ -663,7 +660,7 @@ public class SmsApiTest : ApiTest
             new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
             includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
-        var smsApi = new SmsApi(configuration);
+        var smsApi = new SmsApi(Configuration);
         var response = smsApi.SendSmsMessages(request);
 
         var expectedResponse = new SmsResponse(
@@ -898,7 +895,7 @@ public class SmsApiTest : ApiTest
             new UrlOptions(shortenUrl, trackClicks, trackingUrl, removeProtocol, customDomain),
             includeSmsCountInResponse, new SmsTracking(useConversionTracking, conversionTrackingName)));
 
-        var smsApi = new SmsApi(configuration);
+        var smsApi = new SmsApi(Configuration);
         var response = smsApi.SendSmsMessages(request);
 
         var expectedResponse = new SmsResponse(
@@ -1029,7 +1026,7 @@ public class SmsApiTest : ApiTest
         SetUpGetRequest(SMS_LOGS_ENDPOINT, 200, expectedResponse,
             new Dictionary<string, string> { { "bulkId", bulkId }, {"generalStatus", GetEnumAttributeValue(MessageGeneralStatus.Accepted)}});
 
-        var smsApiClient = new SmsApi(configuration);
+        var smsApiClient = new SmsApi(Configuration);
         var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> {bulkId}, generalStatus: MessageGeneralStatus.Accepted);
 
         var expectedDeserializedLogs = new SmsLogsResponse(new List<SmsLog>
@@ -1163,7 +1160,7 @@ public class SmsApiTest : ApiTest
         SetUpGetRequest(SMS_REPORTS_ENDPOINT, 200, expectedResponse,
             new Dictionary<string, string> { { "bulkId", bulkId } });
 
-        var smsApiClient = new SmsApi(configuration);
+        var smsApiClient = new SmsApi(Configuration);
         var actualResponse = smsApiClient.GetOutboundSmsMessageDeliveryReports(bulkId);
 
         var expectedDeserializedReport = new SmsDeliveryResult(new List<SmsDeliveryReport>
@@ -1264,7 +1261,7 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(expectedCallbackData, message.CallbackData);
         }
 
-        var receiveApi = new SmsApi(configuration);
+        var receiveApi = new SmsApi(Configuration);
 
         AssertResponse(receiveApi.GetInboundSmsMessages(givenLimit), ResultAssertions);
         AssertResponse(receiveApi.GetInboundSmsMessagesAsync(givenLimit).Result, ResultAssertions);
@@ -1321,7 +1318,7 @@ public class SmsApiTest : ApiTest
             Assert.IsNull(smsLanguage.Transliteration);
         }
 
-        var sendSmsApi = new SmsApi(configuration);
+        var sendSmsApi = new SmsApi(Configuration);
         var request = new SmsPreviewRequest(expectedTextPreview);
 
         AssertResponse(sendSmsApi.PreviewSmsMessage(request), SmsPreviewAssertions);
@@ -1353,7 +1350,7 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(DateTimeOffset.Parse(expectedSendAt), response.SendAt);
         }
 
-        var scheduledSmsApi = new SmsApi(configuration);
+        var scheduledSmsApi = new SmsApi(Configuration);
 
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessages(expectedBulkId), BulkResponseAssertions);
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessagesAsync(expectedBulkId).Result, BulkResponseAssertions);
@@ -1392,7 +1389,7 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(DateTimeOffset.Parse(expectedSendAt), response.SendAt);
         }
 
-        var scheduledSmsApi = new SmsApi(configuration);
+        var scheduledSmsApi = new SmsApi(Configuration);
         var bulkRequest = new SmsBulkRequest(DateTimeOffset.Parse(givenSendAtWithColon));
 
         AssertResponse(scheduledSmsApi.RescheduleSmsMessages(expectedBulkId, bulkRequest), BulkResponseAssertions);
@@ -1428,7 +1425,7 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(expectedBulkStatus, response.Status);
         }
 
-        var scheduledSmsApi = new SmsApi(configuration);
+        var scheduledSmsApi = new SmsApi(Configuration);
 
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessagesStatus(expectedBulkId), BulkResponseAssertions);
         AssertResponse(scheduledSmsApi.GetScheduledSmsMessagesStatusAsync(expectedBulkId).Result,
@@ -1470,7 +1467,7 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(expectedBulkStatus, response.Status);
         }
 
-        var scheduledSmsApi = new SmsApi(configuration);
+        var scheduledSmsApi = new SmsApi(Configuration);
         var updateStatusRequest = new SmsUpdateStatusRequest(SmsBulkStatus.Paused);
 
         AssertResponse(scheduledSmsApi.UpdateScheduledSmsMessagesStatus(expectedBulkId, updateStatusRequest),

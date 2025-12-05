@@ -2,7 +2,6 @@
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -80,7 +79,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPostRequest(VOICE_SINGLE_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsSingleBody = new CallsSingleBody(
             text: givenText,
@@ -92,7 +91,6 @@ public class VoiceApiTest : ApiTest
             from: givenFrom,
             to: givenTo
         );
-        ;
 
         void AssertCallsVoiceResponse(CallsVoiceResponse callsVoiceResponse)
         {
@@ -205,7 +203,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPostRequest(VOICE_MULTI_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsMultiBody = new CallsMultiBody(
             new List<CallsMultiMessage>
@@ -444,7 +442,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPostRequest(VOICE_ADVANCED_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsAdvancedBody = new CallsAdvancedBody(
             givenBulkId,
@@ -638,7 +636,7 @@ public class VoiceApiTest : ApiTest
         SetUpGetRequest(VOICE_LANGUAGE_ENDPOINT.Replace("{language}", givenLanguage), 200,
             expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsGetVoicesResponse(CallsGetVoicesResponse callsGetVoicesResponse)
         {
@@ -704,7 +702,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_BULKS_ENDPOINT, 200, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsBulkResponse(CallsBulkResponse callsBulkResponse)
         {
@@ -747,7 +745,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPutRequest(VOICE_BULKS_ENDPOINT, 200, givenRequest, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsBulkRequest = new CallsBulkRequest(
             givenSendAt
@@ -788,7 +786,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_BULKS_STATUS_ENDPOINT, 200, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsBulkStatusResponse(CallsBulkStatusResponse callsBulkStatusResponse)
         {
@@ -832,7 +830,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPutRequest(VOICE_BULKS_STATUS_ENDPOINT, 200, givenRequest, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsUpdateStatusRequest = new CallsUpdateStatusRequest(
             givenStatus
@@ -954,51 +952,51 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_REPORTS_ENDPOINT, 200, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsReportResponse(CallsReportResponse callsReportResponse)
         {
             Assert.IsNotNull(callsReportResponse);
 
             var results = callsReportResponse.Results;
-            Assert.IsNotNull(callsReportResponse.Results);
-            Assert.AreEqual(1, callsReportResponse.Results.Count);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
 
-            Assert.AreEqual(expectedBulkId, callsReportResponse.Results[0].BulkId);
-            Assert.AreEqual(expectedMessageId, callsReportResponse.Results[0].MessageId);
-            Assert.AreEqual(expectedFrom, callsReportResponse.Results[0].From);
-            Assert.AreEqual(expectedTo, callsReportResponse.Results[0].To);
-            Assert.AreEqual(expectedSentAt, callsReportResponse.Results[0].SentAt);
-            Assert.AreEqual(expectedMccMnc, callsReportResponse.Results[0].MccMnc);
-            Assert.AreEqual(expectedCallbackData, callsReportResponse.Results[0].CallbackData);
-            Assert.AreEqual(expectedFeature, callsReportResponse.Results[0].VoiceCall.Feature);
-            Assert.AreEqual(expectedStartTime, callsReportResponse.Results[0].VoiceCall.StartTime);
-            Assert.AreEqual(expectedAnswerTime, callsReportResponse.Results[0].VoiceCall.AnswerTime);
-            Assert.AreEqual(expectedEndTime, callsReportResponse.Results[0].VoiceCall.EndTime);
-            Assert.AreEqual(expectedDuration, callsReportResponse.Results[0].VoiceCall.Duration);
-            Assert.AreEqual(expectedChargedDuration, callsReportResponse.Results[0].VoiceCall.ChargedDuration);
-            Assert.AreEqual(expectedFileDuration, callsReportResponse.Results[0].VoiceCall.FileDuration);
-            Assert.AreEqual(expectedDtmfCodes, callsReportResponse.Results[0].VoiceCall.DtmfCodes);
-            Assert.AreEqual(expectedScenarioId, callsReportResponse.Results[0].VoiceCall.Ivr.ScenarioId);
-            Assert.AreEqual(expectedScenarioName, callsReportResponse.Results[0].VoiceCall.Ivr.ScenarioName);
+            Assert.AreEqual(expectedBulkId, results[0].BulkId);
+            Assert.AreEqual(expectedMessageId, results[0].MessageId);
+            Assert.AreEqual(expectedFrom, results[0].From);
+            Assert.AreEqual(expectedTo, results[0].To);
+            Assert.AreEqual(expectedSentAt, results[0].SentAt);
+            Assert.AreEqual(expectedMccMnc, results[0].MccMnc);
+            Assert.AreEqual(expectedCallbackData, results[0].CallbackData);
+            Assert.AreEqual(expectedFeature, results[0].VoiceCall.Feature);
+            Assert.AreEqual(expectedStartTime, results[0].VoiceCall.StartTime);
+            Assert.AreEqual(expectedAnswerTime, results[0].VoiceCall.AnswerTime);
+            Assert.AreEqual(expectedEndTime, results[0].VoiceCall.EndTime);
+            Assert.AreEqual(expectedDuration, results[0].VoiceCall.Duration);
+            Assert.AreEqual(expectedChargedDuration, results[0].VoiceCall.ChargedDuration);
+            Assert.AreEqual(expectedFileDuration, results[0].VoiceCall.FileDuration);
+            Assert.AreEqual(expectedDtmfCodes, results[0].VoiceCall.DtmfCodes);
+            Assert.AreEqual(expectedScenarioId, results[0].VoiceCall.Ivr.ScenarioId);
+            Assert.AreEqual(expectedScenarioName, results[0].VoiceCall.Ivr.ScenarioName);
             Assert.AreEqual("{\"myFirstVar\":\"3\",\"mySecondVar\":\"9\"}",
-                callsReportResponse.Results[0].VoiceCall.Ivr.CollectedDtmfs);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.CollectedMappedDtmfs);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.SpokenInput);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.MatchedSpokenInput);
-            Assert.AreEqual(expectedPricePerSecond, callsReportResponse.Results[0].Price.PricePerSecond);
-            Assert.AreEqual(expectedCurrency, callsReportResponse.Results[0].Price.Currency);
-            Assert.AreEqual(expectedStatusGroupId, callsReportResponse.Results[0].Status.GroupId);
-            Assert.AreEqual(expectedStatusGroupName, callsReportResponse.Results[0].Status.GroupName);
-            Assert.AreEqual(expectedStatusId, callsReportResponse.Results[0].Status.Id);
-            Assert.AreEqual(expectedStatusName, callsReportResponse.Results[0].Status.Name);
-            Assert.AreEqual(expectedStatusDescription, callsReportResponse.Results[0].Status.Description);
-            Assert.AreEqual(expectedErrorGroupId, callsReportResponse.Results[0].Error.GroupId);
-            Assert.AreEqual(expectedErrorGroupName, callsReportResponse.Results[0].Error.GroupName);
-            Assert.AreEqual(expectedErrorId, callsReportResponse.Results[0].Error.Id);
-            Assert.AreEqual(expectedErrorName, callsReportResponse.Results[0].Error.Name);
-            Assert.AreEqual(expectedErrorDescription, callsReportResponse.Results[0].Error.Description);
-            Assert.AreEqual(expectedErrorPermanent, callsReportResponse.Results[0].Error.Permanent);
+                results[0].VoiceCall.Ivr.CollectedDtmfs);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.CollectedMappedDtmfs);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.SpokenInput);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.MatchedSpokenInput);
+            Assert.AreEqual(expectedPricePerSecond, results[0].Price.PricePerSecond);
+            Assert.AreEqual(expectedCurrency, results[0].Price.Currency);
+            Assert.AreEqual(expectedStatusGroupId, results[0].Status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, results[0].Status.GroupName);
+            Assert.AreEqual(expectedStatusId, results[0].Status.Id);
+            Assert.AreEqual(expectedStatusName, results[0].Status.Name);
+            Assert.AreEqual(expectedStatusDescription, results[0].Status.Description);
+            Assert.AreEqual(expectedErrorGroupId, results[0].Error.GroupId);
+            Assert.AreEqual(expectedErrorGroupName, results[0].Error.GroupName);
+            Assert.AreEqual(expectedErrorId, results[0].Error.Id);
+            Assert.AreEqual(expectedErrorName, results[0].Error.Name);
+            Assert.AreEqual(expectedErrorDescription, results[0].Error.Description);
+            Assert.AreEqual(expectedErrorPermanent, results[0].Error.Permanent);
         }
 
         AssertResponse(voiceApi.GetVoiceDeliveryReports(givenBulkId, givenMessageId, givenLimit),
@@ -1083,37 +1081,37 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_LOGS_ENDPOINT, 200, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsLogsResponse(CallsLogsResponse callsLogsResponse)
         {
             Assert.IsNotNull(callsLogsResponse);
 
             var results = callsLogsResponse.Results;
-            Assert.IsNotNull(callsLogsResponse.Results);
-            Assert.AreEqual(1, callsLogsResponse.Results.Count);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
 
-            Assert.AreEqual(expectedBulkId, callsLogsResponse.Results[0].BulkId);
-            Assert.AreEqual(expectedMessageId, callsLogsResponse.Results[0].MessageId);
-            Assert.AreEqual(expectedTo, callsLogsResponse.Results[0].To);
-            Assert.AreEqual(expectedFrom, callsLogsResponse.Results[0].From);
-            Assert.AreEqual(expectedSentAt, callsLogsResponse.Results[0].SentAt);
-            Assert.AreEqual(expectedDoneAt, callsLogsResponse.Results[0].DoneAt);
-            Assert.AreEqual(expectedDuration, callsLogsResponse.Results[0].Duration);
-            Assert.AreEqual(expectedMccMnc, callsLogsResponse.Results[0].MccMnc);
-            Assert.AreEqual(expectedPricePerSecond, callsLogsResponse.Results[0].Price.PricePerSecond);
-            Assert.AreEqual(expectedCurrency, callsLogsResponse.Results[0].Price.Currency);
-            Assert.AreEqual(expectedStatusGroupId, callsLogsResponse.Results[0].Status.GroupId);
-            Assert.AreEqual(expectedStatusGroupName, callsLogsResponse.Results[0].Status.GroupName);
-            Assert.AreEqual(expectedStatusId, callsLogsResponse.Results[0].Status.Id);
-            Assert.AreEqual(expectedStatusName, callsLogsResponse.Results[0].Status.Name);
-            Assert.AreEqual(expectedStatusDescription, callsLogsResponse.Results[0].Status.Description);
-            Assert.AreEqual(expectedErrorGroupId, callsLogsResponse.Results[0].Error.GroupId);
-            Assert.AreEqual(expectedErrorGroupName, callsLogsResponse.Results[0].Error.GroupName);
-            Assert.AreEqual(expectedErrorId, callsLogsResponse.Results[0].Error.Id);
-            Assert.AreEqual(expectedErrorName, callsLogsResponse.Results[0].Error.Name);
-            Assert.AreEqual(expectedErrorDescription, callsLogsResponse.Results[0].Error.Description);
-            Assert.AreEqual(expectedErrorPermanent, callsLogsResponse.Results[0].Error.Permanent);
+            Assert.AreEqual(expectedBulkId, results[0].BulkId);
+            Assert.AreEqual(expectedMessageId, results[0].MessageId);
+            Assert.AreEqual(expectedTo, results[0].To);
+            Assert.AreEqual(expectedFrom, results[0].From);
+            Assert.AreEqual(expectedSentAt, results[0].SentAt);
+            Assert.AreEqual(expectedDoneAt, results[0].DoneAt);
+            Assert.AreEqual(expectedDuration, results[0].Duration);
+            Assert.AreEqual(expectedMccMnc, results[0].MccMnc);
+            Assert.AreEqual(expectedPricePerSecond, results[0].Price.PricePerSecond);
+            Assert.AreEqual(expectedCurrency, results[0].Price.Currency);
+            Assert.AreEqual(expectedStatusGroupId, results[0].Status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, results[0].Status.GroupName);
+            Assert.AreEqual(expectedStatusId, results[0].Status.Id);
+            Assert.AreEqual(expectedStatusName, results[0].Status.Name);
+            Assert.AreEqual(expectedStatusDescription, results[0].Status.Description);
+            Assert.AreEqual(expectedErrorGroupId, results[0].Error.GroupId);
+            Assert.AreEqual(expectedErrorGroupName, results[0].Error.GroupName);
+            Assert.AreEqual(expectedErrorId, results[0].Error.Id);
+            Assert.AreEqual(expectedErrorName, results[0].Error.Name);
+            Assert.AreEqual(expectedErrorDescription, results[0].Error.Description);
+            Assert.AreEqual(expectedErrorPermanent, results[0].Error.Permanent);
         }
 
         AssertResponse(voiceApi.GetSentVoiceLogs(limit: givenLimit), AssertCallsLogsResponse);
@@ -1221,49 +1219,49 @@ public class VoiceApiTest : ApiTest
             Assert.IsNotNull(callsReportResponse);
 
             var results = callsReportResponse.Results;
-            Assert.IsNotNull(callsReportResponse.Results);
-            Assert.AreEqual(1, callsReportResponse.Results.Count);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(1, results.Count);
 
-            Assert.AreEqual(expectedBulkId, callsReportResponse.Results[0].BulkId);
-            Assert.AreEqual(expectedMessageId, callsReportResponse.Results[0].MessageId);
-            Assert.AreEqual(expectedFrom, callsReportResponse.Results[0].From);
-            Assert.AreEqual(expectedTo, callsReportResponse.Results[0].To);
-            Assert.AreEqual(expectedSentAt, callsReportResponse.Results[0].SentAt);
-            Assert.AreEqual(expectedMccMnc, callsReportResponse.Results[0].MccMnc);
-            Assert.AreEqual(expectedCallbackData, callsReportResponse.Results[0].CallbackData);
-            Assert.AreEqual(expectedFeature, callsReportResponse.Results[0].VoiceCall.Feature);
-            Assert.AreEqual(expectedStartTime, callsReportResponse.Results[0].VoiceCall.StartTime);
-            Assert.AreEqual(expectedAnswerTime, callsReportResponse.Results[0].VoiceCall.AnswerTime);
-            Assert.AreEqual(expectedEndTime, callsReportResponse.Results[0].VoiceCall.EndTime);
-            Assert.AreEqual(expectedDuration, callsReportResponse.Results[0].VoiceCall.Duration);
-            Assert.AreEqual(expectedChargedDuration, callsReportResponse.Results[0].VoiceCall.ChargedDuration);
-            Assert.AreEqual(expectedFileDuration, callsReportResponse.Results[0].VoiceCall.FileDuration);
-            Assert.AreEqual(expectedDtmfCodes, callsReportResponse.Results[0].VoiceCall.DtmfCodes);
-            Assert.AreEqual(expectedScenarioId, callsReportResponse.Results[0].VoiceCall.Ivr.ScenarioId);
-            Assert.AreEqual(expectedScenarioName, callsReportResponse.Results[0].VoiceCall.Ivr.ScenarioName);
+            Assert.AreEqual(expectedBulkId, results[0].BulkId);
+            Assert.AreEqual(expectedMessageId, results[0].MessageId);
+            Assert.AreEqual(expectedFrom, results[0].From);
+            Assert.AreEqual(expectedTo, results[0].To);
+            Assert.AreEqual(expectedSentAt, results[0].SentAt);
+            Assert.AreEqual(expectedMccMnc, results[0].MccMnc);
+            Assert.AreEqual(expectedCallbackData, results[0].CallbackData);
+            Assert.AreEqual(expectedFeature, results[0].VoiceCall.Feature);
+            Assert.AreEqual(expectedStartTime, results[0].VoiceCall.StartTime);
+            Assert.AreEqual(expectedAnswerTime, results[0].VoiceCall.AnswerTime);
+            Assert.AreEqual(expectedEndTime, results[0].VoiceCall.EndTime);
+            Assert.AreEqual(expectedDuration, results[0].VoiceCall.Duration);
+            Assert.AreEqual(expectedChargedDuration, results[0].VoiceCall.ChargedDuration);
+            Assert.AreEqual(expectedFileDuration, results[0].VoiceCall.FileDuration);
+            Assert.AreEqual(expectedDtmfCodes, results[0].VoiceCall.DtmfCodes);
+            Assert.AreEqual(expectedScenarioId, results[0].VoiceCall.Ivr.ScenarioId);
+            Assert.AreEqual(expectedScenarioName, results[0].VoiceCall.Ivr.ScenarioName);
             Assert.AreEqual("{\"myFirstVar\":\"3\",\"mySecondVar\":\"9\"}",
-                callsReportResponse.Results[0].VoiceCall.Ivr.CollectedDtmfs);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.CollectedMappedDtmfs);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.SpokenInput);
-            Assert.AreEqual(null, callsReportResponse.Results[0].VoiceCall.Ivr.MatchedSpokenInput);
-            Assert.AreEqual(expectedPricePerSecond, callsReportResponse.Results[0].Price.PricePerSecond);
-            Assert.AreEqual(expectedCurrency, callsReportResponse.Results[0].Price.Currency);
-            Assert.AreEqual(expectedStatusGroupId, callsReportResponse.Results[0].Status.GroupId);
-            Assert.AreEqual(expectedStatusGroupName, callsReportResponse.Results[0].Status.GroupName);
-            Assert.AreEqual(expectedStatusId, callsReportResponse.Results[0].Status.Id);
-            Assert.AreEqual(expectedStatusName, callsReportResponse.Results[0].Status.Name);
-            Assert.AreEqual(expectedStatusDescription, callsReportResponse.Results[0].Status.Description);
-            Assert.AreEqual(expectedErrorGroupId, callsReportResponse.Results[0].Error.GroupId);
-            Assert.AreEqual(expectedErrorGroupName, callsReportResponse.Results[0].Error.GroupName);
-            Assert.AreEqual(expectedErrorId, callsReportResponse.Results[0].Error.Id);
-            Assert.AreEqual(expectedErrorName, callsReportResponse.Results[0].Error.Name);
-            Assert.AreEqual(expectedErrorDescription, callsReportResponse.Results[0].Error.Description);
-            Assert.AreEqual(expectedErrorPermanent, callsReportResponse.Results[0].Error.Permanent);
+                results[0].VoiceCall.Ivr.CollectedDtmfs);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.CollectedMappedDtmfs);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.SpokenInput);
+            Assert.AreEqual(null, results[0].VoiceCall.Ivr.MatchedSpokenInput);
+            Assert.AreEqual(expectedPricePerSecond, results[0].Price.PricePerSecond);
+            Assert.AreEqual(expectedCurrency, results[0].Price.Currency);
+            Assert.AreEqual(expectedStatusGroupId, results[0].Status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, results[0].Status.GroupName);
+            Assert.AreEqual(expectedStatusId, results[0].Status.Id);
+            Assert.AreEqual(expectedStatusName, results[0].Status.Name);
+            Assert.AreEqual(expectedStatusDescription, results[0].Status.Description);
+            Assert.AreEqual(expectedErrorGroupId, results[0].Error.GroupId);
+            Assert.AreEqual(expectedErrorGroupName, results[0].Error.GroupName);
+            Assert.AreEqual(expectedErrorId, results[0].Error.Id);
+            Assert.AreEqual(expectedErrorName, results[0].Error.Name);
+            Assert.AreEqual(expectedErrorDescription, results[0].Error.Description);
+            Assert.AreEqual(expectedErrorPermanent, results[0].Error.Permanent);
         }
     }
 
     [TestMethod]
-    public void ShouldSearchVoiceIVRScenarios()
+    public void ShouldSearchVoiceIvrScenarios()
     {
         var expectedId = "E83E787CF2613450157ADA3476171E3F";
         var expectedName = "scenario";
@@ -1340,7 +1338,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_IVR_SCENARIOS_ENDPOINT, 200, expectedResponse, givenQueryParamters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsSearchResponse(List<CallsSearchResponse> callsSearchResponses)
         {
@@ -1378,7 +1376,7 @@ public class VoiceApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldCreateVoiceIVRScenarios()
+    public void ShouldCreateVoiceIvrScenarios()
     {
         var expectedId = "E83E787CF2613450157ADA3476171E3F";
         var expectedName = "Capture speech or digit";
@@ -1496,7 +1494,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPostRequest(VOICE_IVR_SCENARIOS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsUpdateScenarioRequest = new CallsUpdateScenarioRequest(
             givenName,
@@ -1524,7 +1522,7 @@ public class VoiceApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldGetVoiceIVRScenario()
+    public void ShouldGetVoiceIvrScenario()
     {
         var expectedId = "E83E787CF2613450157ADA3476171E3F";
         var expectedName = "Scenario name";
@@ -1561,7 +1559,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_IVR_SCENARIO_ENDPOINT.Replace("{id}", givenId), 200, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsSearchResponse(CallsUpdateScenarioResponse callsUpdateScenarioResponse)
         {
@@ -1588,7 +1586,7 @@ public class VoiceApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldUpdateVoiceIVRScenarios()
+    public void ShouldUpdateVoiceIvrScenarios()
     {
         var expectedId = "E83E787CF2613450157ADA3476171E3F";
         var expectedName = "For-Each";
@@ -1644,7 +1642,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPutRequest(VOICE_IVR_SCENARIO_ENDPOINT.Replace("{id}", givenId), 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsUpdateScenarioRequest = new CallsUpdateScenarioRequest(
             givenName,
@@ -1675,20 +1673,20 @@ public class VoiceApiTest : ApiTest
     }
 
     [TestMethod]
-    public void ShouldDeleteVoiceIVRScenarios()
+    public void ShouldDeleteVoiceIvrScenarios()
     {
         var givenId = "E83E787CF2613450157ADA3476171E3F";
 
         SetUpDeleteRequest(VOICE_IVR_SCENARIO_ENDPOINT.Replace("{id}", givenId), 200);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(voiceApi.DeleteAVoiceIvrScenarioWithHttpInfo(givenId), 200);
         AssertNoBodyResponseWithHttpInfo(voiceApi.DeleteAVoiceIvrScenarioWithHttpInfoAsync(givenId).Result, 200);
     }
 
     [TestMethod]
-    public void ShouldLaunchVoiceIVRScenarios()
+    public void ShouldLaunchVoiceIvrScenarios()
     {
         var expectedBulkId = "5028e2d42f19-42f1-4656-351e-a42c191e5fd2";
         var expectedTo = "41793026727";
@@ -1812,7 +1810,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpPostRequest(VOICE_IVR_MESSAGE_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         var callsLaunchScenarioRequest = new CallsLaunchScenarioRequest(
             givenBulkId,
@@ -1957,7 +1955,7 @@ public class VoiceApiTest : ApiTest
 
         SetUpGetRequest(VOICE_IVR_FILES_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertCallsRecordedAudioFilesResponses(
             CallsRecordedAudioFilesResponse callsRecordedAudioFilesResponses)
@@ -1990,14 +1988,12 @@ public class VoiceApiTest : ApiTest
     {
         var expectedContentType = "application/octet-stream";
         var expectedContentText = "fileResponse";
-        var expectedContent = new MemoryStream(Encoding.UTF8.GetBytes(expectedContentText));
-        var expectedFileParameter = new FileParameter(expectedContent);
 
         var givenId = "file-id-123";
 
         SetUpGetRequestBinary(VOICE_IVR_FILE_ENDPOINT.Replace("{id}", givenId), 200, expectedContentText);
 
-        var voiceApi = new VoiceApi(configuration);
+        var voiceApi = new VoiceApi(Configuration);
 
         void AssertFileParameter(FileParameter fileParameter)
         {
