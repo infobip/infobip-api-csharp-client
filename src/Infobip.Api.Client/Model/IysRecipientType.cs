@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -21,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>Recipient Type must be &#x60;TACIR&#x60; or &#x60;BIREYSEL&#x60;.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<IysRecipientType>))]
     public enum IysRecipientType
     {
         /// <summary>

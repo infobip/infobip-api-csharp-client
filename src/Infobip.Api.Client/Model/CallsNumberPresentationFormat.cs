@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -21,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>Format in which numbers are sent to a SIP trunk.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsNumberPresentationFormat>))]
     public enum CallsNumberPresentationFormat
     {
         /// <summary>

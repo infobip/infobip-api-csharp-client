@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -21,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>Media stream configuration type.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsRequestMediaStreamConfigType>))]
     public enum CallsRequestMediaStreamConfigType
     {
         /// <summary>

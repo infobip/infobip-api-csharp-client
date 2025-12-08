@@ -33,7 +33,7 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <value>Audio sampling rate.</value>
         [JsonConverter(typeof(StringEnumConverter))]
-        [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+        [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<SampleRateEnum>))]
         public enum SampleRateEnum
         {
             /// <summary>

@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -35,7 +34,7 @@ namespace Infobip.Api.Client.Model
     ///     established.  &#x60;SERVICE_UNAVAILABLE&#x60; - Call cannot be established.
     /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsErrorCode>))]
     public enum CallsErrorCode
     {
         /// <summary>
