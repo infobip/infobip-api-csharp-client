@@ -20,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>SIP trunk admin status.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsSipTrunkActionStatus>))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsSipTrunkAdminStatus>))]
     public enum CallsSipTrunkAdminStatus
     {
         /// <summary>
