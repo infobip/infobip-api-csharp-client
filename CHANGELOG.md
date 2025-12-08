@@ -5,6 +5,17 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [4.0.2](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.2) ] - 2025-12-08
+
+### Added
+- Custom Enum Converter for System.Text.Json (see ###fixed for more information).
+
+### Changed
+- Refactored tests: removed unused code, aligned some variable naming, removed unused imports.
+
+### Fixed
+- Enum deserialization using System.Text.Json now correctly maps Json string values to enums using values defined by [EnumMember].
+
 ## [ [4.0.1](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.1) ] - 2025-12-03
 
 ### Changed
