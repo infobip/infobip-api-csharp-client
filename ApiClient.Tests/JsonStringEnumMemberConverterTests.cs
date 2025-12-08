@@ -16,7 +16,7 @@ public class JsonStringEnumMemberConverterTests
         C = 3
     }
     
-    private JsonSerializerOptions _options;
+    private JsonSerializerOptions _options = null!;
     
     [TestInitialize]
     public void Setup()
