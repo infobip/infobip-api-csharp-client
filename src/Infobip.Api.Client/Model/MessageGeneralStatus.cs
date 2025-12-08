@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -33,7 +32,7 @@ namespace Infobip.Api.Client.Model
     ///     [REJECTED](https://www.infobip.com/docs/essentials/response-status-and-error-codes#rejected-general-status-codes).
     /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<MessageGeneralStatus>))]
     public enum MessageGeneralStatus
     {
         /// <summary>

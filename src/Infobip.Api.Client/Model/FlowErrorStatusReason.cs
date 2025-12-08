@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -37,7 +36,7 @@ namespace Infobip.Api.Client.Model
     ///     contact your Account Manager.
     /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<FlowErrorStatusReason>))]
     public enum FlowErrorStatusReason
     {
         /// <summary>

@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -21,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>The time unit to define when setting a messaging speed limit. Defaults to &#x60;MINUTE&#x60;.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<SpeedLimitTimeUnit>))]
     public enum SpeedLimitTimeUnit
     {
         /// <summary>

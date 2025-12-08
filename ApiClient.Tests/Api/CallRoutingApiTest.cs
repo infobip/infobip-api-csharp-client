@@ -627,7 +627,7 @@ public class CallRoutingApiTest : ApiTest
         var expectedSipTrunkId = "60d345fd3a799ec";
         var expectedValueType = "SIP";
         var expectedConnectTimeout = 30;
-        var expectedRecordingType = CallRoutingRecordingType.Audio;
+        var expectedRecordingType = "AUDIO";
         var expectedType = "ENDPOINT";
 
         var expectedResponse = $@"
@@ -688,7 +688,7 @@ public class CallRoutingApiTest : ApiTest
             Assert.AreEqual(expectedSipTrunkId, callRoutingSipEndpoint.SipTrunkId);
 
             Assert.AreEqual(expectedConnectTimeout, callRoutingEndpointDestinationResponse.ConnectTimeout);
-            Assert.AreEqual(expectedRecordingType, callRoutingEndpointDestinationResponse.Recording.RecordingType);
+            Assert.AreEqual(expectedRecordingType, GetEnumAttributeValue(callRoutingEndpointDestinationResponse.Recording.RecordingType));
         }
 
         void AssertCallRoutingUrlDestinationHttpRequest(
