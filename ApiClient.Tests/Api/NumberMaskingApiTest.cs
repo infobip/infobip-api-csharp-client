@@ -409,7 +409,7 @@ public class NumberMaskingApiTest : ApiTest
         var givenCurrency = "7e8d64c0-6c72-4922-aa96-48728753c660";
         var givenRecordingFileId = "EUR";
         var givenRecordingCalleeAnnouncement = true;
-        var givenRecordingStatus = NumberMaskingRecordingStatus.Sftp;
+        var givenRecordingStatus = "SFTP";
         var givenClientReferenceId = "7e8d64c0-6c72-4922-aa96-48728753c660";
 
         var givenRequest = $@"
@@ -460,7 +460,7 @@ public class NumberMaskingApiTest : ApiTest
             Assert.AreEqual(givenCurrency, numberMaskingStatusRequest.Currency);
             Assert.AreEqual(givenRecordingFileId, numberMaskingStatusRequest.RecordingFileId);
             Assert.AreEqual(givenRecordingCalleeAnnouncement, numberMaskingStatusRequest.RecordCalleeAnnouncement);
-            Assert.AreEqual(givenRecordingStatus, numberMaskingStatusRequest.RecordingStatus);
+            Assert.AreEqual(givenRecordingStatus, GetEnumAttributeValue(numberMaskingStatusRequest.RecordingStatus!));
             Assert.AreEqual(givenClientReferenceId, numberMaskingStatusRequest.ClientReferenceId);
         }
     }
