@@ -10,7 +10,6 @@
 
 
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json.Converters;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -21,7 +20,7 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>Indicates current status of the recording file being uploaded via SFTP.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsSftpUploadStatus>))]
     public enum CallsSftpUploadStatus
     {
         /// <summary>

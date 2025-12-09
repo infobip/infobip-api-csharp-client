@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests.Api;
 
@@ -87,7 +86,7 @@ public class FlowApiTest : ApiTest
         SetUpPostRequest(FLOW_ADD_PARTICIPANTS_ENDPOINT.Replace("{campaignId}", givenCampaignId.ToString()), 200,
             givenRequest, expectedResponse);
 
-        var flowApi = new FlowApi(configuration);
+        var flowApi = new FlowApi(Configuration);
 
         var addFlowParticipantsRequest = new FlowAddFlowParticipantsRequest(
             new List<FlowParticipant>
@@ -199,7 +198,7 @@ public class FlowApiTest : ApiTest
         SetUpGetRequest(FLOW_GET_PARTICIPANTS_REPORT_ENDPOINT.Replace("{campaignId}", expectedCampaignId.ToString()),
             200, expectedResponse, givenQueryParameters);
 
-        var flowApi = new FlowApi(configuration);
+        var flowApi = new FlowApi(Configuration);
 
         void AssertFlowParticipantsReportResponse(FlowParticipantsReportResponse flowParticipantsReportResponse)
         {
@@ -252,7 +251,7 @@ public class FlowApiTest : ApiTest
         SetUpDeleteRequest(FLOW_DELETE_PARTICIPANTS_ENDPOINT.Replace("{campaignId}", givenCampaignId.ToString()), 200,
             givenParameters: givenQueryParameters);
 
-        var flowApi = new FlowApi(configuration);
+        var flowApi = new FlowApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(
             flowApi.RemovePeopleFromFlowWithHttpInfo(givenCampaignId, givenPhone, givenEmail, givenExternalId), 200);

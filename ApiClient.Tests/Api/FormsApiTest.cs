@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests.Api;
 
@@ -121,7 +120,7 @@ public class FormsApiTest : ApiTest
 
         SetUpGetRequest(FORMS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
-        var formsApi = new FormsApi(configuration);
+        var formsApi = new FormsApi(Configuration);
 
         void AssertFormsResponse(FormsResponse formsResponse)
         {
@@ -288,7 +287,7 @@ public class FormsApiTest : ApiTest
 
         SetUpGetRequest(FORM_ENDPOINT.Replace("{id}", expectedId), 200, expectedResponse);
 
-        var formsApi = new FormsApi(configuration);
+        var formsApi = new FormsApi(Configuration);
 
         void AssertFormsResponseContent(FormsResponseContent formsResponseContent)
         {
@@ -371,7 +370,7 @@ public class FormsApiTest : ApiTest
 
         SetUpPostRequest(FORM_VIEW_ENDPOINT.Replace("{id}", givenId), 200, expectedResponse: expectedResponse);
 
-        var formsApi = new FormsApi(configuration);
+        var formsApi = new FormsApi(Configuration);
 
         void AssertFormsStatusResponse(FormsStatusResponse formsStatusResponse)
         {
@@ -420,7 +419,7 @@ public class FormsApiTest : ApiTest
 
         SetUpPostRequest(FORM_DATA_ENDPOINT.Replace("{id}", givenId), 200, givenRequest, expectedResponse);
 
-        var formsApi = new FormsApi(configuration);
+        var formsApi = new FormsApi(Configuration);
 
         void AssertFormsStatusResponse(FormsStatusResponse formsStatusResponse)
         {

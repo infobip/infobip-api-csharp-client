@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ApiClient.Tests.Api;
 
@@ -102,7 +101,7 @@ public class TfaApiTest : ApiTest
 
         SetUpGetRequest(TFA_APPLICATIONS, 200, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         void AssertTfaGetApplicationsResponse(List<TfaApplicationResponse> tfaApplicationResponses)
         {
@@ -210,7 +209,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_APPLICATIONS, 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaApplicationConfiguration = new TfaApplicationConfiguration
         {
@@ -277,7 +276,7 @@ public class TfaApiTest : ApiTest
 
         SetUpGetRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), 200, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         void AssertTfaGetApplicationResponse(TfaApplicationResponse tfaApplicationResponse)
         {
@@ -351,7 +350,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPutRequest(TFA_APPLICATION.Replace("{appId}", expectedApplicationId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaApplicationConfiguration = new TfaApplicationConfiguration
         {
@@ -421,7 +420,7 @@ public class TfaApiTest : ApiTest
 
         SetUpGetRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), 200, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         void AssertTfaGetTemplatesResponse(List<TfaMessage> tfaMessages)
         {
@@ -487,7 +486,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_TEMPLATES.Replace("{appId}", givenApplicationId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaCreateMessageRequest = new TfaCreateMessageRequest(
             Enum.Parse<TfaLanguage>(expectedLanguage, true),
@@ -555,7 +554,7 @@ public class TfaApiTest : ApiTest
         SetUpGetRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId),
             200, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         void AssertTfaGetTemplateResponse(TfaMessage tfaMessage)
         {
@@ -623,7 +622,7 @@ public class TfaApiTest : ApiTest
         SetUpPutRequest(TFA_TEMPLATE.Replace("{appId}", givenApplicationId).Replace("{msgId}", givenMessageId), 200,
             givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaUpdateMessageRequest = new TfaUpdateMessageRequest(
             Enum.Parse<TfaLanguage>(expectedLanguage, true),
@@ -693,7 +692,7 @@ public class TfaApiTest : ApiTest
         SetUpPostRequest(TFA_EMAIL_TEMPLATES.Replace("{appId}", expectedApplicationId), 200, givenRequest,
             expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaCreateEmailMessageRequest = new TfaCreateEmailMessageRequest(
             pinType: expectedPinType,
@@ -759,7 +758,7 @@ public class TfaApiTest : ApiTest
             TFA_EMAIL_TEMPLATE.Replace("{appId}", expectedApplicationId).Replace("{msgId}", expectedMessageId),
             200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaUpdateEmailMessageRequest = new TfaUpdateEmailMessageRequest(
             pinType: expectedPinType,
@@ -828,7 +827,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_SEND_PIN, 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var givenPlaceholders = new Dictionary<string, string> { { "firstName", givenFirstName } };
         var tfaStartAuthenticationRequest = new TfaStartAuthenticationRequest(
@@ -886,7 +885,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_RESEND_PIN.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaResendPinRequest = new TfaResendPinRequest
         {
@@ -946,7 +945,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_SEND_PIN_VOICE, 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var givenPlaceholders = new Dictionary<string, string> { { "firstName", givenFirstName } };
         var tfaStartAuthenticationRequest = new TfaStartAuthenticationRequest(
@@ -1002,7 +1001,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_RESEND_PIN_VOICE.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaResendPinRequest = new TfaResendPinRequest
         {
@@ -1019,7 +1018,7 @@ public class TfaApiTest : ApiTest
 
         AssertResponse(tfaApi.ResendTfaPinCodeOverVoice(expectedPinId, tfaResendPinRequest),
             AssertTfaStartAuthenticationResponse);
-        ;
+        
         AssertResponse(tfaApi.ResendTfaPinCodeOverVoiceAsync(expectedPinId, tfaResendPinRequest).Result,
             AssertTfaStartAuthenticationResponse);
 
@@ -1065,7 +1064,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_SEND_PIN_EMAIL, 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var givenPlaceholders = new Dictionary<string, string> { { "firstName", givenFirstName } };
 
@@ -1128,7 +1127,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_RESEND_PIN_EMAIL.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaResendPinRequest = new TfaResendPinRequest
         {
@@ -1148,7 +1147,7 @@ public class TfaApiTest : ApiTest
 
         AssertResponse(tfaApi.Resend2faPinCodeOverEmail(expectedPinId, tfaResendPinRequest),
             AssertTfaStartAuthenticationResponse);
-        ;
+        
         AssertResponse(tfaApi.Resend2faPinCodeOverEmailAsync(expectedPinId, tfaResendPinRequest).Result,
             AssertTfaStartAuthenticationResponse);
 
@@ -1184,7 +1183,7 @@ public class TfaApiTest : ApiTest
 
         SetUpPostRequest(TFA_VERIFY_PIN.Replace("{pinId}", expectedPinId), 200, givenRequest, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         var tfaVerifyPinRequest = new TfaVerifyPinRequest(givenPin);
 
@@ -1198,7 +1197,7 @@ public class TfaApiTest : ApiTest
         }
 
         AssertResponse(tfaApi.VerifyTfaPhoneNumber(expectedPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse);
-        ;
+        
         AssertResponse(tfaApi.VerifyTfaPhoneNumberAsync(expectedPinId, tfaVerifyPinRequest).Result,
             AssertTfaVerifyPinResponse);
 
@@ -1242,7 +1241,7 @@ public class TfaApiTest : ApiTest
 
         SetUpGetRequest(TFA_VERIFICATION_STATUS.Replace("{appId}", givenApplicationId), 200, expectedResponse);
 
-        var tfaApi = new TfaApi(configuration);
+        var tfaApi = new TfaApi(Configuration);
 
         void AssertTfaVerificationResponse(TfaVerificationResponse tfaVerificationResponse)
         {
@@ -1265,7 +1264,7 @@ public class TfaApiTest : ApiTest
 
         AssertResponse(tfaApi.GetTfaVerificationStatus(expectedMsisdn, givenApplicationId),
             AssertTfaVerificationResponse);
-        ;
+        
         AssertResponse(tfaApi.GetTfaVerificationStatusAsync(expectedMsisdn, givenApplicationId).Result,
             AssertTfaVerificationResponse);
 

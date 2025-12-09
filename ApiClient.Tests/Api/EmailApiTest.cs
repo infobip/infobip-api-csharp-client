@@ -126,7 +126,7 @@ public class EmailApiTest : ApiTest
 
         SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, parts, expectedResponse);
 
-        var sendEmailApi = new EmailApi(configuration);
+        var sendEmailApi = new EmailApi(Configuration);
 
         var expectedToList = new List<string>
         {
@@ -232,7 +232,7 @@ public class EmailApiTest : ApiTest
 
         SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, parts, expectedResponse);
 
-        var sendEmailApi = new EmailApi(configuration);
+        var sendEmailApi = new EmailApi(Configuration);
 
         var expectedToList = new List<string>
         {
@@ -327,7 +327,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_LOGS_ENDPOINT, 200, expectedResponse);
 
-        var sendEmailApi = new EmailApi(configuration);
+        var sendEmailApi = new EmailApi(Configuration);
 
         var response = sendEmailApi.GetEmailDeliveryReports(expectedBulkId, expectedMessageId, limit: 2);
 
@@ -405,7 +405,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_REPORTS_ENDPOINT, 200, expectedResponse);
 
-        var sendEmailApi = new EmailApi(configuration);
+        var sendEmailApi = new EmailApi(Configuration);
 
         var response = sendEmailApi.GetEmailLogs(
             bulkId: expectedBulkId,
@@ -453,7 +453,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_BULKS_ENDPOINT, 200, expectedResponse);
 
-        var scheduledEmailApi = new EmailApi(configuration);
+        var scheduledEmailApi = new EmailApi(Configuration);
 
         var response = scheduledEmailApi.GetScheduledEmails(expectedBulkId);
 
@@ -483,7 +483,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPutRequest(EMAIL_BULKS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var scheduledEmailApi = new EmailApi(configuration);
+        var scheduledEmailApi = new EmailApi(Configuration);
         var rescheduleRequest = new EmailBulkRescheduleRequest(expectedSentAt);
 
         var response = scheduledEmailApi.RescheduleEmails(expectedBulkId, rescheduleRequest);
@@ -519,7 +519,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_BULKS_STATUS_ENDPOINT, 200, expectedResponse);
 
-        var scheduledEmailApi = new EmailApi(configuration);
+        var scheduledEmailApi = new EmailApi(Configuration);
 
         var response = scheduledEmailApi.GetScheduledEmailStatuses(expectedBulkId);
 
@@ -550,7 +550,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPutRequest(EMAIL_BULKS_STATUS_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var scheduledEmailApi = new EmailApi(configuration);
+        var scheduledEmailApi = new EmailApi(Configuration);
 
         var updateStatusRequest = new EmailBulkUpdateStatusRequest(expectedStatus);
 
@@ -589,7 +589,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPostRequest(EMAIL_VALIDATE_ADDRESSES_ENDPOINT, 200, givenRequest, expectedResponse);
 
-        var emailValidationApi = new EmailApi(configuration);
+        var emailValidationApi = new EmailApi(Configuration);
 
         var validationRequest = new EmailValidationRequest(expectedTo);
 
@@ -667,7 +667,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_DOMAINS, 200, expectedResponse, expectedQueryParameters);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailAllDomainsResponse(EmailAllDomainsResponse emailAllDomainsResponse)
         {
@@ -759,7 +759,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPostRequest(EMAIL_DOMAINS, 200, givenRequest, expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         var emailAddDomainRequest = new EmailAddDomainRequest(
             expectedDomainName,
@@ -839,7 +839,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_DOMAIN.Replace("{domainName}", expectedDomainName), 200, expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
         {
@@ -875,7 +875,7 @@ public class EmailApiTest : ApiTest
 
         SetUpDeleteRequest(EMAIL_DOMAIN.Replace("{domainName}", givenDomainName), 204);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.DeleteDomainWithHttpInfo(givenDomainName), 204);
         AssertNoBodyResponseWithHttpInfo(emailApi.DeleteDomainWithHttpInfoAsync(givenDomainName).Result,
@@ -932,7 +932,7 @@ public class EmailApiTest : ApiTest
         SetUpPutRequest(EMAIL_DOMAIN_TRACKING.Replace("{domainName}", expectedDomainName), 200, givenRequest,
             expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         var emailTrackingEventRequest = new EmailTrackingEventRequest(
             expectedOpens,
@@ -1019,7 +1019,7 @@ public class EmailApiTest : ApiTest
         SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", expectedDomainName), 200, givenRequest,
             expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         var emailReturnPathAddressRequest = new EmailReturnPathAddressRequest(
             expectedReturnPathAddress
@@ -1063,7 +1063,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPostRequest(EMAIL_DOMAIN_VERIFY.Replace("{domainName}", givenDomainName), 202);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.VerifyDomainWithHttpInfo(givenDomainName), 202);
         AssertNoBodyResponseWithHttpInfo(emailApi.VerifyDomainWithHttpInfoAsync(givenDomainName).Result,
@@ -1113,7 +1113,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_SUPPRESIONS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailSuppressionInfoPageResponse(EmailSuppressionInfoPageResponse emailSuppressionInfoPageResponse)
         {
@@ -1206,7 +1206,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPostRequest(EMAIL_SUPPRESIONS_ENDPOINT, 204, givenRequest);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(
             emailApi.AddSuppressionsWithHttpInfo(emailAddSuppressionRequest), 204);
@@ -1292,7 +1292,7 @@ public class EmailApiTest : ApiTest
 
         SetUpDeleteRequest(EMAIL_SUPPRESIONS_ENDPOINT, 204, givenRequest);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(
             emailApi.DeleteSuppressionsWithHttpInfo(emailDeleteSuppressionRequest), 204);
@@ -1370,7 +1370,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_SUPPRESIONS_DOMAINS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailDomainInfoPageResponse(EmailDomainInfoPageResponse emailDomainInfoPageResponse)
         {
@@ -1431,7 +1431,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_IPS_ENDPOINT, 200, expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpResponse(List<EmailIpResponse> emailIpResponses)
         {
@@ -1473,7 +1473,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_IP_ENDPOINT.Replace("{ipId}", givenIpId), 200, expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpDetailResponse(EmailIpDetailResponse emailIpDetailResponse)
         {
@@ -1519,7 +1519,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_IP_POOLS_ENDPOINT, 200, expectedResponse, givenQueryParameters);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpPoolResponse(List<EmailIpPoolResponse> emailIpPoolResponses)
         {
@@ -1563,7 +1563,7 @@ public class EmailApiTest : ApiTest
             givenName
         );
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpPoolResponse(EmailIpPoolResponse emailIpPoolResponse)
         {
@@ -1606,7 +1606,7 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_IP_POOL_ENDPOINT.Replace("{poolId}", givenPoolId), 200, expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpPoolDetailResponse(EmailIpPoolDetailResponse emailIpPoolDetailResponse)
         {
@@ -1657,7 +1657,7 @@ public class EmailApiTest : ApiTest
             givenName
         );
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpPoolResponse(EmailIpPoolResponse emailIpPoolResponse)
         {
@@ -1684,7 +1684,7 @@ public class EmailApiTest : ApiTest
 
         SetUpDeleteRequest(EMAIL_IP_POOL_ENDPOINT.Replace("{poolId}", givenPoolId), 204);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.DeleteIpPoolWithHttpInfo(givenPoolId), 204);
         AssertNoBodyResponseWithHttpInfo(emailApi.DeleteIpPoolWithHttpInfoAsync(givenPoolId).Result, 204);
@@ -1708,7 +1708,7 @@ public class EmailApiTest : ApiTest
 
         SetUpPostRequest(EMAIL_IP_POOLS_IPS_ENDPOINT.Replace("{poolId}", givenPoolId), 204, givenRequest);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.AssignIpToPoolWithHttpInfo(givenPoolId, emailIpPoolAssignIpRequest),
             204);
@@ -1725,7 +1725,7 @@ public class EmailApiTest : ApiTest
         SetUpDeleteRequest(EMAIL_IP_POOLS_IP_ENDPOINT.Replace("{poolId}", givenPoolId).Replace("{ipId}", givenIpId),
             204);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpFromPoolWithHttpInfo(givenPoolId, givenIpId), 204);
         AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpFromPoolWithHttpInfoAsync(givenPoolId, givenIpId).Result,
@@ -1767,7 +1767,7 @@ public class EmailApiTest : ApiTest
         SetUpGetRequest(EMAIL_IP_DOMAIN_ENDPOINT.Replace("{domainId}", givenDomainId.ToString()), 200,
             expectedResponse);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         void AssertEmailIpDomainResponse(EmailIpDomainResponse emailIpDomainResponse)
         {
@@ -1822,7 +1822,7 @@ public class EmailApiTest : ApiTest
         SetUpPostRequest(EMAIL_IP_DOMAIN_POOLS_ENDPOINT.Replace("{domainId}", givenDomainId.ToString()), 204,
             givenRequest);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(
             emailApi.AssignPoolToDomainWithHttpInfo(givenDomainId, emailDomainIpPoolAssignRequest), 204);
@@ -1851,7 +1851,7 @@ public class EmailApiTest : ApiTest
             EMAIL_IP_DOMAIN_POOL_ENDPOINT.Replace("{domainId}", givenDomainId.ToString())
                 .Replace("{poolId}", givenPoolId), 204, givenRequest);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(
             emailApi.UpdateDomainPoolPriorityWithHttpInfo(givenDomainId, givenPoolId, emailDomainIpPoolUpdateRequest),
@@ -1871,7 +1871,7 @@ public class EmailApiTest : ApiTest
             EMAIL_IP_DOMAIN_POOL_ENDPOINT.Replace("{domainId}", givenDomainId.ToString())
                 .Replace("{poolId}", givenPoolId), 204);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         AssertNoBodyResponseWithHttpInfo(emailApi.RemoveIpPoolFromDomainWithHttpInfo(givenDomainId, givenPoolId), 204);
         AssertNoBodyResponseWithHttpInfo(
@@ -1889,34 +1889,9 @@ public class EmailApiTest : ApiTest
         var expectedErrorPhrase = ErrorResponses[errorResponseIndex].Item3;
 
         var givenTo = "john.smith@example.com";
-        var givenMessageCount = 1;
-        var givenMessageId = "somexternalMessageId";
-        var givenGroupId = 1;
-        var givenGroupName = "PENDING";
-        var givenId = 7;
-        var givenName = "PENDING_ENROUTE";
-        var givenDescription = "Message sent to next instance";
         var givenFrom = "jane.smith@example.com";
         var givenSubject = "Mail subject text";
         var givenMailText = "Mail text";
-
-        var givenRequest = $@"
-            {{
-              ""messages"": [
-                {{
-                  ""to"": ""{givenTo}"",
-                  ""messageCount"": {givenMessageCount},
-                  ""messageId"": ""{givenMessageId}"",
-                  ""status"": {{
-                    ""groupId"": {givenGroupId},
-                    ""groupName"": ""{givenGroupName}"",
-                    ""id"": {givenId},
-                    ""name"": ""{givenName}"",
-                    ""description"": ""{givenDescription}""
-                  }}
-                }}
-              ]
-            }}";
 
         var expectedJson = $@"
             {{
@@ -1945,7 +1920,7 @@ public class EmailApiTest : ApiTest
 
         SetUpMultipartFormRequest(EMAIL_SEND_FULLY_FEATURED_ENDPOINT, givenParts, expectedJson, expectedHttpCode);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         var toList = new List<string>
         {
@@ -1954,7 +1929,7 @@ public class EmailApiTest : ApiTest
 
         try
         {
-            var result = emailApi.SendEmail(from: givenFrom, to: toList, subject: givenSubject, text: givenMailText);
+            emailApi.SendEmail(from: givenFrom, to: toList, subject: givenSubject, text: givenMailText);
         }
         catch (ApiException ex)
         {
@@ -2032,20 +2007,20 @@ public class EmailApiTest : ApiTest
               ]
             }}";
 
-        var emailWebhookDLRReportResponse = JsonConvert.DeserializeObject<EmailWebhookDLRReportResponse>(givenResponse);
-        AssertEmailWebhookDLRReportResponse(emailWebhookDLRReportResponse!);
+        var emailWebhookDlrReportResponse = JsonConvert.DeserializeObject<EmailWebhookDLRReportResponse>(givenResponse);
+        AssertEmailWebhookDlrReportResponse(emailWebhookDlrReportResponse!);
 
-        var emailWebhookDLRReportResponseSystemTextJson =
+        var emailWebhookDlrReportResponseSystemTextJson =
             JsonSerializer.Deserialize<EmailWebhookDLRReportResponse>(givenResponse);
-        AssertEmailWebhookDLRReportResponse(emailWebhookDLRReportResponseSystemTextJson!);
+        AssertEmailWebhookDlrReportResponse(emailWebhookDlrReportResponseSystemTextJson!);
 
-        void AssertEmailWebhookDLRReportResponse(EmailWebhookDLRReportResponse emailWebhookDLRReportResponse)
+        void AssertEmailWebhookDlrReportResponse(EmailWebhookDLRReportResponse emailWebhookDlrReportResponse)
         {
-            Assert.IsNotNull(emailWebhookDLRReportResponse);
-            Assert.IsNotNull(emailWebhookDLRReportResponse.Results);
-            Assert.AreEqual(1, emailWebhookDLRReportResponse.Results.Count);
+            Assert.IsNotNull(emailWebhookDlrReportResponse);
+            Assert.IsNotNull(emailWebhookDlrReportResponse.Results);
+            Assert.AreEqual(1, emailWebhookDlrReportResponse.Results.Count);
 
-            var emailWebhookDeliveryReport = emailWebhookDLRReportResponse.Results[0];
+            var emailWebhookDeliveryReport = emailWebhookDlrReportResponse.Results[0];
             Assert.AreEqual(givenBulkId, emailWebhookDeliveryReport.BulkId);
 
             Assert.AreEqual(givenPricePerMessage, emailWebhookDeliveryReport.Price.PricePerMessage);
@@ -2169,12 +2144,11 @@ public class EmailApiTest : ApiTest
 
         SetUpGetRequest(EMAIL_LOGS_ENDPOINT, expectedHttpCode, expectedJson);
 
-        var emailApi = new EmailApi(configuration);
+        var emailApi = new EmailApi(Configuration);
 
         try
         {
-            var result =
-                emailApi.GetEmailDeliveryReports(messageId: givenMessageId, bulkId: givenBulkId, limit: givenLimit);
+            emailApi.GetEmailDeliveryReports(messageId: givenMessageId, bulkId: givenBulkId, limit: givenLimit);
         }
         catch (ApiException ex)
         {

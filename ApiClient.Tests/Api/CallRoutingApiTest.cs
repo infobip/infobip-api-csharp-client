@@ -1,6 +1,5 @@
 ﻿using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -115,7 +114,7 @@ public class CallRoutingApiTest : ApiTest
 
         SetUpGetRequest(CALL_ROUTING_ROUTES, 200, expectedResponse, givenQueryParameters);
 
-        var callRoutingApi = new CallRoutingApi(configuration);
+        var callRoutingApi = new CallRoutingApi(Configuration);
 
         void AssertCallRoutingRouteResponsePage(CallRoutingRouteResponsePage callRoutingRouteResponsePage)
         {
@@ -266,7 +265,7 @@ public class CallRoutingApiTest : ApiTest
 
         SetUpPostRequest(CALL_ROUTING_ROUTES, 201, givenRequest, expectedResponse);
 
-        var callRoutingApi = new CallRoutingApi(configuration);
+        var callRoutingApi = new CallRoutingApi(Configuration);
 
         var callroutingRouteRequest = new CallRoutingRouteRequest(
             givenName,
@@ -367,7 +366,7 @@ public class CallRoutingApiTest : ApiTest
 
         SetUpGetRequest(CALL_ROUTING_ROUTE.Replace("{routeId}", givenRouteId), 200, expectedResponse);
 
-        var callRoutingApi = new CallRoutingApi(configuration);
+        var callRoutingApi = new CallRoutingApi(Configuration);
 
         void AssertCallRoutingRouteResponsePage(CallRoutingRouteResponse callRoutingRouteResponse)
         {
@@ -487,7 +486,7 @@ public class CallRoutingApiTest : ApiTest
 
         SetUpPutRequest(CALL_ROUTING_ROUTE.Replace("{routeId}", givenRouteId), 200, givenRequest, expectedResponse);
 
-        var callRoutingApi = new CallRoutingApi(configuration);
+        var callRoutingApi = new CallRoutingApi(Configuration);
 
         var callroutingRouteRequest = new CallRoutingRouteRequest(
             givenName,
@@ -591,7 +590,7 @@ public class CallRoutingApiTest : ApiTest
         SetUpDeleteRequest(CALL_ROUTING_ROUTE.Replace("{routeId}", givenRouteId), 200,
             expectedResponse: exectedResponse, givenParameters: new Dictionary<string, string>());
 
-        var callRoutingApi = new CallRoutingApi(configuration);
+        var callRoutingApi = new CallRoutingApi(Configuration);
 
         void AssertCallRoutingRouteResponsePage(CallRoutingRouteResponse callRoutingRouteResponse)
         {
@@ -628,7 +627,7 @@ public class CallRoutingApiTest : ApiTest
         var expectedSipTrunkId = "60d345fd3a799ec";
         var expectedValueType = "SIP";
         var expectedConnectTimeout = 30;
-        var expectedRecordingType = CallRoutingRecordingType.Audio;
+        var expectedRecordingType = "AUDIO";
         var expectedType = "ENDPOINT";
 
         var expectedResponse = $@"
@@ -689,7 +688,7 @@ public class CallRoutingApiTest : ApiTest
             Assert.AreEqual(expectedSipTrunkId, callRoutingSipEndpoint.SipTrunkId);
 
             Assert.AreEqual(expectedConnectTimeout, callRoutingEndpointDestinationResponse.ConnectTimeout);
-            Assert.AreEqual(expectedRecordingType, callRoutingEndpointDestinationResponse.Recording.RecordingType);
+            Assert.AreEqual(expectedRecordingType, GetEnumAttributeValue(callRoutingEndpointDestinationResponse.Recording.RecordingType));
         }
 
         void AssertCallRoutingUrlDestinationHttpRequest(
