@@ -95,7 +95,10 @@ namespace Infobip.Api.Client.Model
         /// </param>
         /// <param name="notifyUrl">The URL on your callback server on which the Delivery report will be sent..</param>
         /// <param name="retry">retry.</param>
-        /// <param name="text">Text of the message that will be played before call transfer..</param>
+        /// <param name="text">
+        ///     Text of the message that will be played before call transfer. SSML (Speech Synthesis Markup
+        ///     Language) is supported and can be used to fully customize pronunciation of the provided text..
+        /// </param>
         /// <param name="voice">voice.</param>
         /// <param name="warningTime">
         ///     Time before the end of the transferred call, in seconds, when warning beep sound will be
@@ -145,8 +148,8 @@ namespace Infobip.Api.Client.Model
         ///     will not be applied; _from_ will be shown to _destinationA_ and _fromB_ will be shown to _destinationB_. Default
         ///     value is &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "anonymization", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "anonymization", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "anonymization", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "anonymization", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("anonymization")]
         public bool Anonymization { get; set; }
 
@@ -322,9 +325,13 @@ namespace Infobip.Api.Client.Model
         public CallsRetry Retry { get; set; }
 
         /// <summary>
-        ///     Text of the message that will be played before call transfer.
+        ///     Text of the message that will be played before call transfer. SSML (Speech Synthesis Markup Language) is supported
+        ///     and can be used to fully customize pronunciation of the provided text.
         /// </summary>
-        /// <value>Text of the message that will be played before call transfer.</value>
+        /// <value>
+        ///     Text of the message that will be played before call transfer. SSML (Speech Synthesis Markup Language) is
+        ///     supported and can be used to fully customize pronunciation of the provided text.
+        /// </value>
         [DataMember(Name = "text", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "text", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("text")]

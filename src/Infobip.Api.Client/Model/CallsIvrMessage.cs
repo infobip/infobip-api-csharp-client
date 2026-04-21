@@ -78,10 +78,6 @@ namespace Infobip.Api.Client.Model
         ///     played. Minimal value is &#x60;0&#x60; and maximum value is &#x60;10&#x60; seconds. Default value is &#x60;0&#x60;
         ///     ..
         /// </param>
-        /// <param name="record">
-        ///     [Early access: Contact your account manager to enable the usage] Record the call and expose it to
-        ///     client as URL inside the delivery report. Can be &#x60;true&#x60; or &#x60;false&#x60;..
-        /// </param>
         /// <param name="deliveryTimeWindow">deliveryTimeWindow.</param>
         /// <param name="callTimeout">Maximum possible duration of the call to be set, shown in seconds..</param>
         public CallsIvrMessage(string scenarioId = default, string from = default,
@@ -89,7 +85,7 @@ namespace Infobip.Api.Client.Model
             string notifyContentType = default, int notifyContentVersion = default, string callbackData = default,
             int validityPeriod = default, DateTimeOffset sendAt = default, CallsRetry retry = default,
             int ringTimeout = default, CallsSendingSpeed sendingSpeed = default,
-            Dictionary<string, string> parameters = default, int pause = default, bool record = default,
+            Dictionary<string, string> parameters = default, int pause = default,
             DeliveryTimeWindow deliveryTimeWindow = default, int callTimeout = default)
         {
             // to ensure "scenarioId" is required (not null)
@@ -108,7 +104,6 @@ namespace Infobip.Api.Client.Model
             SendingSpeed = sendingSpeed;
             Parameters = parameters;
             Pause = pause;
-            Record = record;
             DeliveryTimeWindow = deliveryTimeWindow;
             CallTimeout = callTimeout;
         }
@@ -261,19 +256,6 @@ namespace Infobip.Api.Client.Model
         public int Pause { get; set; }
 
         /// <summary>
-        ///     [Early access: Contact your account manager to enable the usage] Record the call and expose it to client as URL
-        ///     inside the delivery report. Can be &#x60;true&#x60; or &#x60;false&#x60;.
-        /// </summary>
-        /// <value>
-        ///     [Early access: Contact your account manager to enable the usage] Record the call and expose it to client as URL
-        ///     inside the delivery report. Can be &#x60;true&#x60; or &#x60;false&#x60;.
-        /// </value>
-        [DataMember(Name = "record", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "record", DefaultValueHandling = DefaultValueHandling.Include)]
-        [JsonPropertyName("record")]
-        public bool Record { get; set; }
-
-        /// <summary>
         ///     Gets or Sets DeliveryTimeWindow
         /// </summary>
         [DataMember(Name = "deliveryTimeWindow", EmitDefaultValue = false)]
@@ -370,10 +352,6 @@ namespace Infobip.Api.Client.Model
                     Pause.Equals(input.Pause)
                 ) &&
                 (
-                    Record == input.Record ||
-                    Record.Equals(input.Record)
-                ) &&
-                (
                     DeliveryTimeWindow == input.DeliveryTimeWindow ||
                     (DeliveryTimeWindow != null &&
                      DeliveryTimeWindow.Equals(input.DeliveryTimeWindow))
@@ -406,7 +384,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("  SendingSpeed: ").Append(SendingSpeed).Append("\n");
             sb.Append("  Parameters: ").Append(Parameters).Append("\n");
             sb.Append("  Pause: ").Append(Pause).Append("\n");
-            sb.Append("  Record: ").Append(Record).Append("\n");
             sb.Append("  DeliveryTimeWindow: ").Append(DeliveryTimeWindow).Append("\n");
             sb.Append("  CallTimeout: ").Append(CallTimeout).Append("\n");
             sb.Append("}\n");
@@ -465,7 +442,6 @@ namespace Infobip.Api.Client.Model
                 if (Parameters != null)
                     hashCode = hashCode * 59 + Parameters.GetHashCode();
                 hashCode = hashCode * 59 + Pause.GetHashCode();
-                hashCode = hashCode * 59 + Record.GetHashCode();
                 if (DeliveryTimeWindow != null)
                     hashCode = hashCode * 59 + DeliveryTimeWindow.GetHashCode();
                 hashCode = hashCode * 59 + CallTimeout.GetHashCode();

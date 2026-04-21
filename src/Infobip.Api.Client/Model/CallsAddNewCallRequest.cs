@@ -43,13 +43,15 @@ namespace Infobip.Api.Client.Model
         ///     (default to false).
         /// </param>
         /// <param name="ringbackGeneration">ringbackGeneration.</param>
+        /// <param name="role">role.</param>
         public CallsAddNewCallRequest(CallsActionCallRequest callRequest = default, bool connectOnEarlyMedia = false,
-            RingbackGeneration ringbackGeneration = default)
+            RingbackGeneration ringbackGeneration = default, CallsRole role = default)
         {
             // to ensure "callRequest" is required (not null)
             CallRequest = callRequest ?? throw new ArgumentNullException("callRequest");
             ConnectOnEarlyMedia = connectOnEarlyMedia;
             RingbackGeneration = ringbackGeneration;
+            Role = role;
         }
 
         /// <summary>
@@ -83,6 +85,14 @@ namespace Infobip.Api.Client.Model
         public RingbackGeneration RingbackGeneration { get; set; }
 
         /// <summary>
+        ///     Gets or Sets Role
+        /// </summary>
+        [DataMember(Name = "role", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "role", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("role")]
+        public CallsRole Role { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsAddNewCallRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsAddNewCallRequest to be compared</param>
@@ -106,6 +116,11 @@ namespace Infobip.Api.Client.Model
                     RingbackGeneration == input.RingbackGeneration ||
                     (RingbackGeneration != null &&
                      RingbackGeneration.Equals(input.RingbackGeneration))
+                ) &&
+                (
+                    Role == input.Role ||
+                    (Role != null &&
+                     Role.Equals(input.Role))
                 );
         }
 
@@ -120,6 +135,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  CallRequest: ").Append(CallRequest).Append("\n");
             sb.Append("  ConnectOnEarlyMedia: ").Append(ConnectOnEarlyMedia).Append("\n");
             sb.Append("  RingbackGeneration: ").Append(RingbackGeneration).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -157,6 +173,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + ConnectOnEarlyMedia.GetHashCode();
                 if (RingbackGeneration != null)
                     hashCode = hashCode * 59 + RingbackGeneration.GetHashCode();
+                if (Role != null)
+                    hashCode = hashCode * 59 + Role.GetHashCode();
                 return hashCode;
             }
         }

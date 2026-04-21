@@ -35,6 +35,11 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Webrtc for value: WEBRTC
         /// </summary>
-        [EnumMember(Value = "WEBRTC")] Webrtc = 3
+        [EnumMember(Value = "WEBRTC")] Webrtc = 3,
+
+        /// <summary>
+        ///     Enum Application for value: APPLICATION
+        /// </summary>
+        [EnumMember(Value = "APPLICATION")] Application = 4
     }
 }

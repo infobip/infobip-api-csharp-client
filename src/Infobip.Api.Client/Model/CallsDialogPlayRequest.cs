@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,12 +28,21 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsDialogPlayRequest" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected CallsDialogPlayRequest()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CallsDialogPlayRequest" /> class.
+        /// </summary>
         /// <param name="loopCount">Number of times the file will be played..</param>
-        /// <param name="content">content.</param>
+        /// <param name="content">content (required).</param>
         public CallsDialogPlayRequest(int loopCount = default, CallsPlayContent content = default)
         {
+            // to ensure "content" is required (not null)
+            Content = content ?? throw new ArgumentNullException("content");
             LoopCount = loopCount;
-            Content = content;
         }
 
         /// <summary>
@@ -47,8 +57,9 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Gets or Sets Content
         /// </summary>
-        [DataMember(Name = "content", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "content", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "content", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "content", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("content")]
         public CallsPlayContent Content { get; set; }
 

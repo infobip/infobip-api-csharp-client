@@ -37,16 +37,16 @@ namespace Infobip.Api.Client.Model
         ///     is recommended. (default to &quot;15m&quot;).
         /// </param>
         /// <param name="sendPinPerApplicationLimit">
-        ///     Overall number of requests over a specififed time period for generating a PIN
-        ///     and sending an SMS using a single application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;.
+        ///     Overall number of requests over a specified time period for generating a PIN
+        ///     and sending a message using a single application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;.
         ///     &#x60;attempts&#x60; and &#x60;timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default
         ///     value of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d
         ///     &#x60; representing milliseconds, seconds, minutes, hours, and days respectively. Must not exceed one year,
         ///     although much lower value is recommended. (default to &quot;10000/1d&quot;).
         /// </param>
         /// <param name="sendPinPerPhoneNumberLimit">
-        ///     Number of requests over a specififed time period for generating a PIN and
-        ///     sending an SMS to one phone number (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;
+        ///     Number of requests over a specified time period for generating a PIN and
+        ///     sending a message to one destination. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;
         ///     attempts&#x60; and &#x60;timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value
         ///     of 1. &#x60;timeUnit&#x60; is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60;
         ///     representing milliseconds, seconds, minutes, hours, and days respectively. Must not exceed one year, although much
@@ -113,15 +113,15 @@ namespace Infobip.Api.Client.Model
         public string PinTimeToLive { get; set; }
 
         /// <summary>
-        ///     Overall number of requests over a specififed time period for generating a PIN and sending an SMS using a single
+        ///     Overall number of requests over a specified time period for generating a PIN and sending a message using a single
         ///     application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
         ///     timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
         ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
         ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     Overall number of requests over a specififed time period for generating a PIN and sending an SMS using a single
-        ///     application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
+        ///     Overall number of requests over a specified time period for generating a PIN and sending a message using a
+        ///     single application. Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;
         ///     timeunit&#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60;
         ///     is one of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
         ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
@@ -132,18 +132,18 @@ namespace Infobip.Api.Client.Model
         public string SendPinPerApplicationLimit { get; set; }
 
         /// <summary>
-        ///     Number of requests over a specififed time period for generating a PIN and sending an SMS to one phone number
-        ///     (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit
-        ///     &#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one
-        ///     of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
-        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
+        ///     Number of requests over a specified time period for generating a PIN and sending a message to one destination.
+        ///     Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit&#x60; are
+        ///     mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;
+        ///     ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes,
+        ///     hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </summary>
         /// <value>
-        ///     Number of requests over a specififed time period for generating a PIN and sending an SMS to one phone number
-        ///     (MSISDN). Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit
-        ///     &#x60; are mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one
-        ///     of: &#x60;ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds,
-        ///     seconds, minutes, hours, and days respectively. Must not exceed one year, although much lower value is recommended.
+        ///     Number of requests over a specified time period for generating a PIN and sending a message to one destination.
+        ///     Required format: &#x60;{attempts}/{timeLength}{timeUnit}&#x60;. &#x60;attempts&#x60; and &#x60;timeunit&#x60; are
+        ///     mandatory and &#x60;timeLength&#x60; is optional with a default value of 1. &#x60;timeUnit&#x60; is one of: &#x60;
+        ///     ms&#x60;, &#x60;s&#x60;, &#x60;m&#x60;, &#x60;h&#x60; or &#x60;d&#x60; representing milliseconds, seconds, minutes,
+        ///     hours, and days respectively. Must not exceed one year, although much lower value is recommended.
         /// </value>
         [DataMember(Name = "sendPinPerPhoneNumberLimit", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "sendPinPerPhoneNumberLimit", DefaultValueHandling = DefaultValueHandling.Ignore)]

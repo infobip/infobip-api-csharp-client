@@ -107,8 +107,8 @@ namespace Infobip.Api.Client.Model
         ///     appear on recipient devices without interaction. Set to &#x60;true&#x60; to enable flash SMS, or leave the default
         ///     value, &#x60;false&#x60; to send a standard SMS.
         /// </value>
-        [DataMember(Name = "flash", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "flash", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "flash", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "flash", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("flash")]
         public bool Flash { get; set; }
 

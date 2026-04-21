@@ -46,6 +46,12 @@ namespace Infobip.Api.Client.Model
         ///     Use this parameter if you wish to override the sender from the
         ///     [created](#channels/sms/create-2fa-email-message-template) Email message template parameter &#x60;from&#x60;..
         /// </param>
+        /// <param name="landingPagePlaceholders">
+        ///     Key value pairs that will be replaced when using personalized opt out landing
+        ///     page. Placeholder keys should NOT contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder.
+        ///     Valid example: &#x60;\&quot;landingPagePlaceholders\&quot;:{\&quot;name\&quot;:\&quot;John\&quot;, \&quot;surname\
+        ///     &quot;: \&quot;Smith\&quot;}&#x60;.
+        /// </param>
         /// <param name="messageId">
         ///     The ID of the Email message template (message with the PIN placeholder) that is sent to the
         ///     recipient. (required).
@@ -57,7 +63,8 @@ namespace Infobip.Api.Client.Model
         /// </param>
         /// <param name="to">Email address to which the 2FA message will be sent. Example: john.smith@example.com. (required).</param>
         public TfaStartEmailAuthenticationRequest(string applicationId = default, string from = default,
-            string messageId = default, Dictionary<string, string> placeholders = default, string to = default)
+            Dictionary<string, string> landingPagePlaceholders = default, string messageId = default,
+            Dictionary<string, string> placeholders = default, string to = default)
         {
             // to ensure "applicationId" is required (not null)
             ApplicationId = applicationId ?? throw new ArgumentNullException("applicationId");
@@ -66,6 +73,7 @@ namespace Infobip.Api.Client.Model
             // to ensure "to" is required (not null)
             To = to ?? throw new ArgumentNullException("to");
             From = from;
+            LandingPagePlaceholders = landingPagePlaceholders;
             Placeholders = placeholders;
         }
 
@@ -91,6 +99,23 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("from")]
         public string From { get; set; }
+
+        /// <summary>
+        ///     Key value pairs that will be replaced when using personalized opt out landing page. Placeholder keys should NOT
+        ///     contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder. Valid example: &#x60;\&quot;
+        ///     landingPagePlaceholders\&quot;:{\&quot;name\&quot;:\&quot;John\&quot;, \&quot;surname\&quot;: \&quot;Smith\&quot;}
+        ///     &#x60;
+        /// </summary>
+        /// <value>
+        ///     Key value pairs that will be replaced when using personalized opt out landing page. Placeholder keys should NOT
+        ///     contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder. Valid example: &#x60;\&quot;
+        ///     landingPagePlaceholders\&quot;:{\&quot;name\&quot;:\&quot;John\&quot;, \&quot;surname\&quot;: \&quot;Smith\&quot;}
+        ///     &#x60;
+        /// </value>
+        [DataMember(Name = "landingPagePlaceholders", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "landingPagePlaceholders", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("landingPagePlaceholders")]
+        public Dictionary<string, string> LandingPagePlaceholders { get; set; }
 
         /// <summary>
         ///     The ID of the Email message template (message with the PIN placeholder) that is sent to the recipient.
@@ -149,6 +174,12 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    LandingPagePlaceholders == input.LandingPagePlaceholders ||
+                    (LandingPagePlaceholders != null &&
+                     input.LandingPagePlaceholders != null &&
+                     LandingPagePlaceholders.SequenceEqual(input.LandingPagePlaceholders))
+                ) &&
+                (
                     MessageId == input.MessageId ||
                     (MessageId != null &&
                      MessageId.Equals(input.MessageId))
@@ -176,6 +207,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class TfaStartEmailAuthenticationRequest {\n");
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  LandingPagePlaceholders: ").Append(LandingPagePlaceholders).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  Placeholders: ").Append(Placeholders).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
@@ -215,6 +247,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + ApplicationId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
+                if (LandingPagePlaceholders != null)
+                    hashCode = hashCode * 59 + LandingPagePlaceholders.GetHashCode();
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
                 if (Placeholders != null)

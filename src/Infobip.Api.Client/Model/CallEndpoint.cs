@@ -29,6 +29,8 @@ namespace Infobip.Api.Client.Model
     [JsonSubtypes.KnownSubType(typeof(CallsSipEndpoint), "SIP")]
     [JsonSubtypes.KnownSubType(typeof(CallsViberEndpoint), "VIBER")]
     [JsonSubtypes.KnownSubType(typeof(CallsWebRtcEndpoint), "WEBRTC")]
+    [JsonSubtypes.KnownSubType(typeof(CallsWebsocketEndpoint), "WEBSOCKET")]
+    [JsonSubtypes.KnownSubType(typeof(CallsWhatsAppEndpoint), "WHATSAPP")]
     public class CallEndpoint : IEquatable<CallEndpoint>
     {
         /// <summary>
@@ -62,6 +64,7 @@ namespace Infobip.Api.Client.Model
                 Type == input.Type ||
                 Type.Equals(input.Type);
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

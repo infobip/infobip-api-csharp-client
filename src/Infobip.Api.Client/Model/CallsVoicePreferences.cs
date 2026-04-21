@@ -72,6 +72,7 @@ namespace Infobip.Api.Client.Model
                 );
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>

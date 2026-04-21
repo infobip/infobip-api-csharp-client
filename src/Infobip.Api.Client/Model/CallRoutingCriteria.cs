@@ -26,6 +26,7 @@ namespace Infobip.Api.Client.Model
     [DataContract(Name = "CallRoutingCriteria")]
     [JsonObject]
     [JsonConverter(typeof(JsonSubtypes), "Type")]
+    [JsonSubtypes.KnownSubType(typeof(CallRoutingApplicationCriteria), "APPLICATION")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingPhoneCriteria), "PHONE")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingSipCriteria), "SIP")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingWebRTCCriteria), "WEBRTC")]
@@ -71,6 +72,7 @@ namespace Infobip.Api.Client.Model
                 Type == input.Type ||
                 Type.Equals(input.Type);
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

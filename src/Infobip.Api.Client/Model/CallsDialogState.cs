@@ -47,6 +47,11 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Failed for value: FAILED
         /// </summary>
-        [EnumMember(Value = "FAILED")] Failed = 5
+        [EnumMember(Value = "FAILED")] Failed = 5,
+
+        /// <summary>
+        ///     Enum Transferring for value: TRANSFERRING
+        /// </summary>
+        [EnumMember(Value = "TRANSFERRING")] Transferring = 6
     }
 }

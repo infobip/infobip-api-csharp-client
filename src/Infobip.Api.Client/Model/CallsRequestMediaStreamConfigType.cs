@@ -20,7 +20,8 @@ namespace Infobip.Api.Client.Model
     /// </summary>
     /// <value>Media stream configuration type.</value>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsRequestMediaStreamConfigType>))]
+    [System.Text.Json.Serialization.JsonConverter(
+        typeof(JsonStringEnumMemberConverter<CallsRequestMediaStreamConfigType>))]
     public enum CallsRequestMediaStreamConfigType
     {
         /// <summary>

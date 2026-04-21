@@ -1,4 +1,4 @@
-﻿using Infobip.Api.Client.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 
 namespace ApiClient.Tests.Api;
@@ -191,14 +191,18 @@ public class FormsApiTest : ApiTest
             Assert.AreEqual(expectedTotal, formsResponse.Total);
         }
 
-        AssertResponse(formsApi.GetForms(givenOffset, givenLimit, givenFormType, givenFormStatus), AssertFormsResponse);
-        AssertResponse(formsApi.GetFormsAsync(givenOffset, givenLimit, givenFormType, givenFormStatus).Result,
+        AssertResponse(formsApi.GetForms(givenOffset, givenLimit, givenFormType.ToString(), givenFormStatus),
+            AssertFormsResponse);
+        AssertResponse(
+            formsApi.GetFormsAsync(givenOffset, givenLimit, givenFormType.ToString(), givenFormStatus).Result,
             AssertFormsResponse);
         AssertResponseWithHttpInfo(
-            formsApi.GetFormsWithHttpInfo(givenOffset, givenLimit, givenFormType, givenFormStatus), AssertFormsResponse,
+            formsApi.GetFormsWithHttpInfo(givenOffset, givenLimit, givenFormType.ToString(), givenFormStatus),
+            AssertFormsResponse,
             200);
         AssertResponseWithHttpInfo(
-            formsApi.GetFormsWithHttpInfoAsync(givenOffset, givenLimit, givenFormType, givenFormStatus).Result,
+            formsApi.GetFormsWithHttpInfoAsync(givenOffset, givenLimit, givenFormType.ToString(), givenFormStatus)
+                .Result,
             AssertFormsResponse, 200);
     }
 

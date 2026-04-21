@@ -37,14 +37,24 @@ namespace Infobip.Api.Client.Model
         public enum SampleRateEnum
         {
             /// <summary>
-            ///     Enum 8000 for value: 8000
+            ///     Enum _8000 for value: 8000
             /// </summary>
             [EnumMember(Value = "8000")] _8000 = 1,
 
             /// <summary>
-            ///     Enum 16000 for value: 16000
+            ///     Enum _16000 for value: 16000
             /// </summary>
-            [EnumMember(Value = "16000")] _16000 = 2
+            [EnumMember(Value = "16000")] _16000 = 2,
+
+            /// <summary>
+            ///     Enum _24000 for value: 24000
+            /// </summary>
+            [EnumMember(Value = "24000")] _24000 = 3,
+
+            /// <summary>
+            ///     Enum _32000 for value: 32000
+            /// </summary>
+            [EnumMember(Value = "32000")] _32000 = 4
         }
 
         /// <summary>
@@ -58,12 +68,12 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsWebsocketEndpointConfigRequest" /> class.
         /// </summary>
-        /// <param name="sampleRate">Audio sampling rate. (default to SampleRateEnum.8000).</param>
-        /// <param name="type">type (default to CallsRequestMediaStreamConfigType.WebsocketEndpoint).</param>
+        /// <param name="sampleRate">Audio sampling rate. (default to SampleRateEnum._8000).</param>
+        /// <param name="type">type (required) (default to CallsRequestMediaStreamConfigType.WebsocketEndpoint).</param>
         /// <param name="name">Media-stream configuration name. (required).</param>
         /// <param name="url">Destination websocket or load balancer URL. (required).</param>
         public CallsWebsocketEndpointConfigRequest(SampleRateEnum? sampleRate = SampleRateEnum._8000,
-            CallsRequestMediaStreamConfigType? type = CallsRequestMediaStreamConfigType.WebsocketEndpoint,
+            CallsRequestMediaStreamConfigType type = CallsRequestMediaStreamConfigType.WebsocketEndpoint,
             string name = default, string url = default) : base(type, name, url)
         {
             SampleRate = sampleRate;
@@ -94,6 +104,7 @@ namespace Infobip.Api.Client.Model
                        SampleRate.Equals(input.SampleRate)
                    );
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

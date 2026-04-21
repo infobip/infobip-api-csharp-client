@@ -41,15 +41,31 @@ namespace Infobip.Api.Client.Model
         /// <param name="language">language (required).</param>
         /// <param name="timeout">The maximum duration of speech capture. (required).</param>
         /// <param name="maxSilence">The silence duration before terminating the speech capture after speech has been detected..</param>
-        /// <param name="keyPhrases">Array of key-phrases used for matching capturing speech. (required).</param>
-        public CallsSpeechCaptureRequest(CallsLanguage language = default, int timeout = default,
-            int maxSilence = default, List<string> keyPhrases = default)
+        /// <param name="keyPhrases">Array of key-phrases used for matching capturing speech..</param>
+        /// <param name="terminateOnKeyPhrase">
+        ///     Indicates whether speech capture should terminate immediately upon detecting a key
+        ///     phrase. Defaults to &#x60;true&#x60;. When &#x60;false&#x60;, capture proceeds until completion and retains only
+        ///     the first matched key phrase, if any. (default to true).
+        /// </param>
+        /// <param name="customDictionary">
+        ///     Array of custom words (typically, industry-specific terms) used for improved speech
+        ///     capture..
+        /// </param>
+        /// <param name="advancedFormatting">
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral
+        ///     normalization, and disfluency filtering. Defaults to &#x60;false&#x60;. (default to false).
+        /// </param>
+        public CallsSpeechCaptureRequest(CallsTranscriptionLanguage language = default, int timeout = default,
+            int maxSilence = default, List<string> keyPhrases = default, bool terminateOnKeyPhrase = true,
+            List<string> customDictionary = default, bool advancedFormatting = false)
         {
             Language = language;
             Timeout = timeout;
-            // to ensure "keyPhrases" is required (not null)
-            KeyPhrases = keyPhrases ?? throw new ArgumentNullException("keyPhrases");
             MaxSilence = maxSilence;
+            KeyPhrases = keyPhrases;
+            TerminateOnKeyPhrase = terminateOnKeyPhrase;
+            CustomDictionary = customDictionary;
+            AdvancedFormatting = advancedFormatting;
         }
 
         /// <summary>
@@ -59,7 +75,7 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "language", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("language")]
-        public CallsLanguage Language { get; set; }
+        public CallsTranscriptionLanguage Language { get; set; }
 
         /// <summary>
         ///     The maximum duration of speech capture.
@@ -84,11 +100,47 @@ namespace Infobip.Api.Client.Model
         ///     Array of key-phrases used for matching capturing speech.
         /// </summary>
         /// <value>Array of key-phrases used for matching capturing speech.</value>
-        [DataMember(Name = "keyPhrases", IsRequired = true, EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "keyPhrases", Required = Required.DisallowNull,
-            DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "keyPhrases", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "keyPhrases", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("keyPhrases")]
         public List<string> KeyPhrases { get; set; }
+
+        /// <summary>
+        ///     Indicates whether speech capture should terminate immediately upon detecting a key phrase. Defaults to &#x60;true
+        ///     &#x60;. When &#x60;false&#x60;, capture proceeds until completion and retains only the first matched key phrase, if
+        ///     any.
+        /// </summary>
+        /// <value>
+        ///     Indicates whether speech capture should terminate immediately upon detecting a key phrase. Defaults to &#x60;
+        ///     true&#x60;. When &#x60;false&#x60;, capture proceeds until completion and retains only the first matched key
+        ///     phrase, if any.
+        /// </value>
+        [DataMember(Name = "terminateOnKeyPhrase", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "terminateOnKeyPhrase", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("terminateOnKeyPhrase")]
+        public bool TerminateOnKeyPhrase { get; set; }
+
+        /// <summary>
+        ///     Array of custom words (typically, industry-specific terms) used for improved speech capture.
+        /// </summary>
+        /// <value>Array of custom words (typically, industry-specific terms) used for improved speech capture.</value>
+        [DataMember(Name = "customDictionary", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "customDictionary", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("customDictionary")]
+        public List<string> CustomDictionary { get; set; }
+
+        /// <summary>
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral normalization, and disfluency
+        ///     filtering. Defaults to &#x60;false&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral normalization, and disfluency
+        ///     filtering. Defaults to &#x60;false&#x60;.
+        /// </value>
+        [DataMember(Name = "advancedFormatting", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "advancedFormatting", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("advancedFormatting")]
+        public bool AdvancedFormatting { get; set; }
 
         /// <summary>
         ///     Returns true if CallsSpeechCaptureRequest instances are equal
@@ -118,6 +170,20 @@ namespace Infobip.Api.Client.Model
                     (KeyPhrases != null &&
                      input.KeyPhrases != null &&
                      KeyPhrases.SequenceEqual(input.KeyPhrases))
+                ) &&
+                (
+                    TerminateOnKeyPhrase == input.TerminateOnKeyPhrase ||
+                    TerminateOnKeyPhrase.Equals(input.TerminateOnKeyPhrase)
+                ) &&
+                (
+                    CustomDictionary == input.CustomDictionary ||
+                    (CustomDictionary != null &&
+                     input.CustomDictionary != null &&
+                     CustomDictionary.SequenceEqual(input.CustomDictionary))
+                ) &&
+                (
+                    AdvancedFormatting == input.AdvancedFormatting ||
+                    AdvancedFormatting.Equals(input.AdvancedFormatting)
                 );
         }
 
@@ -133,6 +199,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Timeout: ").Append(Timeout).Append("\n");
             sb.Append("  MaxSilence: ").Append(MaxSilence).Append("\n");
             sb.Append("  KeyPhrases: ").Append(KeyPhrases).Append("\n");
+            sb.Append("  TerminateOnKeyPhrase: ").Append(TerminateOnKeyPhrase).Append("\n");
+            sb.Append("  CustomDictionary: ").Append(CustomDictionary).Append("\n");
+            sb.Append("  AdvancedFormatting: ").Append(AdvancedFormatting).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -170,6 +239,10 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + MaxSilence.GetHashCode();
                 if (KeyPhrases != null)
                     hashCode = hashCode * 59 + KeyPhrases.GetHashCode();
+                hashCode = hashCode * 59 + TerminateOnKeyPhrase.GetHashCode();
+                if (CustomDictionary != null)
+                    hashCode = hashCode * 59 + CustomDictionary.GetHashCode();
+                hashCode = hashCode * 59 + AdvancedFormatting.GetHashCode();
                 return hashCode;
             }
         }

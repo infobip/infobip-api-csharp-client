@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using ApiClient.Tests.Api;
 using Infobip.Api.Client;
 using RestSharp;

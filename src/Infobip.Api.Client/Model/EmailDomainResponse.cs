@@ -39,10 +39,11 @@ namespace Infobip.Api.Client.Model
         ///     Date the domain was created. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
         ///     &#x60;..
         /// </param>
-        /// <param name="returnPathAddress">Mailbox for return path..</param>
+        /// <param name="blocklistConfigurationLevel">blocklistConfigurationLevel.</param>
         public EmailDomainResponse(long domainId = default, string domainName = default, bool active = default,
             EmailTrackingResponse tracking = default, List<EmailDnsRecordResponse> dnsRecords = default,
-            bool blocked = default, DateTimeOffset createdAt = default, string returnPathAddress = default)
+            bool blocked = default, DateTimeOffset createdAt = default,
+            EmailBlocklistConfigurationLevel? blocklistConfigurationLevel = default)
         {
             DomainId = domainId;
             DomainName = domainName;
@@ -51,8 +52,16 @@ namespace Infobip.Api.Client.Model
             DnsRecords = dnsRecords;
             Blocked = blocked;
             CreatedAt = createdAt;
-            ReturnPathAddress = returnPathAddress;
+            BlocklistConfigurationLevel = blocklistConfigurationLevel;
         }
+
+        /// <summary>
+        ///     Gets or Sets BlocklistConfigurationLevel
+        /// </summary>
+        [DataMember(Name = "blocklistConfigurationLevel", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "blocklistConfigurationLevel", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("blocklistConfigurationLevel")]
+        public EmailBlocklistConfigurationLevel? BlocklistConfigurationLevel { get; set; }
 
         /// <summary>
         ///     Id of the domain.
@@ -76,8 +85,8 @@ namespace Infobip.Api.Client.Model
         ///     Activation status of the domain.
         /// </summary>
         /// <value>Activation status of the domain.</value>
-        [DataMember(Name = "active", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "active", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "active", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "active", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("active")]
         public bool Active { get; set; }
 
@@ -102,8 +111,8 @@ namespace Infobip.Api.Client.Model
         ///     Status if the domain is blocked.
         /// </summary>
         /// <value>Status if the domain is blocked.</value>
-        [DataMember(Name = "blocked", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "blocked", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "blocked", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "blocked", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("blocked")]
         public bool Blocked { get; set; }
 
@@ -116,15 +125,6 @@ namespace Infobip.Api.Client.Model
         [JsonPropertyName("createdAt")]
         [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset CreatedAt { get; set; }
-
-        /// <summary>
-        ///     Mailbox for return path.
-        /// </summary>
-        /// <value>Mailbox for return path.</value>
-        [DataMember(Name = "returnPathAddress", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "returnPathAddress", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("returnPathAddress")]
-        public string ReturnPathAddress { get; set; }
 
         /// <summary>
         ///     Returns true if EmailDomainResponse instances are equal
@@ -171,9 +171,8 @@ namespace Infobip.Api.Client.Model
                      CreatedAt.Equals(input.CreatedAt))
                 ) &&
                 (
-                    ReturnPathAddress == input.ReturnPathAddress ||
-                    (ReturnPathAddress != null &&
-                     ReturnPathAddress.Equals(input.ReturnPathAddress))
+                    BlocklistConfigurationLevel == input.BlocklistConfigurationLevel ||
+                    BlocklistConfigurationLevel.Equals(input.BlocklistConfigurationLevel)
                 );
         }
 
@@ -192,7 +191,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  DnsRecords: ").Append(DnsRecords).Append("\n");
             sb.Append("  Blocked: ").Append(Blocked).Append("\n");
             sb.Append("  CreatedAt: ").Append(CreatedAt).Append("\n");
-            sb.Append("  ReturnPathAddress: ").Append(ReturnPathAddress).Append("\n");
+            sb.Append("  BlocklistConfigurationLevel: ").Append(BlocklistConfigurationLevel).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -236,8 +235,7 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + Blocked.GetHashCode();
                 if (CreatedAt != null)
                     hashCode = hashCode * 59 + CreatedAt.GetHashCode();
-                if (ReturnPathAddress != null)
-                    hashCode = hashCode * 59 + ReturnPathAddress.GetHashCode();
+                hashCode = hashCode * 59 + BlocklistConfigurationLevel.GetHashCode();
                 return hashCode;
             }
         }

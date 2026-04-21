@@ -7,10 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace Infobip.Api.Client
 {
-
     /// <summary>
-    ///     System.Text.Json converter that serializes and deserializes enums using their <see cref="EnumMemberAttribute"/> values if present, else their names.
-    ///     Ensures proper enum (de)serialization for API models where JSON uses string values defined by <see cref="EnumMemberAttribute"/>.
+    ///     System.Text.Json converter that serializes and deserializes enums using their <see cref="EnumMemberAttribute" />
+    ///     values if present, else their names.
+    ///     Ensures proper enum (de)serialization for API models where JSON uses string values defined by
+    ///     <see cref="EnumMemberAttribute" />.
     /// </summary>
     /// <typeparam name="T">Enum type to convert.</typeparam>
     public class JsonStringEnumMemberConverter<T> : JsonConverter<T> where T : struct, Enum
@@ -19,8 +20,8 @@ namespace Infobip.Api.Client
         private readonly Dictionary<T, string> _toValue;
 
         /// <summary>
-        ///     Initializes a new instance of <see cref="JsonStringEnumMemberConverter{T}"/>.
-        ///     Builds internal mappings of enum values to their <see cref="EnumMemberAttribute"/> strings.
+        ///     Initializes a new instance of <see cref="JsonStringEnumMemberConverter{T}" />.
+        ///     Builds internal mappings of enum values to their <see cref="EnumMemberAttribute" /> strings.
         /// </summary>
         public JsonStringEnumMemberConverter()
         {
@@ -38,7 +39,7 @@ namespace Infobip.Api.Client
 
         /// <summary>
         ///     Reads and converts the JSON string value to the corresponding enum value,
-        ///     interpreting <see cref="EnumMemberAttribute.Value"/> if present.
+        ///     interpreting <see cref="EnumMemberAttribute.Value" /> if present.
         /// </summary>
         /// <param name="reader">The reader to read from.</param>
         /// <param name="typeToConvert">The type being converted.</param>
@@ -54,11 +55,12 @@ namespace Infobip.Api.Client
                     return value;
                 throw new JsonException($"Unknown value '{enumString}' for enum '{typeof(T).Name}'");
             }
+
             throw new JsonException($"Unexpected token parsing enum. Expected String, got {reader.TokenType}.");
         }
 
         /// <summary>
-        ///     Writes the enum value as a JSON string, preferring the <see cref="EnumMemberAttribute.Value"/> if present.
+        ///     Writes the enum value as a JSON string, preferring the <see cref="EnumMemberAttribute.Value" /> if present.
         /// </summary>
         /// <param name="writer">The writer to write to.</param>
         /// <param name="value">The enum value to write.</param>
@@ -70,5 +72,5 @@ namespace Infobip.Api.Client
             else
                 writer.WriteStringValue(value.ToString());
         }
-    }   
+    }
 }

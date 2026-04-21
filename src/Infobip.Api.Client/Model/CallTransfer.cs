@@ -43,14 +43,14 @@ namespace Infobip.Api.Client.Model
         ///     Phone number of the recipient that will receive transferred call. Must be written in E.164
         ///     standard (Example: 41793026727). (required).
         /// </param>
-        /// <param name="varIf">Specifies what to evaluate. Can be &#x60;dtmf&#x60; or &#x60;anyDtmf&#x60;. (required).</param>
+        /// <param name="@if">Specifies what to evaluate. Can be &#x60;dtmf&#x60; or &#x60;anyDtmf&#x60;. (required).</param>
         public CallTransfer(int callTransferMaxDuration = default, string propertyEquals = default,
-            string transferTo = default, string varIf = default)
+            string transferTo = default, string @if = default)
         {
             // to ensure "transferTo" is required (not null)
             TransferTo = transferTo ?? throw new ArgumentNullException("transferTo");
-            // to ensure "varIf" is required (not null)
-            If = varIf ?? throw new ArgumentNullException("varIf");
+            // to ensure "@if" is required (not null)
+            If = @if ?? throw new ArgumentNullException("@if");
             CallTransferMaxDuration = callTransferMaxDuration;
             PropertyEquals = propertyEquals;
         }

@@ -16,14 +16,14 @@ using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-    ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-    ///     message content..
+    ///     [Language code](https://www.infobip.com/docs/sms/language#national-language-identifier) for the correct character
+    ///     set. &#x60;AUTODETECT&#x60; lets the platform select the character set based on message content only for supported
+    ///     languages..
     /// </summary>
     /// <value>
-    ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-    ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-    ///     message content.
+    ///     [Language code](https://www.infobip.com/docs/sms/language#national-language-identifier) for the correct
+    ///     character set. &#x60;AUTODETECT&#x60; lets the platform select the character set based on message content only for
+    ///     supported languages.
     /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
     [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<SmsLanguageCode>))]

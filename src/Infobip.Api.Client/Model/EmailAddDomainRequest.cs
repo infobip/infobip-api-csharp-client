@@ -64,13 +64,9 @@ namespace Infobip.Api.Client.Model
         ///     Required for entity use in a send request for outbound traffic. Returned in notification
         ///     events..
         /// </param>
-        /// <param name="returnPathAddress">
-        ///     Set a custom return path to customize the mailbox that tells receiving email servers
-        ///     where to route delayed bounces..
-        /// </param>
         public EmailAddDomainRequest(string domainName = default,
             DkimKeyLengthEnum? dkimKeyLength = DkimKeyLengthEnum.NUMBER2048, long targetedDailyTraffic = default,
-            string applicationId = default, string entityId = default, string returnPathAddress = default)
+            string applicationId = default, string entityId = default)
         {
             // to ensure "domainName" is required (not null)
             DomainName = domainName ?? throw new ArgumentNullException("domainName");
@@ -78,7 +74,6 @@ namespace Infobip.Api.Client.Model
             DkimKeyLength = dkimKeyLength;
             ApplicationId = applicationId;
             EntityId = entityId;
-            ReturnPathAddress = returnPathAddress;
         }
 
         /// <summary>
@@ -129,19 +124,6 @@ namespace Infobip.Api.Client.Model
         public string EntityId { get; set; }
 
         /// <summary>
-        ///     Set a custom return path to customize the mailbox that tells receiving email servers where to route delayed
-        ///     bounces.
-        /// </summary>
-        /// <value>
-        ///     Set a custom return path to customize the mailbox that tells receiving email servers where to route delayed
-        ///     bounces.
-        /// </value>
-        [DataMember(Name = "returnPathAddress", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "returnPathAddress", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("returnPathAddress")]
-        public string ReturnPathAddress { get; set; }
-
-        /// <summary>
         ///     Returns true if EmailAddDomainRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of EmailAddDomainRequest to be compared</param>
@@ -174,11 +156,6 @@ namespace Infobip.Api.Client.Model
                     EntityId == input.EntityId ||
                     (EntityId != null &&
                      EntityId.Equals(input.EntityId))
-                ) &&
-                (
-                    ReturnPathAddress == input.ReturnPathAddress ||
-                    (ReturnPathAddress != null &&
-                     ReturnPathAddress.Equals(input.ReturnPathAddress))
                 );
         }
 
@@ -195,7 +172,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("  TargetedDailyTraffic: ").Append(TargetedDailyTraffic).Append("\n");
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("  EntityId: ").Append(EntityId).Append("\n");
-            sb.Append("  ReturnPathAddress: ").Append(ReturnPathAddress).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -236,8 +212,6 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + ApplicationId.GetHashCode();
                 if (EntityId != null)
                     hashCode = hashCode * 59 + EntityId.GetHashCode();
-                if (ReturnPathAddress != null)
-                    hashCode = hashCode * 59 + ReturnPathAddress.GetHashCode();
                 return hashCode;
             }
         }

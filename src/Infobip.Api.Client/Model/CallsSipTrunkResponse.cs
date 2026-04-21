@@ -149,8 +149,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether communication is secured by the TLS protocol.
         /// </summary>
         /// <value>Indicates whether communication is secured by the TLS protocol.</value>
-        [DataMember(Name = "tls", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "tls", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "tls", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "tls", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("tls")]
         public bool Tls { get; set; }
 
@@ -171,8 +171,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether international calls should be allowed. Calls between different countries are considered
         ///     international.
         /// </value>
-        [DataMember(Name = "internationalCallsAllowed", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "internationalCallsAllowed", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "internationalCallsAllowed", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "internationalCallsAllowed", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("internationalCallsAllowed")]
         public bool InternationalCallsAllowed { get; set; }
 

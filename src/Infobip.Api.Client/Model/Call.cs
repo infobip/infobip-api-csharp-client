@@ -56,12 +56,14 @@ namespace Infobip.Api.Client.Model
         /// <param name="conferenceId">Current conference ID..</param>
         /// <param name="customData">Custom data..</param>
         /// <param name="dialogId">Dialog ID..</param>
+        /// <param name="externalId">Client defined call ID..</param>
         public Call(string id = default, CallEndpoint endpoint = default, string from = default, string to = default,
             CallDirection? direction = default, CallState? state = default, CallsMediaProperties media = default,
             DateTimeOffset startTime = default, DateTimeOffset answerTime = default, DateTimeOffset endTime = default,
             string parentCallId = default, CallsMachineDetectionProperties machineDetection = default,
             int ringDuration = default, string callsConfigurationId = default, Platform platform = default,
-            string conferenceId = default, Dictionary<string, string> customData = default, string dialogId = default)
+            string conferenceId = default, Dictionary<string, string> customData = default, string dialogId = default,
+            string externalId = default)
         {
             // to ensure "endpoint" is required (not null)
             Endpoint = endpoint ?? throw new ArgumentNullException("endpoint");
@@ -82,6 +84,7 @@ namespace Infobip.Api.Client.Model
             ConferenceId = conferenceId;
             CustomData = customData;
             DialogId = dialogId;
+            ExternalId = externalId;
         }
 
         /// <summary>
@@ -245,6 +248,15 @@ namespace Infobip.Api.Client.Model
         public string DialogId { get; set; }
 
         /// <summary>
+        ///     Client defined call ID.
+        /// </summary>
+        /// <value>Client defined call ID.</value>
+        [DataMember(Name = "externalId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "externalId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalId")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
         ///     Returns true if Call instances are equal
         /// </summary>
         /// <param name="input">Instance of Call to be compared</param>
@@ -342,6 +354,11 @@ namespace Infobip.Api.Client.Model
                     DialogId == input.DialogId ||
                     (DialogId != null &&
                      DialogId.Equals(input.DialogId))
+                ) &&
+                (
+                    ExternalId == input.ExternalId ||
+                    (ExternalId != null &&
+                     ExternalId.Equals(input.ExternalId))
                 );
         }
 
@@ -371,6 +388,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  ConferenceId: ").Append(ConferenceId).Append("\n");
             sb.Append("  CustomData: ").Append(CustomData).Append("\n");
             sb.Append("  DialogId: ").Append(DialogId).Append("\n");
+            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -436,6 +454,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + CustomData.GetHashCode();
                 if (DialogId != null)
                     hashCode = hashCode * 59 + DialogId.GetHashCode();
+                if (ExternalId != null)
+                    hashCode = hashCode * 59 + ExternalId.GetHashCode();
                 return hashCode;
             }
         }

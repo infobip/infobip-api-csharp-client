@@ -39,11 +39,12 @@ namespace Infobip.Api.Client.Model
         /// <param name="duration">Dialog duration in seconds..</param>
         /// <param name="recording">recording.</param>
         /// <param name="errorCode">errorCode.</param>
+        /// <param name="hangupSource">hangupSource.</param>
         public CallsDialogLogResponse(string dialogId = default, string callsConfigurationId = default,
             Platform platform = default, CallsDialogState? state = default, DateTimeOffset startTime = default,
             DateTimeOffset establishTime = default, DateTimeOffset endTime = default, string parentCallId = default,
             string childCallId = default, long duration = default, CallsDialogRecordingLog recording = default,
-            CallsErrorCodeInfo errorCode = default)
+            CallsErrorCodeInfo errorCode = default, CallsDialogHangupSource? hangupSource = default)
         {
             DialogId = dialogId;
             CallsConfigurationId = callsConfigurationId;
@@ -57,6 +58,7 @@ namespace Infobip.Api.Client.Model
             Duration = duration;
             Recording = recording;
             ErrorCode = errorCode;
+            HangupSource = hangupSource;
         }
 
         /// <summary>
@@ -66,6 +68,14 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "state", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("state")]
         public CallsDialogState? State { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets HangupSource
+        /// </summary>
+        [DataMember(Name = "hangupSource", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "hangupSource", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("hangupSource")]
+        public CallsDialogHangupSource? HangupSource { get; set; }
 
         /// <summary>
         ///     Unique dialog ID.
@@ -234,6 +244,10 @@ namespace Infobip.Api.Client.Model
                     ErrorCode == input.ErrorCode ||
                     (ErrorCode != null &&
                      ErrorCode.Equals(input.ErrorCode))
+                ) &&
+                (
+                    HangupSource == input.HangupSource ||
+                    HangupSource.Equals(input.HangupSource)
                 );
         }
 
@@ -257,6 +271,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Duration: ").Append(Duration).Append("\n");
             sb.Append("  Recording: ").Append(Recording).Append("\n");
             sb.Append("  ErrorCode: ").Append(ErrorCode).Append("\n");
+            sb.Append("  HangupSource: ").Append(HangupSource).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -311,6 +326,7 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Recording.GetHashCode();
                 if (ErrorCode != null)
                     hashCode = hashCode * 59 + ErrorCode.GetHashCode();
+                hashCode = hashCode * 59 + HangupSource.GetHashCode();
                 return hashCode;
             }
         }

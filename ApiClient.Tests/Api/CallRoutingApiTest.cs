@@ -1,4 +1,4 @@
-﻿using Infobip.Api.Client.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -167,12 +167,14 @@ public class CallRoutingApiTest : ApiTest
             Assert.AreEqual(expectedTotalResults, callRoutingRouteResponsePage.Paging.TotalResults);
         }
 
-        AssertResponse(callRoutingApi.GetCallRoutes(givenPage, givenSize), AssertCallRoutingRouteResponsePage);
-        AssertResponse(callRoutingApi.GetCallRoutesAsync(givenPage, givenSize).Result,
+        AssertResponse(callRoutingApi.GetCallRoutes(page: givenPage, size: givenSize),
             AssertCallRoutingRouteResponsePage);
-        AssertResponseWithHttpInfo(callRoutingApi.GetCallRoutesWithHttpInfo(givenPage, givenSize),
+        AssertResponse(callRoutingApi.GetCallRoutesAsync(page: givenPage, size: givenSize).Result,
+            AssertCallRoutingRouteResponsePage);
+        AssertResponseWithHttpInfo(callRoutingApi.GetCallRoutesWithHttpInfo(page: givenPage, size: givenSize),
             AssertCallRoutingRouteResponsePage, 200);
-        AssertResponseWithHttpInfo(callRoutingApi.GetCallRoutesWithHttpInfoAsync(givenPage, givenSize).Result,
+        AssertResponseWithHttpInfo(
+            callRoutingApi.GetCallRoutesWithHttpInfoAsync(page: givenPage, size: givenSize).Result,
             AssertCallRoutingRouteResponsePage, 200);
     }
 
@@ -273,9 +275,9 @@ public class CallRoutingApiTest : ApiTest
             {
                 new CallRoutingEndpointDestination(
                     new CallRoutingSipEndpoint(
-                        givenUsername,
-                        givenSipTrunkId,
-                        new Dictionary<string, string> { { "Header-Name", givenHeaderName } }
+                        username: givenUsername,
+                        sipTrunkId: givenSipTrunkId,
+                        customHeaders: new Dictionary<string, string> { { "Header-Name", givenHeaderName } }
                     ),
                     givenConnectionTimeout,
                     new CallRoutingRecording(
@@ -494,9 +496,9 @@ public class CallRoutingApiTest : ApiTest
             {
                 new CallRoutingEndpointDestination(
                     new CallRoutingSipEndpoint(
-                        givenUsername,
-                        givenSipTrunkId,
-                        new Dictionary<string, string> { { "Header-Name", givenHeaderName } }
+                        username: givenUsername,
+                        sipTrunkId: givenSipTrunkId,
+                        customHeaders: new Dictionary<string, string> { { "Header-Name", givenHeaderName } }
                     ),
                     givenConnectionTimeout,
                     new CallRoutingRecording(
@@ -688,7 +690,8 @@ public class CallRoutingApiTest : ApiTest
             Assert.AreEqual(expectedSipTrunkId, callRoutingSipEndpoint.SipTrunkId);
 
             Assert.AreEqual(expectedConnectTimeout, callRoutingEndpointDestinationResponse.ConnectTimeout);
-            Assert.AreEqual(expectedRecordingType, GetEnumAttributeValue(callRoutingEndpointDestinationResponse.Recording.RecordingType));
+            Assert.AreEqual(expectedRecordingType,
+                GetEnumAttributeValue(callRoutingEndpointDestinationResponse.Recording.RecordingType));
         }
 
         void AssertCallRoutingUrlDestinationHttpRequest(

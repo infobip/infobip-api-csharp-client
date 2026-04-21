@@ -41,7 +41,9 @@ namespace Infobip.Api.Client
         ///     Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "4.0.2";
+        public const string Version = "4.1.0";
+
+        private string _basePath;
 
         private string _dateTimeFormat = Iso8601DateTimeFormat;
 
@@ -54,8 +56,8 @@ namespace Infobip.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = "infobip-api-client-csharp/4.0.2";
-            BasePath = "http://localhost";
+            UserAgent = "infobip-api-client-csharp/4.1.0";
+            BasePath = "https://localhost";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
 
             // Setting Timeout has side effects (forces ApiClient creation).
@@ -67,11 +69,8 @@ namespace Infobip.Api.Client
         /// </summary>
         [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration(IDictionary<string, string> defaultHeaders, string apiKey,
-            string basePath = "http://localhost") : this()
+            string basePath = "https://localhost") : this()
         {
-            if (string.IsNullOrWhiteSpace(basePath))
-                throw new ArgumentException("The provided basePath is invalid.", "basePath");
-
             if (defaultHeaders == null)
                 throw new ArgumentNullException(nameof(defaultHeaders));
 
@@ -100,7 +99,39 @@ namespace Infobip.Api.Client
         /// <summary>
         ///     Gets or sets the base path for API access.
         /// </summary>
-        public virtual string BasePath { get; set; }
+        public virtual string BasePath
+        {
+            get => _basePath;
+            set
+            {
+                var trimmedBaseUrl = value?.Trim();
+
+                if (string.IsNullOrWhiteSpace(trimmedBaseUrl))
+                    throw new ArgumentException("The provided basePath is invalid.", nameof(value));
+
+                if (trimmedBaseUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
+                {
+                    var lowerUrl = trimmedBaseUrl.ToLowerInvariant();
+                    var isLocalhost = lowerUrl.StartsWith("http://localhost") ||
+                                      lowerUrl.StartsWith("http://127.0.0.1");
+                    if (!isLocalhost) throw new ArgumentException("HTTP is not allowed. Use HTTPS.", nameof(value));
+                }
+
+                string normalizedBasePath;
+                if (trimmedBaseUrl.StartsWith("//", StringComparison.Ordinal))
+                    normalizedBasePath = $"https:{trimmedBaseUrl}";
+                else if (trimmedBaseUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                         || trimmedBaseUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
+                    normalizedBasePath = trimmedBaseUrl;
+                else
+                    normalizedBasePath = $"https://{trimmedBaseUrl}";
+
+                if (!Uri.TryCreate(normalizedBasePath, UriKind.Absolute, out _))
+                    throw new ArgumentException("The provided basePath must be a valid HTTPS URL.", nameof(value));
+
+                _basePath = normalizedBasePath;
+            }
+        }
 
         /// <summary>
         ///     Gets or sets the date time format used when serializing in the ApiClient.

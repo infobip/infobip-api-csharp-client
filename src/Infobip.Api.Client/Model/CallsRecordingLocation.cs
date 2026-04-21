@@ -43,68 +43,63 @@ namespace Infobip.Api.Client.Model
         [EnumMember(Value = "JOHANNESBURG")] Johannesburg = 4,
 
         /// <summary>
-        ///     Enum JOHANNESBURG1 for value: JOHANNESBURG_1
-        /// </summary>
-        [EnumMember(Value = "JOHANNESBURG_1")] JOHANNESBURG1 = 5,
-
-        /// <summary>
         ///     Enum NewYork for value: NEW_YORK
         /// </summary>
-        [EnumMember(Value = "NEW_YORK")] NewYork = 6,
+        [EnumMember(Value = "NEW_YORK")] NewYork = 5,
 
         /// <summary>
         ///     Enum Portland for value: PORTLAND
         /// </summary>
-        [EnumMember(Value = "PORTLAND")] Portland = 7,
+        [EnumMember(Value = "PORTLAND")] Portland = 6,
 
         /// <summary>
         ///     Enum Moscow for value: MOSCOW
         /// </summary>
-        [EnumMember(Value = "MOSCOW")] Moscow = 8,
+        [EnumMember(Value = "MOSCOW")] Moscow = 7,
 
         /// <summary>
         ///     Enum Singapore for value: SINGAPORE
         /// </summary>
-        [EnumMember(Value = "SINGAPORE")] Singapore = 9,
+        [EnumMember(Value = "SINGAPORE")] Singapore = 8,
 
         /// <summary>
         ///     Enum Istanbul for value: ISTANBUL
         /// </summary>
-        [EnumMember(Value = "ISTANBUL")] Istanbul = 10,
+        [EnumMember(Value = "ISTANBUL")] Istanbul = 9,
 
         /// <summary>
         ///     Enum KualaLumpur for value: KUALA_LUMPUR
         /// </summary>
-        [EnumMember(Value = "KUALA_LUMPUR")] KualaLumpur = 11,
+        [EnumMember(Value = "KUALA_LUMPUR")] KualaLumpur = 10,
 
         /// <summary>
         ///     Enum Jakarta for value: JAKARTA
         /// </summary>
-        [EnumMember(Value = "JAKARTA")] Jakarta = 12,
+        [EnumMember(Value = "JAKARTA")] Jakarta = 11,
 
         /// <summary>
         ///     Enum Mumbai for value: MUMBAI
         /// </summary>
-        [EnumMember(Value = "MUMBAI")] Mumbai = 13,
+        [EnumMember(Value = "MUMBAI")] Mumbai = 12,
 
         /// <summary>
         ///     Enum HONGKONG1 for value: HONG_KONG_1
         /// </summary>
-        [EnumMember(Value = "HONG_KONG_1")] HONGKONG1 = 14,
+        [EnumMember(Value = "HONG_KONG_1")] HONGKONG1 = 13,
 
         /// <summary>
         ///     Enum HongKong for value: HONG_KONG
         /// </summary>
-        [EnumMember(Value = "HONG_KONG")] HongKong = 15,
+        [EnumMember(Value = "HONG_KONG")] HongKong = 14,
 
         /// <summary>
         ///     Enum Riyadh for value: RIYADH
         /// </summary>
-        [EnumMember(Value = "RIYADH")] Riyadh = 16,
+        [EnumMember(Value = "RIYADH")] Riyadh = 15,
 
         /// <summary>
         ///     Enum Chennai for value: CHENNAI
         /// </summary>
-        [EnumMember(Value = "CHENNAI")] Chennai = 17
+        [EnumMember(Value = "CHENNAI")] Chennai = 16
     }
 }

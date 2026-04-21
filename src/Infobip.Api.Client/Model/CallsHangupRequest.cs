@@ -56,6 +56,7 @@ namespace Infobip.Api.Client.Model
                 ErrorCode.Equals(input.ErrorCode);
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>

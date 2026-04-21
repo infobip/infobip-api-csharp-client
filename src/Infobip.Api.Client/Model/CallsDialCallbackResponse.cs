@@ -40,6 +40,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="callerId">Caller ID displayed to a called party. (required).</param>
         /// <param name="announcements">announcements.</param>
         /// <param name="recording">recording.</param>
+        /// <param name="machineDetection">machineDetection.</param>
         /// <param name="clientReferenceId">
         ///     A user-defined reference ID for associating with a number masking session. This ID will
         ///     appear in subsequent status requests and, if the session is recorded and our SFTP facility is used, will name the
@@ -50,7 +51,8 @@ namespace Infobip.Api.Client.Model
         /// <param name="command">command (required) (default to &quot;dial&quot;).</param>
         public CallsDialCallbackResponse(string phoneNumber = default, string callerId = default,
             CallsAnnouncements announcements = default, CallsRecording recording = default,
-            string clientReferenceId = default, string command = "dial") : base(command)
+            CallsMachineDetection machineDetection = default, string clientReferenceId = default,
+            string command = "dial") : base(command)
         {
             // to ensure "phoneNumber" is required (not null)
             PhoneNumber = phoneNumber ?? throw new ArgumentNullException("phoneNumber");
@@ -58,6 +60,7 @@ namespace Infobip.Api.Client.Model
             CallerId = callerId ?? throw new ArgumentNullException("callerId");
             Announcements = announcements;
             Recording = recording;
+            MachineDetection = machineDetection;
             ClientReferenceId = clientReferenceId;
         }
 
@@ -96,6 +99,14 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "recording", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("recording")]
         public CallsRecording Recording { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets MachineDetection
+        /// </summary>
+        [DataMember(Name = "machineDetection", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "machineDetection", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("machineDetection")]
+        public CallsMachineDetection MachineDetection { get; set; }
 
         /// <summary>
         ///     A user-defined reference ID for associating with a number masking session. This ID will appear in subsequent status
@@ -148,6 +159,11 @@ namespace Infobip.Api.Client.Model
                         Recording.Equals(input.Recording))
                    ) && base.Equals(input) &&
                    (
+                       MachineDetection == input.MachineDetection ||
+                       (MachineDetection != null &&
+                        MachineDetection.Equals(input.MachineDetection))
+                   ) && base.Equals(input) &&
+                   (
                        ClientReferenceId == input.ClientReferenceId ||
                        (ClientReferenceId != null &&
                         ClientReferenceId.Equals(input.ClientReferenceId))
@@ -167,6 +183,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  CallerId: ").Append(CallerId).Append("\n");
             sb.Append("  Announcements: ").Append(Announcements).Append("\n");
             sb.Append("  Recording: ").Append(Recording).Append("\n");
+            sb.Append("  MachineDetection: ").Append(MachineDetection).Append("\n");
             sb.Append("  ClientReferenceId: ").Append(ClientReferenceId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -208,6 +225,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Announcements.GetHashCode();
                 if (Recording != null)
                     hashCode = hashCode * 59 + Recording.GetHashCode();
+                if (MachineDetection != null)
+                    hashCode = hashCode * 59 + MachineDetection.GetHashCode();
                 if (ClientReferenceId != null)
                     hashCode = hashCode * 59 + ClientReferenceId.GetHashCode();
                 return hashCode;

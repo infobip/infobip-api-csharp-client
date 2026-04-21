@@ -30,7 +30,7 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="EmailWebhookDLRReportResponse" /> class.
         /// </summary>
         /// <param name="results">results.</param>
-        public EmailWebhookDLRReportResponse(List<EmailWebhookDeliveryReport> results = default)
+        public EmailWebhookDLRReportResponse(List<EmailResult> results = default)
         {
             Results = results;
         }
@@ -41,7 +41,7 @@ namespace Infobip.Api.Client.Model
         [DataMember(Name = "results", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("results")]
-        public List<EmailWebhookDeliveryReport> Results { get; set; }
+        public List<EmailResult> Results { get; set; }
 
         /// <summary>
         ///     Returns true if EmailWebhookDLRReportResponse instances are equal

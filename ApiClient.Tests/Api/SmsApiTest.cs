@@ -1,4 +1,4 @@
-﻿using Infobip.Api.Client.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -49,8 +49,7 @@ public class SmsApiTest : ApiTest
                   ""platform"" : {{
                     ""entityId"" : ""{givenEntityId}"",
                     ""applicationId"" : ""{givenApplicationId}""
-                  }},
-                  ""flash"" : {GetBooleanValueAsLowerString(givenFlash)}
+                  }}
                 }}
               }} ]
             }}";
@@ -296,14 +295,12 @@ public class SmsApiTest : ApiTest
                   ""amount"": {validityPeriodAmount},
                   ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                 }},
-                ""campaignReferenceId"": ""{campaignReferenceId}"",
-                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                ""campaignReferenceId"": ""{campaignReferenceId}""
               }},
               ""webhooks"": {{
                 ""delivery"": {{
                   ""url"": ""{deliveryUrl}"",
-                  ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
-                  ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
+                  ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
                 }},
                 ""contentType"": ""{contentType}"",
                 ""callbackData"": ""{callbackData}""
@@ -332,8 +329,7 @@ public class SmsApiTest : ApiTest
                     ""hour"": {deliveryToHour},
                     ""minute"": {deliveryToMinute}
                   }}
-                }},
-                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                }}
               }}
             }}
           ],
@@ -534,14 +530,12 @@ public class SmsApiTest : ApiTest
                             ""amount"": {validityPeriodAmount},
                             ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                         }},
-                        ""campaignReferenceId"": ""{campaignReferenceId}"",
-                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                        ""campaignReferenceId"": ""{campaignReferenceId}""
                     }},
                     ""webhooks"": {{
                         ""delivery"": {{
                             ""url"": ""{deliveryUrl}"",
-                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
-                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
                         }},
                         ""contentType"": ""{contentType}"",
                         ""callbackData"": ""{callbackData}""
@@ -568,8 +562,7 @@ public class SmsApiTest : ApiTest
                                 ""hour"": {deliveryToHour},
                                 ""minute"": {deliveryToMinute}
                             }}
-                        }},
-                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
+                        }}
                     }}
                 }}
             ],
@@ -774,8 +767,7 @@ public class SmsApiTest : ApiTest
                     ""webhooks"": {{
                         ""delivery"": {{
                             ""url"": ""{deliveryUrl}"",
-                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
-                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
                         }},
                         ""contentType"": ""{contentType}"",
                         ""callbackData"": ""{callbackData}""
@@ -1024,10 +1016,12 @@ public class SmsApiTest : ApiTest
         }}";
 
         SetUpGetRequest(SMS_LOGS_ENDPOINT, 200, expectedResponse,
-            new Dictionary<string, string> { { "bulkId", bulkId }, {"generalStatus", GetEnumAttributeValue(MessageGeneralStatus.Accepted)}});
+            new Dictionary<string, string>
+                { { "bulkId", bulkId }, { "generalStatus", GetEnumAttributeValue(MessageGeneralStatus.Accepted) } });
 
         var smsApiClient = new SmsApi(Configuration);
-        var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> {bulkId}, generalStatus: MessageGeneralStatus.Accepted);
+        var actualResponse = smsApiClient.GetOutboundSmsMessageLogs(bulkId: new List<string> { bulkId },
+            generalStatus: MessageGeneralStatus.Accepted);
 
         var expectedDeserializedLogs = new SmsLogsResponse(new List<SmsLog>
         {
@@ -1279,7 +1273,7 @@ public class SmsApiTest : ApiTest
         var givenRequest = $@"
             {{
                 ""text"": ""{givenPreviewText}""
-                
+
             }}";
 
         var expectedOriginalText = "Let's see how many characters will remain unused in this message.";
@@ -1370,7 +1364,7 @@ public class SmsApiTest : ApiTest
         var givenRequest = $@"
             {{
                 ""sendAt"": ""{givenSendAtWithColon}""
-                
+
             }}";
 
         var expectedResponse = $@"
@@ -1448,7 +1442,7 @@ public class SmsApiTest : ApiTest
         var givenRequest = $@"
             {{
                 ""status"": ""{expectedBulkStatusString}""
-                
+
             }}";
 
         var expectedResponse = $@"
@@ -1606,7 +1600,7 @@ public class SmsApiTest : ApiTest
             ""results"": [
                 {{
                     ""bulkId"": ""{givenBulkId}"",
-                    ""price"": {{ 
+                    ""price"": {{
                         ""pricePerMessage"": {givenPricePerMessage},
                         ""currency"": ""{givenCurrency}""
                     }},
@@ -1720,7 +1714,8 @@ public class SmsApiTest : ApiTest
             Assert.AreEqual(givenSecondCurrency, smsSecondDeliveryReport.Price.Currency);
 
             Assert.AreEqual(givenSecondStatusGroupId, smsSecondDeliveryReport.Status.GroupId);
-            Assert.AreEqual(givenSecondStatusGroupName, GetEnumAttributeValue(smsSecondDeliveryReport.Status.GroupName!));
+            Assert.AreEqual(givenSecondStatusGroupName,
+                GetEnumAttributeValue(smsSecondDeliveryReport.Status.GroupName!));
             Assert.AreEqual(givenSecondStatusId, smsSecondDeliveryReport.Status.Id);
             Assert.AreEqual(givenSecondStatusName, smsSecondDeliveryReport.Status.Name);
             Assert.AreEqual(givenSecondStatusDescription, smsSecondDeliveryReport.Status.Description);

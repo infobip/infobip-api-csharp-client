@@ -29,16 +29,25 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsInboundMessageResult" /> class.
         /// </summary>
+        /// <param name="results">An array of result objects..</param>
         /// <param name="messageCount">The number of messages returned in the &#x60;results&#x60; array..</param>
         /// <param name="pendingMessageCount">The number of messages that have not been pulled in..</param>
-        /// <param name="results">An array of result objects..</param>
-        public SmsInboundMessageResult(int messageCount = default, int pendingMessageCount = default,
-            List<SmsInboundMessage> results = default)
+        public SmsInboundMessageResult(List<SmsInboundMessage> results = default, int messageCount = default,
+            int pendingMessageCount = default)
         {
+            Results = results;
             MessageCount = messageCount;
             PendingMessageCount = pendingMessageCount;
-            Results = results;
         }
+
+        /// <summary>
+        ///     An array of result objects.
+        /// </summary>
+        /// <value>An array of result objects.</value>
+        [DataMember(Name = "results", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("results")]
+        public List<SmsInboundMessage> Results { get; set; }
 
         /// <summary>
         ///     The number of messages returned in the &#x60;results&#x60; array.
@@ -59,15 +68,6 @@ namespace Infobip.Api.Client.Model
         public int PendingMessageCount { get; set; }
 
         /// <summary>
-        ///     An array of result objects.
-        /// </summary>
-        /// <value>An array of result objects.</value>
-        [DataMember(Name = "results", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "results", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("results")]
-        public List<SmsInboundMessage> Results { get; set; }
-
-        /// <summary>
         ///     Returns true if SmsInboundMessageResult instances are equal
         /// </summary>
         /// <param name="input">Instance of SmsInboundMessageResult to be compared</param>
@@ -79,18 +79,18 @@ namespace Infobip.Api.Client.Model
 
             return
                 (
+                    Results == input.Results ||
+                    (Results != null &&
+                     input.Results != null &&
+                     Results.SequenceEqual(input.Results))
+                ) &&
+                (
                     MessageCount == input.MessageCount ||
                     MessageCount.Equals(input.MessageCount)
                 ) &&
                 (
                     PendingMessageCount == input.PendingMessageCount ||
                     PendingMessageCount.Equals(input.PendingMessageCount)
-                ) &&
-                (
-                    Results == input.Results ||
-                    (Results != null &&
-                     input.Results != null &&
-                     Results.SequenceEqual(input.Results))
                 );
         }
 
@@ -102,9 +102,9 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class SmsInboundMessageResult {\n");
+            sb.Append("  Results: ").Append(Results).Append("\n");
             sb.Append("  MessageCount: ").Append(MessageCount).Append("\n");
             sb.Append("  PendingMessageCount: ").Append(PendingMessageCount).Append("\n");
-            sb.Append("  Results: ").Append(Results).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -137,10 +137,10 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                hashCode = hashCode * 59 + MessageCount.GetHashCode();
-                hashCode = hashCode * 59 + PendingMessageCount.GetHashCode();
                 if (Results != null)
                     hashCode = hashCode * 59 + Results.GetHashCode();
+                hashCode = hashCode * 59 + MessageCount.GetHashCode();
+                hashCode = hashCode * 59 + PendingMessageCount.GetHashCode();
                 return hashCode;
             }
         }

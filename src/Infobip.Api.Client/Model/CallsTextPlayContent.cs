@@ -36,9 +36,12 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsTextPlayContent" /> class.
         /// </summary>
-        /// <param name="text">text (required).</param>
+        /// <param name="text">
+        ///     Text to read. Use the Speech Synthesis Markup Language (SSML) in a request to fine-tune your output.
+        ///     (required).
+        /// </param>
         /// <param name="language">language (required).</param>
-        /// <param name="speechRate">speechRate.</param>
+        /// <param name="speechRate">Speech rate. Must be within &#x60;[0.5 - 2.0]&#x60; range, default value is &#x60;1&#x60;..</param>
         /// <param name="preferences">preferences.</param>
         /// <param name="type">type (default to CallsPlayContentType.Text).</param>
         public CallsTextPlayContent(string text = default, CallsLanguage language = default,
@@ -62,8 +65,9 @@ namespace Infobip.Api.Client.Model
         public CallsLanguage Language { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Text
+        ///     Text to read. Use the Speech Synthesis Markup Language (SSML) in a request to fine-tune your output.
         /// </summary>
+        /// <value>Text to read. Use the Speech Synthesis Markup Language (SSML) in a request to fine-tune your output.</value>
         [DataMember(Name = "text", IsRequired = true, EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "text", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]
@@ -71,8 +75,9 @@ namespace Infobip.Api.Client.Model
         public string Text { get; set; }
 
         /// <summary>
-        ///     Gets or Sets SpeechRate
+        ///     Speech rate. Must be within &#x60;[0.5 - 2.0]&#x60; range, default value is &#x60;1&#x60;.
         /// </summary>
+        /// <value>Speech rate. Must be within &#x60;[0.5 - 2.0]&#x60; range, default value is &#x60;1&#x60;.</value>
         [DataMember(Name = "speechRate", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "speechRate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("speechRate")]

@@ -35,10 +35,10 @@ namespace Infobip.Api.Client.Model
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsMessageContent" /> class
-        ///     with the <see cref="SmsBinaryContent" /> class
+        ///     with the <see cref="SmsTextContent" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of SmsBinaryContent.</param>
-        public SmsMessageContent(SmsBinaryContent actualInstance)
+        /// <param name="actualInstance">An instance of SmsTextContent.</param>
+        public SmsMessageContent(SmsTextContent actualInstance)
         {
             IsNullable = false;
             SchemaType = "oneOf";
@@ -47,10 +47,10 @@ namespace Infobip.Api.Client.Model
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SmsMessageContent" /> class
-        ///     with the <see cref="SmsTextContent" /> class
+        ///     with the <see cref="SmsBinaryContent" /> class
         /// </summary>
-        /// <param name="actualInstance">An instance of SmsTextContent.</param>
-        public SmsMessageContent(SmsTextContent actualInstance)
+        /// <param name="actualInstance">An instance of SmsBinaryContent.</param>
+        public SmsMessageContent(SmsBinaryContent actualInstance)
         {
             IsNullable = false;
             SchemaType = "oneOf";

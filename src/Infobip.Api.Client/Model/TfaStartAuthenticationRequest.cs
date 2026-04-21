@@ -56,8 +56,15 @@ namespace Infobip.Api.Client.Model
         ///     placeholders\&quot;:{\&quot;firstName\&quot;:\&quot;John\&quot;}&#x60;.
         /// </param>
         /// <param name="to">Phone number to which the 2FA message will be sent. Example: 41793026727. (required).</param>
+        /// <param name="trackDelivery">
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;. (default to false).
+        /// </param>
         public TfaStartAuthenticationRequest(string applicationId = default, string from = default,
-            string messageId = default, Dictionary<string, string> placeholders = default, string to = default)
+            string messageId = default, Dictionary<string, string> placeholders = default, string to = default,
+            bool trackDelivery = false)
         {
             // to ensure "applicationId" is required (not null)
             ApplicationId = applicationId ?? throw new ArgumentNullException("applicationId");
@@ -67,6 +74,7 @@ namespace Infobip.Api.Client.Model
             To = to ?? throw new ArgumentNullException("to");
             From = from;
             Placeholders = placeholders;
+            TrackDelivery = trackDelivery;
         }
 
         /// <summary>
@@ -128,6 +136,23 @@ namespace Infobip.Api.Client.Model
         public string To { get; set; }
 
         /// <summary>
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
+        /// </value>
+        [DataMember(Name = "trackDelivery", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "trackDelivery", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("trackDelivery")]
+        public bool TrackDelivery { get; set; }
+
+        /// <summary>
         ///     Returns true if TfaStartAuthenticationRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of TfaStartAuthenticationRequest to be compared</param>
@@ -163,6 +188,10 @@ namespace Infobip.Api.Client.Model
                     To == input.To ||
                     (To != null &&
                      To.Equals(input.To))
+                ) &&
+                (
+                    TrackDelivery == input.TrackDelivery ||
+                    TrackDelivery.Equals(input.TrackDelivery)
                 );
         }
 
@@ -179,6 +208,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  Placeholders: ").Append(Placeholders).Append("\n");
             sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  TrackDelivery: ").Append(TrackDelivery).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -221,6 +251,7 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Placeholders.GetHashCode();
                 if (To != null)
                     hashCode = hashCode * 59 + To.GetHashCode();
+                hashCode = hashCode * 59 + TrackDelivery.GetHashCode();
                 return hashCode;
             }
         }

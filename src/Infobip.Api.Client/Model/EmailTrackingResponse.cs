@@ -41,8 +41,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether tracking of clicks is enabled.
         /// </summary>
         /// <value>Indicates whether tracking of clicks is enabled.</value>
-        [DataMember(Name = "clicks", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "clicks", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "clicks", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "clicks", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("clicks")]
         public bool Clicks { get; set; }
 
@@ -50,8 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether tracking of opens is enabled.
         /// </summary>
         /// <value>Indicates whether tracking of opens is enabled.</value>
-        [DataMember(Name = "opens", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "opens", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "opens", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "opens", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("opens")]
         public bool Opens { get; set; }
 
@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether tracking of unsubscribes is enabled.
         /// </summary>
         /// <value>Indicates whether tracking of unsubscribes is enabled.</value>
-        [DataMember(Name = "unsubscribe", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "unsubscribe", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "unsubscribe", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "unsubscribe", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("unsubscribe")]
         public bool Unsubscribe { get; set; }
 

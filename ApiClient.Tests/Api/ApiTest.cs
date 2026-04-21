@@ -30,7 +30,7 @@ public class ApiTest
     public void StartMockServer()
     {
         CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-        
+
         WireMockServer = WireMockServer.Start();
 
         Configuration = new Configuration

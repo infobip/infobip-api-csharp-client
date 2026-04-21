@@ -36,29 +36,51 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallRoutingPhoneEndpoint" /> class.
         /// </summary>
-        /// <param name="phoneNumber">
-        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;to
+        /// <param name="from">
+        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;from
         ///     &#x60; value used in inbound call..
         /// </param>
+        /// <param name="phoneNumber">Phone number in the [E.164] format. Defaults to &#x60;to&#x60; value used in inbound call..</param>
+        /// <param name="ringbackGeneration">ringbackGeneration.</param>
         /// <param name="type">type (required) (default to CallRoutingEndpointType.Phone).</param>
-        public CallRoutingPhoneEndpoint(string phoneNumber = default,
+        public CallRoutingPhoneEndpoint(string from = default, string phoneNumber = default,
+            CallRoutingRingbackGeneration ringbackGeneration = default,
             CallRoutingEndpointType type = CallRoutingEndpointType.Phone) : base(type)
         {
+            From = from;
             PhoneNumber = phoneNumber;
+            RingbackGeneration = ringbackGeneration;
         }
 
         /// <summary>
-        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;to&#x60; value used in
+        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;from&#x60; value used in
         ///     inbound call.
         /// </summary>
         /// <value>
-        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;to&#x60; value used
+        ///     Phone number in the [E.164](https://en.wikipedia.org/wiki/E.164) format. Defaults to &#x60;from&#x60; value used
         ///     in inbound call.
         /// </value>
+        [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
+        public string From { get; set; }
+
+        /// <summary>
+        ///     Phone number in the [E.164] format. Defaults to &#x60;to&#x60; value used in inbound call.
+        /// </summary>
+        /// <value>Phone number in the [E.164] format. Defaults to &#x60;to&#x60; value used in inbound call.</value>
         [DataMember(Name = "phoneNumber", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "phoneNumber", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets RingbackGeneration
+        /// </summary>
+        [DataMember(Name = "ringbackGeneration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "ringbackGeneration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ringbackGeneration")]
+        public CallRoutingRingbackGeneration RingbackGeneration { get; set; }
 
         /// <summary>
         ///     Returns true if CallRoutingPhoneEndpoint instances are equal
@@ -72,9 +94,19 @@ namespace Infobip.Api.Client.Model
 
             return base.Equals(input) &&
                    (
+                       From == input.From ||
+                       (From != null &&
+                        From.Equals(input.From))
+                   ) && base.Equals(input) &&
+                   (
                        PhoneNumber == input.PhoneNumber ||
                        (PhoneNumber != null &&
                         PhoneNumber.Equals(input.PhoneNumber))
+                   ) && base.Equals(input) &&
+                   (
+                       RingbackGeneration == input.RingbackGeneration ||
+                       (RingbackGeneration != null &&
+                        RingbackGeneration.Equals(input.RingbackGeneration))
                    );
         }
 
@@ -87,7 +119,9 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class CallRoutingPhoneEndpoint {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  From: ").Append(From).Append("\n");
             sb.Append("  PhoneNumber: ").Append(PhoneNumber).Append("\n");
+            sb.Append("  RingbackGeneration: ").Append(RingbackGeneration).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -120,8 +154,12 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = base.GetHashCode();
+                if (From != null)
+                    hashCode = hashCode * 59 + From.GetHashCode();
                 if (PhoneNumber != null)
                     hashCode = hashCode * 59 + PhoneNumber.GetHashCode();
+                if (RingbackGeneration != null)
+                    hashCode = hashCode * 59 + RingbackGeneration.GetHashCode();
                 return hashCode;
             }
         }

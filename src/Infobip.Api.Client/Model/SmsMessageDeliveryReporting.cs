@@ -29,8 +29,8 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="url">
         ///     The URL on your call back server where a delivery report will be sent. If your URL becomes
-        ///     unavailable then the [retry cycle](https://www.infobip.com/docs/sms/api#notify-url) uses the following formula:
-        ///     &#x60;1min + (1min * retryNumber * retryNumber)&#x60;..
+        ///     unavailable then the [retry cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) uses
+        ///     the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;..
         /// </param>
         /// <param name="intermediateReport">
         ///     The real-time intermediate delivery report containing GSM error codes, messages
@@ -52,13 +52,13 @@ namespace Infobip.Api.Client.Model
 
         /// <summary>
         ///     The URL on your call back server where a delivery report will be sent. If your URL becomes unavailable then the
-        ///     [retry cycle](https://www.infobip.com/docs/sms/api#notify-url) uses the following formula: &#x60;1min + (1min *
-        ///     retryNumber * retryNumber)&#x60;.
+        ///     [retry cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) uses the following
+        ///     formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
         /// </summary>
         /// <value>
         ///     The URL on your call back server where a delivery report will be sent. If your URL becomes unavailable then the
-        ///     [retry cycle](https://www.infobip.com/docs/sms/api#notify-url) uses the following formula: &#x60;1min + (1min *
-        ///     retryNumber * retryNumber)&#x60;.
+        ///     [retry cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) uses the following
+        ///     formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
         /// </value>
         [DataMember(Name = "url", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "url", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -73,8 +73,8 @@ namespace Infobip.Api.Client.Model
         ///     The real-time intermediate delivery report containing GSM error codes, messages status, pricing, network and
         ///     country codes, etc., which will be sent on your callback server. Defaults to &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "intermediateReport", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "intermediateReport", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("intermediateReport")]
         public bool IntermediateReport { get; set; }
 
@@ -88,8 +88,8 @@ namespace Infobip.Api.Client.Model
         ///     When no webhook is specified in the request and notify is set to &#39;true&#39; or not defined, your Subscription
         ///     settings will apply.
         /// </value>
-        [DataMember(Name = "notify", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "notify", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "notify", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notify", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("notify")]
         public bool Notify { get; set; }
 

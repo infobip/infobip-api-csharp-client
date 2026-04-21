@@ -569,9 +569,9 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <returns>CallsActionResponse</returns>
-        CallsActionResponse ConferenceSayText(string conferenceId, CallsSayRequest callsSayRequest);
+        CallsActionResponse ConferenceSayText(string conferenceId, CallsConferenceSayRequest callsConferenceSayRequest);
 
         /// <summary>
         ///     Say text
@@ -581,10 +581,10 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <returns>ApiResponse of CallsActionResponse</returns>
         ApiResponse<CallsActionResponse> ConferenceSayTextWithHttpInfo(string conferenceId,
-            CallsSayRequest callsSayRequest);
+            CallsConferenceSayRequest callsConferenceSayRequest);
 
         /// <summary>
         ///     Start recording
@@ -1587,10 +1587,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -1600,8 +1596,8 @@ namespace Infobip.Api.Client.Api
         CallLogPage GetCallsHistory(CallEndpointType? type = default, string callsConfigurationId = default,
             string applicationId = default, string from = default, string to = default,
             CallDirection? direction = default, CallState? status = default, DateTimeOffset? startTimeAfter = default,
-            DateTimeOffset? endTimeBefore = default, string conferenceId = default, string dialogId = default,
-            string bulkId = default, int? page = default, int? size = default);
+            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
+            int? size = default);
 
         /// <summary>
         ///     Get calls history
@@ -1621,10 +1617,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -1634,9 +1626,8 @@ namespace Infobip.Api.Client.Api
         ApiResponse<CallLogPage> GetCallsHistoryWithHttpInfo(CallEndpointType? type = default,
             string callsConfigurationId = default, string applicationId = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? status = default,
-            DateTimeOffset? startTimeAfter = default, DateTimeOffset? endTimeBefore = default,
-            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
-            int? size = default);
+            DateTimeOffset? startTimeAfter = default, string conferenceId = default, string dialogId = default,
+            string bulkId = default, int? page = default, int? size = default);
 
         /// <summary>
         ///     Get calls recordings
@@ -2544,26 +2535,26 @@ namespace Infobip.Api.Client.Api
             CallsRescheduleRequest callsRescheduleRequest);
 
         /// <summary>
-        ///     Reset registered SIP trunk password
+        ///     Reset SIP trunk credentials
         /// </summary>
         /// <remarks>
         ///     Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
-        /// <returns>CallsSipTrunkRegistrationCredentials</returns>
-        CallsSipTrunkRegistrationCredentials ResetSipTrunkPassword(string sipTrunkId);
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
+        /// <returns>CallsSipTrunkResetPasswordResponse</returns>
+        CallsSipTrunkResetPasswordResponse ResetSipTrunkPassword(string sipTrunkId);
 
         /// <summary>
-        ///     Reset registered SIP trunk password
+        ///     Reset SIP trunk credentials
         /// </summary>
         /// <remarks>
         ///     Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
-        /// <returns>ApiResponse of CallsSipTrunkRegistrationCredentials</returns>
-        ApiResponse<CallsSipTrunkRegistrationCredentials> ResetSipTrunkPasswordWithHttpInfo(string sipTrunkId);
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
+        /// <returns>ApiResponse of CallsSipTrunkResetPasswordResponse</returns>
+        ApiResponse<CallsSipTrunkResetPasswordResponse> ResetSipTrunkPasswordWithHttpInfo(string sipTrunkId);
 
         /// <summary>
         ///     Resume
@@ -3488,11 +3479,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CallsActionResponse</returns>
-        Task<CallsActionResponse> ConferenceSayTextAsync(string conferenceId, CallsSayRequest callsSayRequest,
-            CancellationToken cancellationToken = default);
+        Task<CallsActionResponse> ConferenceSayTextAsync(string conferenceId,
+            CallsConferenceSayRequest callsConferenceSayRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Say text
@@ -3502,11 +3493,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CallsActionResponse)</returns>
         Task<ApiResponse<CallsActionResponse>> ConferenceSayTextWithHttpInfoAsync(string conferenceId,
-            CallsSayRequest callsSayRequest, CancellationToken cancellationToken = default);
+            CallsConferenceSayRequest callsConferenceSayRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Start recording
@@ -4641,10 +4632,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -4655,9 +4642,8 @@ namespace Infobip.Api.Client.Api
         Task<CallLogPage> GetCallsHistoryAsync(CallEndpointType? type = default, string callsConfigurationId = default,
             string applicationId = default, string from = default, string to = default,
             CallDirection? direction = default, CallState? status = default, DateTimeOffset? startTimeAfter = default,
-            DateTimeOffset? endTimeBefore = default, string conferenceId = default, string dialogId = default,
-            string bulkId = default, int? page = default, int? size = default,
-            CancellationToken cancellationToken = default);
+            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
+            int? size = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get calls history
@@ -4677,10 +4663,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -4691,9 +4673,9 @@ namespace Infobip.Api.Client.Api
         Task<ApiResponse<CallLogPage>> GetCallsHistoryWithHttpInfoAsync(CallEndpointType? type = default,
             string callsConfigurationId = default, string applicationId = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? status = default,
-            DateTimeOffset? startTimeAfter = default, DateTimeOffset? endTimeBefore = default,
-            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
-            int? size = default, CancellationToken cancellationToken = default);
+            DateTimeOffset? startTimeAfter = default, string conferenceId = default, string dialogId = default,
+            string bulkId = default, int? page = default, int? size = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get calls recordings
@@ -5697,30 +5679,30 @@ namespace Infobip.Api.Client.Api
             CallsRescheduleRequest callsRescheduleRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Reset registered SIP trunk password
+        ///     Reset SIP trunk credentials
         /// </summary>
         /// <remarks>
         ///     Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of CallsSipTrunkRegistrationCredentials</returns>
-        Task<CallsSipTrunkRegistrationCredentials> ResetSipTrunkPasswordAsync(string sipTrunkId,
+        /// <returns>Task of CallsSipTrunkResetPasswordResponse</returns>
+        Task<CallsSipTrunkResetPasswordResponse> ResetSipTrunkPasswordAsync(string sipTrunkId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Reset registered SIP trunk password
+        ///     Reset SIP trunk credentials
         /// </summary>
         /// <remarks>
         ///     Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (CallsSipTrunkRegistrationCredentials)</returns>
-        Task<ApiResponse<CallsSipTrunkRegistrationCredentials>> ResetSipTrunkPasswordWithHttpInfoAsync(
-            string sipTrunkId, CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (CallsSipTrunkResetPasswordResponse)</returns>
+        Task<ApiResponse<CallsSipTrunkResetPasswordResponse>> ResetSipTrunkPasswordWithHttpInfoAsync(string sipTrunkId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resume
@@ -9100,11 +9082,12 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <returns>CallsActionResponse</returns>
-        public CallsActionResponse ConferenceSayText(string conferenceId, CallsSayRequest callsSayRequest)
+        public CallsActionResponse ConferenceSayText(string conferenceId,
+            CallsConferenceSayRequest callsConferenceSayRequest)
         {
-            var localVarResponse = ConferenceSayTextWithHttpInfo(conferenceId, callsSayRequest);
+            var localVarResponse = ConferenceSayTextWithHttpInfo(conferenceId, callsConferenceSayRequest);
             return localVarResponse.Data;
         }
 
@@ -9113,20 +9096,20 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <returns>ApiResponse of CallsActionResponse</returns>
         public ApiResponse<CallsActionResponse> ConferenceSayTextWithHttpInfo(string conferenceId,
-            CallsSayRequest callsSayRequest)
+            CallsConferenceSayRequest callsConferenceSayRequest)
         {
             // verify the required parameter 'conferenceId' is set
             if (conferenceId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'conferenceId' when calling CallsApi->ConferenceSayText");
 
-            // verify the required parameter 'callsSayRequest' is set
-            if (callsSayRequest == null)
+            // verify the required parameter 'callsConferenceSayRequest' is set
+            if (callsConferenceSayRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'callsSayRequest' when calling CallsApi->ConferenceSayText");
+                    "Missing required parameter 'callsConferenceSayRequest' when calling CallsApi->ConferenceSayText");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -9140,7 +9123,7 @@ namespace Infobip.Api.Client.Api
 
             localVarRequestOptions.PathParameters.Add("conferenceId",
                 ClientUtils.ParameterToString(conferenceId)); // path parameter
-            localVarRequestOptions.Data = callsSayRequest;
+            localVarRequestOptions.Data = callsConferenceSayRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -9162,14 +9145,14 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CallsActionResponse</returns>
         public async Task<CallsActionResponse> ConferenceSayTextAsync(string conferenceId,
-            CallsSayRequest callsSayRequest, CancellationToken cancellationToken = default)
+            CallsConferenceSayRequest callsConferenceSayRequest, CancellationToken cancellationToken = default)
         {
             var localVarResponse =
-                await ConferenceSayTextWithHttpInfoAsync(conferenceId, callsSayRequest, cancellationToken)
+                await ConferenceSayTextWithHttpInfoAsync(conferenceId, callsConferenceSayRequest, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -9179,21 +9162,21 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="conferenceId">Conference ID.</param>
-        /// <param name="callsSayRequest"></param>
+        /// <param name="callsConferenceSayRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CallsActionResponse)</returns>
         public async Task<ApiResponse<CallsActionResponse>> ConferenceSayTextWithHttpInfoAsync(string conferenceId,
-            CallsSayRequest callsSayRequest, CancellationToken cancellationToken = default)
+            CallsConferenceSayRequest callsConferenceSayRequest, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'conferenceId' is set
             if (conferenceId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'conferenceId' when calling CallsApi->ConferenceSayText");
 
-            // verify the required parameter 'callsSayRequest' is set
-            if (callsSayRequest == null)
+            // verify the required parameter 'callsConferenceSayRequest' is set
+            if (callsConferenceSayRequest == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'callsSayRequest' when calling CallsApi->ConferenceSayText");
+                    "Missing required parameter 'callsConferenceSayRequest' when calling CallsApi->ConferenceSayText");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -9208,7 +9191,7 @@ namespace Infobip.Api.Client.Api
 
             localVarRequestOptions.PathParameters.Add("conferenceId",
                 ClientUtils.ParameterToString(conferenceId)); // path parameter
-            localVarRequestOptions.Data = callsSayRequest;
+            localVarRequestOptions.Data = callsConferenceSayRequest;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -14079,10 +14062,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -14092,11 +14071,11 @@ namespace Infobip.Api.Client.Api
         public CallLogPage GetCallsHistory(CallEndpointType? type = default, string callsConfigurationId = default,
             string applicationId = default, string from = default, string to = default,
             CallDirection? direction = default, CallState? status = default, DateTimeOffset? startTimeAfter = default,
-            DateTimeOffset? endTimeBefore = default, string conferenceId = default, string dialogId = default,
-            string bulkId = default, int? page = default, int? size = default)
+            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
+            int? size = default)
         {
             var localVarResponse = GetCallsHistoryWithHttpInfo(type, callsConfigurationId, applicationId, from, to,
-                direction, status, startTimeAfter, endTimeBefore, conferenceId, dialogId, bulkId, page, size);
+                direction, status, startTimeAfter, conferenceId, dialogId, bulkId, page, size);
             return localVarResponse.Data;
         }
 
@@ -14115,10 +14094,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -14128,9 +14103,8 @@ namespace Infobip.Api.Client.Api
         public ApiResponse<CallLogPage> GetCallsHistoryWithHttpInfo(CallEndpointType? type = default,
             string callsConfigurationId = default, string applicationId = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? status = default,
-            DateTimeOffset? startTimeAfter = default, DateTimeOffset? endTimeBefore = default,
-            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
-            int? size = default)
+            DateTimeOffset? startTimeAfter = default, string conferenceId = default, string dialogId = default,
+            string bulkId = default, int? page = default, int? size = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -14160,9 +14134,6 @@ namespace Infobip.Api.Client.Api
             if (startTimeAfter != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "startTimeAfter", startTimeAfter));
-            if (endTimeBefore != null)
-                localVarRequestOptions.QueryParameters.Add(
-                    ClientUtils.ParameterToMultiMap("", "endTimeBefore", endTimeBefore));
             if (conferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "conferenceId", conferenceId));
@@ -14205,10 +14176,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -14219,12 +14186,12 @@ namespace Infobip.Api.Client.Api
         public async Task<CallLogPage> GetCallsHistoryAsync(CallEndpointType? type = default,
             string callsConfigurationId = default, string applicationId = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? status = default,
-            DateTimeOffset? startTimeAfter = default, DateTimeOffset? endTimeBefore = default,
-            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
-            int? size = default, CancellationToken cancellationToken = default)
+            DateTimeOffset? startTimeAfter = default, string conferenceId = default, string dialogId = default,
+            string bulkId = default, int? page = default, int? size = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetCallsHistoryWithHttpInfoAsync(type, callsConfigurationId, applicationId,
-                from, to, direction, status, startTimeAfter, endTimeBefore, conferenceId, dialogId, bulkId, page, size,
+                from, to, direction, status, startTimeAfter, conferenceId, dialogId, bulkId, page, size,
                 cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -14244,10 +14211,6 @@ namespace Infobip.Api.Client.Api
         ///     Date and time for when the call has been created. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
         /// </param>
-        /// <param name="endTimeBefore">
-        ///     Date and time for when the call has been finished. Has the following format: &#x60;
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSS+ZZZZ&#x60;. (optional)
-        /// </param>
         /// <param name="conferenceId">Conference ID. (optional)</param>
         /// <param name="dialogId">Dialog ID. (optional)</param>
         /// <param name="bulkId">Bulk ID. (optional)</param>
@@ -14258,9 +14221,9 @@ namespace Infobip.Api.Client.Api
         public async Task<ApiResponse<CallLogPage>> GetCallsHistoryWithHttpInfoAsync(CallEndpointType? type = default,
             string callsConfigurationId = default, string applicationId = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? status = default,
-            DateTimeOffset? startTimeAfter = default, DateTimeOffset? endTimeBefore = default,
-            string conferenceId = default, string dialogId = default, string bulkId = default, int? page = default,
-            int? size = default, CancellationToken cancellationToken = default)
+            DateTimeOffset? startTimeAfter = default, string conferenceId = default, string dialogId = default,
+            string bulkId = default, int? page = default, int? size = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -14291,9 +14254,6 @@ namespace Infobip.Api.Client.Api
             if (startTimeAfter != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "startTimeAfter", startTimeAfter));
-            if (endTimeBefore != null)
-                localVarRequestOptions.QueryParameters.Add(
-                    ClientUtils.ParameterToMultiMap("", "endTimeBefore", endTimeBefore));
             if (conferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("", "conferenceId", conferenceId));
@@ -18443,24 +18403,24 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reset registered SIP trunk password Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
+        ///     Reset SIP trunk credentials Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
-        /// <returns>CallsSipTrunkRegistrationCredentials</returns>
-        public CallsSipTrunkRegistrationCredentials ResetSipTrunkPassword(string sipTrunkId)
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
+        /// <returns>CallsSipTrunkResetPasswordResponse</returns>
+        public CallsSipTrunkResetPasswordResponse ResetSipTrunkPassword(string sipTrunkId)
         {
             var localVarResponse = ResetSipTrunkPasswordWithHttpInfo(sipTrunkId);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Reset registered SIP trunk password Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
+        ///     Reset SIP trunk credentials Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
-        /// <returns>ApiResponse of CallsSipTrunkRegistrationCredentials</returns>
-        public ApiResponse<CallsSipTrunkRegistrationCredentials> ResetSipTrunkPasswordWithHttpInfo(string sipTrunkId)
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
+        /// <returns>ApiResponse of CallsSipTrunkResetPasswordResponse</returns>
+        public ApiResponse<CallsSipTrunkResetPasswordResponse> ResetSipTrunkPasswordWithHttpInfo(string sipTrunkId)
         {
             // verify the required parameter 'sipTrunkId' is set
             if (sipTrunkId == null)
@@ -18485,7 +18445,7 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse = Client.Post<CallsSipTrunkRegistrationCredentials>(
+            var localVarResponse = Client.Post<CallsSipTrunkResetPasswordResponse>(
                 "/calls/1/sip-trunks/{sipTrunkId}/reset-password", localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("ResetSipTrunkPassword", localVarResponse);
@@ -18496,13 +18456,13 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reset registered SIP trunk password Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
+        ///     Reset SIP trunk credentials Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of CallsSipTrunkRegistrationCredentials</returns>
-        public async Task<CallsSipTrunkRegistrationCredentials> ResetSipTrunkPasswordAsync(string sipTrunkId,
+        /// <returns>Task of CallsSipTrunkResetPasswordResponse</returns>
+        public async Task<CallsSipTrunkResetPasswordResponse> ResetSipTrunkPasswordAsync(string sipTrunkId,
             CancellationToken cancellationToken = default)
         {
             var localVarResponse = await ResetSipTrunkPasswordWithHttpInfoAsync(sipTrunkId, cancellationToken)
@@ -18511,13 +18471,13 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reset registered SIP trunk password Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
+        ///     Reset SIP trunk credentials Reset password. Applicable only for &#x60;REGISTERED&#x60; SIP trunks.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="sipTrunkId">Sip Trunk ID.</param>
+        /// <param name="sipTrunkId">SIP trunk ID.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (CallsSipTrunkRegistrationCredentials)</returns>
-        public async Task<ApiResponse<CallsSipTrunkRegistrationCredentials>> ResetSipTrunkPasswordWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (CallsSipTrunkResetPasswordResponse)</returns>
+        public async Task<ApiResponse<CallsSipTrunkResetPasswordResponse>> ResetSipTrunkPasswordWithHttpInfoAsync(
             string sipTrunkId, CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'sipTrunkId' is set
@@ -18546,7 +18506,7 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .PostAsync<CallsSipTrunkRegistrationCredentials>("/calls/1/sip-trunks/{sipTrunkId}/reset-password",
+                .PostAsync<CallsSipTrunkResetPasswordResponse>("/calls/1/sip-trunks/{sipTrunkId}/reset-password",
                     localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("ResetSipTrunkPassword", localVarResponse);

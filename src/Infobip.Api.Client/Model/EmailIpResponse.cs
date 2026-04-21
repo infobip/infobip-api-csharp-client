@@ -10,6 +10,8 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -38,12 +40,15 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="id">Dedicated IP identifier. (required).</param>
         /// <param name="ip">Dedicated IP address. (required).</param>
-        public EmailIpResponse(string id = default, string ip = default)
+        /// <param name="ipAddresses">ipAddresses (required).</param>
+        public EmailIpResponse(string id = default, string ip = default, List<string> ipAddresses = default)
         {
             // to ensure "id" is required (not null)
             Id = id ?? throw new ArgumentNullException("id");
             // to ensure "ip" is required (not null)
             Ip = ip ?? throw new ArgumentNullException("ip");
+            // to ensure "ipAddresses" is required (not null)
+            IpAddresses = ipAddresses ?? throw new ArgumentNullException("ipAddresses");
         }
 
         /// <summary>
@@ -67,6 +72,15 @@ namespace Infobip.Api.Client.Model
         public string Ip { get; set; }
 
         /// <summary>
+        ///     Gets or Sets IpAddresses
+        /// </summary>
+        [DataMember(Name = "ipAddresses", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "ipAddresses", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("ipAddresses")]
+        public List<string> IpAddresses { get; set; }
+
+        /// <summary>
         ///     Returns true if EmailIpResponse instances are equal
         /// </summary>
         /// <param name="input">Instance of EmailIpResponse to be compared</param>
@@ -86,6 +100,12 @@ namespace Infobip.Api.Client.Model
                     Ip == input.Ip ||
                     (Ip != null &&
                      Ip.Equals(input.Ip))
+                ) &&
+                (
+                    IpAddresses == input.IpAddresses ||
+                    (IpAddresses != null &&
+                     input.IpAddresses != null &&
+                     IpAddresses.SequenceEqual(input.IpAddresses))
                 );
         }
 
@@ -99,6 +119,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class EmailIpResponse {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Ip: ").Append(Ip).Append("\n");
+            sb.Append("  IpAddresses: ").Append(IpAddresses).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -135,6 +156,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Id.GetHashCode();
                 if (Ip != null)
                     hashCode = hashCode * 59 + Ip.GetHashCode();
+                if (IpAddresses != null)
+                    hashCode = hashCode * 59 + IpAddresses.GetHashCode();
                 return hashCode;
             }
         }

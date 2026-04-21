@@ -30,9 +30,11 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="SmsLogsResponse" /> class.
         /// </summary>
         /// <param name="results">An array of message log results, one object per each message log entry..</param>
-        public SmsLogsResponse(List<SmsLog> results = default)
+        /// <param name="cursor">cursor.</param>
+        public SmsLogsResponse(List<SmsLog> results = default, SmsCursorPageInfo cursor = default)
         {
             Results = results;
+            Cursor = cursor;
         }
 
         /// <summary>
@@ -45,6 +47,14 @@ namespace Infobip.Api.Client.Model
         public List<SmsLog> Results { get; set; }
 
         /// <summary>
+        ///     Gets or Sets Cursor
+        /// </summary>
+        [DataMember(Name = "cursor", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "cursor", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("cursor")]
+        public SmsCursorPageInfo Cursor { get; set; }
+
+        /// <summary>
         ///     Returns true if SmsLogsResponse instances are equal
         /// </summary>
         /// <param name="input">Instance of SmsLogsResponse to be compared</param>
@@ -55,10 +65,17 @@ namespace Infobip.Api.Client.Model
                 return false;
 
             return
-                Results == input.Results ||
-                (Results != null &&
-                 input.Results != null &&
-                 Results.SequenceEqual(input.Results));
+                (
+                    Results == input.Results ||
+                    (Results != null &&
+                     input.Results != null &&
+                     Results.SequenceEqual(input.Results))
+                ) &&
+                (
+                    Cursor == input.Cursor ||
+                    (Cursor != null &&
+                     Cursor.Equals(input.Cursor))
+                );
         }
 
         /// <summary>
@@ -70,6 +87,7 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class SmsLogsResponse {\n");
             sb.Append("  Results: ").Append(Results).Append("\n");
+            sb.Append("  Cursor: ").Append(Cursor).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -104,6 +122,8 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (Results != null)
                     hashCode = hashCode * 59 + Results.GetHashCode();
+                if (Cursor != null)
+                    hashCode = hashCode * 59 + Cursor.GetHashCode();
                 return hashCode;
             }
         }

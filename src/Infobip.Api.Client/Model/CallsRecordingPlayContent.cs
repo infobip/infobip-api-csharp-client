@@ -36,7 +36,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsRecordingPlayContent" /> class.
         /// </summary>
-        /// <param name="fileId">fileId (required).</param>
+        /// <param name="fileId">ID of the file to be played. (required).</param>
         /// <param name="type">type (default to CallsPlayContentType.Recording).</param>
         public CallsRecordingPlayContent(string fileId = default,
             CallsPlayContentType? type = CallsPlayContentType.Recording) : base(type)
@@ -46,8 +46,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Gets or Sets FileId
+        ///     ID of the file to be played.
         /// </summary>
+        /// <value>ID of the file to be played.</value>
         [DataMember(Name = "fileId", IsRequired = true, EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "fileId", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]

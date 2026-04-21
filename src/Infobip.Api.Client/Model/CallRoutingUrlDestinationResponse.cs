@@ -70,6 +70,7 @@ namespace Infobip.Api.Client.Model
                 Type.Equals(input.Type);
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>

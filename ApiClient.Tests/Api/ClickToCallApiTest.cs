@@ -1,4 +1,4 @@
-﻿using Infobip.Api.Client.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 
 namespace ApiClient.Tests.Api;
@@ -85,7 +85,6 @@ public class ClickToCallApiTest : ApiTest
                     ""name"": ""{givenName}"",
                     ""gender"": ""{givenGender}""
                   }},
-                  ""anonymization"": {givenAnonymization.ToString().ToLower()},
                   ""notifyUrl"": ""{givenNotifyUrl}"",
                   ""notifyContentType"": ""{givenNotifyContentType}"",
                   ""maxDuration"": {givenMaxDuration},

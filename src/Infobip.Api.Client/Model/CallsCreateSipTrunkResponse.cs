@@ -101,8 +101,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether international calls should be allowed. Calls between different countries are considered
         ///     international.
         /// </value>
-        [DataMember(Name = "internationalCallsAllowed", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "internationalCallsAllowed", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "internationalCallsAllowed", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "internationalCallsAllowed", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("internationalCallsAllowed")]
         public bool InternationalCallsAllowed { get; set; }
 

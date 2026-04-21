@@ -82,6 +82,7 @@ namespace Infobip.Api.Client
             if (obj != null && obj is AbstractOpenAPISchema)
                 // the object to be serialized is an oneOf/anyOf schema
                 return ((AbstractOpenAPISchema)obj).ToJson();
+
             return JsonConvert.SerializeObject(obj, _serializerSettings);
         }
 

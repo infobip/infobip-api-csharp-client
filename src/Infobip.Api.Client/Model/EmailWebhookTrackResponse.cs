@@ -29,10 +29,15 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="notificationType">
         ///     Tells the type of user event that took place. Possible events: &#x60;OPENED&#x60;,
-        ///     &#x60;CLICKED&#x60;, &#x60;COMPLAINED&#x60;, &#x60;UNSUBSCRIBED&#x60;..
+        ///     &#x60;CLICKED&#x60;, &#x60;COMPLAINED&#x60;, &#x60;LATE_BOUNCE&#x60;, &#x60;UNSUBSCRIBED&#x60;..
         /// </param>
+        /// <param name="eventId">Unique ID of the event. This ID can be used for deduplication purposes..</param>
         /// <param name="domain">The sending domain used to send the email to the recipient..</param>
         /// <param name="recipient">Recipient of the email..</param>
+        /// <param name="sender">
+        ///     Sender of the email. This attribute will only be present if the event is of the type &#x60;
+        ///     COMPLAINED&#x60; or &#x60;LATE_BOUNCE&#x60;..
+        /// </param>
         /// <param name="url">
         ///     The link the recipient has clicked. This attribute will only be present if the event is of the type
         ///     &#x60;CLICKED&#x60;..
@@ -46,14 +51,28 @@ namespace Infobip.Api.Client.Model
         /// <param name="callbackData">The callback data sent through the callbackData field in your fully featured Email message..</param>
         /// <param name="recipientInfo">recipientInfo.</param>
         /// <param name="geoLocation">geoLocation.</param>
-        public EmailWebhookTrackResponse(string notificationType = default, string domain = default,
-            string recipient = default, string url = default, decimal sendDateTime = default,
-            string messageId = default, string bulkId = default, string callbackData = default,
-            EmailWebhookRecipientInfo recipientInfo = default, EmailWebhookGeoLocation geoLocation = default)
+        /// <param name="campaignReferenceId">ID of a campaign that was sent in the message..</param>
+        /// <param name="entityId">
+        ///     Used when specifying an entity in outbound send requests. It is also returned in notification
+        ///     events. For detailed usage, refer to the
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="applicationId">
+        ///     Used when specifying an application in outbound send requests. It is also returned in
+        ///     notification events. For detailed usage, refer to the
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        public EmailWebhookTrackResponse(string notificationType = default, string eventId = default,
+            string domain = default, string recipient = default, string sender = default, string url = default,
+            decimal sendDateTime = default, string messageId = default, string bulkId = default,
+            string callbackData = default, RecipientInfo recipientInfo = default, GeoLocation geoLocation = default,
+            string campaignReferenceId = default, string entityId = default, string applicationId = default)
         {
             NotificationType = notificationType;
+            EventId = eventId;
             Domain = domain;
             Recipient = recipient;
+            Sender = sender;
             Url = url;
             SendDateTime = sendDateTime;
             MessageId = messageId;
@@ -61,20 +80,32 @@ namespace Infobip.Api.Client.Model
             CallbackData = callbackData;
             RecipientInfo = recipientInfo;
             GeoLocation = geoLocation;
+            CampaignReferenceId = campaignReferenceId;
+            EntityId = entityId;
+            ApplicationId = applicationId;
         }
 
         /// <summary>
         ///     Tells the type of user event that took place. Possible events: &#x60;OPENED&#x60;, &#x60;CLICKED&#x60;, &#x60;
-        ///     COMPLAINED&#x60;, &#x60;UNSUBSCRIBED&#x60;.
+        ///     COMPLAINED&#x60;, &#x60;LATE_BOUNCE&#x60;, &#x60;UNSUBSCRIBED&#x60;.
         /// </summary>
         /// <value>
         ///     Tells the type of user event that took place. Possible events: &#x60;OPENED&#x60;, &#x60;CLICKED&#x60;, &#x60;
-        ///     COMPLAINED&#x60;, &#x60;UNSUBSCRIBED&#x60;.
+        ///     COMPLAINED&#x60;, &#x60;LATE_BOUNCE&#x60;, &#x60;UNSUBSCRIBED&#x60;.
         /// </value>
         [DataMember(Name = "notificationType", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "notificationType", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("notificationType")]
         public string NotificationType { get; set; }
+
+        /// <summary>
+        ///     Unique ID of the event. This ID can be used for deduplication purposes.
+        /// </summary>
+        /// <value>Unique ID of the event. This ID can be used for deduplication purposes.</value>
+        [DataMember(Name = "eventId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "eventId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("eventId")]
+        public string EventId { get; set; }
 
         /// <summary>
         ///     The sending domain used to send the email to the recipient.
@@ -93,6 +124,19 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "recipient", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("recipient")]
         public string Recipient { get; set; }
+
+        /// <summary>
+        ///     Sender of the email. This attribute will only be present if the event is of the type &#x60;COMPLAINED&#x60; or
+        ///     &#x60;LATE_BOUNCE&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Sender of the email. This attribute will only be present if the event is of the type &#x60;COMPLAINED&#x60; or
+        ///     &#x60;LATE_BOUNCE&#x60;.
+        /// </value>
+        [DataMember(Name = "sender", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sender", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("sender")]
+        public string Sender { get; set; }
 
         /// <summary>
         ///     The link the recipient has clicked. This attribute will only be present if the event is of the type &#x60;CLICKED
@@ -153,7 +197,7 @@ namespace Infobip.Api.Client.Model
         [DataMember(Name = "recipientInfo", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "recipientInfo", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("recipientInfo")]
-        public EmailWebhookRecipientInfo RecipientInfo { get; set; }
+        public RecipientInfo RecipientInfo { get; set; }
 
         /// <summary>
         ///     Gets or Sets GeoLocation
@@ -161,7 +205,45 @@ namespace Infobip.Api.Client.Model
         [DataMember(Name = "geoLocation", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "geoLocation", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("geoLocation")]
-        public EmailWebhookGeoLocation GeoLocation { get; set; }
+        public GeoLocation GeoLocation { get; set; }
+
+        /// <summary>
+        ///     ID of a campaign that was sent in the message.
+        /// </summary>
+        /// <value>ID of a campaign that was sent in the message.</value>
+        [DataMember(Name = "campaignReferenceId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "campaignReferenceId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("campaignReferenceId")]
+        public string CampaignReferenceId { get; set; }
+
+        /// <summary>
+        ///     Used when specifying an entity in outbound send requests. It is also returned in notification events. For detailed
+        ///     usage, refer to the [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Used when specifying an entity in outbound send requests. It is also returned in notification events. For
+        ///     detailed usage, refer to the
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "entityId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("entityId")]
+        public string EntityId { get; set; }
+
+        /// <summary>
+        ///     Used when specifying an application in outbound send requests. It is also returned in notification events. For
+        ///     detailed usage, refer to the
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Used when specifying an application in outbound send requests. It is also returned in notification events. For
+        ///     detailed usage, refer to the
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "applicationId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "applicationId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("applicationId")]
+        public string ApplicationId { get; set; }
 
         /// <summary>
         ///     Returns true if EmailWebhookTrackResponse instances are equal
@@ -180,6 +262,11 @@ namespace Infobip.Api.Client.Model
                      NotificationType.Equals(input.NotificationType))
                 ) &&
                 (
+                    EventId == input.EventId ||
+                    (EventId != null &&
+                     EventId.Equals(input.EventId))
+                ) &&
+                (
                     Domain == input.Domain ||
                     (Domain != null &&
                      Domain.Equals(input.Domain))
@@ -188,6 +275,11 @@ namespace Infobip.Api.Client.Model
                     Recipient == input.Recipient ||
                     (Recipient != null &&
                      Recipient.Equals(input.Recipient))
+                ) &&
+                (
+                    Sender == input.Sender ||
+                    (Sender != null &&
+                     Sender.Equals(input.Sender))
                 ) &&
                 (
                     Url == input.Url ||
@@ -222,6 +314,21 @@ namespace Infobip.Api.Client.Model
                     GeoLocation == input.GeoLocation ||
                     (GeoLocation != null &&
                      GeoLocation.Equals(input.GeoLocation))
+                ) &&
+                (
+                    CampaignReferenceId == input.CampaignReferenceId ||
+                    (CampaignReferenceId != null &&
+                     CampaignReferenceId.Equals(input.CampaignReferenceId))
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    ApplicationId == input.ApplicationId ||
+                    (ApplicationId != null &&
+                     ApplicationId.Equals(input.ApplicationId))
                 );
         }
 
@@ -234,8 +341,10 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class EmailWebhookTrackResponse {\n");
             sb.Append("  NotificationType: ").Append(NotificationType).Append("\n");
+            sb.Append("  EventId: ").Append(EventId).Append("\n");
             sb.Append("  Domain: ").Append(Domain).Append("\n");
             sb.Append("  Recipient: ").Append(Recipient).Append("\n");
+            sb.Append("  Sender: ").Append(Sender).Append("\n");
             sb.Append("  Url: ").Append(Url).Append("\n");
             sb.Append("  SendDateTime: ").Append(SendDateTime).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
@@ -243,6 +352,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
             sb.Append("  RecipientInfo: ").Append(RecipientInfo).Append("\n");
             sb.Append("  GeoLocation: ").Append(GeoLocation).Append("\n");
+            sb.Append("  CampaignReferenceId: ").Append(CampaignReferenceId).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
+            sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -277,10 +389,14 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (NotificationType != null)
                     hashCode = hashCode * 59 + NotificationType.GetHashCode();
+                if (EventId != null)
+                    hashCode = hashCode * 59 + EventId.GetHashCode();
                 if (Domain != null)
                     hashCode = hashCode * 59 + Domain.GetHashCode();
                 if (Recipient != null)
                     hashCode = hashCode * 59 + Recipient.GetHashCode();
+                if (Sender != null)
+                    hashCode = hashCode * 59 + Sender.GetHashCode();
                 if (Url != null)
                     hashCode = hashCode * 59 + Url.GetHashCode();
                 hashCode = hashCode * 59 + SendDateTime.GetHashCode();
@@ -294,6 +410,12 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + RecipientInfo.GetHashCode();
                 if (GeoLocation != null)
                     hashCode = hashCode * 59 + GeoLocation.GetHashCode();
+                if (CampaignReferenceId != null)
+                    hashCode = hashCode * 59 + CampaignReferenceId.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
+                if (ApplicationId != null)
+                    hashCode = hashCode * 59 + ApplicationId.GetHashCode();
                 return hashCode;
             }
         }

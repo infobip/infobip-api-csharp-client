@@ -41,12 +41,15 @@ namespace Infobip.Api.Client.Model
         /// <param name="recordingType">recordingType (required).</param>
         /// <param name="customData">customData.</param>
         /// <param name="filePrefix">filePrefix.</param>
+        /// <param name="channels">channels.</param>
         public CallRecordingRequest(CallsRecordingType recordingType = default,
-            Dictionary<string, string> customData = default, string filePrefix = default)
+            Dictionary<string, string> customData = default, string filePrefix = default,
+            CallsRecordingChannels? channels = default)
         {
             RecordingType = recordingType;
             CustomData = customData;
             FilePrefix = filePrefix;
+            Channels = channels;
         }
 
         /// <summary>
@@ -57,6 +60,14 @@ namespace Infobip.Api.Client.Model
             DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("recordingType")]
         public CallsRecordingType RecordingType { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Channels
+        /// </summary>
+        [DataMember(Name = "channels", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "channels", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("channels")]
+        public CallsRecordingChannels? Channels { get; set; }
 
         /// <summary>
         ///     Gets or Sets CustomData
@@ -99,6 +110,10 @@ namespace Infobip.Api.Client.Model
                     FilePrefix == input.FilePrefix ||
                     (FilePrefix != null &&
                      FilePrefix.Equals(input.FilePrefix))
+                ) &&
+                (
+                    Channels == input.Channels ||
+                    Channels.Equals(input.Channels)
                 );
         }
 
@@ -113,6 +128,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  RecordingType: ").Append(RecordingType).Append("\n");
             sb.Append("  CustomData: ").Append(CustomData).Append("\n");
             sb.Append("  FilePrefix: ").Append(FilePrefix).Append("\n");
+            sb.Append("  Channels: ").Append(Channels).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -150,6 +166,7 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + CustomData.GetHashCode();
                 if (FilePrefix != null)
                     hashCode = hashCode * 59 + FilePrefix.GetHashCode();
+                hashCode = hashCode * 59 + Channels.GetHashCode();
                 return hashCode;
             }
         }

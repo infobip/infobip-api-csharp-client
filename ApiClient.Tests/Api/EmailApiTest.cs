@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text;
 using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
@@ -690,7 +690,6 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedVerified, emailAllDomainsResponse.Results[0].DnsRecords[0].Verified);
             Assert.AreEqual(expectedBlocked, emailAllDomainsResponse.Results[0].Blocked);
             Assert.AreEqual(expectedCreatedAt, emailAllDomainsResponse.Results[0].CreatedAt);
-            Assert.AreEqual(expectedReturnPathAddress, emailAllDomainsResponse.Results[0].ReturnPathAddress);
         }
 
         AssertResponse(emailApi.GetAllDomains(expectedSize, expectedPage), AssertEmailAllDomainsResponse);
@@ -730,8 +729,7 @@ public class EmailApiTest : ApiTest
                 ""dkimKeyLength"": {givenDkimKeyLength},
                 ""targetedDailyTraffic"": {givenTargetedDailyTraffic},
                 ""applicationId"": ""{givenApplicationId}"",
-                ""entityId"": ""{givenEntityId}"",
-                ""returnPathAddress"": ""{expectedReturnPathAddress}""
+                ""entityId"": ""{givenEntityId}""
             }}";
 
         var expectedResponse = $@"
@@ -766,8 +764,7 @@ public class EmailApiTest : ApiTest
             DkimKeyLengthEnum.NUMBER1024,
             givenTargetedDailyTraffic,
             givenApplicationId,
-            givenEntityId,
-            expectedReturnPathAddress
+            givenEntityId
         );
 
         void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
@@ -785,7 +782,6 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedVerified, emailDomainResponse.DnsRecords[0].Verified);
             Assert.AreEqual(expectedBlocked, emailDomainResponse.Blocked);
             Assert.AreEqual(expectedCreatedAt, emailDomainResponse.CreatedAt);
-            Assert.AreEqual(expectedReturnPathAddress, emailDomainResponse.ReturnPathAddress);
         }
 
         AssertResponse(emailApi.AddDomain(emailAddDomainRequest), AssertEmailDomainResponse);
@@ -856,7 +852,6 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedVerified, emailDomainResponse.DnsRecords[0].Verified);
             Assert.AreEqual(expectedBlocked, emailDomainResponse.Blocked);
             Assert.AreEqual(expectedCreatedAt, emailDomainResponse.CreatedAt);
-            Assert.AreEqual(expectedReturnPathAddress, emailDomainResponse.ReturnPathAddress);
         }
 
         AssertResponse(emailApi.GetDomainDetails(expectedDomainName), AssertEmailDomainResponse);
@@ -955,7 +950,6 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedVerified, emailDomainResponse.DnsRecords[0].Verified);
             Assert.AreEqual(expectedBlocked, emailDomainResponse.Blocked);
             Assert.AreEqual(expectedCreatedAt, emailDomainResponse.CreatedAt);
-            Assert.AreEqual(expectedReturnPathAddress, emailDomainResponse.ReturnPathAddress);
         }
 
         AssertResponse(emailApi.UpdateTrackingEvents(expectedDomainName, emailTrackingEventRequest),
@@ -968,91 +962,6 @@ public class EmailApiTest : ApiTest
             AssertEmailDomainResponse, 200);
         AssertResponseWithHttpInfo(
             emailApi.UpdateTrackingEventsWithHttpInfoAsync(expectedDomainName, emailTrackingEventRequest).Result,
-            AssertEmailDomainResponse, 200);
-    }
-
-    [TestMethod]
-    public void ShouldUpdateReturnPath()
-    {
-        var expectedDomainId = 1;
-        var expectedDomainName = "example.com";
-        var expectedActive = false;
-        var expectedClicks = true;
-        var expectedOpens = true;
-        var expectedUnsubscribe = true;
-        var expectedRecordType = "string";
-        var expectedName = "string";
-        var expectedExpectedValue = "string";
-        var expectedVerified = true;
-        var expectedBlocked = false;
-        var expectedCreatedAt = new DateTimeOffset(2021, 1, 2, 1, 0, 0, 123, TimeSpan.FromHours(0));
-        var expectedReturnPathAddress = "returnpath@example.com";
-
-        var givenRequest = $@"
-            {{
-                ""returnPathAddress"": ""{expectedReturnPathAddress}"",
-            }}";
-
-        var expectedResponse = $@"
-            {{
-                ""domainId"": {expectedDomainId},
-                ""domainName"": ""{expectedDomainName}"",
-                ""active"": {expectedActive.ToString().ToLower()},
-                ""tracking"": {{
-                    ""clicks"": {expectedClicks.ToString().ToLower()},
-                    ""opens"": {expectedOpens.ToString().ToLower()},
-                    ""unsubscribe"": {expectedUnsubscribe.ToString().ToLower()}
-                }},
-                ""dnsRecords"": [
-                    {{
-                        ""recordType"": ""{expectedRecordType}"",
-                        ""name"": ""{expectedName}"",
-                        ""expectedValue"": ""{expectedExpectedValue}"",
-                        ""verified"": {expectedVerified.ToString().ToLower()}
-                    }}
-                ],
-                ""blocked"": {expectedBlocked.ToString().ToLower()},
-                ""createdAt"": ""{expectedCreatedAt.ToUniversalTime().ToString(DATE_FORMAT)}"",
-                ""returnPathAddress"": ""{expectedReturnPathAddress}""
-            }}";
-
-        SetUpPutRequest(EMAIL_DOMAIN_RETURN_PATH.Replace("{domainName}", expectedDomainName), 200, givenRequest,
-            expectedResponse);
-
-        var emailApi = new EmailApi(Configuration);
-
-        var emailReturnPathAddressRequest = new EmailReturnPathAddressRequest(
-            expectedReturnPathAddress
-        );
-
-        void AssertEmailDomainResponse(EmailDomainResponse emailDomainResponse)
-        {
-            Assert.IsNotNull(emailDomainResponse);
-            Assert.AreEqual(expectedDomainId, emailDomainResponse.DomainId);
-            Assert.AreEqual(expectedDomainName, emailDomainResponse.DomainName);
-            Assert.AreEqual(expectedActive, emailDomainResponse.Active);
-            Assert.AreEqual(expectedClicks, emailDomainResponse.Tracking.Clicks);
-            Assert.AreEqual(expectedOpens, emailDomainResponse.Tracking.Opens);
-            Assert.AreEqual(expectedUnsubscribe, emailDomainResponse.Tracking.Unsubscribe);
-            Assert.AreEqual(expectedRecordType, emailDomainResponse.DnsRecords[0].RecordType);
-            Assert.AreEqual(expectedName, emailDomainResponse.DnsRecords[0].Name);
-            Assert.AreEqual(expectedExpectedValue, emailDomainResponse.DnsRecords[0].ExpectedValue);
-            Assert.AreEqual(expectedVerified, emailDomainResponse.DnsRecords[0].Verified);
-            Assert.AreEqual(expectedBlocked, emailDomainResponse.Blocked);
-            Assert.AreEqual(expectedCreatedAt, emailDomainResponse.CreatedAt);
-            Assert.AreEqual(expectedReturnPathAddress, emailDomainResponse.ReturnPathAddress);
-        }
-
-        AssertResponse(emailApi.UpdateReturnPath(expectedDomainName, emailReturnPathAddressRequest),
-            AssertEmailDomainResponse);
-        AssertResponse(emailApi.UpdateReturnPathAsync(expectedDomainName, emailReturnPathAddressRequest).Result,
-            AssertEmailDomainResponse);
-
-        AssertResponseWithHttpInfo(
-            emailApi.UpdateReturnPathWithHttpInfo(expectedDomainName, emailReturnPathAddressRequest),
-            AssertEmailDomainResponse, 200);
-        AssertResponseWithHttpInfo(
-            emailApi.UpdateReturnPathWithHttpInfoAsync(expectedDomainName, emailReturnPathAddressRequest).Result,
             AssertEmailDomainResponse, 200);
     }
 
@@ -1133,16 +1042,21 @@ public class EmailApiTest : ApiTest
             Assert.AreEqual(expectedSize, emailSuppressionInfoPageResponse.Paging.Size);
         }
 
-        AssertResponse(emailApi.GetSuppressions(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize),
+        AssertResponse(
+            emailApi.GetSuppressions(givenDomainName, givenType, page: givenPage, size: givenSize),
             AssertEmailSuppressionInfoPageResponse);
-        AssertResponse(emailApi.GetSuppressionsAsync(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize).Result,
+        AssertResponse(
+            emailApi.GetSuppressionsAsync(givenDomainName, givenType, page: givenPage,
+                size: givenSize).Result,
             AssertEmailSuppressionInfoPageResponse);
 
         AssertResponseWithHttpInfo(
-            emailApi.GetSuppressionsWithHttpInfo(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize),
+            emailApi.GetSuppressionsWithHttpInfo(givenDomainName, givenType, page: givenPage,
+                size: givenSize),
             AssertEmailSuppressionInfoPageResponse, 200);
         AssertResponseWithHttpInfo(
-            emailApi.GetSuppressionsWithHttpInfoAsync(domainName: givenDomainName, type: givenType, page: givenPage, size:givenSize).Result,
+            emailApi.GetSuppressionsWithHttpInfoAsync(givenDomainName, givenType, page: givenPage,
+                size: givenSize).Result,
             AssertEmailSuppressionInfoPageResponse, 200);
     }
 
@@ -1433,7 +1347,7 @@ public class EmailApiTest : ApiTest
 
         var emailApi = new EmailApi(Configuration);
 
-        void AssertEmailIpResponse(List<EmailIpResponse> emailIpResponses)
+        void AssertEmailIpResponse(List<EmailIpDetailResponse> emailIpResponses)
         {
             Assert.IsNotNull(emailIpResponses);
             Assert.AreEqual(1, emailIpResponses.Count);
@@ -1521,7 +1435,7 @@ public class EmailApiTest : ApiTest
 
         var emailApi = new EmailApi(Configuration);
 
-        void AssertEmailIpPoolResponse(List<EmailIpPoolResponse> emailIpPoolResponses)
+        void AssertEmailIpPoolResponse(List<EmailIpPoolDetailResponse> emailIpPoolResponses)
         {
             Assert.IsNotNull(emailIpPoolResponses);
             Assert.AreEqual(1, emailIpPoolResponses.Count);

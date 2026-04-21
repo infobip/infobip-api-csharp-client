@@ -62,6 +62,7 @@ namespace Infobip.Api.Client.Model
             return base.Equals(input);
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>
@@ -100,8 +101,11 @@ namespace Infobip.Api.Client.Model
         /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            var hashCode = base.GetHashCode();
-            return hashCode;
+            unchecked // Overflow is fine, just wrap
+            {
+                var hashCode = base.GetHashCode();
+                return hashCode;
+            }
         }
     }
 }

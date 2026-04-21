@@ -44,10 +44,17 @@ namespace Infobip.Api.Client.Model
         ///     Indicates maximum duration for detecting the end of the message when a answering
         ///     machine is detected. If set to 0, no end of message detection will be done. Expressed in seconds..
         /// </param>
-        public CallsMachineDetectionRequest(bool enabled = default, int messageDetectionTimeout = default)
+        /// <param name="detectionTime">
+        ///     Indicates time in seconds during which answering machine detection will analyse the call
+        ///     before making a decision. Shorter detection time may come at the expense of accuracy. Must be lower than &#x60;
+        ///     messageDetectionTimeout&#x60; if &#x60;messageDetectionTimeout&#x60; is specified. (default to 3.7D).
+        /// </param>
+        public CallsMachineDetectionRequest(bool enabled = default, int messageDetectionTimeout = default,
+            double detectionTime = 3.7D)
         {
             Enabled = enabled;
             MessageDetectionTimeout = messageDetectionTimeout;
+            DetectionTime = detectionTime;
         }
 
         /// <summary>
@@ -78,6 +85,21 @@ namespace Infobip.Api.Client.Model
         public int MessageDetectionTimeout { get; set; }
 
         /// <summary>
+        ///     Indicates time in seconds during which answering machine detection will analyse the call before making a decision.
+        ///     Shorter detection time may come at the expense of accuracy. Must be lower than &#x60;messageDetectionTimeout&#x60;
+        ///     if &#x60;messageDetectionTimeout&#x60; is specified.
+        /// </summary>
+        /// <value>
+        ///     Indicates time in seconds during which answering machine detection will analyse the call before making a
+        ///     decision. Shorter detection time may come at the expense of accuracy. Must be lower than &#x60;
+        ///     messageDetectionTimeout&#x60; if &#x60;messageDetectionTimeout&#x60; is specified.
+        /// </value>
+        [DataMember(Name = "detectionTime", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "detectionTime", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("detectionTime")]
+        public double DetectionTime { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsMachineDetectionRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsMachineDetectionRequest to be compared</param>
@@ -95,6 +117,10 @@ namespace Infobip.Api.Client.Model
                 (
                     MessageDetectionTimeout == input.MessageDetectionTimeout ||
                     MessageDetectionTimeout.Equals(input.MessageDetectionTimeout)
+                ) &&
+                (
+                    DetectionTime == input.DetectionTime ||
+                    DetectionTime.Equals(input.DetectionTime)
                 );
         }
 
@@ -108,6 +134,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsMachineDetectionRequest {\n");
             sb.Append("  Enabled: ").Append(Enabled).Append("\n");
             sb.Append("  MessageDetectionTimeout: ").Append(MessageDetectionTimeout).Append("\n");
+            sb.Append("  DetectionTime: ").Append(DetectionTime).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -142,6 +169,7 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 hashCode = hashCode * 59 + Enabled.GetHashCode();
                 hashCode = hashCode * 59 + MessageDetectionTimeout.GetHashCode();
+                hashCode = hashCode * 59 + DetectionTime.GetHashCode();
                 return hashCode;
             }
         }

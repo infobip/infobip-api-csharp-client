@@ -18,8 +18,8 @@ using Newtonsoft.Json;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Allows you to set up tracking parameters to track conversion metrics. For more details on SMS Conversion, see:
-    ///     [Track Conversion](https://www.infobip.com/docs/sms/api#track-conversion).
+    ///     Allows you to set up tracking parameters to track conversion metrics. For more details, see: [SMS with conversion
+    ///     tracking](https://www.infobip.com/docs/sms/sms-over-api#send-sms-with-conversion-tracking).
     /// </summary>
     [DataContract(Name = "SmsTracking")]
     [JsonObject]
@@ -46,8 +46,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.
         /// </summary>
         /// <value>Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.</value>
-        [DataMember(Name = "useConversionTracking", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "useConversionTracking", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "useConversionTracking", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "useConversionTracking", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("useConversionTracking")]
         public bool UseConversionTracking { get; set; }
 

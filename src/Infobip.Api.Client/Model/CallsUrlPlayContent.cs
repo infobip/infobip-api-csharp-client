@@ -36,33 +36,24 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsUrlPlayContent" /> class.
         /// </summary>
-        /// <param name="fileUrl">fileUrl (required).</param>
-        /// <param name="cacheDuration">cacheDuration.</param>
+        /// <param name="fileUrl">URL of the audio file. Only &#x60;wav&#x60; and &#x60;mp3&#x60; files are supported. (required).</param>
         /// <param name="type">type (default to CallsPlayContentType.Url).</param>
-        public CallsUrlPlayContent(string fileUrl = default, int cacheDuration = default,
-            CallsPlayContentType? type = CallsPlayContentType.Url) : base(type)
+        public CallsUrlPlayContent(string fileUrl = default, CallsPlayContentType? type = CallsPlayContentType.Url) :
+            base(type)
         {
             // to ensure "fileUrl" is required (not null)
             FileUrl = fileUrl ?? throw new ArgumentNullException("fileUrl");
-            CacheDuration = cacheDuration;
         }
 
         /// <summary>
-        ///     Gets or Sets FileUrl
+        ///     URL of the audio file. Only &#x60;wav&#x60; and &#x60;mp3&#x60; files are supported.
         /// </summary>
+        /// <value>URL of the audio file. Only &#x60;wav&#x60; and &#x60;mp3&#x60; files are supported.</value>
         [DataMember(Name = "fileUrl", IsRequired = true, EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "fileUrl", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("fileUrl")]
         public string FileUrl { get; set; }
-
-        /// <summary>
-        ///     Gets or Sets CacheDuration
-        /// </summary>
-        [DataMember(Name = "cacheDuration", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "cacheDuration", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("cacheDuration")]
-        public int CacheDuration { get; set; }
 
         /// <summary>
         ///     Returns true if CallsUrlPlayContent instances are equal
@@ -79,10 +70,6 @@ namespace Infobip.Api.Client.Model
                        FileUrl == input.FileUrl ||
                        (FileUrl != null &&
                         FileUrl.Equals(input.FileUrl))
-                   ) && base.Equals(input) &&
-                   (
-                       CacheDuration == input.CacheDuration ||
-                       CacheDuration.Equals(input.CacheDuration)
                    );
         }
 
@@ -96,7 +83,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsUrlPlayContent {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  FileUrl: ").Append(FileUrl).Append("\n");
-            sb.Append("  CacheDuration: ").Append(CacheDuration).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -131,7 +117,6 @@ namespace Infobip.Api.Client.Model
                 var hashCode = base.GetHashCode();
                 if (FileUrl != null)
                     hashCode = hashCode * 59 + FileUrl.GetHashCode();
-                hashCode = hashCode * 59 + CacheDuration.GetHashCode();
                 return hashCode;
             }
         }

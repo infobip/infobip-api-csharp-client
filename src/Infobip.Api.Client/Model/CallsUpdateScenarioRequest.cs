@@ -39,14 +39,25 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="name">The name of IVR scenario. (required).</param>
         /// <param name="description">Description of IVR scenario..</param>
+        /// <param name="notifyUrl">The URL on your callback server on which the Delivery report will be sent..</param>
+        /// <param name="notifyContentType">
+        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;
+        ///     application/xml&#x60;..
+        /// </param>
+        /// <param name="record">Indicates if all calls using the scenario should be recorded..</param>
         /// <param name="script">script (required).</param>
-        public CallsUpdateScenarioRequest(string name = default, string description = default, JRaw script = default)
+        public CallsUpdateScenarioRequest(string name = default, string description = default,
+            string notifyUrl = default, string notifyContentType = default, bool record = default,
+            JRaw script = default)
         {
             // to ensure "name" is required (not null)
             Name = name ?? throw new ArgumentNullException("name");
             // to ensure "script" is required (not null)
             Script = script ?? throw new ArgumentNullException("script");
             Description = description;
+            NotifyUrl = notifyUrl;
+            NotifyContentType = notifyContentType;
+            Record = record;
         }
 
         /// <summary>
@@ -67,6 +78,33 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("description")]
         public string Description { get; set; }
+
+        /// <summary>
+        ///     The URL on your callback server on which the Delivery report will be sent.
+        /// </summary>
+        /// <value>The URL on your callback server on which the Delivery report will be sent.</value>
+        [DataMember(Name = "notifyUrl", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notifyUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("notifyUrl")]
+        public string NotifyUrl { get; set; }
+
+        /// <summary>
+        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.
+        /// </summary>
+        /// <value>Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.</value>
+        [DataMember(Name = "notifyContentType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notifyContentType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("notifyContentType")]
+        public string NotifyContentType { get; set; }
+
+        /// <summary>
+        ///     Indicates if all calls using the scenario should be recorded.
+        /// </summary>
+        /// <value>Indicates if all calls using the scenario should be recorded.</value>
+        [DataMember(Name = "record", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "record", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("record")]
+        public bool Record { get; set; }
 
         /// <summary>
         ///     Gets or Sets Script
@@ -99,6 +137,20 @@ namespace Infobip.Api.Client.Model
                      Description.Equals(input.Description))
                 ) &&
                 (
+                    NotifyUrl == input.NotifyUrl ||
+                    (NotifyUrl != null &&
+                     NotifyUrl.Equals(input.NotifyUrl))
+                ) &&
+                (
+                    NotifyContentType == input.NotifyContentType ||
+                    (NotifyContentType != null &&
+                     NotifyContentType.Equals(input.NotifyContentType))
+                ) &&
+                (
+                    Record == input.Record ||
+                    Record.Equals(input.Record)
+                ) &&
+                (
                     Script == input.Script ||
                     (Script != null &&
                      Script.Equals(input.Script))
@@ -115,6 +167,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsUpdateScenarioRequest {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  NotifyUrl: ").Append(NotifyUrl).Append("\n");
+            sb.Append("  NotifyContentType: ").Append(NotifyContentType).Append("\n");
+            sb.Append("  Record: ").Append(Record).Append("\n");
             sb.Append("  Script: ").Append(Script).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -152,6 +207,11 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Name.GetHashCode();
                 if (Description != null)
                     hashCode = hashCode * 59 + Description.GetHashCode();
+                if (NotifyUrl != null)
+                    hashCode = hashCode * 59 + NotifyUrl.GetHashCode();
+                if (NotifyContentType != null)
+                    hashCode = hashCode * 59 + NotifyContentType.GetHashCode();
+                hashCode = hashCode * 59 + Record.GetHashCode();
                 if (Script != null)
                     hashCode = hashCode * 59 + Script.GetHashCode();
                 return hashCode;

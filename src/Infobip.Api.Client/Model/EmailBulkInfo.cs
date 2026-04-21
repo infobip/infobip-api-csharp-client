@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,23 +28,33 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailBulkInfo" /> class.
         /// </summary>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request..</param>
+        [JsonConstructorAttribute]
+        protected EmailBulkInfo()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmailBulkInfo" /> class.
+        /// </summary>
+        /// <param name="bulkId">The ID that uniquely identifies the message within the bulk. (required).</param>
         /// <param name="sendAt">
         ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
-        ///     HH:mm:ss.SSSZ&#x60;..
+        ///     HH:mm:ss.SSSZ&#x60;. (required).
         /// </param>
         public EmailBulkInfo(string bulkId = default, DateTimeOffset sendAt = default)
         {
-            BulkId = bulkId;
+            // to ensure "bulkId" is required (not null)
+            BulkId = bulkId ?? throw new ArgumentNullException("bulkId");
             SendAt = sendAt;
         }
 
         /// <summary>
-        ///     The ID uniquely identifies the sent email request.
+        ///     The ID that uniquely identifies the message within the bulk.
         /// </summary>
-        /// <value>The ID uniquely identifies the sent email request.</value>
-        [DataMember(Name = "bulkId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <value>The ID that uniquely identifies the message within the bulk.</value>
+        [DataMember(Name = "bulkId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "bulkId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 
@@ -55,8 +66,9 @@ namespace Infobip.Api.Client.Model
         ///     Date and time when the email is to be sent. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ
         ///     &#x60;.
         /// </value>
-        [DataMember(Name = "sendAt", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "sendAt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "sendAt", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "sendAt", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("sendAt")]
         [System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetConverter))]
         public DateTimeOffset SendAt { get; set; }

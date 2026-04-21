@@ -28,6 +28,7 @@ namespace Infobip.Api.Client.Model
     [JsonSubtypes.KnownSubType(typeof(CallsCiscoWebexProvider), "CISCO_WEBEX")]
     [JsonSubtypes.KnownSubType(typeof(CallsFreshworksProvider), "FRESHWORKS")]
     [JsonSubtypes.KnownSubType(typeof(CallsGenesysCloudProvider), "GENESYS_CLOUD")]
+    [JsonSubtypes.KnownSubType(typeof(CallsOpenAiProvider), "OPENAI_REALTIME")]
     public class CallsProvider : IEquatable<CallsProvider>
     {
         /// <summary>
@@ -61,6 +62,7 @@ namespace Infobip.Api.Client.Model
                 Type == input.Type ||
                 Type.Equals(input.Type);
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

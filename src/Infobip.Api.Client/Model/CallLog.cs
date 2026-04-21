@@ -61,6 +61,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="dialogId">Dialog ID..</param>
         /// <param name="sender">Sender..</param>
         /// <param name="hangupSource">hangupSource.</param>
+        /// <param name="externalId">Client defined call ID..</param>
         public CallLog(string callId = default, CallEndpoint endpoint = default, string from = default,
             string to = default, CallDirection? direction = default, CallState? state = default,
             DateTimeOffset startTime = default, DateTimeOffset answerTime = default, DateTimeOffset endTime = default,
@@ -69,7 +70,7 @@ namespace Infobip.Api.Client.Model
             List<string> conferenceIds = default, long duration = default, bool hasCameraVideo = default,
             bool hasScreenshareVideo = default, CallsErrorCodeInfo errorCode = default,
             Dictionary<string, string> customData = default, string dialogId = default, string sender = default,
-            CallsHangupSource? hangupSource = default)
+            CallsHangupSource? hangupSource = default, string externalId = default)
         {
             // to ensure "endpoint" is required (not null)
             Endpoint = endpoint ?? throw new ArgumentNullException("endpoint");
@@ -95,6 +96,7 @@ namespace Infobip.Api.Client.Model
             DialogId = dialogId;
             Sender = sender;
             HangupSource = hangupSource;
+            ExternalId = externalId;
         }
 
         /// <summary>
@@ -252,8 +254,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if camera was enabled during the call.
         /// </summary>
         /// <value>Indicates if camera was enabled during the call.</value>
-        [DataMember(Name = "hasCameraVideo", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "hasCameraVideo", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "hasCameraVideo", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "hasCameraVideo", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("hasCameraVideo")]
         public bool HasCameraVideo { get; set; }
 
@@ -261,8 +263,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if screen sharing was enabled during the call.
         /// </summary>
         /// <value>Indicates if screen sharing was enabled during the call.</value>
-        [DataMember(Name = "hasScreenshareVideo", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "hasScreenshareVideo", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "hasScreenshareVideo", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "hasScreenshareVideo", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("hasScreenshareVideo")]
         public bool HasScreenshareVideo { get; set; }
 
@@ -300,6 +302,15 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "sender", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("sender")]
         public string Sender { get; set; }
+
+        /// <summary>
+        ///     Client defined call ID.
+        /// </summary>
+        /// <value>Client defined call ID.</value>
+        [DataMember(Name = "externalId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "externalId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalId")]
+        public string ExternalId { get; set; }
 
         /// <summary>
         ///     Returns true if CallLog instances are equal
@@ -422,6 +433,11 @@ namespace Infobip.Api.Client.Model
                 (
                     HangupSource == input.HangupSource ||
                     HangupSource.Equals(input.HangupSource)
+                ) &&
+                (
+                    ExternalId == input.ExternalId ||
+                    (ExternalId != null &&
+                     ExternalId.Equals(input.ExternalId))
                 );
         }
 
@@ -456,6 +472,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  DialogId: ").Append(DialogId).Append("\n");
             sb.Append("  Sender: ").Append(Sender).Append("\n");
             sb.Append("  HangupSource: ").Append(HangupSource).Append("\n");
+            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -527,6 +544,8 @@ namespace Infobip.Api.Client.Model
                 if (Sender != null)
                     hashCode = hashCode * 59 + Sender.GetHashCode();
                 hashCode = hashCode * 59 + HangupSource.GetHashCode();
+                if (ExternalId != null)
+                    hashCode = hashCode * 59 + ExternalId.GetHashCode();
                 return hashCode;
             }
         }

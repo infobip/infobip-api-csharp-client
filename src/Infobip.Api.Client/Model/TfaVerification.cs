@@ -62,8 +62,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID.
         /// </summary>
         /// <value>Indicates if the phone number (MSISDN) is already verified for 2FA application with given ID.</value>
-        [DataMember(Name = "verified", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "verified", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 

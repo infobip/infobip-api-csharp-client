@@ -45,8 +45,11 @@ namespace Infobip.Api.Client.Model
         ///     List of destinations. First destination in the list is the first one to be executed.
         ///     Subsequent destinations are executed only if the previous one fails. (required).
         /// </param>
+        /// <param name="status">status (required).</param>
+        /// <param name="order">Indicates priority index of the route. Routes with lower priority index are executed first. .</param>
         public CallRoutingRouteResponse(string id = default, string name = default,
-            List<CallRoutingSearchCriteria> criteria = default, List<CallRoutingDestination> destinations = default)
+            List<CallRoutingSearchCriteria> criteria = default, List<CallRoutingDestination> destinations = default,
+            CallRoutingRouteStatus status = default, int order = default)
         {
             // to ensure "id" is required (not null)
             Id = id ?? throw new ArgumentNullException("id");
@@ -54,8 +57,19 @@ namespace Infobip.Api.Client.Model
             Name = name ?? throw new ArgumentNullException("name");
             // to ensure "destinations" is required (not null)
             Destinations = destinations ?? throw new ArgumentNullException("destinations");
+            Status = status;
             Criteria = criteria;
+            Order = order;
         }
+
+        /// <summary>
+        ///     Gets or Sets Status
+        /// </summary>
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "status", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("status")]
+        public CallRoutingRouteStatus Status { get; set; }
 
         /// <summary>
         ///     Unique identifier of a route.
@@ -101,6 +115,15 @@ namespace Infobip.Api.Client.Model
         public List<CallRoutingDestination> Destinations { get; set; }
 
         /// <summary>
+        ///     Indicates priority index of the route. Routes with lower priority index are executed first.
+        /// </summary>
+        /// <value>Indicates priority index of the route. Routes with lower priority index are executed first. </value>
+        [DataMember(Name = "order", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "order", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("order")]
+        public int Order { get; set; }
+
+        /// <summary>
         ///     Returns true if CallRoutingRouteResponse instances are equal
         /// </summary>
         /// <param name="input">Instance of CallRoutingRouteResponse to be compared</param>
@@ -132,6 +155,14 @@ namespace Infobip.Api.Client.Model
                     (Destinations != null &&
                      input.Destinations != null &&
                      Destinations.SequenceEqual(input.Destinations))
+                ) &&
+                (
+                    Status == input.Status ||
+                    Status.Equals(input.Status)
+                ) &&
+                (
+                    Order == input.Order ||
+                    Order.Equals(input.Order)
                 );
         }
 
@@ -147,6 +178,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Criteria: ").Append(Criteria).Append("\n");
             sb.Append("  Destinations: ").Append(Destinations).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Order: ").Append(Order).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -187,6 +220,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Criteria.GetHashCode();
                 if (Destinations != null)
                     hashCode = hashCode * 59 + Destinations.GetHashCode();
+                hashCode = hashCode * 59 + Status.GetHashCode();
+                hashCode = hashCode * 59 + Order.GetHashCode();
                 return hashCode;
             }
         }

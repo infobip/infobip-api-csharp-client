@@ -29,7 +29,8 @@ namespace Infobip.Api.Client.Api
         ///     Create Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to create a Voice IVR Scenario.
+        ///     This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed if not used for more than 1
+        ///     year.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -40,7 +41,8 @@ namespace Infobip.Api.Client.Api
         ///     Create Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to create a Voice IVR Scenario.
+        ///     This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed if not used for more than 1
+        ///     year.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -339,7 +341,7 @@ namespace Infobip.Api.Client.Api
         /// <remarks>
         ///     This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or Sending speed
         ///     parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the bulkId
-        ///     parameter as an identifier.
+        ///     parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -353,7 +355,7 @@ namespace Infobip.Api.Client.Api
         /// <remarks>
         ///     This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or Sending speed
         ///     parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the bulkId
-        ///     parameter as an identifier.
+        ///     parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -408,13 +410,13 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <returns>List&lt;CallsSearchResponse&gt;</returns>
         List<CallsSearchResponse> SearchVoiceIvrScenarios(int? page = default, int? pageSize = default,
-            string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default);
+            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
+            DateTimeOffset? lastUsageDateUntil = default);
 
         /// <summary>
         ///     Search Voice IVR Scenarios
@@ -433,13 +435,13 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <returns>ApiResponse of List&lt;CallsSearchResponse&gt;</returns>
         ApiResponse<List<CallsSearchResponse>> SearchVoiceIvrScenariosWithHttpInfo(int? page = default,
-            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default);
+            int? pageSize = default, string name = default, string label = default,
+            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default);
 
         /// <summary>
         ///     Send advanced voice message
@@ -534,7 +536,7 @@ namespace Infobip.Api.Client.Api
         ///     Update Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to update a Voice IVR Scenario.
+        ///     This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes to apply.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -547,7 +549,7 @@ namespace Infobip.Api.Client.Api
         ///     Update Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to update a Voice IVR Scenario.
+        ///     This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes to apply.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -566,7 +568,8 @@ namespace Infobip.Api.Client.Api
         ///     Create Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to create a Voice IVR Scenario.
+        ///     This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed if not used for more than 1
+        ///     year.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -579,7 +582,8 @@ namespace Infobip.Api.Client.Api
         ///     Create Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to create a Voice IVR Scenario.
+        ///     This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed if not used for more than 1
+        ///     year.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -909,7 +913,7 @@ namespace Infobip.Api.Client.Api
         /// <remarks>
         ///     This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or Sending speed
         ///     parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the bulkId
-        ///     parameter as an identifier.
+        ///     parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -925,7 +929,7 @@ namespace Infobip.Api.Client.Api
         /// <remarks>
         ///     This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or Sending speed
         ///     parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the bulkId
-        ///     parameter as an identifier.
+        ///     parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -986,14 +990,14 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;CallsSearchResponse&gt;</returns>
         Task<List<CallsSearchResponse>> SearchVoiceIvrScenariosAsync(int? page = default, int? pageSize = default,
-            string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default, CancellationToken cancellationToken = default);
+            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
+            DateTimeOffset? lastUsageDateUntil = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Search Voice IVR Scenarios
@@ -1012,14 +1016,15 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;CallsSearchResponse&gt;)</returns>
         Task<ApiResponse<List<CallsSearchResponse>>> SearchVoiceIvrScenariosWithHttpInfoAsync(int? page = default,
-            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default, CancellationToken cancellationToken = default);
+            int? pageSize = default, string name = default, string label = default,
+            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send advanced voice message
@@ -1129,7 +1134,7 @@ namespace Infobip.Api.Client.Api
         ///     Update Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to update a Voice IVR Scenario.
+        ///     This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes to apply.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -1143,7 +1148,7 @@ namespace Infobip.Api.Client.Api
         ///     Update Voice IVR Scenarios
         /// </summary>
         /// <remarks>
-        ///     This method allows you to update a Voice IVR Scenario.
+        ///     This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes to apply.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -1397,7 +1402,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario.
+        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed
+        ///     if not used for more than 1 year.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -1410,7 +1416,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario.
+        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed
+        ///     if not used for more than 1 year.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -1452,7 +1459,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario.
+        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed
+        ///     if not used for more than 1 year.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -1468,7 +1476,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario.
+        ///     Create Voice IVR Scenarios This method allows you to create a Voice IVR Scenario. The IVR scenario will be removed
+        ///     if not used for more than 1 year.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="callsUpdateScenarioRequest"></param>
@@ -2744,7 +2753,7 @@ namespace Infobip.Api.Client.Api
         /// <summary>
         ///     Reschedule sent bulk This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or
         ///     Sending speed parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the
-        ///     bulkId parameter as an identifier.
+        ///     bulkId parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -2759,7 +2768,7 @@ namespace Infobip.Api.Client.Api
         /// <summary>
         ///     Reschedule sent bulk This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or
         ///     Sending speed parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the
-        ///     bulkId parameter as an identifier.
+        ///     bulkId parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -2808,7 +2817,7 @@ namespace Infobip.Api.Client.Api
         /// <summary>
         ///     Reschedule sent bulk This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or
         ///     Sending speed parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the
-        ///     bulkId parameter as an identifier.
+        ///     bulkId parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -2827,7 +2836,7 @@ namespace Infobip.Api.Client.Api
         /// <summary>
         ///     Reschedule sent bulk This method allows you to reschedule scheduled TTS bulk. Messages scheduled with the sendAt or
         ///     Sending speed parameter can be paused, resumed or canceled by changing the message status, or rescheduled using the
-        ///     bulkId parameter as an identifier.
+        ///     bulkId parameter as an identifier. Rescheduling is only possible if the bulk status is PAUSED.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -3025,13 +3034,13 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <returns>List&lt;CallsSearchResponse&gt;</returns>
         public List<CallsSearchResponse> SearchVoiceIvrScenarios(int? page = default, int? pageSize = default,
-            string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default)
+            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
+            DateTimeOffset? lastUsageDateUntil = default)
         {
             var localVarResponse =
                 SearchVoiceIvrScenariosWithHttpInfo(page, pageSize, name, label, lastUsageDateSince,
@@ -3053,13 +3062,13 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <returns>ApiResponse of List&lt;CallsSearchResponse&gt;</returns>
         public ApiResponse<List<CallsSearchResponse>> SearchVoiceIvrScenariosWithHttpInfo(int? page = default,
-            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default)
+            int? pageSize = default, string name = default, string label = default,
+            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -3115,14 +3124,15 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;CallsSearchResponse&gt;</returns>
         public async Task<List<CallsSearchResponse>> SearchVoiceIvrScenariosAsync(int? page = default,
-            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
-            string lastUsageDateUntil = default, CancellationToken cancellationToken = default)
+            int? pageSize = default, string name = default, string label = default,
+            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarResponse = await SearchVoiceIvrScenariosWithHttpInfoAsync(page, pageSize, name, label,
                 lastUsageDateSince, lastUsageDateUntil, cancellationToken).ConfigureAwait(false);
@@ -3143,14 +3153,14 @@ namespace Infobip.Api.Client.Api
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="lastUsageDateUntil">
-        ///     Upper limit of last usage date &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
+        ///     Upper limit of last usage date in &#x60;yyyy-MM-dd&#x60; format. Note: For scenarios
         ///     where &#x60;lastUsageDate&#x60; is &#x60;null&#x60;, filtering matches &#x60;createTime&#x60;. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;CallsSearchResponse&gt;)</returns>
         public async Task<ApiResponse<List<CallsSearchResponse>>> SearchVoiceIvrScenariosWithHttpInfoAsync(
             int? page = default, int? pageSize = default, string name = default, string label = default,
-            string lastUsageDateSince = default, string lastUsageDateUntil = default,
+            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -3655,7 +3665,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario.
+        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes
+        ///     to apply.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -3669,7 +3680,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario.
+        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes
+        ///     to apply.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -3717,7 +3729,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario.
+        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes
+        ///     to apply.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>
@@ -3734,7 +3747,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario.
+        ///     Update Voice IVR Scenarios This method allows you to update a Voice IVR Scenario. Changes may take up to 10 minutes
+        ///     to apply.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="id">Scenario identifier.</param>

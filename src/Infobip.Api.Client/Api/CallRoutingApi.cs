@@ -97,10 +97,12 @@ namespace Infobip.Api.Client.Api
         ///     Get existing call routes with pagination.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <returns>CallRoutingRouteResponsePage</returns>
-        CallRoutingRouteResponsePage GetCallRoutes(int? page = default, int? size = default);
+        CallRoutingRouteResponsePage GetCallRoutes(string nameContains = default, int? page = default,
+            int? size = default);
 
         /// <summary>
         ///     Get call routes
@@ -109,10 +111,12 @@ namespace Infobip.Api.Client.Api
         ///     Get existing call routes with pagination.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <returns>ApiResponse of CallRoutingRouteResponsePage</returns>
-        ApiResponse<CallRoutingRouteResponsePage> GetCallRoutesWithHttpInfo(int? page = default, int? size = default);
+        ApiResponse<CallRoutingRouteResponsePage> GetCallRoutesWithHttpInfo(string nameContains = default,
+            int? page = default, int? size = default);
 
         /// <summary>
         ///     Update a call route
@@ -231,12 +235,13 @@ namespace Infobip.Api.Client.Api
         ///     Get existing call routes with pagination.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CallRoutingRouteResponsePage</returns>
-        Task<CallRoutingRouteResponsePage> GetCallRoutesAsync(int? page = default, int? size = default,
-            CancellationToken cancellationToken = default);
+        Task<CallRoutingRouteResponsePage> GetCallRoutesAsync(string nameContains = default, int? page = default,
+            int? size = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get call routes
@@ -245,12 +250,13 @@ namespace Infobip.Api.Client.Api
         ///     Get existing call routes with pagination.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CallRoutingRouteResponsePage)</returns>
-        Task<ApiResponse<CallRoutingRouteResponsePage>> GetCallRoutesWithHttpInfoAsync(int? page = default,
-            int? size = default, CancellationToken cancellationToken = default);
+        Task<ApiResponse<CallRoutingRouteResponsePage>> GetCallRoutesWithHttpInfoAsync(string nameContains = default,
+            int? page = default, int? size = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update a call route
@@ -870,12 +876,14 @@ namespace Infobip.Api.Client.Api
         ///     Get call routes Get existing call routes with pagination.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <returns>CallRoutingRouteResponsePage</returns>
-        public CallRoutingRouteResponsePage GetCallRoutes(int? page = default, int? size = default)
+        public CallRoutingRouteResponsePage GetCallRoutes(string nameContains = default, int? page = default,
+            int? size = default)
         {
-            var localVarResponse = GetCallRoutesWithHttpInfo(page, size);
+            var localVarResponse = GetCallRoutesWithHttpInfo(nameContains, page, size);
             return localVarResponse.Data;
         }
 
@@ -883,11 +891,12 @@ namespace Infobip.Api.Client.Api
         ///     Get call routes Get existing call routes with pagination.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <returns>ApiResponse of CallRoutingRouteResponsePage</returns>
-        public ApiResponse<CallRoutingRouteResponsePage> GetCallRoutesWithHttpInfo(int? page = default,
-            int? size = default)
+        public ApiResponse<CallRoutingRouteResponsePage> GetCallRoutesWithHttpInfo(string nameContains = default,
+            int? page = default, int? size = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -899,6 +908,9 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
+            if (nameContains != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "nameContains", nameContains));
             if (page != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
             if (size != null)
@@ -924,15 +936,16 @@ namespace Infobip.Api.Client.Api
         ///     Get call routes Get existing call routes with pagination.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of CallRoutingRouteResponsePage</returns>
-        public async Task<CallRoutingRouteResponsePage> GetCallRoutesAsync(int? page = default, int? size = default,
-            CancellationToken cancellationToken = default)
+        public async Task<CallRoutingRouteResponsePage> GetCallRoutesAsync(string nameContains = default,
+            int? page = default, int? size = default, CancellationToken cancellationToken = default)
         {
-            var localVarResponse =
-                await GetCallRoutesWithHttpInfoAsync(page, size, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await GetCallRoutesWithHttpInfoAsync(nameContains, page, size, cancellationToken)
+                .ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -940,12 +953,14 @@ namespace Infobip.Api.Client.Api
         ///     Get call routes Get existing call routes with pagination.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="nameContains">String contained in the name of the route, case-insensitive. (optional)</param>
         /// <param name="page">Results page to retrieve (0..N). (optional, default to 0)</param>
         /// <param name="size">Number of records per page. (optional, default to 20)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (CallRoutingRouteResponsePage)</returns>
-        public async Task<ApiResponse<CallRoutingRouteResponsePage>> GetCallRoutesWithHttpInfoAsync(int? page = default,
-            int? size = default, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<CallRoutingRouteResponsePage>> GetCallRoutesWithHttpInfoAsync(
+            string nameContains = default, int? page = default, int? size = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -957,6 +972,9 @@ namespace Infobip.Api.Client.Api
             if (accept != null)
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
+            if (nameContains != null)
+                localVarRequestOptions.QueryParameters.Add(
+                    ClientUtils.ParameterToMultiMap("", "nameContains", nameContains));
             if (page != null)
                 localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "page", page));
             if (size != null)

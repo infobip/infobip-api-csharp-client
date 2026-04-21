@@ -16,9 +16,13 @@ using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Detected entity that answered the call. &#x60;UNKNOWN&#x60; if unable to detect..
+    ///     Detected class during analysis of the call. Always returns either HUMAN or MACHINE. Use confidenceRating for a
+    ///     finer grained analysis result.
     /// </summary>
-    /// <value>Detected entity that answered the call. &#x60;UNKNOWN&#x60; if unable to detect.</value>
+    /// <value>
+    ///     Detected class during analysis of the call. Always returns either HUMAN or MACHINE. Use confidenceRating for a
+    ///     finer grained analysis result
+    /// </value>
     [JsonConverter(typeof(StringEnumConverter))]
     [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<CallsDetectionResult>))]
     public enum CallsDetectionResult
@@ -31,11 +35,6 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Machine for value: MACHINE
         /// </summary>
-        [EnumMember(Value = "MACHINE")] Machine = 2,
-
-        /// <summary>
-        ///     Enum Unknown for value: UNKNOWN
-        /// </summary>
-        [EnumMember(Value = "UNKNOWN")] Unknown = 3
+        [EnumMember(Value = "MACHINE")] Machine = 2
     }
 }

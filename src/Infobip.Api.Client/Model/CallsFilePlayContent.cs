@@ -36,7 +36,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsFilePlayContent" /> class.
         /// </summary>
-        /// <param name="fileId">fileId (required).</param>
+        /// <param name="fileId">ID of the previously uploaded audio file. (required).</param>
         /// <param name="type">type (default to CallsPlayContentType.File).</param>
         public CallsFilePlayContent(string fileId = default, CallsPlayContentType? type = CallsPlayContentType.File) :
             base(type)
@@ -46,8 +46,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Gets or Sets FileId
+        ///     ID of the previously uploaded audio file.
         /// </summary>
+        /// <value>ID of the previously uploaded audio file.</value>
         [DataMember(Name = "fileId", IsRequired = true, EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "fileId", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]

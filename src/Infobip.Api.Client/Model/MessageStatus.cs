@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,27 +28,39 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessageStatus" /> class.
         /// </summary>
-        /// <param name="groupId">Status group ID..</param>
-        /// <param name="groupName">Status group name..</param>
-        /// <param name="id">Status ID..</param>
-        /// <param name="name">Status name..</param>
-        /// <param name="description">Status description..</param>
+        [JsonConstructorAttribute]
+        protected MessageStatus()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MessageStatus" /> class.
+        /// </summary>
+        /// <param name="groupId">Status group ID. (required).</param>
+        /// <param name="groupName">Status group name. (required).</param>
+        /// <param name="id">Status ID. (required).</param>
+        /// <param name="name">Status name. (required).</param>
+        /// <param name="description">Status description. (required).</param>
         public MessageStatus(int groupId = default, string groupName = default, int id = default, string name = default,
             string description = default)
         {
             GroupId = groupId;
-            GroupName = groupName;
+            // to ensure "groupName" is required (not null)
+            GroupName = groupName ?? throw new ArgumentNullException("groupName");
             Id = id;
-            Name = name;
-            Description = description;
+            // to ensure "name" is required (not null)
+            Name = name ?? throw new ArgumentNullException("name");
+            // to ensure "description" is required (not null)
+            Description = description ?? throw new ArgumentNullException("description");
         }
 
         /// <summary>
         ///     Status group ID.
         /// </summary>
         /// <value>Status group ID.</value>
-        [DataMember(Name = "groupId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "groupId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "groupId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "groupId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("groupId")]
         public int GroupId { get; set; }
 
@@ -55,8 +68,9 @@ namespace Infobip.Api.Client.Model
         ///     Status group name.
         /// </summary>
         /// <value>Status group name.</value>
-        [DataMember(Name = "groupName", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "groupName", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "groupName", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "groupName", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("groupName")]
         public string GroupName { get; set; }
 
@@ -64,8 +78,9 @@ namespace Infobip.Api.Client.Model
         ///     Status ID.
         /// </summary>
         /// <value>Status ID.</value>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "id", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "id", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "id", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
@@ -73,8 +88,9 @@ namespace Infobip.Api.Client.Model
         ///     Status name.
         /// </summary>
         /// <value>Status name.</value>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "name", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "name", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -82,8 +98,9 @@ namespace Infobip.Api.Client.Model
         ///     Status description.
         /// </summary>
         /// <value>Status description.</value>
-        [DataMember(Name = "description", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "description", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "description", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("description")]
         public string Description { get; set; }
 

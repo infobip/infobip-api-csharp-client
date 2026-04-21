@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,7 +28,15 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsConnectWithNewCallRequest" /> class.
         /// </summary>
-        /// <param name="callRequest">callRequest.</param>
+        [JsonConstructorAttribute]
+        protected CallsConnectWithNewCallRequest()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CallsConnectWithNewCallRequest" /> class.
+        /// </summary>
+        /// <param name="callRequest">callRequest (required).</param>
         /// <param name="connectOnEarlyMedia">
         ///     Indicates whether to connect calls on early media. Otherwise, the calls are connected
         ///     after being established. Cannot be &#x60;true&#x60; when &#x60;ringbackGeneration&#x60; is enabled. (default to
@@ -39,7 +48,8 @@ namespace Infobip.Api.Client.Model
             bool connectOnEarlyMedia = false, RingbackGeneration ringbackGeneration = default,
             CallsActionConferenceRequest conferenceRequest = default)
         {
-            CallRequest = callRequest;
+            // to ensure "callRequest" is required (not null)
+            CallRequest = callRequest ?? throw new ArgumentNullException("callRequest");
             ConnectOnEarlyMedia = connectOnEarlyMedia;
             RingbackGeneration = ringbackGeneration;
             ConferenceRequest = conferenceRequest;
@@ -48,8 +58,9 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Gets or Sets CallRequest
         /// </summary>
-        [DataMember(Name = "callRequest", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "callRequest", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "callRequest", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "callRequest", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("callRequest")]
         public CallsActionCallRequest CallRequest { get; set; }
 

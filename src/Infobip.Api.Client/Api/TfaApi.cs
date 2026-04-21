@@ -198,10 +198,10 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA verification status
         /// </summary>
         /// <remarks>
-        ///     Check if a phone number is already verified for a specific 2FA application.
+        ///     Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -213,10 +213,10 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA verification status
         /// </summary>
         /// <remarks>
-        ///     Check if a phone number is already verified for a specific 2FA application.
+        ///     Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -232,10 +232,10 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <returns>TfaStartEmailAuthenticationResponse</returns>
         TfaStartEmailAuthenticationResponse Resend2faPinCodeOverEmail(string pinId,
-            TfaResendPinRequest tfaResendPinRequest);
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail);
 
         /// <summary>
         ///     Resend 2FA PIN code over Email
@@ -245,10 +245,10 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
         ApiResponse<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest);
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -696,10 +696,10 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA verification status
         /// </summary>
         /// <remarks>
-        ///     Check if a phone number is already verified for a specific 2FA application.
+        ///     Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -712,10 +712,10 @@ namespace Infobip.Api.Client.Api
         ///     Get 2FA verification status
         /// </summary>
         /// <remarks>
-        ///     Check if a phone number is already verified for a specific 2FA application.
+        ///     Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -733,11 +733,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
         Task<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over Email
@@ -747,11 +747,11 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
         Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Resend2faPinCodeOverEmailWithHttpInfoAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default);
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Resend 2FA PIN code over SMS
@@ -2111,10 +2111,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get 2FA verification status Check if a phone number is already verified for a specific 2FA application.
+        ///     Get 2FA verification status Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -2127,10 +2127,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get 2FA verification status Check if a phone number is already verified for a specific 2FA application.
+        ///     Get 2FA verification status Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -2181,10 +2181,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get 2FA verification status Check if a phone number is already verified for a specific 2FA application.
+        ///     Get 2FA verification status Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -2200,10 +2200,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get 2FA verification status Check if a phone number is already verified for a specific 2FA application.
+        ///     Get 2FA verification status Check if a phone number (or email) is already verified for a specific 2FA application.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="msisdn">Filter by msisdn (phone number) for which verification status is checked.</param>
+        /// <param name="msisdn">Filter by msisdn (phone number or email) for which verification status is checked.</param>
         /// <param name="appId">ID of 2-FA application for which phone number verification status is requested.</param>
         /// <param name="verified">Filter by verified (true or false). (optional)</param>
         /// <param name="sent">Filter by message sent status (true or false). (optional)</param>
@@ -2262,12 +2262,12 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <returns>TfaStartEmailAuthenticationResponse</returns>
         public TfaStartEmailAuthenticationResponse Resend2faPinCodeOverEmail(string pinId,
-            TfaResendPinRequest tfaResendPinRequest)
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail)
         {
-            var localVarResponse = Resend2faPinCodeOverEmailWithHttpInfo(pinId, tfaResendPinRequest);
+            var localVarResponse = Resend2faPinCodeOverEmailWithHttpInfo(pinId, tfaResendPinRequestViaEmail);
             return localVarResponse.Data;
         }
 
@@ -2276,20 +2276,20 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <returns>ApiResponse of TfaStartEmailAuthenticationResponse</returns>
         public ApiResponse<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailWithHttpInfo(string pinId,
-            TfaResendPinRequest tfaResendPinRequest)
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->Resend2faPinCodeOverEmail");
 
-            // verify the required parameter 'tfaResendPinRequest' is set
-            if (tfaResendPinRequest == null)
+            // verify the required parameter 'tfaResendPinRequestViaEmail' is set
+            if (tfaResendPinRequestViaEmail == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->Resend2faPinCodeOverEmail");
+                    "Missing required parameter 'tfaResendPinRequestViaEmail' when calling TfaApi->Resend2faPinCodeOverEmail");
 
             var localVarRequestOptions = new RequestOptions();
 
@@ -2302,7 +2302,7 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
-            localVarRequestOptions.Data = tfaResendPinRequest;
+            localVarRequestOptions.Data = tfaResendPinRequestViaEmail;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -2324,14 +2324,14 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of TfaStartEmailAuthenticationResponse</returns>
         public async Task<TfaStartEmailAuthenticationResponse> Resend2faPinCodeOverEmailAsync(string pinId,
-            TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
+            TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail, CancellationToken cancellationToken = default)
         {
             var localVarResponse =
-                await Resend2faPinCodeOverEmailWithHttpInfoAsync(pinId, tfaResendPinRequest, cancellationToken)
+                await Resend2faPinCodeOverEmailWithHttpInfoAsync(pinId, tfaResendPinRequestViaEmail, cancellationToken)
                     .ConfigureAwait(false);
             return localVarResponse.Data;
         }
@@ -2341,21 +2341,22 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pinId">ID of the pin code that has to be verified.</param>
-        /// <param name="tfaResendPinRequest"></param>
+        /// <param name="tfaResendPinRequestViaEmail"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (TfaStartEmailAuthenticationResponse)</returns>
         public async Task<ApiResponse<TfaStartEmailAuthenticationResponse>> Resend2faPinCodeOverEmailWithHttpInfoAsync(
-            string pinId, TfaResendPinRequest tfaResendPinRequest, CancellationToken cancellationToken = default)
+            string pinId, TfaResendPinRequestViaEmail tfaResendPinRequestViaEmail,
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'pinId' is set
             if (pinId == null)
                 throw new ApiException(400,
                     "Missing required parameter 'pinId' when calling TfaApi->Resend2faPinCodeOverEmail");
 
-            // verify the required parameter 'tfaResendPinRequest' is set
-            if (tfaResendPinRequest == null)
+            // verify the required parameter 'tfaResendPinRequestViaEmail' is set
+            if (tfaResendPinRequestViaEmail == null)
                 throw new ApiException(400,
-                    "Missing required parameter 'tfaResendPinRequest' when calling TfaApi->Resend2faPinCodeOverEmail");
+                    "Missing required parameter 'tfaResendPinRequestViaEmail' when calling TfaApi->Resend2faPinCodeOverEmail");
 
 
             var localVarRequestOptions = new RequestOptions();
@@ -2369,7 +2370,7 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", accept);
 
             localVarRequestOptions.PathParameters.Add("pinId", ClientUtils.ParameterToString(pinId)); // path parameter
-            localVarRequestOptions.Data = tfaResendPinRequest;
+            localVarRequestOptions.Data = tfaResendPinRequestViaEmail;
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))

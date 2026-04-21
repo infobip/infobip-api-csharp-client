@@ -19,7 +19,8 @@ namespace Infobip.Api.Client.Model
     ///     Defines FormsActionAfterSubmissionType.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter))]
-    [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<FormsActionAfterSubmissionType>))]
+    [System.Text.Json.Serialization.JsonConverter(
+        typeof(JsonStringEnumMemberConverter<FormsActionAfterSubmissionType>))]
     public enum FormsActionAfterSubmissionType
     {
         /// <summary>

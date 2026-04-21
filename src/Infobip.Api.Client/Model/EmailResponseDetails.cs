@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,22 +28,34 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailResponseDetails" /> class.
         /// </summary>
-        /// <param name="to">The destination address of the message..</param>
-        /// <param name="messageId">The ID that uniquely identifies a message response..</param>
-        /// <param name="status">status.</param>
+        [JsonConstructorAttribute]
+        protected EmailResponseDetails()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmailResponseDetails" /> class.
+        /// </summary>
+        /// <param name="to">The destination address of the message. (required).</param>
+        /// <param name="messageId">The ID that uniquely identifies a message response. (required).</param>
+        /// <param name="status">status (required).</param>
         public EmailResponseDetails(string to = default, string messageId = default, MessageStatus status = default)
         {
-            To = to;
-            MessageId = messageId;
-            Status = status;
+            // to ensure "to" is required (not null)
+            To = to ?? throw new ArgumentNullException("to");
+            // to ensure "messageId" is required (not null)
+            MessageId = messageId ?? throw new ArgumentNullException("messageId");
+            // to ensure "status" is required (not null)
+            Status = status ?? throw new ArgumentNullException("status");
         }
 
         /// <summary>
         ///     The destination address of the message.
         /// </summary>
         /// <value>The destination address of the message.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("to")]
         public string To { get; set; }
 
@@ -50,16 +63,18 @@ namespace Infobip.Api.Client.Model
         ///     The ID that uniquely identifies a message response.
         /// </summary>
         /// <value>The ID that uniquely identifies a message response.</value>
-        [DataMember(Name = "messageId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "messageId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "messageId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("messageId")]
         public string MessageId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "status", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("status")]
         public MessageStatus Status { get; set; }
 

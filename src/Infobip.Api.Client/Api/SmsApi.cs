@@ -28,9 +28,14 @@ namespace Infobip.Api.Client.Api
         ///     Get inbound SMS messages
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS to the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The API request
-        ///     will only return new messages that arrived since the last API request.
+        ///     If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you can use this API call to
+        ///     fetch messages. Each request will return a batch of received messages, only once. The API request will only return
+        ///     new messages that arrived since the last API request. To use this method, you’d need to:&lt;ol&gt;&lt;li&gt;&lt;a
+        ///     href&#x3D;\&quot;https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a
+        ///     number&lt;/a&gt; capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number
+        ///     and optionally configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -54,9 +59,14 @@ namespace Infobip.Api.Client.Api
         ///     Get inbound SMS messages
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS to the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The API request
-        ///     will only return new messages that arrived since the last API request.
+        ///     If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you can use this API call to
+        ///     fetch messages. Each request will return a batch of received messages, only once. The API request will only return
+        ///     new messages that arrived since the last API request. To use this method, you’d need to:&lt;ol&gt;&lt;li&gt;&lt;a
+        ///     href&#x3D;\&quot;https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a
+        ///     number&lt;/a&gt; capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number
+        ///     and optionally configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -146,8 +156,8 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
-        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     Use this method to obtain the logs associated with outbound messages. The available logs are limited to those
+        ///     generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per call. See [message delivery
         ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
         ///     delivery.
         /// </remarks>
@@ -166,19 +176,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -191,20 +200,30 @@ namespace Infobip.Api.Client.Api
         /// <param name="campaignReferenceId">
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
+        /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
         /// </param>
         /// <returns>SmsLogsResponse</returns>
         SmsLogsResponse GetOutboundSmsMessageLogs(string mcc = default, string mnc = default, string sender = default,
             string destination = default, List<string> bulkId = default, List<string> messageId = default,
             MessageGeneralStatus? generalStatus = default, DateTimeOffset? sentSince = default,
             DateTimeOffset? sentUntil = default, int? limit = default, string entityId = default,
-            string applicationId = default, List<string> campaignReferenceId = default);
+            string applicationId = default, List<string> campaignReferenceId = default, bool? useCursor = default,
+            string cursor = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
-        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     Use this method to obtain the logs associated with outbound messages. The available logs are limited to those
+        ///     generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per call. See [message delivery
         ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
         ///     delivery.
         /// </remarks>
@@ -223,19 +242,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -249,23 +267,36 @@ namespace Infobip.Api.Client.Api
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
         /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
+        /// </param>
         /// <returns>ApiResponse of SmsLogsResponse</returns>
         ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string mcc = default, string mnc = default,
             string sender = default, string destination = default, List<string> bulkId = default,
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default);
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
+            bool? useCursor = default, string cursor = default);
 
         /// <summary>
         ///     Get scheduled SMS messages
         /// </summary>
         /// <remarks>
-        ///     See all scheduled messages and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60;
-        ///     field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms) and their scheduled date
+        ///     and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>SmsBulkResponse</returns>
         SmsBulkResponse GetScheduledSmsMessages(string bulkId);
 
@@ -273,12 +304,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages
         /// </summary>
         /// <remarks>
-        ///     See all scheduled messages and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60;
-        ///     field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms) and their scheduled date
+        ///     and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>ApiResponse of SmsBulkResponse</returns>
         ApiResponse<SmsBulkResponse> GetScheduledSmsMessagesWithHttpInfo(string bulkId);
 
@@ -286,11 +320,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See the status of [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a
+        ///     message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>SmsBulkStatusResponse</returns>
         SmsBulkStatusResponse GetScheduledSmsMessagesStatus(string bulkId);
 
@@ -298,11 +336,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See the status of [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a
+        ///     message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
         ApiResponse<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusWithHttpInfo(string bulkId);
 
@@ -334,12 +376,15 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule SMS messages
         /// </summary>
         /// <remarks>
-        ///     Change the date and time of already scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field
-        ///     when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <returns>SmsBulkResponse</returns>
         SmsBulkResponse RescheduleSmsMessages(string bulkId, SmsBulkRequest smsBulkRequest);
@@ -348,12 +393,15 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule SMS messages
         /// </summary>
         /// <remarks>
-        ///     Change the date and time of already scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field
-        ///     when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <returns>ApiResponse of SmsBulkResponse</returns>
         ApiResponse<SmsBulkResponse> RescheduleSmsMessagesWithHttpInfo(string bulkId, SmsBulkRequest smsBulkRequest);
@@ -394,12 +442,15 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     Change the status or completely cancel sending of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <returns>SmsBulkStatusResponse</returns>
         SmsBulkStatusResponse UpdateScheduledSmsMessagesStatus(string bulkId,
@@ -409,12 +460,15 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     Change the status or completely cancel sending of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
         ApiResponse<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusWithHttpInfo(string bulkId,
@@ -430,9 +484,14 @@ namespace Infobip.Api.Client.Api
         ///     Get inbound SMS messages
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS to the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The API request
-        ///     will only return new messages that arrived since the last API request.
+        ///     If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you can use this API call to
+        ///     fetch messages. Each request will return a batch of received messages, only once. The API request will only return
+        ///     new messages that arrived since the last API request. To use this method, you’d need to:&lt;ol&gt;&lt;li&gt;&lt;a
+        ///     href&#x3D;\&quot;https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a
+        ///     number&lt;/a&gt; capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number
+        ///     and optionally configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -458,9 +517,14 @@ namespace Infobip.Api.Client.Api
         ///     Get inbound SMS messages
         /// </summary>
         /// <remarks>
-        ///     If for some reason you are unable to receive incoming SMS to the endpoint of your choice in real time, you can use
-        ///     this API call to fetch messages. Each request will return a batch of received messages - only once. The API request
-        ///     will only return new messages that arrived since the last API request.
+        ///     If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you can use this API call to
+        ///     fetch messages. Each request will return a batch of received messages, only once. The API request will only return
+        ///     new messages that arrived since the last API request. To use this method, you’d need to:&lt;ol&gt;&lt;li&gt;&lt;a
+        ///     href&#x3D;\&quot;https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a
+        ///     number&lt;/a&gt; capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number
+        ///     and optionally configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -555,8 +619,8 @@ namespace Infobip.Api.Client.Api
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
-        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     Use this method to obtain the logs associated with outbound messages. The available logs are limited to those
+        ///     generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per call. See [message delivery
         ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
         ///     delivery.
         /// </remarks>
@@ -575,19 +639,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -600,6 +663,15 @@ namespace Infobip.Api.Client.Api
         /// <param name="campaignReferenceId">
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
+        /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsLogsResponse</returns>
@@ -608,14 +680,14 @@ namespace Infobip.Api.Client.Api
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
             string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
-            CancellationToken cancellationToken = default);
+            bool? useCursor = default, string cursor = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get outbound SMS message logs
         /// </summary>
         /// <remarks>
-        ///     Use this method for displaying logs, for example, in the user interface. Available are the logs for the last 48
-        ///     hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
+        ///     Use this method to obtain the logs associated with outbound messages. The available logs are limited to those
+        ///     generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per call. See [message delivery
         ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
         ///     delivery.
         /// </remarks>
@@ -634,19 +706,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -660,6 +731,15 @@ namespace Infobip.Api.Client.Api
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
         /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsLogsResponse)</returns>
         Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(string mcc = default,
@@ -667,18 +747,21 @@ namespace Infobip.Api.Client.Api
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
             string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
-            CancellationToken cancellationToken = default);
+            bool? useCursor = default, string cursor = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get scheduled SMS messages
         /// </summary>
         /// <remarks>
-        ///     See all scheduled messages and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60;
-        ///     field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms) and their scheduled date
+        ///     and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkResponse</returns>
         Task<SmsBulkResponse>
@@ -688,12 +771,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages
         /// </summary>
         /// <remarks>
-        ///     See all scheduled messages and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60;
-        ///     field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms) and their scheduled date
+        ///     and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
         Task<ApiResponse<SmsBulkResponse>> GetScheduledSmsMessagesWithHttpInfoAsync(string bulkId,
@@ -703,11 +789,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See the status of [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a
+        ///     message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkStatusResponse</returns>
         Task<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusAsync(string bulkId,
@@ -717,11 +807,15 @@ namespace Infobip.Api.Client.Api
         ///     Get scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     See the status of scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     See the status of [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a
+        ///     message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
         Task<ApiResponse<SmsBulkStatusResponse>> GetScheduledSmsMessagesStatusWithHttpInfoAsync(string bulkId,
@@ -759,12 +853,15 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule SMS messages
         /// </summary>
         /// <remarks>
-        ///     Change the date and time of already scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field
-        ///     when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkResponse</returns>
@@ -775,12 +872,15 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule SMS messages
         /// </summary>
         /// <remarks>
-        ///     Change the date and time of already scheduled messages. To schedule a message, use the &#x60;sendAt&#x60; field
-        ///     when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
@@ -826,12 +926,15 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     Change the status or completely cancel sending of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkStatusResponse</returns>
@@ -842,12 +945,15 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled SMS messages status
         /// </summary>
         /// <remarks>
-        ///     Change the status or completely cancel sending of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
@@ -1097,9 +1203,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS to the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The API request will only return new messages that arrived since the last API request.
+        ///     Get inbound SMS messages If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you
+        ///     can use this API call to fetch messages. Each request will return a batch of received messages, only once. The API
+        ///     request will only return new messages that arrived since the last API request. To use this method, you’d need to:
+        ///     &lt;ol&gt;&lt;li&gt;&lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a number&lt;/a&gt;
+        ///     capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number and optionally
+        ///     configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -1125,9 +1237,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS to the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The API request will only return new messages that arrived since the last API request.
+        ///     Get inbound SMS messages If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you
+        ///     can use this API call to fetch messages. Each request will return a batch of received messages, only once. The API
+        ///     request will only return new messages that arrived since the last API request. To use this method, you’d need to:
+        ///     &lt;ol&gt;&lt;li&gt;&lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a number&lt;/a&gt;
+        ///     capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number and optionally
+        ///     configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -1184,9 +1302,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS to the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The API request will only return new messages that arrived since the last API request.
+        ///     Get inbound SMS messages If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you
+        ///     can use this API call to fetch messages. Each request will return a batch of received messages, only once. The API
+        ///     request will only return new messages that arrived since the last API request. To use this method, you’d need to:
+        ///     &lt;ol&gt;&lt;li&gt;&lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a number&lt;/a&gt;
+        ///     capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number and optionally
+        ///     configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -1215,9 +1339,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get inbound SMS messages If for some reason you are unable to receive incoming SMS to the endpoint of your choice
-        ///     in real time, you can use this API call to fetch messages. Each request will return a batch of received messages -
-        ///     only once. The API request will only return new messages that arrived since the last API request.
+        ///     Get inbound SMS messages If you are unable to receive incoming SMS to the endpoint of your choice in real-time, you
+        ///     can use this API call to fetch messages. Each request will return a batch of received messages, only once. The API
+        ///     request will only return new messages that arrived since the last API request. To use this method, you’d need to:
+        ///     &lt;ol&gt;&lt;li&gt;&lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/phone-numbers/purchase-number\&quot;&gt;Buy a number&lt;/a&gt;
+        ///     capable of receiving SMS traffic.&lt;/li&gt;&lt;li&gt;Specify a forwarding endpoint for the number and optionally
+        ///     configure other &lt;a href&#x3D;\&quot;
+        ///     https://www.infobip.com/docs/api/platform/numbers/my-numbers/resource-management/manage-inbound-configuration\
+        ///     &quot;&gt;inbound settings&lt;/a&gt;.&lt;/li&gt;&lt;/ol&gt;
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="limit">
@@ -1493,10 +1623,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
-        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
-        ///     delivery.
+        ///     Get outbound SMS message logs Use this method to obtain the logs associated with outbound messages. The available
+        ///     logs are limited to those generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per
+        ///     call. See [message delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case
+        ///     is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="mcc">Mobile Country Code. (optional)</param>
@@ -1513,19 +1643,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -1538,24 +1667,35 @@ namespace Infobip.Api.Client.Api
         /// <param name="campaignReferenceId">
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
+        /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
         /// </param>
         /// <returns>SmsLogsResponse</returns>
         public SmsLogsResponse GetOutboundSmsMessageLogs(string mcc = default, string mnc = default,
             string sender = default, string destination = default, List<string> bulkId = default,
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default)
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
+            bool? useCursor = default, string cursor = default)
         {
             var localVarResponse = GetOutboundSmsMessageLogsWithHttpInfo(mcc, mnc, sender, destination, bulkId,
-                messageId, generalStatus, sentSince, sentUntil, limit, entityId, applicationId, campaignReferenceId);
+                messageId, generalStatus, sentSince, sentUntil, limit, entityId, applicationId, campaignReferenceId,
+                useCursor, cursor);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
-        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
-        ///     delivery.
+        ///     Get outbound SMS message logs Use this method to obtain the logs associated with outbound messages. The available
+        ///     logs are limited to those generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per
+        ///     call. See [message delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case
+        ///     is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="mcc">Mobile Country Code. (optional)</param>
@@ -1572,19 +1712,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -1598,12 +1737,22 @@ namespace Infobip.Api.Client.Api
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
         /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
+        /// </param>
         /// <returns>ApiResponse of SmsLogsResponse</returns>
         public ApiResponse<SmsLogsResponse> GetOutboundSmsMessageLogsWithHttpInfo(string mcc = default,
             string mnc = default, string sender = default, string destination = default, List<string> bulkId = default,
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
-            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default)
+            string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
+            bool? useCursor = default, string cursor = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -1646,6 +1795,10 @@ namespace Infobip.Api.Client.Api
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId));
+            if (useCursor != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "useCursor", useCursor));
+            if (cursor != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "cursor", cursor));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1662,10 +1815,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
-        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
-        ///     delivery.
+        ///     Get outbound SMS message logs Use this method to obtain the logs associated with outbound messages. The available
+        ///     logs are limited to those generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per
+        ///     call. See [message delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case
+        ///     is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="mcc">Mobile Country Code. (optional)</param>
@@ -1682,19 +1835,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -1707,6 +1859,15 @@ namespace Infobip.Api.Client.Api
         /// <param name="campaignReferenceId">
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
+        /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsLogsResponse</returns>
@@ -1715,19 +1876,19 @@ namespace Infobip.Api.Client.Api
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
             string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
-            CancellationToken cancellationToken = default)
+            bool? useCursor = default, string cursor = default, CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetOutboundSmsMessageLogsWithHttpInfoAsync(mcc, mnc, sender, destination,
                 bulkId, messageId, generalStatus, sentSince, sentUntil, limit, entityId, applicationId,
-                campaignReferenceId, cancellationToken).ConfigureAwait(false);
+                campaignReferenceId, useCursor, cursor, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        ///     Get outbound SMS message logs Use this method for displaying logs, for example, in the user interface. Available
-        ///     are the logs for the last 48 hours and you can only retrieve maximum of 1000 logs per call. See [message delivery
-        ///     reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case is to verify message
-        ///     delivery.
+        ///     Get outbound SMS message logs Use this method to obtain the logs associated with outbound messages. The available
+        ///     logs are limited to those generated in the last 48 hours, and you can retrieve a maximum of only 1000 logs per
+        ///     call. See [message delivery reports](#channels/sms/get-outbound-sms-message-delivery-reports-v3) if your use case
+        ///     is to verify message delivery.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="mcc">Mobile Country Code. (optional)</param>
@@ -1744,19 +1905,18 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="generalStatus"> (optional)</param>
         /// <param name="sentSince">
-        ///     The logs will only include messages sent after this date. Use it together with sentUntil to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
+        ///     The logs will only include messages sent after this date. Use it alongside sentUntil to specify
+        ///     a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following format:
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="sentUntil">
-        ///     The logs will only include messages sent before this date. Use it together with sentSince to
-        ///     return a time range or if you want to fetch more than 1000 logs allowed per call. Has the following format:
-        ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
+        ///     The logs will only include messages sent before this date. Use it alongside sentSince to
+        ///     specify a time range for the logs, but only up to the maximum limit of 1000 logs per call. Has the following
+        ///     format: yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ. (optional)
         /// </param>
         /// <param name="limit">
         ///     Maximum number of messages to include in logs. If not set, the latest 50 records are returned.
-        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. If you want to fetch more than 1000 logs
-        ///     allowed per call, use sentBefore and sentUntil to retrieve them in pages. (optional, default to 50)
+        ///     Maximum limit value is 1000 and you can only access logs for the last 48h. (optional, default to 50)
         /// </param>
         /// <param name="entityId">
         ///     Entity id used to send the message. For more details, see our
@@ -1770,6 +1930,15 @@ namespace Infobip.Api.Client.Api
         ///     ID of a campaign that was sent in the message. May contain multiple comma-separated
         ///     values. (optional)
         /// </param>
+        /// <param name="useCursor">
+        ///     Flag used to enable cursor-based pagination. When set to true, the system will use the cursor
+        ///     to fetch the next set of logs. (optional)
+        /// </param>
+        /// <param name="cursor">
+        ///     Value which represents the current position in the data set. For the first request, this field
+        ///     shouldn&#39;t be defined. In subsequent requests, use the &#x60;nextCursor&#x60; value returned from the previous
+        ///     response to continue fetching data. (optional)
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsLogsResponse)</returns>
         public async Task<ApiResponse<SmsLogsResponse>> GetOutboundSmsMessageLogsWithHttpInfoAsync(string mcc = default,
@@ -1777,7 +1946,7 @@ namespace Infobip.Api.Client.Api
             List<string> messageId = default, MessageGeneralStatus? generalStatus = default,
             DateTimeOffset? sentSince = default, DateTimeOffset? sentUntil = default, int? limit = default,
             string entityId = default, string applicationId = default, List<string> campaignReferenceId = default,
-            CancellationToken cancellationToken = default)
+            bool? useCursor = default, string cursor = default, CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -1820,6 +1989,10 @@ namespace Infobip.Api.Client.Api
             if (campaignReferenceId != null)
                 localVarRequestOptions.QueryParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "campaignReferenceId", campaignReferenceId));
+            if (useCursor != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "useCursor", useCursor));
+            if (cursor != null)
+                localVarRequestOptions.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "cursor", cursor));
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -1839,12 +2012,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See all scheduled messages and their scheduled date and time. To schedule a message, use
-        ///     the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms)
+        ///     and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>SmsBulkResponse</returns>
         public SmsBulkResponse GetScheduledSmsMessages(string bulkId)
         {
@@ -1853,12 +2029,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See all scheduled messages and their scheduled date and time. To schedule a message, use
-        ///     the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms)
+        ///     and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>ApiResponse of SmsBulkResponse</returns>
         public ApiResponse<SmsBulkResponse> GetScheduledSmsMessagesWithHttpInfo(string bulkId)
         {
@@ -1894,12 +2073,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See all scheduled messages and their scheduled date and time. To schedule a message, use
-        ///     the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms)
+        ///     and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkResponse</returns>
         public async Task<SmsBulkResponse> GetScheduledSmsMessagesAsync(string bulkId,
@@ -1911,12 +2093,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages See all scheduled messages and their scheduled date and time. To schedule a message, use
-        ///     the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages See all [scheduled messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms)
+        ///     and their scheduled date and time. To schedule a message, use the &#x60;sendAt&#x60; field when [sending a
+        ///     message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
         public async Task<ApiResponse<SmsBulkResponse>> GetScheduledSmsMessagesWithHttpInfoAsync(string bulkId,
@@ -1958,12 +2143,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages status See the status of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>SmsBulkStatusResponse</returns>
         public SmsBulkStatusResponse GetScheduledSmsMessagesStatus(string bulkId)
         {
@@ -1972,12 +2160,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages status See the status of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
         public ApiResponse<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusWithHttpInfo(string bulkId)
         {
@@ -2014,12 +2205,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages status See the status of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkStatusResponse</returns>
         public async Task<SmsBulkStatusResponse> GetScheduledSmsMessagesStatusAsync(string bulkId,
@@ -2031,12 +2225,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Get scheduled SMS messages status See the status of scheduled messages. To schedule a message, use the &#x60;sendAt
-        ///     &#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Get scheduled SMS messages status See the status of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>
         public async Task<ApiResponse<SmsBulkStatusResponse>> GetScheduledSmsMessagesStatusWithHttpInfoAsync(
@@ -2194,12 +2391,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time of already scheduled messages. To schedule a message, use the
-        ///     &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Reschedule SMS messages Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <returns>SmsBulkResponse</returns>
         public SmsBulkResponse RescheduleSmsMessages(string bulkId, SmsBulkRequest smsBulkRequest)
@@ -2209,12 +2409,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time of already scheduled messages. To schedule a message, use the
-        ///     &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Reschedule SMS messages Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <returns>ApiResponse of SmsBulkResponse</returns>
         public ApiResponse<SmsBulkResponse> RescheduleSmsMessagesWithHttpInfo(string bulkId,
@@ -2258,12 +2461,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time of already scheduled messages. To schedule a message, use the
-        ///     &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Reschedule SMS messages Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkResponse</returns>
@@ -2277,12 +2483,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Reschedule SMS messages Change the date and time of already scheduled messages. To schedule a message, use the
-        ///     &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Reschedule SMS messages Change the date and time of already [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsBulkRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkResponse)</returns>
@@ -2462,12 +2671,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change the status or completely cancel sending of scheduled messages. To
-        ///     schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Update scheduled SMS messages status Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <returns>SmsBulkStatusResponse</returns>
         public SmsBulkStatusResponse UpdateScheduledSmsMessagesStatus(string bulkId,
@@ -2478,12 +2690,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change the status or completely cancel sending of scheduled messages. To
-        ///     schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Update scheduled SMS messages status Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <returns>ApiResponse of SmsBulkStatusResponse</returns>
         public ApiResponse<SmsBulkStatusResponse> UpdateScheduledSmsMessagesStatusWithHttpInfo(string bulkId,
@@ -2528,12 +2743,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change the status or completely cancel sending of scheduled messages. To
-        ///     schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Update scheduled SMS messages status Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of SmsBulkStatusResponse</returns>
@@ -2547,12 +2765,15 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update scheduled SMS messages status Change the status or completely cancel sending of scheduled messages. To
-        ///     schedule a message, use the &#x60;sendAt&#x60; field when [sending a
-        ///     message](https://www.infobip.com/docs/api/channels/sms/sms-messaging/outbound-sms/send-sms-message).
+        ///     Update scheduled SMS messages status Change the status or completely cancel sending of [scheduled
+        ///     messages](https://www.infobip.com/docs/sms/sms-over-api#schedule-sms). To schedule a message, use the &#x60;sendAt
+        ///     &#x60; field when [sending a message](#channels/sms/sms-messaging/outbound-sms/send-sms-messages).
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">
+        ///     Unique ID assigned to the request if messaging multiple recipients or sending multiple messages
+        ///     via a single API request.
+        /// </param>
         /// <param name="smsUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (SmsBulkStatusResponse)</returns>

@@ -56,6 +56,7 @@ namespace Infobip.Api.Client.Model
                 Status.Equals(input.Status);
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>

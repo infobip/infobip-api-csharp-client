@@ -36,6 +36,12 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum CiscoWebex for value: CISCO_WEBEX
         /// </summary>
-        [EnumMember(Value = "CISCO_WEBEX")] CiscoWebex = 3
+        [EnumMember(Value = "CISCO_WEBEX")] CiscoWebex = 3,
+
+        /// <summary>
+        ///     Enum OpenaiRealtime for value: OPENAI_REALTIME
+        /// </summary>
+        [EnumMember(Value = "OPENAI_REALTIME")]
+        OpenaiRealtime = 4
     }
 }

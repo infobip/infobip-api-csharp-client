@@ -38,16 +38,15 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="text">Content of the message being sent. (required).</param>
         /// <param name="languageCode">
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish,
-        ///     &#x60;ES&#x60; for Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the
-        ///     character set based on message content..
+        ///     [Language code](https://www.infobip.com/docs/sms/language#national-language-identifier) for
+        ///     the correct character set. &#x60;AUTODETECT&#x60; lets the platform select the character set based on message
+        ///     content only for supported languages..
         /// </param>
         /// <param name="transliteration">
-        ///     The transliteration of your sent message from one script to another. Transliteration is
-        ///     used to replace characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;
-        ///     TURKISH&#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC
-        ///     &#x60;, &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;
-        ///     NON_UNICDE&#x60;, &#x60;ALL&#x60; and &#x60;NONE&#x60;..
+        ///     The transliteration of your sent message from one script to another.
+        ///     [Transliteration](https://www.infobip.com/docs/sms/language#sms-transliteration) is used to replace characters
+        ///     which are not recognized as part of your defaulted alphabet. &#x60;ALL&#x60; means that the transliteration process
+        ///     will recognize all supported languages..
         /// </param>
         public SmsPreviewRequest(string text = default, string languageCode = default, string transliteration = default)
         {
@@ -68,14 +67,14 @@ namespace Infobip.Api.Client.Model
         public string Text { get; set; }
 
         /// <summary>
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-        ///     message content.
+        ///     [Language code](https://www.infobip.com/docs/sms/language#national-language-identifier) for the correct character
+        ///     set. &#x60;AUTODETECT&#x60; lets the platform select the character set based on message content only for supported
+        ///     languages.
         /// </summary>
         /// <value>
-        ///     Language code for the correct character set. Possible values: &#x60;TR&#x60; for Turkish, &#x60;ES&#x60; for
-        ///     Spanish, &#x60;PT&#x60; for Portuguese, or &#x60;AUTODETECT&#x60; to let platform select the character set based on
-        ///     message content.
+        ///     [Language code](https://www.infobip.com/docs/sms/language#national-language-identifier) for the correct
+        ///     character set. &#x60;AUTODETECT&#x60; lets the platform select the character set based on message content only for
+        ///     supported languages.
         /// </value>
         [DataMember(Name = "languageCode", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "languageCode", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -83,18 +82,16 @@ namespace Infobip.Api.Client.Model
         public string LanguageCode { get; set; }
 
         /// <summary>
-        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace characters
-        ///     which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK
-        ///     &#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN
-        ///     &#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;NON_UNICDE&#x60;, &#x60;ALL&#x60;
-        ///     and &#x60;NONE&#x60;.
+        ///     The transliteration of your sent message from one script to another.
+        ///     [Transliteration](https://www.infobip.com/docs/sms/language#sms-transliteration) is used to replace characters
+        ///     which are not recognized as part of your defaulted alphabet. &#x60;ALL&#x60; means that the transliteration process
+        ///     will recognize all supported languages.
         /// </summary>
         /// <value>
-        ///     The transliteration of your sent message from one script to another. Transliteration is used to replace
-        ///     characters which are not recognized as part of your defaulted alphabet. Possible values: &#x60;TURKISH&#x60;,
-        ///     &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;
-        ///     CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;PORTUGUESE&#x60;, &#x60;COLOMBIAN&#x60;, &#x60;NON_UNICDE&#x60;,
-        ///     &#x60;ALL&#x60; and &#x60;NONE&#x60;.
+        ///     The transliteration of your sent message from one script to another.
+        ///     [Transliteration](https://www.infobip.com/docs/sms/language#sms-transliteration) is used to replace characters
+        ///     which are not recognized as part of your defaulted alphabet. &#x60;ALL&#x60; means that the transliteration process
+        ///     will recognize all supported languages.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "transliteration", DefaultValueHandling = DefaultValueHandling.Ignore)]

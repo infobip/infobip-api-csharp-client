@@ -92,8 +92,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates that this callback request is initiated after the &#x60;captureDtmf&#x60; command is executed. Not
         ///     present in the first callback request for the call.
         /// </value>
-        [DataMember(Name = "dtmfCaptured", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "dtmfCaptured", DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "dtmfCaptured", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "dtmfCaptured", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("dtmfCaptured")]
         public bool DtmfCaptured { get; set; }
 

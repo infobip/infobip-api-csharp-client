@@ -36,7 +36,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsBulkCallRequest" /> class.
         /// </summary>
-        /// <param name="externalId">Client defined call ID..</param>
+        /// <param name="externalId">Custom ID assigned by the client..</param>
         /// <param name="endpoint">endpoint (required).</param>
         public CallsBulkCallRequest(string externalId = default, CallsBulkEndpoint endpoint = default)
         {
@@ -46,9 +46,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Client defined call ID.
+        ///     Custom ID assigned by the client.
         /// </summary>
-        /// <value>Client defined call ID.</value>
+        /// <value>Custom ID assigned by the client.</value>
         [DataMember(Name = "externalId", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "externalId", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("externalId")]
