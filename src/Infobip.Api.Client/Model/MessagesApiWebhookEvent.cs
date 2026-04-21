@@ -53,7 +53,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="platform">platform.</param>
         /// <param name="campaignReferenceId">ID of a campaign that was sent in the MT message.</param>
         /// <param name="metadata">metadata.</param>
-        /// <param name="@event">@event (required) (default to MessagesApiInboundEventType.Mo).</param>
+        /// <param name="event">@event (required) (default to MessagesApiInboundEventType.Mo).</param>
         public MessagesApiWebhookEvent(MessagesApiInboundMoEventChannel channel = default, string sender = default,
             string destination = default, List<MessagesApiWebhookEventContent> content = default,
             DateTimeOffset receivedAt = default, string messageId = default, string pairedMessageId = default,

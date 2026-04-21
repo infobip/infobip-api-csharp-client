@@ -49,7 +49,7 @@ namespace Infobip.Api.Client.Model
         ///     required. (required).
         /// </param>
         /// <param name="options">options.</param>
-        /// <param name="@event">@event (required) (default to MessagesApiOutboundEventType.TypingStarted).</param>
+        /// <param name="event">@event (required) (default to MessagesApiOutboundEventType.TypingStarted).</param>
         public MessagesApiOutboundTypingStartedEvent(MessagesApiOutboundTypingStartedEventChannel channel = default,
             string sender = default, List<MessagesApiToDestination> destinations = default,
             MessagesApiEventOptions options = default,

@@ -178,6 +178,1873 @@ public class MessagesApiTest : ApiTest
     }
 
     [TestMethod]
+    public void ShouldSendTextMessage()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163862";
+        var givenTo = "123456789";
+        var givenText = "Sending you lots of otterly delightful vibes today!";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }}
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText)
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithButtons()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.AppleMb;
+        var givenSender = "e1c86198-d9bf-43ee-a635-7fe9cbcf45ad";
+        var givenTo =
+            "urn:mbid:AQAAY6xHR8jJXQr78AG+hTy/xz8H/slwhA06+fLuhMyGKnWAB2DNFenG1r8hAFckmalbZiBRorHQXNcnCg7OK94H+tEF/CI4wDdedyL0E+mDYIwDG+Xcd05xQc0i7GNgRGs1QZmn4Yr5foi6H6ebjivoHbo3cl0=";
+        var givenText = "Sending you lots of otterly delightful vibes today!";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenFirstButtonText = "Thank you";
+        var givenFirstButtonPostbackData = "thanks";
+        var givenFirstButtonType = MessagesApiMessageButtonType.Reply;
+        var givenSecondButtonText = "I send you more :3";
+        var givenSecondButtonPostbackData = "more";
+        var givenSecondButtonType = MessagesApiMessageButtonType.Reply;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenFirstButtonText}"",
+                        ""postbackData"": ""{givenFirstButtonPostbackData}"",
+                        ""type"": ""{GetEnumAttributeValue(givenFirstButtonType)}""
+                      }},
+                      {{
+                        ""text"": ""{givenSecondButtonText}"",
+                        ""postbackData"": ""{givenSecondButtonPostbackData}"",
+                        ""type"": ""{GetEnumAttributeValue(givenSecondButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageReplyButton(
+                                givenFirstButtonText,
+                                givenFirstButtonPostbackData
+                            ),
+                            new MessagesApiMessageReplyButton(
+                                givenSecondButtonText,
+                                givenSecondButtonPostbackData
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithOpenUrlButton()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenText = "May the Force be with you.";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenButtonText = "Yes, I agree!";
+        var givenButtonUrl = "http://example.com/agree";
+        var givenButtonType = MessagesApiMessageButtonType.OpenUrl;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenButtonText}"",
+                        ""url"": ""{givenButtonUrl}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageOpenUrlButton(
+                                givenButtonText,
+                                givenButtonUrl
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithDialPhoneButton()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenText = "May the Force be with you.";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenButtonText = "Yes, I agree!";
+        var givenButtonPhoneNumber = "+1234567890";
+        var givenButtonType = MessagesApiMessageButtonType.DialPhone;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenButtonText}"",
+                        ""phoneNumber"": ""{givenButtonPhoneNumber}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageDialPhoneButton(
+                                givenButtonText,
+                                givenButtonPhoneNumber
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithShowLocationButton()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenText = "May the Force be with you.";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenButtonText = "Yes, I agree!";
+        var givenButtonLatitude = 37.7749;
+        var givenButtonLongitude = -122.4194;
+        var givenButtonType = MessagesApiMessageButtonType.ShowLocation;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenButtonText}"",
+                        ""latitude"": {givenButtonLatitude},
+                        ""longitude"": {givenButtonLongitude},
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageShowLocationButton(
+                                givenButtonText,
+                                givenButtonLatitude,
+                                givenButtonLongitude
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithRequestLocationButton()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenText = "May the Force be with you.";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenButtonText = "Yes, I agree!";
+        var givenButtonType = MessagesApiMessageButtonType.RequestLocation;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenButtonText}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageRequestLocationButton(
+                                givenButtonText
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTextMessageWithAddCalendarEventButton()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenText = "May the Force be with you.";
+        var givenBodyType = MessagesApiMessageBodyType.Text;
+        var givenButtonText = "Yes, I agree!";
+        var givenButtonType = MessagesApiMessageButtonType.AddCalendarEvent;
+        var givenStartTime = DateTimeOffset.Parse("2024-07-01T10:00:00+00:00");
+        var givenEndTime = DateTimeOffset.Parse("2024-07-01T11:00:00+00:00");
+        var givenEventTitle = "Meeting";
+        var givenEventDescription = "Discuss project updates";
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""text"": ""{givenText}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""text"": ""{givenButtonText}"",
+                        ""startTime"": ""2024-07-01T10:00:00+00:00"",
+                        ""endTime"": ""2024-07-01T11:00:00+00:00"",
+                        ""title"": ""{givenEventTitle}"",
+                        ""description"": ""{givenEventDescription}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var expectedResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, expectedResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageTextBody(givenText),
+                        buttons: new List<MessagesApiMessageButton>
+                        {
+                            new MessagesApiMessageAddCalendarEventButton(
+                                givenButtonText,
+                                startTime: givenStartTime,
+                                endTime: givenEndTime,
+                                title: givenEventTitle,
+                                description: givenEventDescription
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendImageMessage()
+    {
+        var givenChannel = MessagesApiOutboundMessageChannel.Sms;
+        var givenSender = "447491163443";
+        var givenTo = "111111111";
+        var givenImageUrl = "https://example.com/image.jpg";
+        var givenBodyType = MessagesApiMessageBodyType.Image;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""content"": {{
+                    ""body"": {{
+                      ""url"": ""{givenImageUrl}"",
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }}
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiMessageContent(
+                        body: new MessagesApiMessageImageBody(givenImageUrl)
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessage()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonSuffix = "search?q=007";
+        var givenButtonType = MessagesApiTemplateButtonType.OpenUrl;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""suffix"": ""{givenButtonSuffix}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateOpenUrlButton(givenButtonSuffix)
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithQuickReplyButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonPostbackData = "postback_data_123";
+        var givenButtonType = MessagesApiTemplateButtonType.QuickReply;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""postbackData"": ""{givenButtonPostbackData}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateQuickReplyButton(givenButtonPostbackData)
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithPhoneNumberButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonType = MessagesApiTemplateButtonType.PhoneNumber;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplatePhoneNumberButton()
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithCopyCodeButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonCode = "code";
+        var givenButtonType = MessagesApiTemplateButtonType.CopyCode;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""code"": ""{givenButtonCode}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateCopyCodeButton(givenButtonCode)
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithFlowButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonToken = "flow_token";
+        var givenButtonType = MessagesApiTemplateButtonType.Flow;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""token"": ""{givenButtonToken}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateFlowButton(givenButtonToken)
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithCatalogButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenButtonProductId = "product_id";
+        var givenButtonType = MessagesApiTemplateButtonType.Catalog;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""productId"": ""{givenButtonProductId}"",
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateCatalogButton(givenButtonProductId)
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
+    public void ShouldSendTemplateMessageWithMultiProductButton()
+    {
+        var givenChannel = MessagesApiOutboundTemplateChannel.Whatsapp;
+        var givenSender = "447860099299";
+        var givenTo = "111111111";
+        var givenTemplateName = "registration_success";
+        var givenLanguage = "en_GB";
+        var givenBodyType = MessagesApiTemplateBodyType.Text;
+        var givenSectionTitle = "title";
+        var givenProductId1 = "product_id";
+        var givenProductId2 = "product_id_2";
+        var givenButtonType = MessagesApiTemplateButtonType.MultiProduct;
+
+        var expectedBulkId = "1688025180464000013";
+        var expectedMessageId = "1688025180464000014";
+        var expectedStatusGroupId = 1;
+        var expectedStatusGroupName = "PENDING";
+        var expectedStatusId = 26;
+        var expectedStatusName = "MESSAGE_ACCEPTED";
+        var expectedStatusDescription = "Message sent to next instance";
+        var expectedDestination = "48600700800";
+
+        var givenRequest = $@"
+            {{
+              ""messages"": [
+                {{
+                  ""channel"": ""{GetEnumAttributeValue(givenChannel)}"",
+                  ""sender"": ""{givenSender}"",
+                  ""destinations"": [
+                    {{
+                      ""to"": ""{givenTo}""
+                    }}
+                  ],
+                  ""template"": {{
+                    ""templateName"": ""{givenTemplateName}"",
+                    ""language"": ""{givenLanguage}""
+                  }},
+                  ""content"": {{
+                    ""body"": {{
+                      ""type"": ""{GetEnumAttributeValue(givenBodyType)}""
+                    }},
+                    ""buttons"": [
+                      {{
+                        ""sections"": [
+                          {{
+                            ""title"": ""{givenSectionTitle}"",
+                            ""productIds"": [""{givenProductId1}"", ""{givenProductId2}""]
+                          }}
+                        ],
+                        ""type"": ""{GetEnumAttributeValue(givenButtonType)}""
+                      }}
+                    ]
+                  }}
+                }}
+              ]
+            }}";
+
+        var givenResponse = $@"
+            {{
+              ""bulkId"": ""{expectedBulkId}"",
+              ""messages"": [
+                {{
+                  ""messageId"": ""{expectedMessageId}"",
+                  ""status"": {{
+                    ""groupId"": {expectedStatusGroupId},
+                    ""groupName"": ""{expectedStatusGroupName}"",
+                    ""id"": {expectedStatusId},
+                    ""name"": ""{expectedStatusName}"",
+                    ""description"": ""{expectedStatusDescription}""
+                  }},
+                  ""destination"": ""{expectedDestination}""
+                }}
+              ]
+            }}";
+
+        SetUpPostRequest(MESSAGES_SEND_ENDPOINT, 200, givenRequest, givenResponse);
+
+        var messagesApi = new MessagesApi(Configuration);
+
+        var request = new MessagesApiRequest(
+            new List<MessagesApiBaseMessage>
+            {
+                new(new MessagesApiTemplateMessage(
+                    givenChannel,
+                    givenSender,
+                    new List<MessagesApiMessageDestination>
+                    {
+                        new(new MessagesApiToDestination(givenTo))
+                    },
+                    new MessagesApiTemplate(
+                        givenTemplateName,
+                        givenLanguage
+                    ),
+                    new MessagesApiTemplateMessageContent(
+                        body: new MessagesApiTemplateTextBody(),
+                        buttons: new List<MessagesApiTemplateButton>
+                        {
+                            new MessagesApiTemplateMultiProductButton(
+                                sections: new List<MessagesApiTemplateMultiProductButtonSection>
+                                {
+                                    new(
+                                        givenSectionTitle,
+                                        new List<string> { givenProductId1, givenProductId2 }
+                                    )
+                                }
+                            )
+                        }
+                    )
+                ))
+            }
+        );
+
+        void AssertMessageResponse(MessageResponse messageResponse)
+        {
+            Assert.IsNotNull(messageResponse);
+            Assert.AreEqual(expectedBulkId, messageResponse.BulkId);
+
+            Assert.IsNotNull(messageResponse.Messages);
+            Assert.AreEqual(1, messageResponse.Messages.Count);
+
+            var message = messageResponse.Messages[0];
+            Assert.AreEqual(expectedMessageId, message.MessageId);
+            Assert.AreEqual(expectedDestination, message.Destination);
+
+            var status = message.Status;
+            Assert.IsNotNull(status);
+            Assert.AreEqual(expectedStatusGroupId, status.GroupId);
+            Assert.AreEqual(expectedStatusGroupName, status.GroupName);
+            Assert.AreEqual(expectedStatusId, status.Id);
+            Assert.AreEqual(expectedStatusName, status.Name);
+            Assert.AreEqual(expectedStatusDescription, status.Description);
+        }
+
+        AssertResponse(messagesApi.SendMessagesApiMessage(request), AssertMessageResponse);
+        AssertResponse(messagesApi.SendMessagesApiMessageAsync(request).Result, AssertMessageResponse);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfo(request), AssertMessageResponse, 200);
+        AssertResponseWithHttpInfo(messagesApi.SendMessagesApiMessageWithHttpInfoAsync(request).Result,
+            AssertMessageResponse, 200);
+    }
+
+    [TestMethod]
     public void ShouldValidateMessagesApiMessage()
     {
         var givenChannel = MessagesApiOutboundMessageChannel.Sms;

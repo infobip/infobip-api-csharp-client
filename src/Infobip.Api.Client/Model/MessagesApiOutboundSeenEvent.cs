@@ -49,7 +49,7 @@ namespace Infobip.Api.Client.Model
         /// </param>
         /// <param name="messageId">ID of the message that should be marked as seen. (required).</param>
         /// <param name="options">options.</param>
-        /// <param name="@event">@event (required) (default to MessagesApiOutboundEventType.Seen).</param>
+        /// <param name="event">@event (required) (default to MessagesApiOutboundEventType.Seen).</param>
         public MessagesApiOutboundSeenEvent(MessagesApiOutboundSeenEventChannel channel = default,
             string sender = default, List<MessagesApiToDestination> destinations = default, string messageId = default,
             MessagesApiEventOptions options = default,

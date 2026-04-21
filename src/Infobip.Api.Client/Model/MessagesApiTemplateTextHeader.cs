@@ -13,7 +13,6 @@ using System;
 using System.Runtime.Serialization;
 using System.Text;
 using Newtonsoft.Json;
-using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,10 +26,6 @@ namespace Infobip.Api.Client.Model
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessagesApiTemplateTextHeader" /> class.
-        /// </summary>
-        [JsonConstructorAttribute]
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MessagesApiTemplateTextHeader" /> class.
         /// </summary>
         /// <param name="type">type (required) (default to MessagesApiTemplateHeaderType.Text).</param>
         public MessagesApiTemplateTextHeader(MessagesApiTemplateHeaderType type = MessagesApiTemplateHeaderType.Text) :
@@ -69,7 +64,7 @@ namespace Infobip.Api.Client.Model
         ///     Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public override string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }

@@ -36,7 +36,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessagesApiSeenResult" /> class.
         /// </summary>
-        /// <param name="@event">Event type (seen report in this case). (required) (default to &quot;SEEN&quot;).</param>
+        /// <param name="event">Event type (seen report in this case). (required) (default to &quot;SEEN&quot;).</param>
         /// <param name="channel">channel (required).</param>
         /// <param name="sender">The sender ID which can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). (required).</param>
         /// <param name="destination">Message destination address. (required).</param>

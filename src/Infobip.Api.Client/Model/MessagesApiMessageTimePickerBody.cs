@@ -39,7 +39,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="text">Text to be sent. (required).</param>
         /// <param name="subtext">Subtext to be sent..</param>
         /// <param name="imageUrl">URL of the image..</param>
-        /// <param name="@event">@event (required).</param>
+        /// <param name="event">@event (required).</param>
         /// <param name="type">type (required) (default to MessagesApiMessageBodyType.TimePicker).</param>
         public MessagesApiMessageTimePickerBody(string text = default, string subtext = default,
             string imageUrl = default, MessagesApiMessageTimePickerEvent @event = default,

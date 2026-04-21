@@ -48,7 +48,7 @@ namespace Infobip.Api.Client.Model
         ///     Action setup (if exists)..
         /// </param>
         /// <param name="platform">platform.</param>
-        /// <param name="@event">@event (required) (default to MessagesApiInboundEventType.TypingStopped).</param>
+        /// <param name="event">@event (required) (default to MessagesApiInboundEventType.TypingStopped).</param>
         public MessagesApiInboundTypingStoppedEvent(MessagesApiInboundTypingStoppedChannel channel = default,
             string sender = default, string destination = default, DateTimeOffset receivedAt = default,
             string messageId = default, string pairedMessageId = default, string callbackData = default,

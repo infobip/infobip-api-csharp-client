@@ -42,7 +42,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessagesApiOutboundEvent" /> class.
         /// </summary>
-        /// <param name="@event">@event (required).</param>
+        /// <param name="event">@event (required).</param>
         public MessagesApiOutboundEvent(MessagesApiOutboundEventType @event = default)
         {
             Event = @event;

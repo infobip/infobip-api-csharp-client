@@ -31,7 +31,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="gender">Gender of the voice. Can be &#x60;male&#x60; or &#x60;female&#x60;..</param>
         /// <param name="supplier">Name of the supplier for text to speech synthesis..</param>
         /// <param name="ssmlSupported">Indicates if SSML is supported..</param>
-        /// <param name="@default">@default.</param>
+        /// <param name="default">@default.</param>
         /// <param name="neural">neural.</param>
         /// <param name="isDefault">
         ///     Indicates whether voice is default voice for a given language. If voice is not chosen for the
