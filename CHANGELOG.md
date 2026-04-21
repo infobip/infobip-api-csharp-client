@@ -5,6 +5,86 @@ All notable changes to the library will be documented in this file.
 The format of the file is based on [Keep a Changelog](http://keepachangelog.com/)
 and this library adheres to [Semantic Versioning](http://semver.org/) as mentioned in [README.md][readme] file.
 
+## [ [4.1.0](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.1.0) ] - 2026-04-21
+
+⚠️ **IMPORTANT NOTE:** This release contains compile time breaking changes.
+All changes, including breaking changes, are addressed and explained in the list below.
+If you find out that something was not addressed properly, please submit an issue.
+
+### Added
+* Support for [Infobip Messages API](https://www.infobip.com/docs/api/platform/messages-api).
+* Most recent feature set for:
+    * [Infobip Voice API](https://www.infobip.com/docs/api/channels/voice).
+    * [Infobip Call Routing API](https://www.infobip.com/docs/api/channels/voice/call-routing).
+    * [Infobip Email API](https://www.infobip.com/docs/api/channels/email).
+    * [Infobip SMS API](https://www.infobip.com/docs/api/channels/sms).
+    * [Infobip 2FA API](https://www.infobip.com/docs/api/platform/2fa).
+
+### Changed
+
+* **Call Routing**:
+    * Extended `CallRoutingApi` with new endpoints: `deleteByCorrelationId`, `recordingFileDownload`, `searchCallRoutingRecording`, `updateRouteOrder`, `updateRouteStatus`, `simulateRoute`
+    * Extended `CallRoutingCriteriaType` with `APPLICATION` type support
+    * Extended `CallRoutingCriteria` with `CallRoutingApplicationCriteria` subtype support
+    * Added `CallRoutingApplication`, `CallRoutingApplicationDestination`, `CallRoutingApplicationType`, `CallRoutingCallsApplication`, `CallRoutingInfobipApplication`, `CallRoutingInfobipApplicationId`, `CallRoutingWebSocketEndpoint`, `CallRoutingWhatsAppEndpoint`, `CallRoutingRingbackGeneration`, `CallRoutingRouteStatus` models
+    * Updated `CallRoutingPhoneEndpoint`, `CallRoutingSipEndpoint`, `CallRoutingEndpoint`, `CallRoutingRouteResponse` models
+* **Voice**:
+    * Renamed `CallsSipTrunkRegisteredResetPasswordResponse` to `CallsSipTrunkResetPasswordResponse` to better reflect the return type of the reset password endpoint (see [Removed](#removed) section)
+    * Added conference role support with `CallsRole`, `CallsRoleType`, `CallsAdvisorRole`, `CallsAuditorRole`, `CallsDefaultRole`, `CallsListenerRole`, `CallsMonitorRole` models
+    * Added answering machine detection support with `CallsAnsweringMachineDetection`, `CallsAnsweringMachineDetectionOptions`, `CallsMachineDetection`, `CallsMachineDetectionResult` models
+    * Added audio content support with `CallsAudioContent`, `CallsAudioContentType`, `CallsFileAudioContent`, `CallsUrlAudioContent` models
+    * Added TTY play content support with `CallsPlayTty`, `CallsPlayTtyOptions`, `CallsTtyPlayContent` models
+    * Added `CallsCustomRingback`, `CallsConferenceSayRequest`, `CallsDialogHangupSource`, `CallsExecutionMode`, `CallsPlayFromUpload`, `CallsPlayFromUploadOptions`, `CallsPlayOptions`, `CallsRecordingChannels`, `CallsRecordingTransferOptions`, `CallsWaitForEom` models
+    * Added `CallsWebsocketEndpoint`, `CallsWhatsAppEndpoint` models
+    * Added OpenAI Realtime provider support with `CallsOpenAiProvider` model
+    * Extended `CallsProviderTrunkType` with `OPENAI_REALTIME` type support
+    * Extended `CallsLanguage`, `CallsSynthesisVoice`, and `CallsTranscriptionLanguage` with new language and voice options
+    * Extended `CallsSearchResponse`, `CallsUpdateScenarioRequest`, `CallsUpdateScenarioResponse` with `record` field support
+    * Extended `CallsRecordingFile` with `expirationTime` field support; renamed `customData` field to `multichannelMappingData`
+    * Extended `CallsVoiceData` with `direction` and `callRecordingFileId` field support
+    * Extended `CallsDialogPlayRequest` and `CallsUrlPlayContent` with new fields
+    * Extended `VoiceApi` with new IVR upload endpoints: `ivrUploadAudioFile` and `ivrUploadGetFiles`
+    * Removed `stopOn` and `customData` fields from `CallsSayRequest` model
+    * Removed `record` field from `CallsIvrMessage` model
+    * Removed `TRANSFERRING` state from `CallsDialogState` enum
+    * Removed `JOHANNESBURG_1` enum value from `CallsRecordingLocation` to reflect the current state of the API
+* **Email**:
+    * Renamed `EmailWebhookDeliveryReport` to `EmailResult` (see [Removed](#removed) section)
+    * Renamed `EmailWebhookGeoLocation` to `GeoLocation` (see [Removed](#removed) section)
+    * Renamed `EmailWebhookRecipientInfo` to `RecipientInfo` (see [Removed](#removed) section)
+    * Added `EmailStatus`, `EmailErrorInfo`, `EmailPriceInfo`, `EmailBlocklistConfigurationLevel`, `EmailValidationApiRisk`, `EmailValidationReason` models
+    * Extended `EmailDomainResponse` with `blocklistConfigurationLevel` field support
+    * Extended `EmailIpDetailResponse` and `EmailIpResponse` with `ipAddresses` field support
+    * Fixed `reason` field type in `EmailValidationResponse` from `string` to `EmailValidationReason`
+    * Fixed `risk` field type in `EmailValidationResponse` from `string` to `EmailValidationApiRisk`
+    * Removed `returnPathAddress` field from `EmailAddDomainRequest` and `EmailDomainResponse` — the `/email/1/domains/{domainName}/return-path` endpoint is no longer supported (see [Removed](#removed) section)
+* **SMS**:
+    * Added `SmsCursorPageInfo` model
+    * Updated `SmsInboundMessage`, `SmsInboundMessageResult`, `SmsLogsResponse` and related models
+* **2FA**:
+    * Added `TfaResendPinRequestViaEmail` model
+    * Updated `TfaCreateEmailMessageRequest`, `TfaResendPinRequest`, `TfaStartAuthenticationRequest`, `TfaStartAuthenticationResponse` models
+* **General**:
+    * Added `ApiError`, `ApiErrorResource`, `ApiErrorViolation` models for standardized error responses
+    * Added `MessageResponse`, `MessageResponseDetails` models
+    * **HTTPS enforcement:** The SDK now automatically ensures HTTPS is used for API host URLs. If `http://` is explicitly provided, an exception is thrown. URLs without a protocol are automatically prefixed with `https://`.
+    * Updated `JsonStringEnumMemberConverter` for improved enum serialization
+    * Updated tests
+
+### Fixed
+* Fixed XML documentation warnings (CS1572) caused by reserved keyword parameters (e.g. `event`, `if`) — `<param name>` tags no longer include the `@` verbatim identifier prefix
+* Fixed missing `override` keyword on `ToJson()` in models that have additional properties and a parent class (CS0114)
+
+### Removed
+- Removed `CallsSipTrunkRegisteredResetPasswordResponse` class — renamed to `CallsSipTrunkResetPasswordResponse` to better reflect the return type of the reset password endpoint
+- Removed `EmailWebhookDeliveryReport` class — replaced by `EmailResult`
+- Removed `EmailWebhookGeoLocation` class — generalized to `GeoLocation` as it is now used across multiple channels
+- Removed `EmailWebhookRecipientInfo` class — generalized to `RecipientInfo` as it is now used across multiple channels
+- Removed `EmailReturnPathAddressRequest` class — the `/email/1/domains/{domainName}/return-path` endpoint is no longer supported
+- Removed `EmailWebhookTrackReport` class
+- Removed `SmsWebhookInboundReport` class
+- Removed `WebhookMessageCount` class
+
 ## [ [4.0.2](https://github.com/infobip/infobip-api-csharp-client/releases/tag/v4.0.2) ] - 2025-12-09
 
 ### Added
