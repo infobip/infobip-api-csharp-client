@@ -415,8 +415,8 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <returns>List&lt;CallsSearchResponse&gt;</returns>
         List<CallsSearchResponse> SearchVoiceIvrScenarios(int? page = default, int? pageSize = default,
-            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
-            DateTimeOffset? lastUsageDateUntil = default);
+            string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default);
 
         /// <summary>
         ///     Search Voice IVR Scenarios
@@ -440,8 +440,8 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <returns>ApiResponse of List&lt;CallsSearchResponse&gt;</returns>
         ApiResponse<List<CallsSearchResponse>> SearchVoiceIvrScenariosWithHttpInfo(int? page = default,
-            int? pageSize = default, string name = default, string label = default,
-            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default);
+            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default);
 
         /// <summary>
         ///     Send advanced voice message
@@ -996,8 +996,8 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;CallsSearchResponse&gt;</returns>
         Task<List<CallsSearchResponse>> SearchVoiceIvrScenariosAsync(int? page = default, int? pageSize = default,
-            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
-            DateTimeOffset? lastUsageDateUntil = default, CancellationToken cancellationToken = default);
+            string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Search Voice IVR Scenarios
@@ -1022,9 +1022,8 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;CallsSearchResponse&gt;)</returns>
         Task<ApiResponse<List<CallsSearchResponse>>> SearchVoiceIvrScenariosWithHttpInfoAsync(int? page = default,
-            int? pageSize = default, string name = default, string label = default,
-            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
-            CancellationToken cancellationToken = default);
+            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send advanced voice message
@@ -3039,8 +3038,8 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <returns>List&lt;CallsSearchResponse&gt;</returns>
         public List<CallsSearchResponse> SearchVoiceIvrScenarios(int? page = default, int? pageSize = default,
-            string name = default, string label = default, DateTimeOffset? lastUsageDateSince = default,
-            DateTimeOffset? lastUsageDateUntil = default)
+            string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default)
         {
             var localVarResponse =
                 SearchVoiceIvrScenariosWithHttpInfo(page, pageSize, name, label, lastUsageDateSince,
@@ -3067,8 +3066,8 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <returns>ApiResponse of List&lt;CallsSearchResponse&gt;</returns>
         public ApiResponse<List<CallsSearchResponse>> SearchVoiceIvrScenariosWithHttpInfo(int? page = default,
-            int? pageSize = default, string name = default, string label = default,
-            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default)
+            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -3130,9 +3129,8 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;CallsSearchResponse&gt;</returns>
         public async Task<List<CallsSearchResponse>> SearchVoiceIvrScenariosAsync(int? page = default,
-            int? pageSize = default, string name = default, string label = default,
-            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
-            CancellationToken cancellationToken = default)
+            int? pageSize = default, string name = default, string label = default, string lastUsageDateSince = default,
+            string lastUsageDateUntil = default, CancellationToken cancellationToken = default)
         {
             var localVarResponse = await SearchVoiceIvrScenariosWithHttpInfoAsync(page, pageSize, name, label,
                 lastUsageDateSince, lastUsageDateUntil, cancellationToken).ConfigureAwait(false);
@@ -3160,7 +3158,7 @@ namespace Infobip.Api.Client.Api
         /// <returns>Task of ApiResponse (List&lt;CallsSearchResponse&gt;)</returns>
         public async Task<ApiResponse<List<CallsSearchResponse>>> SearchVoiceIvrScenariosWithHttpInfoAsync(
             int? page = default, int? pageSize = default, string name = default, string label = default,
-            DateTimeOffset? lastUsageDateSince = default, DateTimeOffset? lastUsageDateUntil = default,
+            string lastUsageDateSince = default, string lastUsageDateUntil = default,
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
