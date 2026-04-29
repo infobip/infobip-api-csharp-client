@@ -171,8 +171,8 @@ namespace Infobip.Api.Client.Model
         ///     text/image/document only (without buttons, extra text etc.) body type. For text/image only body types &#x60;
         ///     sessionRate&#x60; won&#39;t be applied if parameter &#x60;primaryDevice&#x60; is set to true.
         /// </value>
-        [DataMember(Name = "sessionRate", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "sessionRate", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "sessionRate", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "sessionRate", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("sessionRate")]
         public bool SessionRate { get; set; }
 
@@ -186,8 +186,8 @@ namespace Infobip.Api.Client.Model
         ///     Viber for message with content with text/image/document only (without buttons, extra text etc.) body type or
         ///     template message.
         /// </value>
-        [DataMember(Name = "primaryDevice", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "primaryDevice", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "primaryDevice", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "primaryDevice", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("primaryDevice")]
         public bool PrimaryDevice { get; set; }
 

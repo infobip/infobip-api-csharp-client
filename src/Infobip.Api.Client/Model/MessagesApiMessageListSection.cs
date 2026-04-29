@@ -65,8 +65,8 @@ namespace Infobip.Api.Client.Model
         ///     Multiple Selection.
         /// </summary>
         /// <value>Multiple Selection.</value>
-        [DataMember(Name = "multipleSelection", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "multipleSelection", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "multipleSelection", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "multipleSelection", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("multipleSelection")]
         public bool MultipleSelection { get; set; }
 

@@ -87,8 +87,8 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Gets or Sets Permanent
         /// </summary>
-        [DataMember(Name = "permanent", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "permanent", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("permanent")]
         public bool Permanent { get; set; }
 

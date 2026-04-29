@@ -41,8 +41,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the end user can speak.
         /// </summary>
         /// <value>Indicates whether the end user can speak.</value>
-        [DataMember(Name = "muted", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "muted", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "muted", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "muted", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("muted")]
         public bool Muted { get; set; }
 
@@ -50,8 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the end user muted himself.
         /// </summary>
         /// <value>Indicates whether the end user muted himself.</value>
-        [DataMember(Name = "userMuted", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "userMuted", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "userMuted", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "userMuted", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("userMuted")]
         public bool UserMuted { get; set; }
 
@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the end user can hear.
         /// </summary>
         /// <value>Indicates whether the end user can hear.</value>
-        [DataMember(Name = "deaf", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "deaf", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "deaf", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "deaf", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("deaf")]
         public bool Deaf { get; set; }
 

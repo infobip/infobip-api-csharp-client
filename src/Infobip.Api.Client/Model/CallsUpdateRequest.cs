@@ -50,8 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether to mute or unmute the end user. This action prevents the user from talking.
         /// </summary>
         /// <value>Indicates whether to mute or unmute the end user. This action prevents the user from talking.</value>
-        [DataMember(Name = "muted", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "muted", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "muted", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "muted", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("muted")]
         public bool Muted { get; set; }
 
@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether to deaf or undeaf the end user. This action prevents the user from hearing the call.
         /// </summary>
         /// <value>Indicates whether to deaf or undeaf the end user. This action prevents the user from hearing the call.</value>
-        [DataMember(Name = "deaf", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "deaf", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "deaf", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "deaf", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("deaf")]
         public bool Deaf { get; set; }
 
@@ -72,8 +72,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether to blind or unblind the end user. This action prevents the user from seeing any remote video
         ///     in the call. Only applicable for WebRTC endpoints.
         /// </value>
-        [DataMember(Name = "blind", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "blind", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("blind")]
         public bool Blind { get; set; }
 

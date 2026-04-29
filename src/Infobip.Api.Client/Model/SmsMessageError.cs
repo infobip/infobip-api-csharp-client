@@ -93,8 +93,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the error is recoverable or not.
         /// </summary>
         /// <value>Indicates whether the error is recoverable or not.</value>
-        [DataMember(Name = "permanent", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "permanent", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("permanent")]
         public bool Permanent { get; set; }
 

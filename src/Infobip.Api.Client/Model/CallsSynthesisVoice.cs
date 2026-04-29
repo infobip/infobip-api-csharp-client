@@ -83,24 +83,24 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if SSML is supported.
         /// </summary>
         /// <value>Indicates if SSML is supported.</value>
-        [DataMember(Name = "ssmlSupported", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "ssmlSupported", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "ssmlSupported", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "ssmlSupported", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("ssmlSupported")]
         public bool SsmlSupported { get; set; }
 
         /// <summary>
         ///     Gets or Sets Default
         /// </summary>
-        [DataMember(Name = "default", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "default", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "default", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "default", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("default")]
         public bool Default { get; set; }
 
         /// <summary>
         ///     Gets or Sets Neural
         /// </summary>
-        [DataMember(Name = "neural", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "neural", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "neural", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "neural", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("neural")]
         public bool Neural { get; set; }
 
@@ -112,8 +112,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether voice is default voice for a given language. If voice is not chosen for the language, then
         ///     default voice will be used.
         /// </value>
-        [DataMember(Name = "isDefault", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isDefault", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isDefault", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isDefault", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isDefault")]
         public bool IsDefault { get; set; }
 
@@ -121,8 +121,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether voice is neural. Using neural voice will generate additional cost.
         /// </summary>
         /// <value>Indicates whether voice is neural. Using neural voice will generate additional cost.</value>
-        [DataMember(Name = "isNeural", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isNeural", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isNeural", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isNeural", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isNeural")]
         public bool IsNeural { get; set; }
 

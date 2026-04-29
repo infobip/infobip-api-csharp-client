@@ -273,8 +273,8 @@ namespace Infobip.Api.Client.Model
         ///     Flag that indicates if callee announcement is included in recording file.
         /// </summary>
         /// <value>Flag that indicates if callee announcement is included in recording file.</value>
-        [DataMember(Name = "recordCalleeAnnouncement", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "recordCalleeAnnouncement", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "recordCalleeAnnouncement", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "recordCalleeAnnouncement", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("recordCalleeAnnouncement")]
         public bool RecordCalleeAnnouncement { get; set; }
 

@@ -103,8 +103,8 @@ namespace Infobip.Api.Client.Model
         ///     Enables an authentication challenge for each call.
         /// </summary>
         /// <value>Enables an authentication challenge for each call.</value>
-        [DataMember(Name = "inviteAuthentication", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "inviteAuthentication", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "inviteAuthentication", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "inviteAuthentication", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("inviteAuthentication")]
         public bool InviteAuthentication { get; set; }
 

@@ -55,8 +55,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if response is private.
         /// </summary>
         /// <value>Indicates if response is private.</value>
-        [DataMember(Name = "isPrivate", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isPrivate", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isPrivate", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isPrivate", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isPrivate")]
         public bool IsPrivate { get; set; }
 

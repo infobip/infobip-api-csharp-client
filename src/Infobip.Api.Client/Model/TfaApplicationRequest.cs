@@ -60,8 +60,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the created application is enabled.
         /// </summary>
         /// <value>Indicates whether the created application is enabled.</value>
-        [DataMember(Name = "enabled", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "enabled", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 

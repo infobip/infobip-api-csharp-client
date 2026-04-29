@@ -19,7 +19,7 @@ using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     CallsBulkRequest
+    ///     Bulk request object.
     /// </summary>
     [DataContract(Name = "CallsBulkRequest")]
     [JsonObject]

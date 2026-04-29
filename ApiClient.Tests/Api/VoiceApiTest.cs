@@ -1485,11 +1485,14 @@ public class VoiceApiTest : ApiTest
               ""hangup""
             ]";
 
+        var givenRecord = false;
+
         var givenRequest = $@"
             {{
               ""name"": ""{givenName}"",
               ""description"": ""{givenDescription}"",
-              ""script"": {givenScript}
+              ""script"": {givenScript},
+              ""record"": {GetBooleanValueAsLowerString(givenRecord)}
             }}";
 
         SetUpPostRequest(VOICE_IVR_SCENARIOS_ENDPOINT, 200, givenRequest, expectedResponse);
@@ -1631,11 +1634,14 @@ public class VoiceApiTest : ApiTest
               }
             ]";
 
+        var givenRecord = false;
+
         var givenRequest = $@"
             {{
               ""name"": ""{givenName}"",
               ""description"": ""{givenDescription}"",
-              ""script"": {givenScript}
+              ""script"": {givenScript},
+              ""record"": {GetBooleanValueAsLowerString(givenRecord)}
             }}";
 
         var givenId = "E83E787CF2613450157ADA3476171E3F";

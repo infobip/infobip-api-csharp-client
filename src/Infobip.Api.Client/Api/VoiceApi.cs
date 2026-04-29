@@ -123,8 +123,7 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <remarks>
         ///     This method will return information about the scheduled time for a unique bulk message. Canceling and rescheduling
-        ///     are supported only when the Fully featured voice message request contains at least one message and the message
-        ///     bulkId is unique.
+        ///     are supported only when the voice message request contains at least one message and the message bulkId is unique.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -136,8 +135,7 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <remarks>
         ///     This method will return information about the scheduled time for a unique bulk message. Canceling and rescheduling
-        ///     are supported only when the Fully featured voice message request contains at least one message and the message
-        ///     bulkId is unique.
+        ///     are supported only when the voice message request contains at least one message and the message bulkId is unique.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -675,8 +673,7 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <remarks>
         ///     This method will return information about the scheduled time for a unique bulk message. Canceling and rescheduling
-        ///     are supported only when the Fully featured voice message request contains at least one message and the message
-        ///     bulkId is unique.
+        ///     are supported only when the voice message request contains at least one message and the message bulkId is unique.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -689,8 +686,7 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <remarks>
         ///     This method will return information about the scheduled time for a unique bulk message. Canceling and rescheduling
-        ///     are supported only when the Fully featured voice message request contains at least one message and the message
-        ///     bulkId is unique.
+        ///     are supported only when the voice message request contains at least one message and the message bulkId is unique.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -1857,8 +1853,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get sent bulks This method will return information about the scheduled time for a unique bulk message. Canceling
-        ///     and rescheduling are supported only when the Fully featured voice message request contains at least one message and
-        ///     the message bulkId is unique.
+        ///     and rescheduling are supported only when the voice message request contains at least one message and the message
+        ///     bulkId is unique.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -1871,8 +1867,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get sent bulks This method will return information about the scheduled time for a unique bulk message. Canceling
-        ///     and rescheduling are supported only when the Fully featured voice message request contains at least one message and
-        ///     the message bulkId is unique.
+        ///     and rescheduling are supported only when the voice message request contains at least one message and the message
+        ///     bulkId is unique.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -1911,8 +1907,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get sent bulks This method will return information about the scheduled time for a unique bulk message. Canceling
-        ///     and rescheduling are supported only when the Fully featured voice message request contains at least one message and
-        ///     the message bulkId is unique.
+        ///     and rescheduling are supported only when the voice message request contains at least one message and the message
+        ///     bulkId is unique.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>
@@ -1927,8 +1923,8 @@ namespace Infobip.Api.Client.Api
 
         /// <summary>
         ///     Get sent bulks This method will return information about the scheduled time for a unique bulk message. Canceling
-        ///     and rescheduling are supported only when the Fully featured voice message request contains at least one message and
-        ///     the message bulkId is unique.
+        ///     and rescheduling are supported only when the voice message request contains at least one message and the message
+        ///     bulkId is unique.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="bulkId">Unique ID of the bulk.</param>

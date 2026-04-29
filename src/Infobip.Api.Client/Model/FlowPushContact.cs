@@ -85,8 +85,8 @@ namespace Infobip.Api.Client.Model
         ///     Set to true if this device is a primary device of a user among other devices.
         /// </summary>
         /// <value>Set to true if this device is a primary device of a user among other devices.</value>
-        [DataMember(Name = "isPrimary", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isPrimary", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isPrimary", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isPrimary", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isPrimary")]
         public bool IsPrimary { get; set; }
 

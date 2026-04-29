@@ -101,8 +101,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if all calls using the scenario should be recorded.
         /// </summary>
         /// <value>Indicates if all calls using the scenario should be recorded.</value>
-        [DataMember(Name = "record", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "record", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "record", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "record", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("record")]
         public bool Record { get; set; }
 

@@ -85,8 +85,8 @@ namespace Infobip.Api.Client.Model
         ///     Activation status of the domain.
         /// </summary>
         /// <value>Activation status of the domain.</value>
-        [DataMember(Name = "active", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "active", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "active", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "active", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("active")]
         public bool Active { get; set; }
 
@@ -111,8 +111,8 @@ namespace Infobip.Api.Client.Model
         ///     Status if the domain is blocked.
         /// </summary>
         /// <value>Status if the domain is blocked.</value>
-        [DataMember(Name = "blocked", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "blocked", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "blocked", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blocked", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("blocked")]
         public bool Blocked { get; set; }
 

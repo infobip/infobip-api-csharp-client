@@ -41,8 +41,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether there is a video feed.
         /// </summary>
         /// <value>Indicates whether there is a video feed.</value>
-        [DataMember(Name = "camera", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "camera", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "camera", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "camera", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("camera")]
         public bool Camera { get; set; }
 
@@ -50,8 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the end user is sharing their screen.
         /// </summary>
         /// <value>Indicates whether the end user is sharing their screen.</value>
-        [DataMember(Name = "screenShare", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "screenShare", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "screenShare", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "screenShare", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("screenShare")]
         public bool ScreenShare { get; set; }
 
@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the end user can receive remote videos.
         /// </summary>
         /// <value>Indicates whether the end user can receive remote videos.</value>
-        [DataMember(Name = "blind", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "blind", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("blind")]
         public bool Blind { get; set; }
 

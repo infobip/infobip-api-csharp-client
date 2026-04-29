@@ -73,8 +73,8 @@ namespace Infobip.Api.Client.Model
         ///     The real-time intermediate delivery report containing GSM error codes, messages status, pricing, network and
         ///     country codes, etc., which will be sent on your callback server. The default setting is &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "intermediateReport", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "intermediateReport", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("intermediateReport")]
         public bool IntermediateReport { get; set; }
 
@@ -86,9 +86,9 @@ namespace Infobip.Api.Client.Model
         ///     Allows you to receive delivery reports for all triggered failover steps, not just the final one (either the
         ///     first successful or the last failed step). The default setting is &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "receiveTriggeredFailoverReports", EmitDefaultValue = false)]
+        [DataMember(Name = "receiveTriggeredFailoverReports", EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "receiveTriggeredFailoverReports",
-            DefaultValueHandling = DefaultValueHandling.Ignore)]
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("receiveTriggeredFailoverReports")]
         public bool ReceiveTriggeredFailoverReports { get; set; }
 

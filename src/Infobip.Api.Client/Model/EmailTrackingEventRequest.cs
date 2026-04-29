@@ -41,8 +41,8 @@ namespace Infobip.Api.Client.Model
         ///     Boolean value corresponding to whether opens for a message needs to be tracked or not.
         /// </summary>
         /// <value>Boolean value corresponding to whether opens for a message needs to be tracked or not.</value>
-        [DataMember(Name = "open", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "open", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "open", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "open", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("open")]
         public bool Open { get; set; }
 
@@ -50,8 +50,8 @@ namespace Infobip.Api.Client.Model
         ///     Boolean value corresponding to whether clicks for a message needs to be tracked or not.
         /// </summary>
         /// <value>Boolean value corresponding to whether clicks for a message needs to be tracked or not.</value>
-        [DataMember(Name = "clicks", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "clicks", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "clicks", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "clicks", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("clicks")]
         public bool Clicks { get; set; }
 
@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Boolean value corresponding to whether unsubscribe for a message needs to be tracked or not.
         /// </summary>
         /// <value>Boolean value corresponding to whether unsubscribe for a message needs to be tracked or not.</value>
-        [DataMember(Name = "unsubscribe", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "unsubscribe", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "unsubscribe", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "unsubscribe", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("unsubscribe")]
         public bool Unsubscribe { get; set; }
 

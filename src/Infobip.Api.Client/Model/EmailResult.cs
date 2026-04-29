@@ -62,7 +62,7 @@ namespace Infobip.Api.Client.Model
         ///     notification events. For detailed usage, refer to the
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
         /// </param>
-        public EmailResult(string bulkId = default, EmailPriceInfo price = default, EmailStatus status = default,
+        public EmailResult(string bulkId = default, EmailPriceInfo price = default, MessageStatus status = default,
             EmailErrorInfo error = default, string messageId = default, DateTimeOffset doneAt = default,
             int smsCount = default, DateTimeOffset sentAt = default, string browserLink = default,
             string sendingIp = default, int attemptCount = default, long timeToFirstAttempt = default,
@@ -115,7 +115,7 @@ namespace Infobip.Api.Client.Model
         [DataMember(Name = "status", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("status")]
-        public EmailStatus Status { get; set; }
+        public MessageStatus Status { get; set; }
 
         /// <summary>
         ///     Gets or Sets Error

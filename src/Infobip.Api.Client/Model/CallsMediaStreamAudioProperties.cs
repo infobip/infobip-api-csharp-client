@@ -66,8 +66,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether outbound media should be replaced. The replacement media is received from the url defined in
         ///     the media stream configuration.
         /// </value>
-        [DataMember(Name = "replaceMedia", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "replaceMedia", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "replaceMedia", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "replaceMedia", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("replaceMedia")]
         public bool ReplaceMedia { get; set; }
 

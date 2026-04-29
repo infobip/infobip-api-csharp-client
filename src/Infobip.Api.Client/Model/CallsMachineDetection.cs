@@ -59,8 +59,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether machine detection is enabled from the callee perspective.
         /// </summary>
         /// <value>Indicates whether machine detection is enabled from the callee perspective.</value>
-        [DataMember(Name = "enabled", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "enabled", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "enabled", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("enabled")]
         public bool Enabled { get; set; }
 

@@ -73,8 +73,8 @@ namespace Infobip.Api.Client.Model
         ///     The real-time intermediate delivery report containing GSM error codes, messages status, pricing, network and
         ///     country codes, etc., which will be sent on your callback server. Defaults to &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "intermediateReport", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "intermediateReport", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "intermediateReport", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("intermediateReport")]
         public bool IntermediateReport { get; set; }
 
@@ -88,8 +88,8 @@ namespace Infobip.Api.Client.Model
         ///     When no webhook is specified in the request and notify is set to &#39;true&#39; or not defined, your Subscription
         ///     settings will apply.
         /// </value>
-        [DataMember(Name = "notify", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "notify", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "notify", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "notify", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("notify")]
         public bool Notify { get; set; }
 

@@ -32,6 +32,7 @@ public class SmsApiTest : ApiTest
         var givenStatusName = "MESSAGE_ACCEPTED";
         var givenStatusDescription = "Message sent to next instance";
         var givenApplicationId = "given_application_id";
+        var givenFlash = false;
         var givenEntityId = "given_entity_id";
         var givenMessageCount = 1;
 
@@ -48,7 +49,8 @@ public class SmsApiTest : ApiTest
                   ""platform"" : {{
                     ""entityId"" : ""{givenEntityId}"",
                     ""applicationId"" : ""{givenApplicationId}""
-                  }}
+                  }},
+                  ""flash"" : {GetBooleanValueAsLowerString(givenFlash)}
                 }}
               }} ]
             }}";
@@ -233,6 +235,8 @@ public class SmsApiTest : ApiTest
         var intermediateReport = true;
         var contentType = "application/json";
         var callbackData = "DLR callback data";
+        var givenFlash = false;
+        var givenNotify = false;
         var deliveryDays = new List<DeliveryDay>
         {
             DeliveryDay.Monday,
@@ -292,12 +296,14 @@ public class SmsApiTest : ApiTest
                   ""amount"": {validityPeriodAmount},
                   ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                 }},
-                ""campaignReferenceId"": ""{campaignReferenceId}""
+                ""campaignReferenceId"": ""{campaignReferenceId}"",
+                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
               }},
               ""webhooks"": {{
                 ""delivery"": {{
                   ""url"": ""{deliveryUrl}"",
-                  ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
+                  ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                  ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
                 }},
                 ""contentType"": ""{contentType}"",
                 ""callbackData"": ""{callbackData}""
@@ -326,7 +332,8 @@ public class SmsApiTest : ApiTest
                     ""hour"": {deliveryToHour},
                     ""minute"": {deliveryToMinute}
                   }}
-                }}
+                }},
+                ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
               }}
             }}
           ],
@@ -465,8 +472,10 @@ public class SmsApiTest : ApiTest
         var validityPeriodAmount = 720;
         var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
         var campaignReferenceId = "summersale";
+        var givenFlash = false;
         var deliveryUrl = "https://www.example.com/sms/advanced";
         var intermediateReport = true;
+        var givenNotify = false;
         var contentType = "application/json";
         var callbackData = "DLR callback data";
         var deliveryDays = new List<DeliveryDay>
@@ -525,12 +534,14 @@ public class SmsApiTest : ApiTest
                             ""amount"": {validityPeriodAmount},
                             ""timeUnit"": ""{GetEnumAttributeValue(validityPeriodUnit)}""
                         }},
-                        ""campaignReferenceId"": ""{campaignReferenceId}""
+                        ""campaignReferenceId"": ""{campaignReferenceId}"",
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
                     }},
                     ""webhooks"": {{
                         ""delivery"": {{
                             ""url"": ""{deliveryUrl}"",
-                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
                         }},
                         ""contentType"": ""{contentType}"",
                         ""callbackData"": ""{callbackData}""
@@ -557,7 +568,8 @@ public class SmsApiTest : ApiTest
                                 ""hour"": {deliveryToHour},
                                 ""minute"": {deliveryToMinute}
                             }}
-                        }}
+                        }},
+                        ""flash"": {GetBooleanValueAsLowerString(givenFlash)}
                     }}
                 }}
             ],
@@ -697,6 +709,7 @@ public class SmsApiTest : ApiTest
         var givenFlash = true;
         var deliveryUrl = "https://www.example.com/sms/advanced";
         var intermediateReport = true;
+        var givenNotify = false;
         var contentType = "application/json";
         var callbackData = "DLR callback data";
         var deliveryDays = new List<DeliveryDay>
@@ -761,7 +774,8 @@ public class SmsApiTest : ApiTest
                     ""webhooks"": {{
                         ""delivery"": {{
                             ""url"": ""{deliveryUrl}"",
-                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)}
+                            ""intermediateReport"": {GetBooleanValueAsLowerString(intermediateReport)},
+                            ""notify"": {GetBooleanValueAsLowerString(givenNotify)}
                         }},
                         ""contentType"": ""{contentType}"",
                         ""callbackData"": ""{callbackData}""

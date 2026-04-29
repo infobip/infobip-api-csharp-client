@@ -109,16 +109,16 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Gets or Sets IsRequired
         /// </summary>
-        [DataMember(Name = "isRequired", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isRequired", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isRequired", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isRequired", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isRequired")]
         public bool IsRequired { get; set; }
 
         /// <summary>
         ///     Gets or Sets IsHidden
         /// </summary>
-        [DataMember(Name = "isHidden", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isHidden", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isHidden", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isHidden", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isHidden")]
         public bool IsHidden { get; set; }
 

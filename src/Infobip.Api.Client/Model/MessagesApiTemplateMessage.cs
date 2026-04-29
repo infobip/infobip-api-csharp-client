@@ -41,7 +41,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="channel">channel (required).</param>
         /// <param name="sender">
         ///     The sender ID. It can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). Make sure you
-        ///     don&#39;t exceed [character limit](https://www.infobip.com/docs/sms/get-started#sender-names). (required).
+        ///     don&#39;t exceed [character limit](https://www.infobip.com/docs/sms/get-started#sender-names)..
         /// </param>
         /// <param name="destinations">
         ///     Array of destination objects for where messages are being sent. A valid destination is
@@ -63,12 +63,11 @@ namespace Infobip.Api.Client.Model
             MessagesApiWebhooks webhooks = default, List<MessagesApiBaseFailover> failover = default)
         {
             Channel = channel;
-            // to ensure "sender" is required (not null)
-            Sender = sender ?? throw new ArgumentNullException("sender");
             // to ensure "destinations" is required (not null)
             Destinations = destinations ?? throw new ArgumentNullException("destinations");
             // to ensure "template" is required (not null)
             Template = template ?? throw new ArgumentNullException("template");
+            Sender = sender;
             Content = content;
             Options = options;
             Webhooks = webhooks;
@@ -92,9 +91,8 @@ namespace Infobip.Api.Client.Model
         ///     The sender ID. It can be alphanumeric or numeric (e.g., &#x60;CompanyName&#x60;). Make sure you don&#39;t exceed
         ///     [character limit](https://www.infobip.com/docs/sms/get-started#sender-names).
         /// </value>
-        [DataMember(Name = "sender", IsRequired = true, EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "sender", Required = Required.DisallowNull,
-            DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "sender", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sender", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("sender")]
         public string Sender { get; set; }
 

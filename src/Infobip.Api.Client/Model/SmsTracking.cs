@@ -46,8 +46,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.
         /// </summary>
         /// <value>Indicates if a message has to be tracked for conversion rates. Default \&quot;false\&quot;.</value>
-        [DataMember(Name = "useConversionTracking", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "useConversionTracking", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "useConversionTracking", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "useConversionTracking", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("useConversionTracking")]
         public bool UseConversionTracking { get; set; }
 

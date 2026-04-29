@@ -37,15 +37,14 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="MessagesApiFailover" /> class.
         /// </summary>
         /// <param name="channel">channel (required).</param>
-        /// <param name="sender">Sender for channel specified above. (required).</param>
+        /// <param name="sender">Sender for channel specified above..</param>
         /// <param name="content">content.</param>
         /// <param name="validityPeriod">validityPeriod.</param>
         public MessagesApiFailover(MessagesApiOutboundMessageChannel channel = default, string sender = default,
             MessagesApiMessageContent content = default, ValidityPeriod validityPeriod = default)
         {
             Channel = channel;
-            // to ensure "sender" is required (not null)
-            Sender = sender ?? throw new ArgumentNullException("sender");
+            Sender = sender;
             Content = content;
             ValidityPeriod = validityPeriod;
         }
@@ -63,9 +62,8 @@ namespace Infobip.Api.Client.Model
         ///     Sender for channel specified above.
         /// </summary>
         /// <value>Sender for channel specified above.</value>
-        [DataMember(Name = "sender", IsRequired = true, EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "sender", Required = Required.DisallowNull,
-            DefaultValueHandling = DefaultValueHandling.Include)]
+        [DataMember(Name = "sender", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "sender", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("sender")]
         public string Sender { get; set; }
 

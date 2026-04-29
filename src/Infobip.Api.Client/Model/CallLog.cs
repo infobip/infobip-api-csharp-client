@@ -254,8 +254,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if camera was enabled during the call.
         /// </summary>
         /// <value>Indicates if camera was enabled during the call.</value>
-        [DataMember(Name = "hasCameraVideo", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "hasCameraVideo", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "hasCameraVideo", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "hasCameraVideo", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("hasCameraVideo")]
         public bool HasCameraVideo { get; set; }
 
@@ -263,8 +263,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates if screen sharing was enabled during the call.
         /// </summary>
         /// <value>Indicates if screen sharing was enabled during the call.</value>
-        [DataMember(Name = "hasScreenshareVideo", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "hasScreenshareVideo", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "hasScreenshareVideo", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "hasScreenshareVideo", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("hasScreenshareVideo")]
         public bool HasScreenshareVideo { get; set; }
 

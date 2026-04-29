@@ -82,8 +82,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified.
         /// </summary>
         /// <value>Indicates whether the phone number (&#x60;MSISDN&#x60;) was successfully verified.</value>
-        [DataMember(Name = "verified", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "verified", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 

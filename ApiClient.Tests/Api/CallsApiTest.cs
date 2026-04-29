@@ -1746,14 +1746,17 @@ public class CallsApiTest : ApiTest
     {
         var givenCallId = "d8d84155-3831-43fb-91c9-bb897149a79d";
 
-        var givenRequest = @"
-        {
-          ""mediaStream"": {
-            ""audioProperties"": {
-              ""mediaStreamConfigId"": ""63467c6e2885a5389ba11d80""
-            }
-          }
-        }";
+        var givenReplaceMedia = false;
+
+        var givenRequest = $@"
+        {{
+          ""mediaStream"": {{
+            ""audioProperties"": {{
+              ""mediaStreamConfigId"": ""63467c6e2885a5389ba11d80"",
+              ""replaceMedia"": {GetBooleanValueAsLowerString(givenReplaceMedia)}
+            }}
+          }}
+        }}";
 
         var givenResponse = @"
         {
@@ -2230,10 +2233,16 @@ public class CallsApiTest : ApiTest
     {
         var givenConferenceId = "034e622a-cc7e-456d-8a10-0ba43b11aa5e";
 
-        var givenRequest = @"
-        {
-          ""deaf"": true
-        }";
+        var givenMuted = false;
+        var givenDeaf = true;
+        var givenBlind = false;
+
+        var givenRequest = $@"
+        {{
+          ""muted"": {GetBooleanValueAsLowerString(givenMuted)},
+          ""deaf"": {GetBooleanValueAsLowerString(givenDeaf)},
+          ""blind"": {GetBooleanValueAsLowerString(givenBlind)}
+        }}";
 
         var givenResponse = @"
         {
@@ -2246,8 +2255,8 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
-            false,
-            true
+            givenMuted,
+            givenDeaf
         );
 
         var response = api.UpdateConference(givenConferenceId, request);
@@ -3040,10 +3049,16 @@ public class CallsApiTest : ApiTest
         var givenConferenceId = "034e622a-cc7e-456d-8a10-0ba43b11aa5e";
         var givenCallId = "d8d84155-3831-43fb-91c9-bb897149a79d";
 
-        var givenRequest = @"
-            {
-              ""deaf"": true
-            }";
+        var givenMuted = false;
+        var givenDeaf = true;
+        var givenBlind = false;
+
+        var givenRequest = $@"
+            {{
+              ""muted"": {GetBooleanValueAsLowerString(givenMuted)},
+              ""deaf"": {GetBooleanValueAsLowerString(givenDeaf)},
+              ""blind"": {GetBooleanValueAsLowerString(givenBlind)}
+            }}";
 
         var givenResponse = @"
             {
@@ -3057,8 +3072,8 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
-            false,
-            true
+            givenMuted,
+            givenDeaf
         );
 
         var expectedResponse = new CallsActionResponse(

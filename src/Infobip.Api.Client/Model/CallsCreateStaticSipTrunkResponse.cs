@@ -117,8 +117,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether communication is secured by the TLS protocol.
         /// </summary>
         /// <value>Indicates whether communication is secured by the TLS protocol.</value>
-        [DataMember(Name = "tls", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "tls", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "tls", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "tls", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("tls")]
         public bool Tls { get; set; }
 

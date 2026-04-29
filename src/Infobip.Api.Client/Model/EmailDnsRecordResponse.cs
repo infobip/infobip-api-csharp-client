@@ -71,8 +71,8 @@ namespace Infobip.Api.Client.Model
         ///     Boolean value representing if the record is verified or not.
         /// </summary>
         /// <value>Boolean value representing if the record is verified or not.</value>
-        [DataMember(Name = "verified", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "verified", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "verified", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("verified")]
         public bool Verified { get; set; }
 

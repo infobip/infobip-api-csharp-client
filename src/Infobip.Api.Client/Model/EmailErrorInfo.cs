@@ -57,8 +57,8 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether the error is permanent.
         /// </summary>
         /// <value>Indicates whether the error is permanent.</value>
-        [DataMember(Name = "permanent", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "permanent", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "permanent", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("permanent")]
         public bool Permanent { get; set; }
 

@@ -85,6 +85,7 @@ public class ClickToCallApiTest : ApiTest
                     ""name"": ""{givenName}"",
                     ""gender"": ""{givenGender}""
                   }},
+                  ""anonymization"": {givenAnonymization.ToString().ToLower()},
                   ""notifyUrl"": ""{givenNotifyUrl}"",
                   ""notifyContentType"": ""{givenNotifyContentType}"",
                   ""maxDuration"": {givenMaxDuration},

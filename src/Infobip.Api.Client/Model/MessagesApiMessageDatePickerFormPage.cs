@@ -104,8 +104,8 @@ namespace Infobip.Api.Client.Model
         ///     Placed on the pages to denote the end page of the form. Can be set on multiple pages.
         /// </summary>
         /// <value>Placed on the pages to denote the end page of the form. Can be set on multiple pages.</value>
-        [DataMember(Name = "submitForm", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "submitForm", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "submitForm", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "submitForm", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("submitForm")]
         public bool SubmitForm { get; set; }
 

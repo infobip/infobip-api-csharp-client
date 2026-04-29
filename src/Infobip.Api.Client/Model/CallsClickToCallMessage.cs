@@ -148,8 +148,8 @@ namespace Infobip.Api.Client.Model
         ///     will not be applied; _from_ will be shown to _destinationA_ and _fromB_ will be shown to _destinationB_. Default
         ///     value is &#x60;false&#x60;.
         /// </value>
-        [DataMember(Name = "anonymization", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "anonymization", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "anonymization", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "anonymization", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("anonymization")]
         public bool Anonymization { get; set; }
 

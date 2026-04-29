@@ -121,8 +121,8 @@ namespace Infobip.Api.Client.Model
         ///     When set to true, the next button on page is disabled until the user provides input.
         /// </summary>
         /// <value>When set to true, the next button on page is disabled until the user provides input.</value>
-        [DataMember(Name = "isRequired", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "isRequired", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "isRequired", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "isRequired", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("isRequired")]
         public bool IsRequired { get; set; }
 
