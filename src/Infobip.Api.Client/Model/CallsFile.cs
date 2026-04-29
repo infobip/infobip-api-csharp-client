@@ -40,20 +40,18 @@ namespace Infobip.Api.Client.Model
         /// <param name="name">File name. (required).</param>
         /// <param name="fileFormat">fileFormat (required).</param>
         /// <param name="size">File size in bytes..</param>
-        /// <param name="creationMethod">creationMethod.</param>
         /// <param name="creationTime">File creation time..</param>
         /// <param name="expirationTime">File expiration time..</param>
         /// <param name="duration">File duration in seconds..</param>
         public CallsFile(string id = default, string name = default, CallsFileFormat fileFormat = default,
-            long size = default, CallsCreationMethod? creationMethod = default, DateTimeOffset creationTime = default,
-            DateTimeOffset expirationTime = default, long duration = default)
+            long size = default, DateTimeOffset creationTime = default, DateTimeOffset expirationTime = default,
+            long duration = default)
         {
             // to ensure "name" is required (not null)
             Name = name ?? throw new ArgumentNullException("name");
             FileFormat = fileFormat;
             Id = id;
             Size = size;
-            CreationMethod = creationMethod;
             CreationTime = creationTime;
             ExpirationTime = expirationTime;
             Duration = duration;
@@ -67,14 +65,6 @@ namespace Infobip.Api.Client.Model
             DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("fileFormat")]
         public CallsFileFormat FileFormat { get; set; }
-
-        /// <summary>
-        ///     Gets or Sets CreationMethod
-        /// </summary>
-        [DataMember(Name = "creationMethod", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "creationMethod", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("creationMethod")]
-        public CallsCreationMethod? CreationMethod { get; set; }
 
         /// <summary>
         ///     File ID.
@@ -163,10 +153,6 @@ namespace Infobip.Api.Client.Model
                     Size.Equals(input.Size)
                 ) &&
                 (
-                    CreationMethod == input.CreationMethod ||
-                    CreationMethod.Equals(input.CreationMethod)
-                ) &&
-                (
                     CreationTime == input.CreationTime ||
                     (CreationTime != null &&
                      CreationTime.Equals(input.CreationTime))
@@ -194,7 +180,6 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  FileFormat: ").Append(FileFormat).Append("\n");
             sb.Append("  Size: ").Append(Size).Append("\n");
-            sb.Append("  CreationMethod: ").Append(CreationMethod).Append("\n");
             sb.Append("  CreationTime: ").Append(CreationTime).Append("\n");
             sb.Append("  ExpirationTime: ").Append(ExpirationTime).Append("\n");
             sb.Append("  Duration: ").Append(Duration).Append("\n");
@@ -236,7 +221,6 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Name.GetHashCode();
                 hashCode = hashCode * 59 + FileFormat.GetHashCode();
                 hashCode = hashCode * 59 + Size.GetHashCode();
-                hashCode = hashCode * 59 + CreationMethod.GetHashCode();
                 if (CreationTime != null)
                     hashCode = hashCode * 59 + CreationTime.GetHashCode();
                 if (ExpirationTime != null)

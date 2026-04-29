@@ -28,6 +28,7 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="TfaStartAuthenticationResponse" /> class.
         /// </summary>
         /// <param name="callStatus">Call status, e.g. &#x60;PENDING_ACCEPTED&#x60;..</param>
+        /// <param name="externalMessageId">Message ID used for delivery tracking..</param>
         /// <param name="ncStatus">
         ///     Status of sent [Number Lookup](https://www.infobip.com/docs/number-lookup). Number Lookup status
         ///     can have one of the following values: &#x60;NC_DESTINATION_UNKNOWN&#x60;, &#x60;NC_DESTINATION_REACHABLE&#x60;,
@@ -41,10 +42,11 @@ namespace Infobip.Api.Client.Model
         ///     MESSAGE_NOT_SENT&#x60;..
         /// </param>
         /// <param name="to">Phone number to which the 2FA message will be sent. Example: &#x60;41793026727&#x60;..</param>
-        public TfaStartAuthenticationResponse(string callStatus = default, string ncStatus = default,
-            string pinId = default, string smsStatus = default, string to = default)
+        public TfaStartAuthenticationResponse(string callStatus = default, string externalMessageId = default,
+            string ncStatus = default, string pinId = default, string smsStatus = default, string to = default)
         {
             CallStatus = callStatus;
+            ExternalMessageId = externalMessageId;
             NcStatus = ncStatus;
             PinId = pinId;
             SmsStatus = smsStatus;
@@ -59,6 +61,15 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "callStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("callStatus")]
         public string CallStatus { get; set; }
+
+        /// <summary>
+        ///     Message ID used for delivery tracking.
+        /// </summary>
+        /// <value>Message ID used for delivery tracking.</value>
+        [DataMember(Name = "externalMessageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "externalMessageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalMessageId")]
+        public string ExternalMessageId { get; set; }
 
         /// <summary>
         ///     Status of sent [Number Lookup](https://www.infobip.com/docs/number-lookup). Number Lookup status can have one of
@@ -123,6 +134,11 @@ namespace Infobip.Api.Client.Model
                      CallStatus.Equals(input.CallStatus))
                 ) &&
                 (
+                    ExternalMessageId == input.ExternalMessageId ||
+                    (ExternalMessageId != null &&
+                     ExternalMessageId.Equals(input.ExternalMessageId))
+                ) &&
+                (
                     NcStatus == input.NcStatus ||
                     (NcStatus != null &&
                      NcStatus.Equals(input.NcStatus))
@@ -153,6 +169,7 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class TfaStartAuthenticationResponse {\n");
             sb.Append("  CallStatus: ").Append(CallStatus).Append("\n");
+            sb.Append("  ExternalMessageId: ").Append(ExternalMessageId).Append("\n");
             sb.Append("  NcStatus: ").Append(NcStatus).Append("\n");
             sb.Append("  PinId: ").Append(PinId).Append("\n");
             sb.Append("  SmsStatus: ").Append(SmsStatus).Append("\n");
@@ -191,6 +208,8 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (CallStatus != null)
                     hashCode = hashCode * 59 + CallStatus.GetHashCode();
+                if (ExternalMessageId != null)
+                    hashCode = hashCode * 59 + ExternalMessageId.GetHashCode();
                 if (NcStatus != null)
                     hashCode = hashCode * 59 + NcStatus.GetHashCode();
                 if (PinId != null)

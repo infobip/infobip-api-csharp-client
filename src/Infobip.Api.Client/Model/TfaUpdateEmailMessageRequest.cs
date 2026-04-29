@@ -32,13 +32,15 @@ namespace Infobip.Api.Client.Model
         ///     The sender of the 2FA message, an email address with an optional sender name (e.g. &#x60;
         ///     company@example.com&#x60; or &#x60;Jane Smith &lt;jane.smith@somecompany.com&gt;&#x60;)..
         /// </param>
+        /// <param name="landingPageId">Opt out landing page ID that should reference a previously created landing page template..</param>
         /// <param name="pinLength">PIN code length..</param>
         /// <param name="pinType">pinType.</param>
         public TfaUpdateEmailMessageRequest(long emailTemplateId = default, string from = default,
-            int pinLength = default, TfaPinType? pinType = default)
+            string landingPageId = default, int pinLength = default, TfaPinType? pinType = default)
         {
             EmailTemplateId = emailTemplateId;
             From = from;
+            LandingPageId = landingPageId;
             PinLength = pinLength;
             PinType = pinType;
         }
@@ -74,6 +76,15 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
+        ///     Opt out landing page ID that should reference a previously created landing page template.
+        /// </summary>
+        /// <value>Opt out landing page ID that should reference a previously created landing page template.</value>
+        [DataMember(Name = "landingPageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "landingPageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("landingPageId")]
+        public string LandingPageId { get; set; }
+
+        /// <summary>
         ///     PIN code length.
         /// </summary>
         /// <value>PIN code length.</value>
@@ -103,6 +114,11 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    LandingPageId == input.LandingPageId ||
+                    (LandingPageId != null &&
+                     LandingPageId.Equals(input.LandingPageId))
+                ) &&
+                (
                     PinLength == input.PinLength ||
                     PinLength.Equals(input.PinLength)
                 ) &&
@@ -122,6 +138,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class TfaUpdateEmailMessageRequest {\n");
             sb.Append("  EmailTemplateId: ").Append(EmailTemplateId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  LandingPageId: ").Append(LandingPageId).Append("\n");
             sb.Append("  PinLength: ").Append(PinLength).Append("\n");
             sb.Append("  PinType: ").Append(PinType).Append("\n");
             sb.Append("}\n");
@@ -159,6 +176,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + EmailTemplateId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
+                if (LandingPageId != null)
+                    hashCode = hashCode * 59 + LandingPageId.GetHashCode();
                 hashCode = hashCode * 59 + PinLength.GetHashCode();
                 hashCode = hashCode * 59 + PinType.GetHashCode();
                 return hashCode;

@@ -41,26 +41,27 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallsMediaStreamConfigRequest" /> class.
         /// </summary>
-        /// <param name="type">type.</param>
+        /// <param name="type">type (required).</param>
         /// <param name="name">Media-stream configuration name. (required).</param>
         /// <param name="url">Destination websocket or load balancer URL. (required).</param>
-        public CallsMediaStreamConfigRequest(CallsRequestMediaStreamConfigType? type = default, string name = default,
+        public CallsMediaStreamConfigRequest(CallsRequestMediaStreamConfigType type = default, string name = default,
             string url = default)
         {
+            Type = type;
             // to ensure "name" is required (not null)
             Name = name ?? throw new ArgumentNullException("name");
             // to ensure "url" is required (not null)
             Url = url ?? throw new ArgumentNullException("url");
-            Type = type;
         }
 
         /// <summary>
         ///     Gets or Sets Type
         /// </summary>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "type", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "type", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("type")]
-        public CallsRequestMediaStreamConfigType? Type { get; set; }
+        public CallsRequestMediaStreamConfigType Type { get; set; }
 
         /// <summary>
         ///     Media-stream configuration name.

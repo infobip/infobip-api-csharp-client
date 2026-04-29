@@ -19,7 +19,7 @@ using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     EmailValidationRequest
+    ///     Validation request
     /// </summary>
     [DataContract(Name = "EmailValidationRequest")]
     [JsonObject]
@@ -36,7 +36,7 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailValidationRequest" /> class.
         /// </summary>
-        /// <param name="to">Email address of the recipient. (required).</param>
+        /// <param name="to">The email address to be validated. (required).</param>
         public EmailValidationRequest(string to = default)
         {
             // to ensure "to" is required (not null)
@@ -44,9 +44,9 @@ namespace Infobip.Api.Client.Model
         }
 
         /// <summary>
-        ///     Email address of the recipient.
+        ///     The email address to be validated.
         /// </summary>
-        /// <value>Email address of the recipient.</value>
+        /// <value>The email address to be validated.</value>
         [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]

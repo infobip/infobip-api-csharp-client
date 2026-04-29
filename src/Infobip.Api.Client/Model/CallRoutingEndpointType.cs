@@ -40,6 +40,16 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Viber for value: VIBER
         /// </summary>
-        [EnumMember(Value = "VIBER")] Viber = 4
+        [EnumMember(Value = "VIBER")] Viber = 4,
+
+        /// <summary>
+        ///     Enum Websocket for value: WEBSOCKET
+        /// </summary>
+        [EnumMember(Value = "WEBSOCKET")] Websocket = 5,
+
+        /// <summary>
+        ///     Enum Whatsapp for value: WHATSAPP
+        /// </summary>
+        [EnumMember(Value = "WHATSAPP")] Whatsapp = 6
     }
 }

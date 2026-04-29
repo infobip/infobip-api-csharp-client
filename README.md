@@ -37,17 +37,17 @@ Within Visual Studio, use the Package Manager UI to browse for `Infobip.Api.Clie
 #### Package Manager Console
 Alternatively, also within Visual Studio, use the Package Manager Console command:
 
-    Install-Package Infobip.Api.Client -Version 4.0.2
+    Install-Package Infobip.Api.Client -Version 4.1.0
 
 #### .NET CLI
 If you are used to .NET CLI, the following command is going to be sufficient for you:
 
-    dotnet add package Infobip.Api.Client --version 4.0.2
+    dotnet add package Infobip.Api.Client --version 4.1.0
 
 ### Package reference
 Including the package directly into project file is also valid option.
 
-    <PackageReference Include="Infobip.Api.Client" Version="4.0.2" />
+    <PackageReference Include="Infobip.Api.Client" Version="4.1.0" />
 
 ## Quickstart
 
@@ -205,9 +205,12 @@ For the send email quick start guide please check [these examples](email.md).
 #### Moments
 For the Flow & Forms quick start guide please check [these examples](moments.md).
 
+#### Messages API
+For the Messages API quick start guide please check [these examples](messages-api.md).
+
 ## Versioning
 
-This project follows a pragmatic Semantic Versioning approach.  
+This project follows a pragmatic Semantic Versioning approach.
 For full details on how versions are managed, please see our [Versioning guide][versioning].
 
 ## Ask for help

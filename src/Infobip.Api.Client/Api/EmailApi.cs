@@ -251,8 +251,8 @@ namespace Infobip.Api.Client.Api
         ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>List&lt;EmailIpResponse&gt;</returns>
-        List<EmailIpResponse> GetAllIps();
+        /// <returns>List&lt;EmailIpDetailResponse&gt;</returns>
+        List<EmailIpDetailResponse> GetAllIps();
 
         /// <summary>
         ///     Get IPs
@@ -261,8 +261,8 @@ namespace Infobip.Api.Client.Api
         ///     Returns all the dedicated IP addresses owned by this account.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of List&lt;EmailIpResponse&gt;</returns>
-        ApiResponse<List<EmailIpResponse>> GetAllIpsWithHttpInfo();
+        /// <returns>ApiResponse of List&lt;EmailIpDetailResponse&gt;</returns>
+        ApiResponse<List<EmailIpDetailResponse>> GetAllIpsWithHttpInfo();
 
         /// <summary>
         ///     Get domain details
@@ -526,8 +526,8 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
-        /// <returns>List&lt;EmailIpPoolResponse&gt;</returns>
-        List<EmailIpPoolResponse> GetIpPools(string name = default);
+        /// <returns>List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        List<EmailIpPoolDetailResponse> GetIpPools(string name = default);
 
         /// <summary>
         ///     Get IP pools
@@ -537,8 +537,8 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
-        /// <returns>ApiResponse of List&lt;EmailIpPoolResponse&gt;</returns>
-        ApiResponse<List<EmailIpPoolResponse>> GetIpPoolsWithHttpInfo(string name = default);
+        /// <returns>ApiResponse of List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        ApiResponse<List<EmailIpPoolDetailResponse>> GetIpPoolsWithHttpInfo(string name = default);
 
         /// <summary>
         ///     Get sent email bulks status
@@ -547,7 +547,7 @@ namespace Infobip.Api.Client.Api
         ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>EmailBulkStatusResponse</returns>
         EmailBulkStatusResponse GetScheduledEmailStatuses(string bulkId);
 
@@ -558,7 +558,7 @@ namespace Infobip.Api.Client.Api
         ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>ApiResponse of EmailBulkStatusResponse</returns>
         ApiResponse<EmailBulkStatusResponse> GetScheduledEmailStatusesWithHttpInfo(string bulkId);
 
@@ -569,7 +569,7 @@ namespace Infobip.Api.Client.Api
         ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>EmailBulkScheduleResponse</returns>
         EmailBulkScheduleResponse GetScheduledEmails(string bulkId);
 
@@ -580,7 +580,7 @@ namespace Infobip.Api.Client.Api
         ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>ApiResponse of EmailBulkScheduleResponse</returns>
         ApiResponse<EmailBulkScheduleResponse> GetScheduledEmailsWithHttpInfo(string bulkId);
 
@@ -680,7 +680,7 @@ namespace Infobip.Api.Client.Api
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <returns>EmailBulkRescheduleResponse</returns>
         EmailBulkRescheduleResponse RescheduleEmails(string bulkId,
@@ -693,7 +693,7 @@ namespace Infobip.Api.Client.Api
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <returns>ApiResponse of EmailBulkRescheduleResponse</returns>
         ApiResponse<EmailBulkRescheduleResponse> RescheduleEmailsWithHttpInfo(string bulkId,
@@ -745,9 +745,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -767,21 +768,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -826,7 +833,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -837,11 +844,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <returns>EmailSendResponse</returns>
         EmailSendResponse SendEmail(List<string> to, string from = default, List<string> cc = default,
@@ -849,12 +871,14 @@ namespace Infobip.Api.Client.Api
             string ampHtml = default, long? templateId = default, List<FileParameter> attachment = default,
             List<FileParameter> inlineImage = default, bool? intermediateReport = default, string notifyUrl = default,
             string notifyContentType = default, string callbackData = default, bool? track = default,
-            bool? trackClicks = default, bool? trackOpens = default, string trackingUrl = default,
-            string bulkId = default, string messageId = default, string campaignReferenceId = default,
-            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
-            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackClicks = default, bool? trackOpens = default, string trackingPixelPosition = default,
+            string trackingUrl = default, string bulkId = default, string messageId = default,
+            string campaignReferenceId = default, string replyTo = default, string defaultPlaceholders = default,
+            bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
+            string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default);
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default);
 
         /// <summary>
         ///     Send fully featured email
@@ -902,9 +926,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -924,21 +949,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -983,7 +1014,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -994,11 +1025,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <returns>ApiResponse of EmailSendResponse</returns>
         ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(List<string> to, string from = default,
@@ -1007,12 +1053,13 @@ namespace Infobip.Api.Client.Api
             List<FileParameter> attachment = default, List<FileParameter> inlineImage = default,
             bool? intermediateReport = default, string notifyUrl = default, string notifyContentType = default,
             string callbackData = default, bool? track = default, bool? trackClicks = default,
-            bool? trackOpens = default, string trackingUrl = default, string bulkId = default,
-            string messageId = default, string campaignReferenceId = default, string replyTo = default,
-            string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
-            string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackOpens = default, string trackingPixelPosition = default, string trackingUrl = default,
+            string bulkId = default, string messageId = default, string campaignReferenceId = default,
+            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
+            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default);
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default);
 
         /// <summary>
         ///     Update IP pool sending priority
@@ -1068,41 +1115,13 @@ namespace Infobip.Api.Client.Api
             EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest);
 
         /// <summary>
-        ///     Update return path
-        /// </summary>
-        /// <remarks>
-        ///     API to update return path for the provided domain. The mailbox used for return path should be based on the same
-        ///     domain.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <returns>EmailDomainResponse</returns>
-        EmailDomainResponse UpdateReturnPath(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest);
-
-        /// <summary>
-        ///     Update return path
-        /// </summary>
-        /// <remarks>
-        ///     API to update return path for the provided domain. The mailbox used for return path should be based on the same
-        ///     domain.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <returns>ApiResponse of EmailDomainResponse</returns>
-        ApiResponse<EmailDomainResponse> UpdateReturnPathWithHttpInfo(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest);
-
-        /// <summary>
         ///     Update scheduled Email messages status
         /// </summary>
         /// <remarks>
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <returns>EmailBulkUpdateStatusResponse</returns>
         EmailBulkUpdateStatusResponse UpdateScheduledEmailStatuses(string bulkId,
@@ -1115,7 +1134,7 @@ namespace Infobip.Api.Client.Api
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <returns>ApiResponse of EmailBulkUpdateStatusResponse</returns>
         ApiResponse<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesWithHttpInfo(string bulkId,
@@ -1150,10 +1169,11 @@ namespace Infobip.Api.Client.Api
             EmailTrackingEventRequest emailTrackingEventRequest);
 
         /// <summary>
-        ///     Validate email addresses
+        ///     Validate email address
         /// </summary>
         /// <remarks>
-        ///     Run validation to identify poor quality emails to clean up your recipient list.
+        ///     This method lets you request validation of a single email address in real-time, helping you to identify and remove
+        ///     poor-quality emails from your list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -1161,10 +1181,11 @@ namespace Infobip.Api.Client.Api
         EmailValidationResponse ValidateEmailAddresses(EmailValidationRequest emailValidationRequest);
 
         /// <summary>
-        ///     Validate email addresses
+        ///     Validate email address
         /// </summary>
         /// <remarks>
-        ///     Run validation to identify poor quality emails to clean up your recipient list.
+        ///     This method lets you request validation of a single email address in real-time, helping you to identify and remove
+        ///     poor-quality emails from your list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -1459,8 +1480,8 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;EmailIpResponse&gt;</returns>
-        Task<List<EmailIpResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default);
+        /// <returns>Task of List&lt;EmailIpDetailResponse&gt;</returns>
+        Task<List<EmailIpDetailResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Get IPs
@@ -1470,8 +1491,8 @@ namespace Infobip.Api.Client.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;EmailIpResponse&gt;)</returns>
-        Task<ApiResponse<List<EmailIpResponse>>> GetAllIpsWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (List&lt;EmailIpDetailResponse&gt;)</returns>
+        Task<ApiResponse<List<EmailIpDetailResponse>>> GetAllIpsWithHttpInfoAsync(
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1760,8 +1781,8 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;EmailIpPoolResponse&gt;</returns>
-        Task<List<EmailIpPoolResponse>> GetIpPoolsAsync(string name = default,
+        /// <returns>Task of List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        Task<List<EmailIpPoolDetailResponse>> GetIpPoolsAsync(string name = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1773,8 +1794,8 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolResponse&gt;)</returns>
-        Task<ApiResponse<List<EmailIpPoolResponse>>> GetIpPoolsWithHttpInfoAsync(string name = default,
+        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolDetailResponse&gt;)</returns>
+        Task<ApiResponse<List<EmailIpPoolDetailResponse>>> GetIpPoolsWithHttpInfoAsync(string name = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1784,7 +1805,7 @@ namespace Infobip.Api.Client.Api
         ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkStatusResponse</returns>
         Task<EmailBulkStatusResponse> GetScheduledEmailStatusesAsync(string bulkId,
@@ -1797,7 +1818,7 @@ namespace Infobip.Api.Client.Api
         ///     See the status of scheduled email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkStatusResponse)</returns>
         Task<ApiResponse<EmailBulkStatusResponse>> GetScheduledEmailStatusesWithHttpInfoAsync(string bulkId,
@@ -1810,7 +1831,7 @@ namespace Infobip.Api.Client.Api
         ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkScheduleResponse</returns>
         Task<EmailBulkScheduleResponse> GetScheduledEmailsAsync(string bulkId,
@@ -1823,7 +1844,7 @@ namespace Infobip.Api.Client.Api
         ///     See the scheduled time of your Email messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkScheduleResponse)</returns>
         Task<ApiResponse<EmailBulkScheduleResponse>> GetScheduledEmailsWithHttpInfoAsync(string bulkId,
@@ -1934,7 +1955,7 @@ namespace Infobip.Api.Client.Api
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkRescheduleResponse</returns>
@@ -1948,7 +1969,7 @@ namespace Infobip.Api.Client.Api
         ///     Change the date and time for sending scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkRescheduleResponse)</returns>
@@ -2001,9 +2022,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -2023,21 +2045,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -2082,7 +2110,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -2093,11 +2121,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailSendResponse</returns>
@@ -2106,12 +2149,15 @@ namespace Infobip.Api.Client.Api
             string ampHtml = default, long? templateId = default, List<FileParameter> attachment = default,
             List<FileParameter> inlineImage = default, bool? intermediateReport = default, string notifyUrl = default,
             string notifyContentType = default, string callbackData = default, bool? track = default,
-            bool? trackClicks = default, bool? trackOpens = default, string trackingUrl = default,
-            string bulkId = default, string messageId = default, string campaignReferenceId = default,
-            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
-            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackClicks = default, bool? trackOpens = default, string trackingPixelPosition = default,
+            string trackingUrl = default, string bulkId = default, string messageId = default,
+            string campaignReferenceId = default, string replyTo = default, string defaultPlaceholders = default,
+            bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
+            string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default, CancellationToken cancellationToken = default);
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Send fully featured email
@@ -2159,9 +2205,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -2181,21 +2228,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -2240,7 +2293,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -2251,11 +2304,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
@@ -2265,12 +2333,14 @@ namespace Infobip.Api.Client.Api
             List<FileParameter> attachment = default, List<FileParameter> inlineImage = default,
             bool? intermediateReport = default, string notifyUrl = default, string notifyContentType = default,
             string callbackData = default, bool? track = default, bool? trackClicks = default,
-            bool? trackOpens = default, string trackingUrl = default, string bulkId = default,
-            string messageId = default, string campaignReferenceId = default, string replyTo = default,
-            string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
-            string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackOpens = default, string trackingPixelPosition = default, string trackingUrl = default,
+            string bulkId = default, string messageId = default, string campaignReferenceId = default,
+            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
+            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default, CancellationToken cancellationToken = default);
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Update IP pool sending priority
@@ -2333,43 +2403,13 @@ namespace Infobip.Api.Client.Api
             EmailIpPoolCreateApiRequest emailIpPoolCreateApiRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Update return path
-        /// </summary>
-        /// <remarks>
-        ///     API to update return path for the provided domain. The mailbox used for return path should be based on the same
-        ///     domain.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainResponse</returns>
-        Task<EmailDomainResponse> UpdateReturnPathAsync(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        ///     Update return path
-        /// </summary>
-        /// <remarks>
-        ///     API to update return path for the provided domain. The mailbox used for return path should be based on the same
-        ///     domain.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainResponse)</returns>
-        Task<ApiResponse<EmailDomainResponse>> UpdateReturnPathWithHttpInfoAsync(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest, CancellationToken cancellationToken = default);
-
-        /// <summary>
         ///     Update scheduled Email messages status
         /// </summary>
         /// <remarks>
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkUpdateStatusResponse</returns>
@@ -2383,7 +2423,7 @@ namespace Infobip.Api.Client.Api
         ///     Change status or completely cancel sending of scheduled messages.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkUpdateStatusResponse)</returns>
@@ -2421,10 +2461,11 @@ namespace Infobip.Api.Client.Api
             EmailTrackingEventRequest emailTrackingEventRequest, CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Validate email addresses
+        ///     Validate email address
         /// </summary>
         /// <remarks>
-        ///     Run validation to identify poor quality emails to clean up your recipient list.
+        ///     This method lets you request validation of a single email address in real-time, helping you to identify and remove
+        ///     poor-quality emails from your list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -2434,10 +2475,11 @@ namespace Infobip.Api.Client.Api
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        ///     Validate email addresses
+        ///     Validate email address
         /// </summary>
         /// <remarks>
-        ///     Run validation to identify poor quality emails to clean up your recipient list.
+        ///     This method lets you request validation of a single email address in real-time, helping you to identify and remove
+        ///     poor-quality emails from your list.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -3768,8 +3810,8 @@ namespace Infobip.Api.Client.Api
         ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>List&lt;EmailIpResponse&gt;</returns>
-        public List<EmailIpResponse> GetAllIps()
+        /// <returns>List&lt;EmailIpDetailResponse&gt;</returns>
+        public List<EmailIpDetailResponse> GetAllIps()
         {
             var localVarResponse = GetAllIpsWithHttpInfo();
             return localVarResponse.Data;
@@ -3779,8 +3821,8 @@ namespace Infobip.Api.Client.Api
         ///     Get IPs Returns all the dedicated IP addresses owned by this account.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of List&lt;EmailIpResponse&gt;</returns>
-        public ApiResponse<List<EmailIpResponse>> GetAllIpsWithHttpInfo()
+        /// <returns>ApiResponse of List&lt;EmailIpDetailResponse&gt;</returns>
+        public ApiResponse<List<EmailIpDetailResponse>> GetAllIpsWithHttpInfo()
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -3798,8 +3840,8 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse =
-                Client.Get<List<EmailIpResponse>>("/email/1/ip-management/ips", localVarRequestOptions, Configuration);
+            var localVarResponse = Client.Get<List<EmailIpDetailResponse>>("/email/1/ip-management/ips",
+                localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("GetAllIps", localVarResponse);
             if (exception != null)
@@ -3813,8 +3855,8 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;EmailIpResponse&gt;</returns>
-        public async Task<List<EmailIpResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default)
+        /// <returns>Task of List&lt;EmailIpDetailResponse&gt;</returns>
+        public async Task<List<EmailIpDetailResponse>> GetAllIpsAsync(CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetAllIpsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -3825,8 +3867,8 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;EmailIpResponse&gt;)</returns>
-        public async Task<ApiResponse<List<EmailIpResponse>>> GetAllIpsWithHttpInfoAsync(
+        /// <returns>Task of ApiResponse (List&lt;EmailIpDetailResponse&gt;)</returns>
+        public async Task<ApiResponse<List<EmailIpDetailResponse>>> GetAllIpsWithHttpInfoAsync(
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
@@ -3847,8 +3889,8 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<List<EmailIpResponse>>("/email/1/ip-management/ips", localVarRequestOptions, Configuration,
-                    cancellationToken).ConfigureAwait(false);
+                .GetAsync<List<EmailIpDetailResponse>>("/email/1/ip-management/ips", localVarRequestOptions,
+                    Configuration, cancellationToken).ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetAllIps", localVarResponse);
             if (exception != null)
@@ -4887,8 +4929,8 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
-        /// <returns>List&lt;EmailIpPoolResponse&gt;</returns>
-        public List<EmailIpPoolResponse> GetIpPools(string name = default)
+        /// <returns>List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        public List<EmailIpPoolDetailResponse> GetIpPools(string name = default)
         {
             var localVarResponse = GetIpPoolsWithHttpInfo(name);
             return localVarResponse.Data;
@@ -4899,8 +4941,8 @@ namespace Infobip.Api.Client.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
-        /// <returns>ApiResponse of List&lt;EmailIpPoolResponse&gt;</returns>
-        public ApiResponse<List<EmailIpPoolResponse>> GetIpPoolsWithHttpInfo(string name = default)
+        /// <returns>ApiResponse of List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        public ApiResponse<List<EmailIpPoolDetailResponse>> GetIpPoolsWithHttpInfo(string name = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -4920,7 +4962,7 @@ namespace Infobip.Api.Client.Api
                 localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
 
             // make the HTTP request
-            var localVarResponse = Client.Get<List<EmailIpPoolResponse>>("/email/1/ip-management/pools",
+            var localVarResponse = Client.Get<List<EmailIpPoolDetailResponse>>("/email/1/ip-management/pools",
                 localVarRequestOptions, Configuration);
 
             var exception = ExceptionFactory?.Invoke("GetIpPools", localVarResponse);
@@ -4936,8 +4978,8 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;EmailIpPoolResponse&gt;</returns>
-        public async Task<List<EmailIpPoolResponse>> GetIpPoolsAsync(string name = default,
+        /// <returns>Task of List&lt;EmailIpPoolDetailResponse&gt;</returns>
+        public async Task<List<EmailIpPoolDetailResponse>> GetIpPoolsAsync(string name = default,
             CancellationToken cancellationToken = default)
         {
             var localVarResponse = await GetIpPoolsWithHttpInfoAsync(name, cancellationToken).ConfigureAwait(false);
@@ -4950,9 +4992,9 @@ namespace Infobip.Api.Client.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="name">IP pool name. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolResponse&gt;)</returns>
-        public async Task<ApiResponse<List<EmailIpPoolResponse>>> GetIpPoolsWithHttpInfoAsync(string name = default,
-            CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (List&lt;EmailIpPoolDetailResponse&gt;)</returns>
+        public async Task<ApiResponse<List<EmailIpPoolDetailResponse>>> GetIpPoolsWithHttpInfoAsync(
+            string name = default, CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -4974,7 +5016,7 @@ namespace Infobip.Api.Client.Api
             // make the HTTP request
 
             var localVarResponse = await AsynchronousClient
-                .GetAsync<List<EmailIpPoolResponse>>("/email/1/ip-management/pools", localVarRequestOptions,
+                .GetAsync<List<EmailIpPoolDetailResponse>>("/email/1/ip-management/pools", localVarRequestOptions,
                     Configuration, cancellationToken).ConfigureAwait(false);
 
             var exception = ExceptionFactory?.Invoke("GetIpPools", localVarResponse);
@@ -4988,7 +5030,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>EmailBulkStatusResponse</returns>
         public EmailBulkStatusResponse GetScheduledEmailStatuses(string bulkId)
         {
@@ -5000,7 +5042,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>ApiResponse of EmailBulkStatusResponse</returns>
         public ApiResponse<EmailBulkStatusResponse> GetScheduledEmailStatusesWithHttpInfo(string bulkId)
         {
@@ -5040,7 +5082,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkStatusResponse</returns>
         public async Task<EmailBulkStatusResponse> GetScheduledEmailStatusesAsync(string bulkId,
@@ -5055,7 +5097,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks status See the status of scheduled email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkStatusResponse)</returns>
         public async Task<ApiResponse<EmailBulkStatusResponse>> GetScheduledEmailStatusesWithHttpInfoAsync(
@@ -5100,7 +5142,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>EmailBulkScheduleResponse</returns>
         public EmailBulkScheduleResponse GetScheduledEmails(string bulkId)
         {
@@ -5112,7 +5154,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <returns>ApiResponse of EmailBulkScheduleResponse</returns>
         public ApiResponse<EmailBulkScheduleResponse> GetScheduledEmailsWithHttpInfo(string bulkId)
         {
@@ -5152,7 +5194,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkScheduleResponse</returns>
         public async Task<EmailBulkScheduleResponse> GetScheduledEmailsAsync(string bulkId,
@@ -5167,7 +5209,7 @@ namespace Infobip.Api.Client.Api
         ///     Get sent email bulks See the scheduled time of your Email messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkScheduleResponse)</returns>
         public async Task<ApiResponse<EmailBulkScheduleResponse>> GetScheduledEmailsWithHttpInfoAsync(string bulkId,
@@ -5644,7 +5686,7 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule Email messages Change the date and time for sending scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <returns>EmailBulkRescheduleResponse</returns>
         public EmailBulkRescheduleResponse RescheduleEmails(string bulkId,
@@ -5658,7 +5700,7 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule Email messages Change the date and time for sending scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <returns>ApiResponse of EmailBulkRescheduleResponse</returns>
         public ApiResponse<EmailBulkRescheduleResponse> RescheduleEmailsWithHttpInfo(string bulkId,
@@ -5706,7 +5748,7 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule Email messages Change the date and time for sending scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkRescheduleResponse</returns>
@@ -5723,7 +5765,7 @@ namespace Infobip.Api.Client.Api
         ///     Reschedule Email messages Change the date and time for sending scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId"></param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkRescheduleRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkRescheduleResponse)</returns>
@@ -5815,9 +5857,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -5837,21 +5880,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -5896,7 +5945,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -5907,11 +5956,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <returns>EmailSendResponse</returns>
         public EmailSendResponse SendEmail(List<string> to, string from = default, List<string> cc = default,
@@ -5919,18 +5983,21 @@ namespace Infobip.Api.Client.Api
             string ampHtml = default, long? templateId = default, List<FileParameter> attachment = default,
             List<FileParameter> inlineImage = default, bool? intermediateReport = default, string notifyUrl = default,
             string notifyContentType = default, string callbackData = default, bool? track = default,
-            bool? trackClicks = default, bool? trackOpens = default, string trackingUrl = default,
-            string bulkId = default, string messageId = default, string campaignReferenceId = default,
-            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
-            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackClicks = default, bool? trackOpens = default, string trackingPixelPosition = default,
+            string trackingUrl = default, string bulkId = default, string messageId = default,
+            string campaignReferenceId = default, string replyTo = default, string defaultPlaceholders = default,
+            bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
+            string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default)
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default)
         {
             var localVarResponse = SendEmailWithHttpInfo(to, from, cc, bcc, subject, text, html, ampHtml, templateId,
                 attachment, inlineImage, intermediateReport, notifyUrl, notifyContentType, callbackData, track,
-                trackClicks, trackOpens, trackingUrl, bulkId, messageId, campaignReferenceId, replyTo,
-                defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders, landingPageId,
-                templateLanguageVersion, clientPriority, applicationId, entityId, headers);
+                trackClicks, trackOpens, trackingPixelPosition, trackingUrl, bulkId, messageId, campaignReferenceId,
+                replyTo, defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders, landingPageId,
+                templateLanguageVersion, clientPriority, applicationId, entityId, headers, ipPoolId, skipPassiveStorage,
+                skipActiveStorage);
             return localVarResponse.Data;
         }
 
@@ -5978,9 +6045,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -6000,21 +6068,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -6059,7 +6133,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -6070,11 +6144,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <returns>ApiResponse of EmailSendResponse</returns>
         public ApiResponse<EmailSendResponse> SendEmailWithHttpInfo(List<string> to, string from = default,
@@ -6083,12 +6172,13 @@ namespace Infobip.Api.Client.Api
             List<FileParameter> attachment = default, List<FileParameter> inlineImage = default,
             bool? intermediateReport = default, string notifyUrl = default, string notifyContentType = default,
             string callbackData = default, bool? track = default, bool? trackClicks = default,
-            bool? trackOpens = default, string trackingUrl = default, string bulkId = default,
-            string messageId = default, string campaignReferenceId = default, string replyTo = default,
-            string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
-            string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackOpens = default, string trackingPixelPosition = default, string trackingUrl = default,
+            string bulkId = default, string messageId = default, string campaignReferenceId = default,
+            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
+            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default)
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default)
         {
             // verify the required parameter 'to' is set
             if (to == null)
@@ -6154,6 +6244,10 @@ namespace Infobip.Api.Client.Api
             if (trackOpens != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "trackOpens", trackOpens)); // form parameter
+            if (trackingPixelPosition != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackingPixelPosition",
+                        trackingPixelPosition)); // form parameter
             if (trackingUrl != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "trackingUrl", trackingUrl)); // form parameter
@@ -6204,6 +6298,16 @@ namespace Infobip.Api.Client.Api
             if (headers != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "headers", headers)); // form parameter
+            if (ipPoolId != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "ipPoolId", ipPoolId)); // form parameter
+            if (skipPassiveStorage != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "skipPassiveStorage",
+                        skipPassiveStorage)); // form parameter
+            if (skipActiveStorage != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "skipActiveStorage", skipActiveStorage)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -6264,9 +6368,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -6286,21 +6391,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -6345,7 +6456,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -6356,11 +6467,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailSendResponse</returns>
@@ -6370,19 +6496,21 @@ namespace Infobip.Api.Client.Api
             List<FileParameter> attachment = default, List<FileParameter> inlineImage = default,
             bool? intermediateReport = default, string notifyUrl = default, string notifyContentType = default,
             string callbackData = default, bool? track = default, bool? trackClicks = default,
-            bool? trackOpens = default, string trackingUrl = default, string bulkId = default,
-            string messageId = default, string campaignReferenceId = default, string replyTo = default,
-            string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
-            string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackOpens = default, string trackingPixelPosition = default, string trackingUrl = default,
+            string bulkId = default, string messageId = default, string campaignReferenceId = default,
+            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
+            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default, CancellationToken cancellationToken = default)
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default,
+            CancellationToken cancellationToken = default)
         {
             var localVarResponse = await SendEmailWithHttpInfoAsync(to, from, cc, bcc, subject, text, html, ampHtml,
-                    templateId, attachment, inlineImage, intermediateReport, notifyUrl, notifyContentType, callbackData,
-                    track, trackClicks, trackOpens, trackingUrl, bulkId, messageId, campaignReferenceId, replyTo,
-                    defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders, landingPageId,
-                    templateLanguageVersion, clientPriority, applicationId, entityId, headers, cancellationToken)
-                .ConfigureAwait(false);
+                templateId, attachment, inlineImage, intermediateReport, notifyUrl, notifyContentType, callbackData,
+                track, trackClicks, trackOpens, trackingPixelPosition, trackingUrl, bulkId, messageId,
+                campaignReferenceId, replyTo, defaultPlaceholders, preserveRecipients, sendAt, landingPagePlaceholders,
+                landingPageId, templateLanguageVersion, clientPriority, applicationId, entityId, headers, ipPoolId,
+                skipPassiveStorage, skipActiveStorage, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -6430,9 +6558,10 @@ namespace Infobip.Api.Client.Api
         /// </param>
         /// <param name="templateId">
         ///     Template ID used for generating email content. The template is created over Infobip web
-        ///     interface. If &#x60;templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.
-        ///     Note: &#x60;templateId&#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow
-        ///     &#x60; are not supported. (optional)
+        ///     interface or via the [Infobip Templates API](https://www.infobip.com/docs/api/channels/email/templates). If &#x60;
+        ///     templateId&#x60; is present, then &#x60;html&#x60; and &#x60;text&#x60; values are ignored.  Note: &#x60;templateId
+        ///     &#x60; only supports the value of &#x60;Broadcast&#x60;. &#x60;Content&#x60; and &#x60;Flow&#x60; are not
+        ///     supported. (optional)
         /// </param>
         /// <param name="attachment">File attachment. (optional)</param>
         /// <param name="inlineImage">
@@ -6452,21 +6581,27 @@ namespace Infobip.Api.Client.Api
         /// <param name="track">
         ///     Enable or disable open and click tracking. Passing true will only enable tracking and the
         ///     statistics would be visible in the web interface alone. This can be explicitly overridden by &#x60;trackClicks
-        ///     &#x60; and &#x60;trackOpens&#x60;. (optional, default to true)
+        ///     &#x60; and &#x60;trackOpens&#x60;. (optional)
         /// </param>
         /// <param name="trackClicks">
         ///     This parameter enables or disables track click feature.  Note: Option to disable click
         ///     tracking per URL is available. For detailed usage, please refer to the
-        ///     [documentation](https://www.infobip.com/docs/email/tracking-service#disable-click-tracking-on-urls). (optional)
+        ///     [documentation](https://www.infobip.com/docs/email/email-tracking-and-analytics/email-tracking-types#disable-click-tracking-on-urls-url-clicks).
+        ///     (optional)
         /// </param>
         /// <param name="trackOpens">This parameter enables or disables track open feature. (optional)</param>
+        /// <param name="trackingPixelPosition">
+        ///     This parameter specifies the position of the open tracking pixel within the email
+        ///     content. Allowed values are &#x60;TOP&#x60; and &#x60;BOTTOM&#x60;. If no value is provided, the default is &#x60;
+        ///     TOP&#x60;. (optional)
+        /// </param>
         /// <param name="trackingUrl">
         ///     The URL on your callback server on which the open and click notifications will be sent. See
-        ///     [Tracking Notifications](https://www.infobip.com/docs/email/send-email-over-api#tracking-notifications) for
-        ///     details. (optional)
+        ///     [Tracking Notifications](https://www.infobip.com/docs/email/email-over-api/tracking-notifications) for details.
+        ///     (optional)
         /// </param>
         /// <param name="bulkId">
-        ///     The ID uniquely identifies the sent email request. This filter will enable you to query delivery
+        ///     The ID that uniquely identifies the sent bulk. This filter will enable you to query delivery
         ///     reports for all the messages using just one request. You will receive a &#x60;bulkId&#x60; in the response after
         ///     sending an email request. If you don&#39;t set your own &#x60;bulkId&#x60;, unique ID will be generated by our
         ///     system and returned in the API response. (Optional Field) (optional)
@@ -6511,7 +6646,7 @@ namespace Infobip.Api.Client.Api
         ///     Adds a priority rating to this email message. Allowed values are &#x60;HIGH&#x60;, &#x60;
         ///     STANDARD&#x60; and &#x60;LOW&#x60;. Messages with a higher priority value sent by your account are prioritized over
         ///     messages with a lower priority value sent by your account. If no priority value is provided, messages will be
-        ///     treated with &#x60;STANDARD&#x60; priority by default. (optional)
+        ///     treated with &#x60;STANDARD&#x60; priority by default.  (optional, default to &quot;STANDARD&quot;)
         /// </param>
         /// <param name="applicationId">
         ///     Required for application use in a send request for outbound traffic. Returned in
@@ -6522,11 +6657,26 @@ namespace Infobip.Api.Client.Api
         ///     (optional)
         /// </param>
         /// <param name="headers">
-        ///     Additional email headers for customization that can be provided in a form of JSON. Example:
-        ///     &#x60;headers&#x3D;{\\\&quot;X-CustomHeader\\\&quot;: \\\&quot;Header value\\\&quot;}&#x60;.  There are a few
-        ///     exceptions of headers which are not adjustable through this option: &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;
-        ///     , &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;, &#x60;DKIM-Signature&#x60;, &#x60;
-        ///     Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version&#x60; (optional)
+        ///     Additional email headers for customization that can be provided in a form of JSON. For example,
+        ///     you can override List-Unsubscribe header and provide your own custom one: &#x60;headers&#x3D;{\\\&quot;
+        ///     List-Unsubscribe\\\&quot;: \\\&quot;your unsubscribe link\\\&quot;, \\\&quot;X-CustomHeader\\\&quot;: \\\&quot;
+        ///     Header value\\\&quot;}&#x60;.  There are a few exceptions of headers which are not adjustable through this option:
+        ///     &#x60;To&#x60;, &#x60;Cc&#x60;, &#x60;Bcc&#x60;, &#x60;From&#x60;, &#x60;Subject&#x60;,&#x60;Content-Type&#x60;,
+        ///     &#x60;DKIM-Signature&#x60;, &#x60;Content-Transfer-Encoding&#x60;, &#x60;Return-Path&#x60;, &#x60;MIME-Version
+        ///     &#x60; (optional)
+        /// </param>
+        /// <param name="ipPoolId">The ID of the IP Pool which will be used for sending. (optional)</param>
+        /// <param name="skipPassiveStorage">
+        ///     Set to true to skip [passive email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/passive-email-storage) (long-term storage
+        ///     used for compliance, legal, or audit purposes). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
+        /// </param>
+        /// <param name="skipActiveStorage">
+        ///     Set to true to skip [active email
+        ///     storage](https://www.infobip.com/docs/email/email-storage-and-retrieval/active-email-storage) (short-term storage
+        ///     used for troubleshooting or support). If &#x60;false&#x60; or not set, the account-level setting is used.
+        ///     (optional)
         /// </param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailSendResponse)</returns>
@@ -6536,12 +6686,14 @@ namespace Infobip.Api.Client.Api
             List<FileParameter> attachment = default, List<FileParameter> inlineImage = default,
             bool? intermediateReport = default, string notifyUrl = default, string notifyContentType = default,
             string callbackData = default, bool? track = default, bool? trackClicks = default,
-            bool? trackOpens = default, string trackingUrl = default, string bulkId = default,
-            string messageId = default, string campaignReferenceId = default, string replyTo = default,
-            string defaultPlaceholders = default, bool? preserveRecipients = default, DateTimeOffset? sendAt = default,
-            string landingPagePlaceholders = default, string landingPageId = default,
+            bool? trackOpens = default, string trackingPixelPosition = default, string trackingUrl = default,
+            string bulkId = default, string messageId = default, string campaignReferenceId = default,
+            string replyTo = default, string defaultPlaceholders = default, bool? preserveRecipients = default,
+            DateTimeOffset? sendAt = default, string landingPagePlaceholders = default, string landingPageId = default,
             string templateLanguageVersion = default, string clientPriority = default, string applicationId = default,
-            string entityId = default, string headers = default, CancellationToken cancellationToken = default)
+            string entityId = default, string headers = default, string ipPoolId = default,
+            bool? skipPassiveStorage = default, bool? skipActiveStorage = default,
+            CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'to' is set
             if (to == null)
@@ -6608,6 +6760,10 @@ namespace Infobip.Api.Client.Api
             if (trackOpens != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "trackOpens", trackOpens)); // form parameter
+            if (trackingPixelPosition != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "trackingPixelPosition",
+                        trackingPixelPosition)); // form parameter
             if (trackingUrl != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "trackingUrl", trackingUrl)); // form parameter
@@ -6658,6 +6814,16 @@ namespace Infobip.Api.Client.Api
             if (headers != null)
                 localVarRequestOptions.FormParameters.Add(
                     ClientUtils.ParameterToMultiMap("multi", "headers", headers)); // form parameter
+            if (ipPoolId != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "ipPoolId", ipPoolId)); // form parameter
+            if (skipPassiveStorage != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "skipPassiveStorage",
+                        skipPassiveStorage)); // form parameter
+            if (skipActiveStorage != null)
+                localVarRequestOptions.FormParameters.Add(
+                    ClientUtils.ParameterToMultiMap("multi", "skipActiveStorage", skipActiveStorage)); // form parameter
 
             // authentication (APIKeyHeader) required
             if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
@@ -6947,147 +7113,10 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Update return path API to update return path for the provided domain. The mailbox used for return path should be
-        ///     based on the same domain.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <returns>EmailDomainResponse</returns>
-        public EmailDomainResponse UpdateReturnPath(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest)
-        {
-            var localVarResponse = UpdateReturnPathWithHttpInfo(domainName, emailReturnPathAddressRequest);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Update return path API to update return path for the provided domain. The mailbox used for return path should be
-        ///     based on the same domain.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <returns>ApiResponse of EmailDomainResponse</returns>
-        public ApiResponse<EmailDomainResponse> UpdateReturnPathWithHttpInfo(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest)
-        {
-            // verify the required parameter 'domainName' is set
-            if (domainName == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->UpdateReturnPath");
-
-            // verify the required parameter 'emailReturnPathAddressRequest' is set
-            if (emailReturnPathAddressRequest == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'emailReturnPathAddressRequest' when calling EmailApi->UpdateReturnPath");
-
-            var localVarRequestOptions = new RequestOptions();
-
-            var contentType = "application/json";
-            if (contentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
-
-            var accept = "application/json";
-            if (accept != null)
-                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
-
-            localVarRequestOptions.PathParameters.Add("domainName",
-                ClientUtils.ParameterToString(domainName)); // path parameter
-            localVarRequestOptions.Data = emailReturnPathAddressRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
-
-            // make the HTTP request
-            var localVarResponse = Client.Put<EmailDomainResponse>("/email/1/domains/{domainName}/return-path",
-                localVarRequestOptions, Configuration);
-
-            var exception = ExceptionFactory?.Invoke("UpdateReturnPath", localVarResponse);
-            if (exception != null)
-                throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///     Update return path API to update return path for the provided domain. The mailbox used for return path should be
-        ///     based on the same domain.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of EmailDomainResponse</returns>
-        public async Task<EmailDomainResponse> UpdateReturnPathAsync(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest, CancellationToken cancellationToken = default)
-        {
-            var localVarResponse =
-                await UpdateReturnPathWithHttpInfoAsync(domainName, emailReturnPathAddressRequest, cancellationToken)
-                    .ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///     Update return path API to update return path for the provided domain. The mailbox used for return path should be
-        ///     based on the same domain.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="domainName">Domain for which the return path address needs to be updated.</param>
-        /// <param name="emailReturnPathAddressRequest"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (EmailDomainResponse)</returns>
-        public async Task<ApiResponse<EmailDomainResponse>> UpdateReturnPathWithHttpInfoAsync(string domainName,
-            EmailReturnPathAddressRequest emailReturnPathAddressRequest, CancellationToken cancellationToken = default)
-        {
-            // verify the required parameter 'domainName' is set
-            if (domainName == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'domainName' when calling EmailApi->UpdateReturnPath");
-
-            // verify the required parameter 'emailReturnPathAddressRequest' is set
-            if (emailReturnPathAddressRequest == null)
-                throw new ApiException(400,
-                    "Missing required parameter 'emailReturnPathAddressRequest' when calling EmailApi->UpdateReturnPath");
-
-
-            var localVarRequestOptions = new RequestOptions();
-
-            var contentType = "application/json";
-            if (contentType != null)
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", contentType);
-
-            var accept = "application/json";
-            if (accept != null)
-                localVarRequestOptions.HeaderParameters.Add("Accept", accept);
-
-            localVarRequestOptions.PathParameters.Add("domainName",
-                ClientUtils.ParameterToString(domainName)); // path parameter
-            localVarRequestOptions.Data = emailReturnPathAddressRequest;
-
-            // authentication (APIKeyHeader) required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-                localVarRequestOptions.HeaderParameters.Add("Authorization", Configuration.ApiKeyWithPrefix);
-
-            // make the HTTP request
-
-            var localVarResponse = await AsynchronousClient
-                .PutAsync<EmailDomainResponse>("/email/1/domains/{domainName}/return-path", localVarRequestOptions,
-                    Configuration, cancellationToken).ConfigureAwait(false);
-
-            var exception = ExceptionFactory?.Invoke("UpdateReturnPath", localVarResponse);
-            if (exception != null)
-                throw exception;
-
-            return localVarResponse;
-        }
-
-        /// <summary>
         ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <returns>EmailBulkUpdateStatusResponse</returns>
         public EmailBulkUpdateStatusResponse UpdateScheduledEmailStatuses(string bulkId,
@@ -7101,7 +7130,7 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <returns>ApiResponse of EmailBulkUpdateStatusResponse</returns>
         public ApiResponse<EmailBulkUpdateStatusResponse> UpdateScheduledEmailStatusesWithHttpInfo(string bulkId,
@@ -7150,7 +7179,7 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of EmailBulkUpdateStatusResponse</returns>
@@ -7167,7 +7196,7 @@ namespace Infobip.Api.Client.Api
         ///     Update scheduled Email messages status Change status or completely cancel sending of scheduled messages.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="bulkId">The ID uniquely identifies the sent email request.</param>
+        /// <param name="bulkId">The ID that uniquely identifies the sent bulk.</param>
         /// <param name="emailBulkUpdateStatusRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (EmailBulkUpdateStatusResponse)</returns>
@@ -7354,7 +7383,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
+        ///     Validate email address This method lets you request validation of a single email address in real-time, helping you
+        ///     to identify and remove poor-quality emails from your list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -7366,7 +7396,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
+        ///     Validate email address This method lets you request validation of a single email address in real-time, helping you
+        ///     to identify and remove poor-quality emails from your list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -7407,7 +7438,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
+        ///     Validate email address This method lets you request validation of a single email address in real-time, helping you
+        ///     to identify and remove poor-quality emails from your list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>
@@ -7423,7 +7455,8 @@ namespace Infobip.Api.Client.Api
         }
 
         /// <summary>
-        ///     Validate email addresses Run validation to identify poor quality emails to clean up your recipient list.
+        ///     Validate email address This method lets you request validation of a single email address in real-time, helping you
+        ///     to identify and remove poor-quality emails from your list.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="emailValidationRequest"></param>

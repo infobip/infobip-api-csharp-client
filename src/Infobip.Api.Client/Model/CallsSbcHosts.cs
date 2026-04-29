@@ -31,10 +31,13 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="primary">primary.</param>
         /// <param name="backup">backup.</param>
-        public CallsSbcHosts(List<string> primary = default, List<string> backup = default)
+        /// <param name="subnets">subnets.</param>
+        public CallsSbcHosts(List<string> primary = default, List<string> backup = default,
+            List<string> subnets = default)
         {
             Primary = primary;
             Backup = backup;
+            Subnets = subnets;
         }
 
         /// <summary>
@@ -52,6 +55,14 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "backup", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("backup")]
         public List<string> Backup { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Subnets
+        /// </summary>
+        [DataMember(Name = "subnets", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "subnets", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("subnets")]
+        public List<string> Subnets { get; set; }
 
         /// <summary>
         ///     Returns true if CallsSbcHosts instances are equal
@@ -75,6 +86,12 @@ namespace Infobip.Api.Client.Model
                     (Backup != null &&
                      input.Backup != null &&
                      Backup.SequenceEqual(input.Backup))
+                ) &&
+                (
+                    Subnets == input.Subnets ||
+                    (Subnets != null &&
+                     input.Subnets != null &&
+                     Subnets.SequenceEqual(input.Subnets))
                 );
         }
 
@@ -88,6 +105,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsSbcHosts {\n");
             sb.Append("  Primary: ").Append(Primary).Append("\n");
             sb.Append("  Backup: ").Append(Backup).Append("\n");
+            sb.Append("  Subnets: ").Append(Subnets).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -124,6 +142,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Primary.GetHashCode();
                 if (Backup != null)
                     hashCode = hashCode * 59 + Backup.GetHashCode();
+                if (Subnets != null)
+                    hashCode = hashCode * 59 + Subnets.GetHashCode();
                 return hashCode;
             }
         }

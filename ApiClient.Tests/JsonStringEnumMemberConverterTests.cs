@@ -9,22 +9,20 @@ public class JsonStringEnumMemberConverterTests
 {
     public enum TestEnum
     {
-        [EnumMember(Value = "VALUE_A")]
-        A = 1,
-        [EnumMember(Value = "VALUE_B")]
-        B = 2,
+        [EnumMember(Value = "VALUE_A")] A = 1,
+        [EnumMember(Value = "VALUE_B")] B = 2,
         C = 3
     }
-    
+
     private JsonSerializerOptions _options = null!;
-    
+
     [TestInitialize]
     public void Setup()
     {
         _options = new JsonSerializerOptions();
         _options.Converters.Add(new JsonStringEnumMemberConverter<TestEnum>());
     }
-    
+
     [TestMethod]
     [DataRow("\"VALUE_A\"", TestEnum.A)]
     [DataRow("\"VALUE_B\"", TestEnum.B)]
@@ -64,9 +62,6 @@ public class JsonStringEnumMemberConverterTests
     [TestMethod]
     public void DeserializesThrowsOnNonString()
     {
-        Assert.ThrowsExactly<JsonException>(() =>
-        {
-            JsonSerializer.Deserialize<TestEnum>("123", _options);
-        });
+        Assert.ThrowsExactly<JsonException>(() => { JsonSerializer.Deserialize<TestEnum>("123", _options); });
     }
 }

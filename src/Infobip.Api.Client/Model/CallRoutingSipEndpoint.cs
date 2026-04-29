@@ -38,22 +38,36 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallRoutingSipEndpoint" /> class.
         /// </summary>
+        /// <param name="from">Caller ID that will be used. Defaults to &#x60;from&#x60; value used in inbound call..</param>
         /// <param name="username">Username sent to a selected SIP trunk. When not defined, Infobip DID number is used instead..</param>
         /// <param name="sipTrunkId">Unique identifier of a SIP trunk. (required).</param>
         /// <param name="customHeaders">
-        ///     Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be
-        ///     propagated..
+        ///     Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be propagated.
+        ///     Supports using variables &#x60;${from}&#x60; and &#x60;${to}&#x60;..
         /// </param>
+        /// <param name="ringbackGeneration">ringbackGeneration.</param>
         /// <param name="type">type (required) (default to CallRoutingEndpointType.Sip).</param>
-        public CallRoutingSipEndpoint(string username = default, string sipTrunkId = default,
+        public CallRoutingSipEndpoint(string from = default, string username = default, string sipTrunkId = default,
             Dictionary<string, string> customHeaders = default,
+            CallRoutingRingbackGeneration ringbackGeneration = default,
             CallRoutingEndpointType type = CallRoutingEndpointType.Sip) : base(type)
         {
             // to ensure "sipTrunkId" is required (not null)
             SipTrunkId = sipTrunkId ?? throw new ArgumentNullException("sipTrunkId");
+            From = from;
             Username = username;
             CustomHeaders = customHeaders;
+            RingbackGeneration = ringbackGeneration;
         }
+
+        /// <summary>
+        ///     Caller ID that will be used. Defaults to &#x60;from&#x60; value used in inbound call.
+        /// </summary>
+        /// <value>Caller ID that will be used. Defaults to &#x60;from&#x60; value used in inbound call.</value>
+        [DataMember(Name = "from", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("from")]
+        public string From { get; set; }
 
         /// <summary>
         ///     Username sent to a selected SIP trunk. When not defined, Infobip DID number is used instead.
@@ -75,13 +89,25 @@ namespace Infobip.Api.Client.Model
         public string SipTrunkId { get; set; }
 
         /// <summary>
-        ///     Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be propagated.
+        ///     Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be propagated. Supports using
+        ///     variables &#x60;${from}&#x60; and &#x60;${to}&#x60;.
         /// </summary>
-        /// <value>Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be propagated.</value>
+        /// <value>
+        ///     Custom headers. Only headers starting with &#x60;X-Client-&#x60; prefix will be propagated. Supports using
+        ///     variables &#x60;${from}&#x60; and &#x60;${to}&#x60;.
+        /// </value>
         [DataMember(Name = "customHeaders", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "customHeaders", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("customHeaders")]
         public Dictionary<string, string> CustomHeaders { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets RingbackGeneration
+        /// </summary>
+        [DataMember(Name = "ringbackGeneration", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "ringbackGeneration", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("ringbackGeneration")]
+        public CallRoutingRingbackGeneration RingbackGeneration { get; set; }
 
         /// <summary>
         ///     Returns true if CallRoutingSipEndpoint instances are equal
@@ -94,6 +120,11 @@ namespace Infobip.Api.Client.Model
                 return false;
 
             return base.Equals(input) &&
+                   (
+                       From == input.From ||
+                       (From != null &&
+                        From.Equals(input.From))
+                   ) && base.Equals(input) &&
                    (
                        Username == input.Username ||
                        (Username != null &&
@@ -109,6 +140,11 @@ namespace Infobip.Api.Client.Model
                        (CustomHeaders != null &&
                         input.CustomHeaders != null &&
                         CustomHeaders.SequenceEqual(input.CustomHeaders))
+                   ) && base.Equals(input) &&
+                   (
+                       RingbackGeneration == input.RingbackGeneration ||
+                       (RingbackGeneration != null &&
+                        RingbackGeneration.Equals(input.RingbackGeneration))
                    );
         }
 
@@ -121,9 +157,11 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class CallRoutingSipEndpoint {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  From: ").Append(From).Append("\n");
             sb.Append("  Username: ").Append(Username).Append("\n");
             sb.Append("  SipTrunkId: ").Append(SipTrunkId).Append("\n");
             sb.Append("  CustomHeaders: ").Append(CustomHeaders).Append("\n");
+            sb.Append("  RingbackGeneration: ").Append(RingbackGeneration).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -156,12 +194,16 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = base.GetHashCode();
+                if (From != null)
+                    hashCode = hashCode * 59 + From.GetHashCode();
                 if (Username != null)
                     hashCode = hashCode * 59 + Username.GetHashCode();
                 if (SipTrunkId != null)
                     hashCode = hashCode * 59 + SipTrunkId.GetHashCode();
                 if (CustomHeaders != null)
                     hashCode = hashCode * 59 + CustomHeaders.GetHashCode();
+                if (RingbackGeneration != null)
+                    hashCode = hashCode * 59 + RingbackGeneration.GetHashCode();
                 return hashCode;
             }
         }

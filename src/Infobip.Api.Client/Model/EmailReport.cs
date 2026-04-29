@@ -38,13 +38,19 @@ namespace Infobip.Api.Client.Model
         /// </param>
         /// <param name="doneAt">Tells when the email request was processed by Infobip..</param>
         /// <param name="messageCount">Email request count..</param>
+        /// <param name="attemptCount">Number of times delivery was attempted for the email..</param>
+        /// <param name="timeToFirstAttempt">
+        ///     This is the time in milliseconds between accepting the request and making the first
+        ///     delivery attempt to the destination..
+        /// </param>
         /// <param name="price">price.</param>
         /// <param name="status">status.</param>
         /// <param name="error">error.</param>
         public EmailReport(string applicationId = default, string entityId = default, string bulkId = default,
             string messageId = default, string to = default, DateTimeOffset sentAt = default,
-            DateTimeOffset doneAt = default, int messageCount = default, MessagePrice price = default,
-            MessageStatus status = default, MessageError error = default)
+            DateTimeOffset doneAt = default, int messageCount = default, int attemptCount = default,
+            long timeToFirstAttempt = default, MessagePrice price = default, MessageStatus status = default,
+            MessageError error = default)
         {
             ApplicationId = applicationId;
             EntityId = entityId;
@@ -54,6 +60,8 @@ namespace Infobip.Api.Client.Model
             SentAt = sentAt;
             DoneAt = doneAt;
             MessageCount = messageCount;
+            AttemptCount = attemptCount;
+            TimeToFirstAttempt = timeToFirstAttempt;
             Price = price;
             Status = status;
             Error = error;
@@ -134,6 +142,28 @@ namespace Infobip.Api.Client.Model
         public int MessageCount { get; set; }
 
         /// <summary>
+        ///     Number of times delivery was attempted for the email.
+        /// </summary>
+        /// <value>Number of times delivery was attempted for the email.</value>
+        [DataMember(Name = "attemptCount", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "attemptCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("attemptCount")]
+        public int AttemptCount { get; set; }
+
+        /// <summary>
+        ///     This is the time in milliseconds between accepting the request and making the first delivery attempt to the
+        ///     destination.
+        /// </summary>
+        /// <value>
+        ///     This is the time in milliseconds between accepting the request and making the first delivery attempt to the
+        ///     destination.
+        /// </value>
+        [DataMember(Name = "timeToFirstAttempt", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "timeToFirstAttempt", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("timeToFirstAttempt")]
+        public long TimeToFirstAttempt { get; set; }
+
+        /// <summary>
         ///     Gets or Sets Price
         /// </summary>
         [DataMember(Name = "price", EmitDefaultValue = false)]
@@ -208,6 +238,14 @@ namespace Infobip.Api.Client.Model
                     MessageCount.Equals(input.MessageCount)
                 ) &&
                 (
+                    AttemptCount == input.AttemptCount ||
+                    AttemptCount.Equals(input.AttemptCount)
+                ) &&
+                (
+                    TimeToFirstAttempt == input.TimeToFirstAttempt ||
+                    TimeToFirstAttempt.Equals(input.TimeToFirstAttempt)
+                ) &&
+                (
                     Price == input.Price ||
                     (Price != null &&
                      Price.Equals(input.Price))
@@ -240,6 +278,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("  SentAt: ").Append(SentAt).Append("\n");
             sb.Append("  DoneAt: ").Append(DoneAt).Append("\n");
             sb.Append("  MessageCount: ").Append(MessageCount).Append("\n");
+            sb.Append("  AttemptCount: ").Append(AttemptCount).Append("\n");
+            sb.Append("  TimeToFirstAttempt: ").Append(TimeToFirstAttempt).Append("\n");
             sb.Append("  Price: ").Append(Price).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Error: ").Append(Error).Append("\n");
@@ -290,6 +330,8 @@ namespace Infobip.Api.Client.Model
                 if (DoneAt != null)
                     hashCode = hashCode * 59 + DoneAt.GetHashCode();
                 hashCode = hashCode * 59 + MessageCount.GetHashCode();
+                hashCode = hashCode * 59 + AttemptCount.GetHashCode();
+                hashCode = hashCode * 59 + TimeToFirstAttempt.GetHashCode();
                 if (Price != null)
                     hashCode = hashCode * 59 + Price.GetHashCode();
                 if (Status != null)

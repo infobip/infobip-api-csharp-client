@@ -44,13 +44,19 @@ namespace Infobip.Api.Client.Model
         ///     The sender of the 2FA message, an email address with an optional sender name (e.g. &#x60;
         ///     company@example.com&#x60; or &#x60;Jane Smith &lt;jane.smith@somecompany.com&gt;&#x60;)..
         /// </param>
+        /// <param name="landingPageId">
+        ///     The ID of an opt out landing page to be used and displayed once an end user clicks the
+        ///     unsubscribe link. If not present, default opt out landing page will be displayed. Create a landing page in your
+        ///     Infobip account and use its ID, e.g., &#x60;1_23456&#x60;..
+        /// </param>
         /// <param name="pinLength">PIN code length. (default to 4).</param>
         /// <param name="pinType">pinType.</param>
-        public TfaCreateEmailMessageRequest(long emailTemplateId = default, string from = default, int pinLength = 4,
-            TfaPinType? pinType = default)
+        public TfaCreateEmailMessageRequest(long emailTemplateId = default, string from = default,
+            string landingPageId = default, int pinLength = 4, TfaPinType? pinType = default)
         {
             EmailTemplateId = emailTemplateId;
             From = from;
+            LandingPageId = landingPageId;
             PinLength = pinLength;
             PinType = pinType;
         }
@@ -91,6 +97,21 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
+        ///     The ID of an opt out landing page to be used and displayed once an end user clicks the unsubscribe link. If not
+        ///     present, default opt out landing page will be displayed. Create a landing page in your Infobip account and use its
+        ///     ID, e.g., &#x60;1_23456&#x60;.
+        /// </summary>
+        /// <value>
+        ///     The ID of an opt out landing page to be used and displayed once an end user clicks the unsubscribe link. If not
+        ///     present, default opt out landing page will be displayed. Create a landing page in your Infobip account and use its
+        ///     ID, e.g., &#x60;1_23456&#x60;.
+        /// </value>
+        [DataMember(Name = "landingPageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "landingPageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("landingPageId")]
+        public string LandingPageId { get; set; }
+
+        /// <summary>
         ///     PIN code length.
         /// </summary>
         /// <value>PIN code length.</value>
@@ -120,6 +141,11 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    LandingPageId == input.LandingPageId ||
+                    (LandingPageId != null &&
+                     LandingPageId.Equals(input.LandingPageId))
+                ) &&
+                (
                     PinLength == input.PinLength ||
                     PinLength.Equals(input.PinLength)
                 ) &&
@@ -139,6 +165,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class TfaCreateEmailMessageRequest {\n");
             sb.Append("  EmailTemplateId: ").Append(EmailTemplateId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  LandingPageId: ").Append(LandingPageId).Append("\n");
             sb.Append("  PinLength: ").Append(PinLength).Append("\n");
             sb.Append("  PinType: ").Append(PinType).Append("\n");
             sb.Append("}\n");
@@ -176,6 +203,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + EmailTemplateId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
+                if (LandingPageId != null)
+                    hashCode = hashCode * 59 + LandingPageId.GetHashCode();
                 hashCode = hashCode * 59 + PinLength.GetHashCode();
                 hashCode = hashCode * 59 + PinType.GetHashCode();
                 return hashCode;

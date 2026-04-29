@@ -28,6 +28,7 @@ namespace Infobip.Api.Client.Model
     [JsonSubtypes.KnownSubType(typeof(CallsFilePlayContent), "FILE")]
     [JsonSubtypes.KnownSubType(typeof(CallsRecordingPlayContent), "RECORDING")]
     [JsonSubtypes.KnownSubType(typeof(CallsTextPlayContent), "TEXT")]
+    [JsonSubtypes.KnownSubType(typeof(CallsTtyPlayContent), "TTY")]
     [JsonSubtypes.KnownSubType(typeof(CallsUrlPlayContent), "URL")]
     public class CallsPlayContent : IEquatable<CallsPlayContent>
     {
@@ -62,6 +63,7 @@ namespace Infobip.Api.Client.Model
                 Type == input.Type ||
                 Type.Equals(input.Type);
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

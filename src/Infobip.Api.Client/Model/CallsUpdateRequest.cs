@@ -32,10 +32,18 @@ namespace Infobip.Api.Client.Model
         ///     Indicates whether to deaf or undeaf the end user. This action prevents the user from hearing the
         ///     call..
         /// </param>
-        public CallsUpdateRequest(bool muted = default, bool deaf = default)
+        /// <param name="blind">
+        ///     Indicates whether to blind or unblind the end user. This action prevents the user from seeing any
+        ///     remote video in the call. Only applicable for WebRTC endpoints..
+        /// </param>
+        /// <param name="role">role.</param>
+        public CallsUpdateRequest(bool muted = default, bool deaf = default, bool blind = default,
+            CallsRole role = default)
         {
             Muted = muted;
             Deaf = deaf;
+            Blind = blind;
+            Role = role;
         }
 
         /// <summary>
@@ -57,6 +65,27 @@ namespace Infobip.Api.Client.Model
         public bool Deaf { get; set; }
 
         /// <summary>
+        ///     Indicates whether to blind or unblind the end user. This action prevents the user from seeing any remote video in
+        ///     the call. Only applicable for WebRTC endpoints.
+        /// </summary>
+        /// <value>
+        ///     Indicates whether to blind or unblind the end user. This action prevents the user from seeing any remote video
+        ///     in the call. Only applicable for WebRTC endpoints.
+        /// </value>
+        [DataMember(Name = "blind", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("blind")]
+        public bool Blind { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Role
+        /// </summary>
+        [DataMember(Name = "role", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "role", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("role")]
+        public CallsRole Role { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsUpdateRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsUpdateRequest to be compared</param>
@@ -74,6 +103,15 @@ namespace Infobip.Api.Client.Model
                 (
                     Deaf == input.Deaf ||
                     Deaf.Equals(input.Deaf)
+                ) &&
+                (
+                    Blind == input.Blind ||
+                    Blind.Equals(input.Blind)
+                ) &&
+                (
+                    Role == input.Role ||
+                    (Role != null &&
+                     Role.Equals(input.Role))
                 );
         }
 
@@ -87,6 +125,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsUpdateRequest {\n");
             sb.Append("  Muted: ").Append(Muted).Append("\n");
             sb.Append("  Deaf: ").Append(Deaf).Append("\n");
+            sb.Append("  Blind: ").Append(Blind).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -121,6 +161,9 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 hashCode = hashCode * 59 + Muted.GetHashCode();
                 hashCode = hashCode * 59 + Deaf.GetHashCode();
+                hashCode = hashCode * 59 + Blind.GetHashCode();
+                if (Role != null)
+                    hashCode = hashCode * 59 + Role.GetHashCode();
                 return hashCode;
             }
         }

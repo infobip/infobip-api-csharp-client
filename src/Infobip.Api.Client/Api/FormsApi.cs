@@ -58,7 +58,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="formType">The type of returned forms. (optional)</param>
         /// <param name="formStatus">The status of returned forms. (optional)</param>
         /// <returns>FormsResponse</returns>
-        FormsResponse GetForms(int? offset = default, int? limit = default, FormsType? formType = default,
+        FormsResponse GetForms(int? offset = default, int? limit = default, string formType = default,
             FormsStatus? formStatus = default);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="formStatus">The status of returned forms. (optional)</param>
         /// <returns>ApiResponse of FormsResponse</returns>
         ApiResponse<FormsResponse> GetFormsWithHttpInfo(int? offset = default, int? limit = default,
-            FormsType? formType = default, FormsStatus? formStatus = default);
+            string formType = default, FormsStatus? formStatus = default);
 
         /// <summary>
         ///     Increment form view count
@@ -186,7 +186,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="formStatus">The status of returned forms. (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FormsResponse</returns>
-        Task<FormsResponse> GetFormsAsync(int? offset = default, int? limit = default, FormsType? formType = default,
+        Task<FormsResponse> GetFormsAsync(int? offset = default, int? limit = default, string formType = default,
             FormsStatus? formStatus = default, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FormsResponse)</returns>
         Task<ApiResponse<FormsResponse>> GetFormsWithHttpInfoAsync(int? offset = default, int? limit = default,
-            FormsType? formType = default, FormsStatus? formStatus = default,
+            string formType = default, FormsStatus? formStatus = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -639,7 +639,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="formType">The type of returned forms. (optional)</param>
         /// <param name="formStatus">The status of returned forms. (optional)</param>
         /// <returns>FormsResponse</returns>
-        public FormsResponse GetForms(int? offset = default, int? limit = default, FormsType? formType = default,
+        public FormsResponse GetForms(int? offset = default, int? limit = default, string formType = default,
             FormsStatus? formStatus = default)
         {
             var localVarResponse = GetFormsWithHttpInfo(offset, limit, formType, formStatus);
@@ -656,7 +656,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="formStatus">The status of returned forms. (optional)</param>
         /// <returns>ApiResponse of FormsResponse</returns>
         public ApiResponse<FormsResponse> GetFormsWithHttpInfo(int? offset = default, int? limit = default,
-            FormsType? formType = default, FormsStatus? formStatus = default)
+            string formType = default, FormsStatus? formStatus = default)
         {
             var localVarRequestOptions = new RequestOptions();
 
@@ -703,8 +703,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FormsResponse</returns>
         public async Task<FormsResponse> GetFormsAsync(int? offset = default, int? limit = default,
-            FormsType? formType = default, FormsStatus? formStatus = default,
-            CancellationToken cancellationToken = default)
+            string formType = default, FormsStatus? formStatus = default, CancellationToken cancellationToken = default)
         {
             var localVarResponse =
                 await GetFormsWithHttpInfoAsync(offset, limit, formType, formStatus, cancellationToken)
@@ -723,7 +722,7 @@ namespace Infobip.Api.Client.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FormsResponse)</returns>
         public async Task<ApiResponse<FormsResponse>> GetFormsWithHttpInfoAsync(int? offset = default,
-            int? limit = default, FormsType? formType = default, FormsStatus? formStatus = default,
+            int? limit = default, string formType = default, FormsStatus? formStatus = default,
             CancellationToken cancellationToken = default)
         {
             var localVarRequestOptions = new RequestOptions();

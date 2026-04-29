@@ -27,6 +27,7 @@ namespace Infobip.Api.Client.Model
     [DataContract(Name = "CallRoutingDestination")]
     [JsonObject]
     [JsonConverter(typeof(JsonSubtypes), "Type")]
+    [JsonSubtypes.KnownSubType(typeof(CallRoutingApplicationDestination), "APPLICATION")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingEndpointDestination), "ENDPOINT")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingUrlDestination), "URL")]
     public class CallRoutingDestination : IEquatable<CallRoutingDestination>

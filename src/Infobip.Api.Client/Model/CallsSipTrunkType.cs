@@ -36,6 +36,11 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Provider for value: PROVIDER
         /// </summary>
-        [EnumMember(Value = "PROVIDER")] Provider = 3
+        [EnumMember(Value = "PROVIDER")] Provider = 3,
+
+        /// <summary>
+        ///     Enum Authenticated for value: AUTHENTICATED
+        /// </summary>
+        [EnumMember(Value = "AUTHENTICATED")] Authenticated = 4
     }
 }

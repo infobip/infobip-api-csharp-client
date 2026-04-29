@@ -30,8 +30,9 @@ namespace Infobip.Api.Client.Model
     [JsonSubtypes.KnownSubType(typeof(CallRoutingSipEndpoint), "SIP")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingViberEndpoint), "VIBER")]
     [JsonSubtypes.KnownSubType(typeof(CallRoutingWebRtcEndpoint), "WEBRTC")]
-    [System.Text.Json.Serialization.JsonConverter(typeof(CallRoutingEndpointConverter))]
-    public class CallRoutingEndpoint : IEquatable<CallRoutingEndpoint>
+    [JsonSubtypes.KnownSubType(typeof(CallRoutingWebSocketEndpoint), "WEBSOCKET")]
+    [JsonSubtypes.KnownSubType(typeof(CallRoutingWhatsAppEndpoint), "WHATSAPP")]
+    public partial class CallRoutingEndpoint : IEquatable<CallRoutingEndpoint>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="CallRoutingEndpoint" /> class.
@@ -73,6 +74,7 @@ namespace Infobip.Api.Client.Model
                 Type == input.Type ||
                 Type.Equals(input.Type);
         }
+
 
         /// <summary>
         ///     Returns the string presentation of the object

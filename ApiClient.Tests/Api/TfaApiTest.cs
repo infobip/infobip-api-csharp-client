@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 
@@ -814,7 +814,8 @@ public class TfaApiTest : ApiTest
                 ""to"": ""{expectedTo}"",
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
-                }}
+                }},
+                ""trackDelivery"": false
             }}";
 
         var expectedResponse = $@"
@@ -872,7 +873,8 @@ public class TfaApiTest : ApiTest
             {{
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
-                }}
+                }},
+                ""trackDelivery"": false
             }}";
 
         var expectedResponse = $@"
@@ -933,7 +935,8 @@ public class TfaApiTest : ApiTest
                 ""to"": ""{expectedTo}"",
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
-                }}
+                }},
+                ""trackDelivery"": false
             }}";
 
         var expectedResponse = $@"
@@ -989,7 +992,8 @@ public class TfaApiTest : ApiTest
             {{
                 ""placeholders"": {{
                     ""firstName"": ""{givenFirstName}""
-                }}
+                }},
+                ""trackDelivery"": false
             }}";
 
         var expectedResponse = $@"
@@ -1018,7 +1022,7 @@ public class TfaApiTest : ApiTest
 
         AssertResponse(tfaApi.ResendTfaPinCodeOverVoice(expectedPinId, tfaResendPinRequest),
             AssertTfaStartAuthenticationResponse);
-        
+
         AssertResponse(tfaApi.ResendTfaPinCodeOverVoiceAsync(expectedPinId, tfaResendPinRequest).Result,
             AssertTfaStartAuthenticationResponse);
 
@@ -1129,7 +1133,7 @@ public class TfaApiTest : ApiTest
 
         var tfaApi = new TfaApi(Configuration);
 
-        var tfaResendPinRequest = new TfaResendPinRequest
+        var tfaResendPinRequestViaEmail = new TfaResendPinRequestViaEmail
         {
             Placeholders = new Dictionary<string, string> { { "firstName", givenFirstName } }
         };
@@ -1145,16 +1149,17 @@ public class TfaApiTest : ApiTest
                 tfaStartEmailAuthenticationResponse.EmailStatus.Description);
         }
 
-        AssertResponse(tfaApi.Resend2faPinCodeOverEmail(expectedPinId, tfaResendPinRequest),
-            AssertTfaStartAuthenticationResponse);
-        
-        AssertResponse(tfaApi.Resend2faPinCodeOverEmailAsync(expectedPinId, tfaResendPinRequest).Result,
+        AssertResponse(tfaApi.Resend2faPinCodeOverEmail(expectedPinId, tfaResendPinRequestViaEmail),
             AssertTfaStartAuthenticationResponse);
 
-        AssertResponseWithHttpInfo(tfaApi.Resend2faPinCodeOverEmailWithHttpInfo(expectedPinId, tfaResendPinRequest),
+        AssertResponse(tfaApi.Resend2faPinCodeOverEmailAsync(expectedPinId, tfaResendPinRequestViaEmail).Result,
+            AssertTfaStartAuthenticationResponse);
+
+        AssertResponseWithHttpInfo(
+            tfaApi.Resend2faPinCodeOverEmailWithHttpInfo(expectedPinId, tfaResendPinRequestViaEmail),
             AssertTfaStartAuthenticationResponse, 200);
         AssertResponseWithHttpInfo(
-            tfaApi.Resend2faPinCodeOverEmailWithHttpInfoAsync(expectedPinId, tfaResendPinRequest).Result,
+            tfaApi.Resend2faPinCodeOverEmailWithHttpInfoAsync(expectedPinId, tfaResendPinRequestViaEmail).Result,
             AssertTfaStartAuthenticationResponse, 200);
     }
 
@@ -1197,7 +1202,7 @@ public class TfaApiTest : ApiTest
         }
 
         AssertResponse(tfaApi.VerifyTfaPhoneNumber(expectedPinId, tfaVerifyPinRequest), AssertTfaVerifyPinResponse);
-        
+
         AssertResponse(tfaApi.VerifyTfaPhoneNumberAsync(expectedPinId, tfaVerifyPinRequest).Result,
             AssertTfaVerifyPinResponse);
 
@@ -1264,7 +1269,7 @@ public class TfaApiTest : ApiTest
 
         AssertResponse(tfaApi.GetTfaVerificationStatus(expectedMsisdn, givenApplicationId),
             AssertTfaVerificationResponse);
-        
+
         AssertResponse(tfaApi.GetTfaVerificationStatusAsync(expectedMsisdn, givenApplicationId).Result,
             AssertTfaVerificationResponse);
 

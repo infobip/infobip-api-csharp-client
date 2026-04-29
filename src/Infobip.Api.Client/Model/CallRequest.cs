@@ -59,11 +59,12 @@ namespace Infobip.Api.Client.Model
         ///     ID of an existing call that initiated this leg. Required for [creating a dialog with an
         ///     existing call.](#create-dialog-with-existing-calls).
         /// </param>
+        /// <param name="externalId">Custom ID assigned by the client..</param>
         public CallRequest(CallEndpoint endpoint = default, string from = default, string fromDisplayName = default,
             int connectTimeout = default, CallRecordingRequest recording = default,
             CallsMachineDetectionRequest machineDetection = default, int maxDuration = 28800,
             Dictionary<string, string> customData = default, string callsConfigurationId = default,
-            Platform platform = default, string parentCallId = default)
+            Platform platform = default, string parentCallId = default, string externalId = default)
         {
             // to ensure "endpoint" is required (not null)
             Endpoint = endpoint ?? throw new ArgumentNullException("endpoint");
@@ -78,6 +79,7 @@ namespace Infobip.Api.Client.Model
             CustomData = customData;
             Platform = platform;
             ParentCallId = parentCallId;
+            ExternalId = externalId;
         }
 
         /// <summary>
@@ -188,6 +190,15 @@ namespace Infobip.Api.Client.Model
         public string ParentCallId { get; set; }
 
         /// <summary>
+        ///     Custom ID assigned by the client.
+        /// </summary>
+        /// <value>Custom ID assigned by the client.</value>
+        [DataMember(Name = "externalId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "externalId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("externalId")]
+        public string ExternalId { get; set; }
+
+        /// <summary>
         ///     Returns true if CallRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallRequest to be compared</param>
@@ -251,6 +262,11 @@ namespace Infobip.Api.Client.Model
                     ParentCallId == input.ParentCallId ||
                     (ParentCallId != null &&
                      ParentCallId.Equals(input.ParentCallId))
+                ) &&
+                (
+                    ExternalId == input.ExternalId ||
+                    (ExternalId != null &&
+                     ExternalId.Equals(input.ExternalId))
                 );
         }
 
@@ -273,6 +289,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  CallsConfigurationId: ").Append(CallsConfigurationId).Append("\n");
             sb.Append("  Platform: ").Append(Platform).Append("\n");
             sb.Append("  ParentCallId: ").Append(ParentCallId).Append("\n");
+            sb.Append("  ExternalId: ").Append(ExternalId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -325,6 +342,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Platform.GetHashCode();
                 if (ParentCallId != null)
                     hashCode = hashCode * 59 + ParentCallId.GetHashCode();
+                if (ExternalId != null)
+                    hashCode = hashCode * 59 + ExternalId.GetHashCode();
                 return hashCode;
             }
         }

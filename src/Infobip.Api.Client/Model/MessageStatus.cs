@@ -18,7 +18,8 @@ using Newtonsoft.Json;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Indicates the message status.
+    ///     Indicates whether the email is successfully sent, not sent, delivered, not delivered, waiting for delivery or any
+    ///     other possible status.
     /// </summary>
     [DataContract(Name = "MessageStatus")]
     [JsonObject]
@@ -27,34 +28,27 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessageStatus" /> class.
         /// </summary>
-        /// <param name="groupId">Status group ID..</param>
-        /// <param name="groupName">Status group name..</param>
+        /// <param name="groupName">Group name for the status..</param>
         /// <param name="id">Status ID..</param>
+        /// <param name="groupId">Status group ID..</param>
         /// <param name="name">Status name..</param>
-        /// <param name="description">Status description..</param>
-        public MessageStatus(int groupId = default, string groupName = default, int id = default, string name = default,
-            string description = default)
+        /// <param name="action">Action that should be taken to fix the error..</param>
+        /// <param name="description">Human-readable description of the status..</param>
+        public MessageStatus(string groupName = default, int id = default, int groupId = default, string name = default,
+            string action = default, string description = default)
         {
-            GroupId = groupId;
             GroupName = groupName;
             Id = id;
+            GroupId = groupId;
             Name = name;
+            Action = action;
             Description = description;
         }
 
         /// <summary>
-        ///     Status group ID.
+        ///     Group name for the status.
         /// </summary>
-        /// <value>Status group ID.</value>
-        [DataMember(Name = "groupId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "groupId", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("groupId")]
-        public int GroupId { get; set; }
-
-        /// <summary>
-        ///     Status group name.
-        /// </summary>
-        /// <value>Status group name.</value>
+        /// <value>Group name for the status.</value>
         [DataMember(Name = "groupName", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "groupName", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("groupName")]
@@ -70,6 +64,15 @@ namespace Infobip.Api.Client.Model
         public int Id { get; set; }
 
         /// <summary>
+        ///     Status group ID.
+        /// </summary>
+        /// <value>Status group ID.</value>
+        [DataMember(Name = "groupId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "groupId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("groupId")]
+        public int GroupId { get; set; }
+
+        /// <summary>
         ///     Status name.
         /// </summary>
         /// <value>Status name.</value>
@@ -79,9 +82,18 @@ namespace Infobip.Api.Client.Model
         public string Name { get; set; }
 
         /// <summary>
-        ///     Status description.
+        ///     Action that should be taken to fix the error.
         /// </summary>
-        /// <value>Status description.</value>
+        /// <value>Action that should be taken to fix the error.</value>
+        [DataMember(Name = "action", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "action", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("action")]
+        public string Action { get; set; }
+
+        /// <summary>
+        ///     Human-readable description of the status.
+        /// </summary>
+        /// <value>Human-readable description of the status.</value>
         [DataMember(Name = "description", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "description", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("description")]
@@ -99,10 +111,6 @@ namespace Infobip.Api.Client.Model
 
             return
                 (
-                    GroupId == input.GroupId ||
-                    GroupId.Equals(input.GroupId)
-                ) &&
-                (
                     GroupName == input.GroupName ||
                     (GroupName != null &&
                      GroupName.Equals(input.GroupName))
@@ -112,9 +120,18 @@ namespace Infobip.Api.Client.Model
                     Id.Equals(input.Id)
                 ) &&
                 (
+                    GroupId == input.GroupId ||
+                    GroupId.Equals(input.GroupId)
+                ) &&
+                (
                     Name == input.Name ||
                     (Name != null &&
                      Name.Equals(input.Name))
+                ) &&
+                (
+                    Action == input.Action ||
+                    (Action != null &&
+                     Action.Equals(input.Action))
                 ) &&
                 (
                     Description == input.Description ||
@@ -131,10 +148,11 @@ namespace Infobip.Api.Client.Model
         {
             var sb = new StringBuilder();
             sb.Append("class MessageStatus {\n");
-            sb.Append("  GroupId: ").Append(GroupId).Append("\n");
             sb.Append("  GroupName: ").Append(GroupName).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  GroupId: ").Append(GroupId).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Action: ").Append(Action).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -168,12 +186,14 @@ namespace Infobip.Api.Client.Model
             unchecked // Overflow is fine, just wrap
             {
                 var hashCode = 41;
-                hashCode = hashCode * 59 + GroupId.GetHashCode();
                 if (GroupName != null)
                     hashCode = hashCode * 59 + GroupName.GetHashCode();
                 hashCode = hashCode * 59 + Id.GetHashCode();
+                hashCode = hashCode * 59 + GroupId.GetHashCode();
                 if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();
+                if (Action != null)
+                    hashCode = hashCode * 59 + Action.GetHashCode();
                 if (Description != null)
                     hashCode = hashCode * 59 + Description.GetHashCode();
                 return hashCode;

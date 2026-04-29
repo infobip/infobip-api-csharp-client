@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -29,12 +30,21 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailSendResponse" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected EmailSendResponse()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmailSendResponse" /> class.
+        /// </summary>
         /// <param name="bulkId">The ID that uniquely identifies a list of message responses..</param>
-        /// <param name="messages">List of message response details..</param>
+        /// <param name="messages">List of message response details. (required).</param>
         public EmailSendResponse(string bulkId = default, List<EmailResponseDetails> messages = default)
         {
+            // to ensure "messages" is required (not null)
+            Messages = messages ?? throw new ArgumentNullException("messages");
             BulkId = bulkId;
-            Messages = messages;
         }
 
         /// <summary>
@@ -50,8 +60,9 @@ namespace Infobip.Api.Client.Model
         ///     List of message response details.
         /// </summary>
         /// <value>List of message response details.</value>
-        [DataMember(Name = "messages", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "messages", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "messages", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "messages", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("messages")]
         public List<EmailResponseDetails> Messages { get; set; }
 

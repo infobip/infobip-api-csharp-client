@@ -55,6 +55,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="recordingFileId">ID of a recording file of a call..</param>
         /// <param name="recordCalleeAnnouncement">Flag that indicates if callee announcement is included in recording file..</param>
         /// <param name="recordingStatus">recordingStatus.</param>
+        /// <param name="machineDetectionResult">machineDetectionResult.</param>
         /// <param name="clientReferenceId">
         ///     Client-defined ID of a valid file name. Used to correlate a call with this reference.
         ///     If recording is enabled and files are stored in the SFTP server, that ID will be used as a file name instead..
@@ -65,7 +66,8 @@ namespace Infobip.Api.Client.Model
             string ringingTime = default, string answeredTime = default, string correlationId = default,
             int inboundDuration = default, int calculatedDuration = default, double pricePerSecond = default,
             string currency = default, string recordingFileId = default, bool recordCalleeAnnouncement = default,
-            NumberMaskingRecordingStatus? recordingStatus = default, string clientReferenceId = default)
+            NumberMaskingRecordingStatus? recordingStatus = default,
+            CallsMachineDetectionResult? machineDetectionResult = default, string clientReferenceId = default)
         {
             Action = action;
             From = from;
@@ -86,6 +88,7 @@ namespace Infobip.Api.Client.Model
             RecordingFileId = recordingFileId;
             RecordCalleeAnnouncement = recordCalleeAnnouncement;
             RecordingStatus = recordingStatus;
+            MachineDetectionResult = machineDetectionResult;
             ClientReferenceId = clientReferenceId;
         }
 
@@ -96,6 +99,14 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "recordingStatus", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("recordingStatus")]
         public NumberMaskingRecordingStatus? RecordingStatus { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets MachineDetectionResult
+        /// </summary>
+        [DataMember(Name = "machineDetectionResult", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "machineDetectionResult", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("machineDetectionResult")]
+        public CallsMachineDetectionResult? MachineDetectionResult { get; set; }
 
         /// <summary>
         ///     Requested action (dial, audio, captureDtmf).
@@ -381,6 +392,10 @@ namespace Infobip.Api.Client.Model
                     RecordingStatus.Equals(input.RecordingStatus)
                 ) &&
                 (
+                    MachineDetectionResult == input.MachineDetectionResult ||
+                    MachineDetectionResult.Equals(input.MachineDetectionResult)
+                ) &&
+                (
                     ClientReferenceId == input.ClientReferenceId ||
                     (ClientReferenceId != null &&
                      ClientReferenceId.Equals(input.ClientReferenceId))
@@ -414,6 +429,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  RecordingFileId: ").Append(RecordingFileId).Append("\n");
             sb.Append("  RecordCalleeAnnouncement: ").Append(RecordCalleeAnnouncement).Append("\n");
             sb.Append("  RecordingStatus: ").Append(RecordingStatus).Append("\n");
+            sb.Append("  MachineDetectionResult: ").Append(MachineDetectionResult).Append("\n");
             sb.Append("  ClientReferenceId: ").Append(ClientReferenceId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -479,6 +495,7 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + RecordingFileId.GetHashCode();
                 hashCode = hashCode * 59 + RecordCalleeAnnouncement.GetHashCode();
                 hashCode = hashCode * 59 + RecordingStatus.GetHashCode();
+                hashCode = hashCode * 59 + MachineDetectionResult.GetHashCode();
                 if (ClientReferenceId != null)
                     hashCode = hashCode * 59 + ClientReferenceId.GetHashCode();
                 return hashCode;

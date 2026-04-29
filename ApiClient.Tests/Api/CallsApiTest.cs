@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Infobip.Api.Client;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
@@ -176,9 +176,9 @@ public class CallsApiTest : ApiTest
               ""parentCallId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
               ""machineDetection"": {
                 ""detectionResult"": ""HUMAN"",
-                ""customData"": {
-                  ""property1"": ""string"",
-                  ""property2"": ""string""
+                ""confidenceRating"": {
+                  ""HUMAN"": 0.95,
+                  ""MACHINE"": 0
                 }
               },
               ""ringDuration"": 3,
@@ -251,10 +251,10 @@ public class CallsApiTest : ApiTest
                     machineDetection: new CallsMachineDetectionProperties
                     (
                         CallsDetectionResult.Human,
-                        new Dictionary<string, string>
+                        new Dictionary<string, double>
                         {
-                            { "property1", "string" },
-                            { "property2", "string" }
+                            { "HUMAN", 0.95 },
+                            { "MACHINE", 0 }
                         }
                     ),
                     ringDuration: 3,
@@ -559,7 +559,6 @@ public class CallsApiTest : ApiTest
         var givenDirection = CallDirection.Outbound;
         var givenStatus = CallState.Finished;
         var givenStartTimeAfter = DateTime.Parse("2022-05-01T14:25:45.125+00:00");
-        var givenEndTimeBefore = DateTime.Parse("2022-05-01T14:26:45.125+00:00");
         var givenConferenceId = "066675c6-0db6-0db9-b032-031964d09af4";
         var givenDialogId = "6c73cbdc-c956-4bf5-a026-318236559167";
         var givenBulkId = "bde6deaa-23af-4340-aac7-f3fa063c4215";
@@ -585,9 +584,9 @@ public class CallsApiTest : ApiTest
               ""parentCallId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
               ""machineDetection"": {
                 ""detectionResult"": ""HUMAN"",
-                ""customData"": {
-                  ""property1"": ""string"",
-                  ""property2"": ""string""
+                ""confidenceRating"": {
+                  ""HUMAN"": 0.95,
+                  ""MACHINE"": 0
                 }
               },
               ""ringDuration"": 3,
@@ -636,7 +635,6 @@ public class CallsApiTest : ApiTest
             { "direction", GetEnumAttributeValue(givenDirection) },
             { "status", GetEnumAttributeValue(givenStatus) },
             { "startTimeAfter", givenStartTimeAfter.ToString("o") },
-            { "endTimeBefore", givenEndTimeBefore.ToString("o") },
             { "conferenceId", givenConferenceId },
             { "dialogId", givenDialogId },
             { "bulkId", givenBulkId },
@@ -649,7 +647,7 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var response = api.GetCallsHistory(givenType, givenCallsConfigurationId, givenApplicationId, givenFrom, givenTo,
-            givenDirection, givenStatus, givenStartTimeAfter, givenEndTimeBefore, givenConferenceId, givenDialogId,
+            givenDirection, givenStatus, givenStartTimeAfter, givenConferenceId, givenDialogId,
             givenBulkId, givenPage, givenSize);
 
         var expectedResponse = new CallLogPage
@@ -670,10 +668,10 @@ public class CallsApiTest : ApiTest
                     machineDetection: new CallsMachineDetectionProperties
                     (
                         CallsDetectionResult.Human,
-                        new Dictionary<string, string>
+                        new Dictionary<string, double>
                         {
-                            { "property1", "string" },
-                            { "property2", "string" }
+                            { "HUMAN", 0.95 },
+                            { "MACHINE", 0 }
                         }
                     ),
                     ringDuration: 3,
@@ -1381,8 +1379,7 @@ public class CallsApiTest : ApiTest
           ""offset"": 5000,
           ""content"": {
             ""fileUrl"": ""https://example.com/file.mp3"",
-            ""type"": ""URL"",
-            ""cacheDuration"": 1000
+            ""type"": ""URL""
           }
         }";
 
@@ -1397,8 +1394,7 @@ public class CallsApiTest : ApiTest
 
         var request = new CallsPlayRequest(
             content: new CallsUrlPlayContent(
-                "https://example.com/file.mp3",
-                1000
+                "https://example.com/file.mp3"
             ),
             timeout: 30000,
             offset: 5000
@@ -1488,9 +1484,7 @@ public class CallsApiTest : ApiTest
             new CallsVoicePreferences(
                 CallsGender.Male
             ),
-            new CallsDtmfTermination(
-                "#"
-            )
+            new CallsDtmfTermination("#")
         );
 
         var response = api.CallSayText(givenCallId, request);
@@ -1581,7 +1575,9 @@ public class CallsApiTest : ApiTest
           ""keyPhrases"": [
             ""phrase"",
             ""word""
-          ]
+          ],
+          ""terminateOnKeyPhrase"": true,
+          ""advancedFormatting"": false
         }";
 
         var givenResponse = @"
@@ -1595,7 +1591,7 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var request = new CallsSpeechCaptureRequest(
-            CallsLanguage.EnGb,
+            CallsTranscriptionLanguage.EnGB,
             30,
             3,
             new List<string> { "phrase", "word" }
@@ -1619,7 +1615,8 @@ public class CallsApiTest : ApiTest
         {
           ""transcription"": {
             ""language"": ""en-GB"",
-            ""sendInterimResults"": false
+            ""sendInterimResults"": false,
+            ""advancedFormatting"": false
           }
         }";
 
@@ -1635,7 +1632,7 @@ public class CallsApiTest : ApiTest
 
         var request = new CallsStartTranscriptionRequest(
             new CallsTranscription(
-                CallsLanguage.EnGb
+                CallsTranscriptionLanguage.EnGB
             )
         );
 
@@ -1749,15 +1746,17 @@ public class CallsApiTest : ApiTest
     {
         var givenCallId = "d8d84155-3831-43fb-91c9-bb897149a79d";
 
-        var givenRequest = @"
-        {
-          ""mediaStream"": {
-            ""audioProperties"": {
+        var givenReplaceMedia = false;
+
+        var givenRequest = $@"
+        {{
+          ""mediaStream"": {{
+            ""audioProperties"": {{
               ""mediaStreamConfigId"": ""63467c6e2885a5389ba11d80"",
-              ""replaceMedia"": false
-            }
-          }
-        }";
+              ""replaceMedia"": {GetBooleanValueAsLowerString(givenReplaceMedia)}
+            }}
+          }}
+        }}";
 
         var givenResponse = @"
         {
@@ -2234,11 +2233,16 @@ public class CallsApiTest : ApiTest
     {
         var givenConferenceId = "034e622a-cc7e-456d-8a10-0ba43b11aa5e";
 
-        var givenRequest = @"
-        {
-          ""muted"": false,
-          ""deaf"": true
-        }";
+        var givenMuted = false;
+        var givenDeaf = true;
+        var givenBlind = false;
+
+        var givenRequest = $@"
+        {{
+          ""muted"": {GetBooleanValueAsLowerString(givenMuted)},
+          ""deaf"": {GetBooleanValueAsLowerString(givenDeaf)},
+          ""blind"": {GetBooleanValueAsLowerString(givenBlind)}
+        }}";
 
         var givenResponse = @"
         {
@@ -2251,8 +2255,8 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
-            false,
-            true
+            givenMuted,
+            givenDeaf
         );
 
         var response = api.UpdateConference(givenConferenceId, request);
@@ -3045,11 +3049,16 @@ public class CallsApiTest : ApiTest
         var givenConferenceId = "034e622a-cc7e-456d-8a10-0ba43b11aa5e";
         var givenCallId = "d8d84155-3831-43fb-91c9-bb897149a79d";
 
-        var givenRequest = @"
-            {
-              ""muted"": false,
-              ""deaf"": true
-            }";
+        var givenMuted = false;
+        var givenDeaf = true;
+        var givenBlind = false;
+
+        var givenRequest = $@"
+            {{
+              ""muted"": {GetBooleanValueAsLowerString(givenMuted)},
+              ""deaf"": {GetBooleanValueAsLowerString(givenDeaf)},
+              ""blind"": {GetBooleanValueAsLowerString(givenBlind)}
+            }}";
 
         var givenResponse = @"
             {
@@ -3063,8 +3072,8 @@ public class CallsApiTest : ApiTest
         var api = new CallsApi(Configuration);
 
         var request = new CallsUpdateRequest(
-            false,
-            true
+            givenMuted,
+            givenDeaf
         );
 
         var expectedResponse = new CallsActionResponse(
@@ -3263,7 +3272,7 @@ public class CallsApiTest : ApiTest
 
         var api = new CallsApi(Configuration);
 
-        var request = new CallsSayRequest(
+        var request = new CallsConferenceSayRequest(
             "string",
             CallsLanguage.Ar,
             0.5,
@@ -3563,7 +3572,8 @@ public class CallsApiTest : ApiTest
                 ""from"": ""44790123456"",
                 ""connectTimeout"": 60,
                 ""machineDetection"": {
-                  ""enabled"": true
+                  ""enabled"": true,
+                  ""detectionTime"": 3.7
                 },
                 ""customData"": {
                   ""key1"": ""value1"",
@@ -5557,6 +5567,7 @@ public class CallsApiTest : ApiTest
 
         var givenResponse = @"
             {
+              ""type"": ""REGISTERED"",
               ""username"": ""426c8402-691c-11ee-8c99-0242ac120002"",
               ""password"": ""fkZ1921tM87""
             }";
@@ -5566,7 +5577,7 @@ public class CallsApiTest : ApiTest
 
         var api = new CallsApi(Configuration);
 
-        var expectedResponse = new CallsSipTrunkRegistrationCredentials(
+        var expectedResponse = new CallsSipTrunkRegisteredResetPasswordResponse(
             "426c8402-691c-11ee-8c99-0242ac120002",
             "fkZ1921tM87"
         );
@@ -6112,7 +6123,6 @@ public class CallsApiTest : ApiTest
                     "Example file",
                     CallsFileFormat.Wav,
                     292190,
-                    CallsCreationMethod.Recorded,
                     DateTimeOffset.Parse("2025-02-19T14:09:12Z"),
                     DateTimeOffset.Parse("2025-02-19T14:09:12Z"),
                     3
@@ -6162,7 +6172,6 @@ public class CallsApiTest : ApiTest
             "Example file",
             CallsFileFormat.Wav,
             292190,
-            CallsCreationMethod.Recorded,
             DateTimeOffset.Parse("2025-02-19T12:17:27Z"),
             DateTimeOffset.Parse("2025-02-19T12:17:27Z"),
             3
@@ -6184,7 +6193,6 @@ public class CallsApiTest : ApiTest
               ""name"": ""Example file"",
               ""fileFormat"": ""WAV"",
               ""size"": 292190,
-              ""creationMethod"": ""RECORDED"",
               ""creationTime"": ""2025-02-19T14:09:14Z"",
               ""expirationTime"": ""2025-02-19T14:09:14Z"",
               ""duration"": 3
@@ -6199,7 +6207,6 @@ public class CallsApiTest : ApiTest
             "Example file",
             CallsFileFormat.Wav,
             292190,
-            CallsCreationMethod.Recorded,
             DateTimeOffset.Parse("2025-02-19T14:09:14Z"),
             DateTimeOffset.Parse("2025-02-19T14:09:14Z"),
             3
@@ -6221,7 +6228,6 @@ public class CallsApiTest : ApiTest
               ""name"": ""Example file"",
               ""fileFormat"": ""WAV"",
               ""size"": 292190,
-              ""creationMethod"": ""RECORDED"",
               ""creationTime"": ""2025-02-20T01:35:41Z"",
               ""expirationTime"": ""2025-02-20T01:35:41Z"",
               ""duration"": 3
@@ -6236,7 +6242,6 @@ public class CallsApiTest : ApiTest
             "Example file",
             CallsFileFormat.Wav,
             292190,
-            CallsCreationMethod.Recorded,
             DateTimeOffset.Parse("2025-02-20T01:35:41Z"),
             DateTimeOffset.Parse("2025-02-20T01:35:41Z"),
             3
@@ -8177,7 +8182,8 @@ public class CallsApiTest : ApiTest
                     ""recordingType"": ""AUDIO""
                   },
                   ""machineDetection"": {
-                    ""enabled"": true
+                    ""enabled"": true,
+                    ""detectionTime"": 3.7
                   },
                   ""maxDuration"": 28000,
                   ""connectTimeout"": 20000,

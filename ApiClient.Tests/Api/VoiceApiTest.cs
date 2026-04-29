@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Client;
 using Infobip.Api.Client.Model;
@@ -482,12 +482,12 @@ public class VoiceApiTest : ApiTest
                             propertyEquals: givenEquals,
                             transferTo: givenTransferTo,
                             callTransferMaxDuration: givenCallTransferMaxDuration,
-                            varIf: givenIf
+                            @if: givenIf
                         ),
                         new(
                             transferTo: givenSecondTransferTo,
                             callTransferMaxDuration: givenSecondCallTransferMaxDuration,
-                            varIf: givenSecondIf
+                            @if: givenSecondIf
                         )
                     },
                     callbackData: givenCallbackData,
@@ -1281,7 +1281,7 @@ public class VoiceApiTest : ApiTest
                     }
                 }
             ]";
-        var expectedLastUsageDate = "2025-02-18";
+        var expectedLastUsageDate = new DateTimeOffset(2025, 2, 18, 0, 0, 0, TimeSpan.FromHours(0));
         var expectedSecondId = "0157ADA3476171E3E83E787CF261345F";
         var expectedSecondName = "My another scenario";
         var expectedSecondDescription = "Another description";
@@ -1302,7 +1302,7 @@ public class VoiceApiTest : ApiTest
                   ""while"": ""${myVariable} != 1""
                 }
               ]";
-        var expectedSecondLastUsageDate = "2025-02-15";
+        var expectedSecondLastUsageDate = new DateTimeOffset(2025, 2, 15, 0, 0, 0, TimeSpan.FromHours(0));
 
         var expectedResponse = $@"
             [
@@ -1313,7 +1313,7 @@ public class VoiceApiTest : ApiTest
                   ""createTime"": ""{expectedCreateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
                   ""updateTime"": ""{expectedUpdateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
                   ""script"": {expectedScript},
-                  ""lastUsageDate"": ""{expectedLastUsageDate}""
+                  ""lastUsageDate"": ""{expectedLastUsageDate.ToUniversalTime().ToString("yyyy-MM-dd")}""
                 }},
                 {{
                   ""id"": ""{expectedSecondId}"",
@@ -1322,7 +1322,7 @@ public class VoiceApiTest : ApiTest
                   ""createTime"": ""{expectedSecondCreateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
                   ""updateTime"": ""{expectedSecondUpdateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
                   ""script"": {expectedSecondScript},
-                  ""lastUsageDate"": ""{expectedSecondLastUsageDate}""
+                  ""lastUsageDate"": ""{expectedSecondLastUsageDate.ToUniversalTime().ToString("yyyy-MM-dd")}""
                 }}
             ]";
 
@@ -1352,7 +1352,7 @@ public class VoiceApiTest : ApiTest
             Assert.AreEqual(expectedUpdateTime, callsSearchResponses[0].UpdateTime);
             Assert.IsTrue(JToken.DeepEquals(JToken.Parse(expectedScript),
                 JToken.Parse(callsSearchResponses[0].Script.ToString())));
-            Assert.AreEqual(expectedLastUsageDate, callsSearchResponses[0].LastUsageDate);
+            Assert.AreEqual(expectedLastUsageDate.Date, callsSearchResponses[0].LastUsageDate.Date);
 
             Assert.AreEqual(expectedSecondId, callsSearchResponses[1].Id);
             Assert.AreEqual(expectedSecondName, callsSearchResponses[1].Name);
@@ -1361,7 +1361,7 @@ public class VoiceApiTest : ApiTest
             Assert.AreEqual(expectedSecondUpdateTime, callsSearchResponses[1].UpdateTime);
             Assert.IsTrue(JToken.DeepEquals(JToken.Parse(expectedSecondScript),
                 JToken.Parse(callsSearchResponses[1].Script.ToString())));
-            Assert.AreEqual(expectedSecondLastUsageDate, callsSearchResponses[1].LastUsageDate);
+            Assert.AreEqual(expectedSecondLastUsageDate.Date, callsSearchResponses[1].LastUsageDate.Date);
         }
 
         AssertResponse(voiceApi.SearchVoiceIvrScenarios(givenPage, givenPageSize, givenName),
@@ -1485,11 +1485,14 @@ public class VoiceApiTest : ApiTest
               ""hangup""
             ]";
 
+        var givenRecord = false;
+
         var givenRequest = $@"
             {{
               ""name"": ""{givenName}"",
               ""description"": ""{givenDescription}"",
-              ""script"": {givenScript}
+              ""script"": {givenScript},
+              ""record"": {GetBooleanValueAsLowerString(givenRecord)}
             }}";
 
         SetUpPostRequest(VOICE_IVR_SCENARIOS_ENDPOINT, 200, givenRequest, expectedResponse);
@@ -1499,7 +1502,7 @@ public class VoiceApiTest : ApiTest
         var callsUpdateScenarioRequest = new CallsUpdateScenarioRequest(
             givenName,
             givenDescription,
-            new JRaw(givenScript)
+            script: new JRaw(givenScript)
         );
 
         void AssertCallsSearchResponse(CallsUpdateScenarioResponse callsUpdateScenarioResponse)
@@ -1542,7 +1545,7 @@ public class VoiceApiTest : ApiTest
                 }
               }
             ]";
-        var expectedLastUsageDate = "2025-02-15";
+        var expectedLastUsageDate = new DateTimeOffset(2025, 2, 15, 0, 0, 0, TimeSpan.FromHours(0));
 
         var expectedResponse = $@"
             {{
@@ -1552,7 +1555,7 @@ public class VoiceApiTest : ApiTest
               ""createTime"": ""{expectedCreateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
               ""updateTime"": ""{expectedUpdateTime.ToUniversalTime().ToString(DATE_FORMAT)}"",
               ""script"": {expectedScript},
-              ""lastUsageDate"": ""{expectedLastUsageDate}""
+              ""lastUsageDate"": ""{expectedLastUsageDate.ToUniversalTime().ToString("yyyy-MM-dd")}""
             }}";
 
         var givenId = "E83E787CF2613450157ADA3476171E3F";
@@ -1569,7 +1572,7 @@ public class VoiceApiTest : ApiTest
             Assert.AreEqual(expectedDescription, callsUpdateScenarioResponse.Description);
             Assert.AreEqual(expectedCreateTime, callsUpdateScenarioResponse.CreateTime);
             Assert.AreEqual(expectedUpdateTime, callsUpdateScenarioResponse.UpdateTime);
-            Assert.AreEqual(expectedLastUsageDate, callsUpdateScenarioResponse.LastUsageDate);
+            Assert.AreEqual(expectedLastUsageDate.Date, callsUpdateScenarioResponse.LastUsageDate.Date);
             Assert.IsTrue(JToken.DeepEquals(JToken.Parse(expectedScript),
                 JToken.Parse(callsUpdateScenarioResponse.Script.ToString())));
         }
@@ -1631,11 +1634,14 @@ public class VoiceApiTest : ApiTest
               }
             ]";
 
+        var givenRecord = false;
+
         var givenRequest = $@"
             {{
               ""name"": ""{givenName}"",
               ""description"": ""{givenDescription}"",
-              ""script"": {givenScript}
+              ""script"": {givenScript},
+              ""record"": {GetBooleanValueAsLowerString(givenRecord)}
             }}";
 
         var givenId = "E83E787CF2613450157ADA3476171E3F";
@@ -1647,7 +1653,7 @@ public class VoiceApiTest : ApiTest
         var callsUpdateScenarioRequest = new CallsUpdateScenarioRequest(
             givenName,
             givenDescription,
-            new JRaw(givenScript)
+            script: new JRaw(givenScript)
         );
 
         void AssertCallsSearchResponse(CallsUpdateScenarioResponse callsUpdateScenarioResponse)
@@ -1746,7 +1752,6 @@ public class VoiceApiTest : ApiTest
         var givenMinPeriod = 1;
         var givenMaxPeriod = 5;
         var givenMaxCount = 5;
-        var givenRecord = false;
         var givenFromHour = 6;
         var givenFromMinute = 15;
         var givenToHour = 15;
@@ -1784,7 +1789,6 @@ public class VoiceApiTest : ApiTest
                     ""maxPeriod"": {givenMaxPeriod},
                     ""maxCount"": {givenMaxCount}
                   }},
-                  ""record"": {givenRecord.ToString().ToLower()},
                   ""deliveryTimeWindow"": {{
                     ""from"": {{
                       ""hour"": {givenFromHour},
@@ -1838,7 +1842,6 @@ public class VoiceApiTest : ApiTest
                         maxPeriod: givenMaxPeriod,
                         maxCount: givenMaxCount
                     ),
-                    record: givenRecord,
                     deliveryTimeWindow: new DeliveryTimeWindow(
                         from: new DeliveryTime(
                             givenFromHour,

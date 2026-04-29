@@ -34,9 +34,16 @@ namespace Infobip.Api.Client.Model
         ///     contain curly brackets and should NOT contain a &#x60;pin&#x60; placeholder. Valid example: &#x60;\&quot;
         ///     placeholders\&quot;:{\&quot;firstName\&quot;:\&quot;John\&quot;}&#x60;.
         /// </param>
-        public TfaResendPinRequest(Dictionary<string, string> placeholders = default)
+        /// <param name="trackDelivery">
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;. (default to false).
+        /// </param>
+        public TfaResendPinRequest(Dictionary<string, string> placeholders = default, bool trackDelivery = false)
         {
             Placeholders = placeholders;
+            TrackDelivery = trackDelivery;
         }
 
         /// <summary>
@@ -55,6 +62,23 @@ namespace Infobip.Api.Client.Model
         public Dictionary<string, string> Placeholders { get; set; }
 
         /// <summary>
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Enables sending of delivery reports via
+        ///     [Subscriptions](https://www.infobip.com/docs/cpaas-x/subscriptions-management). The [retry
+        ///     cycle](https://www.infobip.com/docs/sms/sms-over-api#push-retry-cycle-notify-url) for when your URL becomes
+        ///     unavailable uses the following formula: &#x60;1min + (1min * retryNumber * retryNumber)&#x60;.
+        /// </value>
+        [DataMember(Name = "trackDelivery", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "trackDelivery", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("trackDelivery")]
+        public bool TrackDelivery { get; set; }
+
+        /// <summary>
         ///     Returns true if TfaResendPinRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of TfaResendPinRequest to be compared</param>
@@ -65,10 +89,16 @@ namespace Infobip.Api.Client.Model
                 return false;
 
             return
-                Placeholders == input.Placeholders ||
-                (Placeholders != null &&
-                 input.Placeholders != null &&
-                 Placeholders.SequenceEqual(input.Placeholders));
+                (
+                    Placeholders == input.Placeholders ||
+                    (Placeholders != null &&
+                     input.Placeholders != null &&
+                     Placeholders.SequenceEqual(input.Placeholders))
+                ) &&
+                (
+                    TrackDelivery == input.TrackDelivery ||
+                    TrackDelivery.Equals(input.TrackDelivery)
+                );
         }
 
         /// <summary>
@@ -80,6 +110,7 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class TfaResendPinRequest {\n");
             sb.Append("  Placeholders: ").Append(Placeholders).Append("\n");
+            sb.Append("  TrackDelivery: ").Append(TrackDelivery).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -114,6 +145,7 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (Placeholders != null)
                     hashCode = hashCode * 59 + Placeholders.GetHashCode();
+                hashCode = hashCode * 59 + TrackDelivery.GetHashCode();
                 return hashCode;
             }
         }

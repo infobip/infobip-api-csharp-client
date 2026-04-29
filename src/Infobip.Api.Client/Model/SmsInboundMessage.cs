@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     SmsInboundMessage
+    ///     An array of result objects.
     /// </summary>
     [DataContract(Name = "SmsInboundMessage")]
     [JsonObject]
@@ -31,45 +31,45 @@ namespace Infobip.Api.Client.Model
         ///     Application id linked to the message. For more details, see our
         ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
         /// </param>
-        /// <param name="callbackData">Custom callback data sent over the notifyUrl..</param>
-        /// <param name="campaignReferenceId">
-        ///     ID that allows you to track, analyze, and show an aggregated overview and the
-        ///     performance of individual campaigns per sending channel..
-        /// </param>
-        /// <param name="cleanText">Content of the message without a keyword (if a keyword was sent)..</param>
-        /// <param name="entityId">
-        ///     Entity id linked to the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
-        /// </param>
-        /// <param name="from">Sender ID that can be alphanumeric or numeric..</param>
-        /// <param name="keyword">Keyword extracted from the message content..</param>
         /// <param name="messageId">Unique message ID..</param>
-        /// <param name="price">price.</param>
+        /// <param name="from">Sender ID that can be alphanumeric or numeric..</param>
+        /// <param name="to">The destination address of the message..</param>
+        /// <param name="text">Full content of the message..</param>
+        /// <param name="cleanText">Content of the message without a keyword (if a keyword was sent)..</param>
+        /// <param name="keyword">Keyword extracted from the message content..</param>
         /// <param name="receivedAt">
         ///     Indicates when the Infobip platform received the message. Has the following format: &#x60;
         ///     yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSZ&#x60;..
         /// </param>
-        /// <param name="smsCount">The number of characters within a message.</param>
-        /// <param name="text">Full content of the message..</param>
-        /// <param name="to">The destination address of the message..</param>
-        public SmsInboundMessage(string applicationId = default, string callbackData = default,
-            string campaignReferenceId = default, string cleanText = default, string entityId = default,
-            string from = default, string keyword = default, string messageId = default, MessagePrice price = default,
-            DateTimeOffset receivedAt = default, int smsCount = default, string text = default, string to = default)
+        /// <param name="smsCount">The number of parts the message content was split into..</param>
+        /// <param name="price">price.</param>
+        /// <param name="callbackData">Custom callback data sent over the notifyUrl..</param>
+        /// <param name="entityId">
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management)..
+        /// </param>
+        /// <param name="campaignReferenceId">
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the
+        ///     performance of individual campaigns per sending channel..
+        /// </param>
+        public SmsInboundMessage(string applicationId = default, string messageId = default, string from = default,
+            string to = default, string text = default, string cleanText = default, string keyword = default,
+            DateTimeOffset receivedAt = default, int smsCount = default, MessagePrice price = default,
+            string callbackData = default, string entityId = default, string campaignReferenceId = default)
         {
             ApplicationId = applicationId;
-            CallbackData = callbackData;
-            CampaignReferenceId = campaignReferenceId;
-            CleanText = cleanText;
-            EntityId = entityId;
-            From = from;
-            Keyword = keyword;
             MessageId = messageId;
-            Price = price;
+            From = from;
+            To = to;
+            Text = text;
+            CleanText = cleanText;
+            Keyword = keyword;
             ReceivedAt = receivedAt;
             SmsCount = smsCount;
-            Text = text;
-            To = to;
+            Price = price;
+            CallbackData = callbackData;
+            EntityId = entityId;
+            CampaignReferenceId = campaignReferenceId;
         }
 
         /// <summary>
@@ -86,48 +86,13 @@ namespace Infobip.Api.Client.Model
         public string ApplicationId { get; set; }
 
         /// <summary>
-        ///     Custom callback data sent over the notifyUrl.
+        ///     Unique message ID.
         /// </summary>
-        /// <value>Custom callback data sent over the notifyUrl.</value>
-        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "callbackData", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("callbackData")]
-        public string CallbackData { get; set; }
-
-        /// <summary>
-        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual campaigns
-        ///     per sending channel.
-        /// </summary>
-        /// <value>
-        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual
-        ///     campaigns per sending channel.
-        /// </value>
-        [DataMember(Name = "campaignReferenceId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "campaignReferenceId", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("campaignReferenceId")]
-        public string CampaignReferenceId { get; set; }
-
-        /// <summary>
-        ///     Content of the message without a keyword (if a keyword was sent).
-        /// </summary>
-        /// <value>Content of the message without a keyword (if a keyword was sent).</value>
-        [DataMember(Name = "cleanText", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "cleanText", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("cleanText")]
-        public string CleanText { get; set; }
-
-        /// <summary>
-        ///     Entity id linked to the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
-        /// </summary>
-        /// <value>
-        ///     Entity id linked to the message. For more details, see our
-        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
-        /// </value>
-        [DataMember(Name = "entityId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "entityId", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("entityId")]
-        public string EntityId { get; set; }
+        /// <value>Unique message ID.</value>
+        [DataMember(Name = "messageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("messageId")]
+        public string MessageId { get; set; }
 
         /// <summary>
         ///     Sender ID that can be alphanumeric or numeric.
@@ -139,6 +104,33 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
+        ///     The destination address of the message.
+        /// </summary>
+        /// <value>The destination address of the message.</value>
+        [DataMember(Name = "to", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("to")]
+        public string To { get; set; }
+
+        /// <summary>
+        ///     Full content of the message.
+        /// </summary>
+        /// <value>Full content of the message.</value>
+        [DataMember(Name = "text", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "text", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("text")]
+        public string Text { get; set; }
+
+        /// <summary>
+        ///     Content of the message without a keyword (if a keyword was sent).
+        /// </summary>
+        /// <value>Content of the message without a keyword (if a keyword was sent).</value>
+        [DataMember(Name = "cleanText", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "cleanText", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("cleanText")]
+        public string CleanText { get; set; }
+
+        /// <summary>
         ///     Keyword extracted from the message content.
         /// </summary>
         /// <value>Keyword extracted from the message content.</value>
@@ -146,23 +138,6 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "keyword", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("keyword")]
         public string Keyword { get; set; }
-
-        /// <summary>
-        ///     Unique message ID.
-        /// </summary>
-        /// <value>Unique message ID.</value>
-        [DataMember(Name = "messageId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "messageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("messageId")]
-        public string MessageId { get; set; }
-
-        /// <summary>
-        ///     Gets or Sets Price
-        /// </summary>
-        [DataMember(Name = "price", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "price", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("price")]
-        public MessagePrice Price { get; set; }
 
         /// <summary>
         ///     Indicates when the Infobip platform received the message. Has the following format: &#x60;yyyy-MM-dd&#39;T&#39;
@@ -179,31 +154,56 @@ namespace Infobip.Api.Client.Model
         public DateTimeOffset ReceivedAt { get; set; }
 
         /// <summary>
-        ///     The number of characters within a message
+        ///     The number of parts the message content was split into.
         /// </summary>
-        /// <value>The number of characters within a message</value>
+        /// <value>The number of parts the message content was split into.</value>
         [DataMember(Name = "smsCount", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "smsCount", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("smsCount")]
         public int SmsCount { get; set; }
 
         /// <summary>
-        ///     Full content of the message.
+        ///     Gets or Sets Price
         /// </summary>
-        /// <value>Full content of the message.</value>
-        [DataMember(Name = "text", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "text", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("text")]
-        public string Text { get; set; }
+        [DataMember(Name = "price", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "price", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("price")]
+        public MessagePrice Price { get; set; }
 
         /// <summary>
-        ///     The destination address of the message.
+        ///     Custom callback data sent over the notifyUrl.
         /// </summary>
-        /// <value>The destination address of the message.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("to")]
-        public string To { get; set; }
+        /// <value>Custom callback data sent over the notifyUrl.</value>
+        [DataMember(Name = "callbackData", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "callbackData", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callbackData")]
+        public string CallbackData { get; set; }
+
+        /// <summary>
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </summary>
+        /// <value>
+        ///     Entity id linked to the message. For more details, see our
+        ///     [documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).
+        /// </value>
+        [DataMember(Name = "entityId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "entityId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("entityId")]
+        public string EntityId { get; set; }
+
+        /// <summary>
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual campaigns
+        ///     per sending channel.
+        /// </summary>
+        /// <value>
+        ///     ID that allows you to track, analyze, and show an aggregated overview and the performance of individual
+        ///     campaigns per sending channel.
+        /// </value>
+        [DataMember(Name = "campaignReferenceId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "campaignReferenceId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("campaignReferenceId")]
+        public string CampaignReferenceId { get; set; }
 
         /// <summary>
         ///     Returns true if SmsInboundMessage instances are equal
@@ -222,24 +222,9 @@ namespace Infobip.Api.Client.Model
                      ApplicationId.Equals(input.ApplicationId))
                 ) &&
                 (
-                    CallbackData == input.CallbackData ||
-                    (CallbackData != null &&
-                     CallbackData.Equals(input.CallbackData))
-                ) &&
-                (
-                    CampaignReferenceId == input.CampaignReferenceId ||
-                    (CampaignReferenceId != null &&
-                     CampaignReferenceId.Equals(input.CampaignReferenceId))
-                ) &&
-                (
-                    CleanText == input.CleanText ||
-                    (CleanText != null &&
-                     CleanText.Equals(input.CleanText))
-                ) &&
-                (
-                    EntityId == input.EntityId ||
-                    (EntityId != null &&
-                     EntityId.Equals(input.EntityId))
+                    MessageId == input.MessageId ||
+                    (MessageId != null &&
+                     MessageId.Equals(input.MessageId))
                 ) &&
                 (
                     From == input.From ||
@@ -247,19 +232,24 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    To == input.To ||
+                    (To != null &&
+                     To.Equals(input.To))
+                ) &&
+                (
+                    Text == input.Text ||
+                    (Text != null &&
+                     Text.Equals(input.Text))
+                ) &&
+                (
+                    CleanText == input.CleanText ||
+                    (CleanText != null &&
+                     CleanText.Equals(input.CleanText))
+                ) &&
+                (
                     Keyword == input.Keyword ||
                     (Keyword != null &&
                      Keyword.Equals(input.Keyword))
-                ) &&
-                (
-                    MessageId == input.MessageId ||
-                    (MessageId != null &&
-                     MessageId.Equals(input.MessageId))
-                ) &&
-                (
-                    Price == input.Price ||
-                    (Price != null &&
-                     Price.Equals(input.Price))
                 ) &&
                 (
                     ReceivedAt == input.ReceivedAt ||
@@ -271,14 +261,24 @@ namespace Infobip.Api.Client.Model
                     SmsCount.Equals(input.SmsCount)
                 ) &&
                 (
-                    Text == input.Text ||
-                    (Text != null &&
-                     Text.Equals(input.Text))
+                    Price == input.Price ||
+                    (Price != null &&
+                     Price.Equals(input.Price))
                 ) &&
                 (
-                    To == input.To ||
-                    (To != null &&
-                     To.Equals(input.To))
+                    CallbackData == input.CallbackData ||
+                    (CallbackData != null &&
+                     CallbackData.Equals(input.CallbackData))
+                ) &&
+                (
+                    EntityId == input.EntityId ||
+                    (EntityId != null &&
+                     EntityId.Equals(input.EntityId))
+                ) &&
+                (
+                    CampaignReferenceId == input.CampaignReferenceId ||
+                    (CampaignReferenceId != null &&
+                     CampaignReferenceId.Equals(input.CampaignReferenceId))
                 );
         }
 
@@ -291,18 +291,18 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class SmsInboundMessage {\n");
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
-            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
-            sb.Append("  CampaignReferenceId: ").Append(CampaignReferenceId).Append("\n");
-            sb.Append("  CleanText: ").Append(CleanText).Append("\n");
-            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
-            sb.Append("  From: ").Append(From).Append("\n");
-            sb.Append("  Keyword: ").Append(Keyword).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
-            sb.Append("  Price: ").Append(Price).Append("\n");
+            sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  Text: ").Append(Text).Append("\n");
+            sb.Append("  CleanText: ").Append(CleanText).Append("\n");
+            sb.Append("  Keyword: ").Append(Keyword).Append("\n");
             sb.Append("  ReceivedAt: ").Append(ReceivedAt).Append("\n");
             sb.Append("  SmsCount: ").Append(SmsCount).Append("\n");
-            sb.Append("  Text: ").Append(Text).Append("\n");
-            sb.Append("  To: ").Append(To).Append("\n");
+            sb.Append("  Price: ").Append(Price).Append("\n");
+            sb.Append("  CallbackData: ").Append(CallbackData).Append("\n");
+            sb.Append("  EntityId: ").Append(EntityId).Append("\n");
+            sb.Append("  CampaignReferenceId: ").Append(CampaignReferenceId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -337,29 +337,29 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 if (ApplicationId != null)
                     hashCode = hashCode * 59 + ApplicationId.GetHashCode();
-                if (CallbackData != null)
-                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
-                if (CampaignReferenceId != null)
-                    hashCode = hashCode * 59 + CampaignReferenceId.GetHashCode();
-                if (CleanText != null)
-                    hashCode = hashCode * 59 + CleanText.GetHashCode();
-                if (EntityId != null)
-                    hashCode = hashCode * 59 + EntityId.GetHashCode();
-                if (From != null)
-                    hashCode = hashCode * 59 + From.GetHashCode();
-                if (Keyword != null)
-                    hashCode = hashCode * 59 + Keyword.GetHashCode();
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
-                if (Price != null)
-                    hashCode = hashCode * 59 + Price.GetHashCode();
+                if (From != null)
+                    hashCode = hashCode * 59 + From.GetHashCode();
+                if (To != null)
+                    hashCode = hashCode * 59 + To.GetHashCode();
+                if (Text != null)
+                    hashCode = hashCode * 59 + Text.GetHashCode();
+                if (CleanText != null)
+                    hashCode = hashCode * 59 + CleanText.GetHashCode();
+                if (Keyword != null)
+                    hashCode = hashCode * 59 + Keyword.GetHashCode();
                 if (ReceivedAt != null)
                     hashCode = hashCode * 59 + ReceivedAt.GetHashCode();
                 hashCode = hashCode * 59 + SmsCount.GetHashCode();
-                if (Text != null)
-                    hashCode = hashCode * 59 + Text.GetHashCode();
-                if (To != null)
-                    hashCode = hashCode * 59 + To.GetHashCode();
+                if (Price != null)
+                    hashCode = hashCode * 59 + Price.GetHashCode();
+                if (CallbackData != null)
+                    hashCode = hashCode * 59 + CallbackData.GetHashCode();
+                if (EntityId != null)
+                    hashCode = hashCode * 59 + EntityId.GetHashCode();
+                if (CampaignReferenceId != null)
+                    hashCode = hashCode * 59 + CampaignReferenceId.GetHashCode();
                 return hashCode;
             }
         }

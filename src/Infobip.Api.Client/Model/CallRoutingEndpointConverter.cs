@@ -16,6 +16,14 @@ using System.Text.Json.Serialization;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
+    ///     Wires System.Text.Json to use CallRoutingEndpointConverter for discriminator-based deserialization.
+    /// </summary>
+    [JsonConverter(typeof(CallRoutingEndpointConverter))]
+    public partial class CallRoutingEndpoint
+    {
+    }
+
+    /// <summary>
     ///     JSON converter for serialization/deserialization of a CallRoutingEndpoint class into a specific derived type.
     ///     Used by System.Text.Json.
     /// </summary>
@@ -45,6 +53,10 @@ namespace Infobip.Api.Client.Model
                         return JsonSerializer.Deserialize<CallRoutingViberEndpoint>(root.GetRawText(), options);
                     case "WEBRTC":
                         return JsonSerializer.Deserialize<CallRoutingWebRtcEndpoint>(root.GetRawText(), options);
+                    case "WEBSOCKET":
+                        return JsonSerializer.Deserialize<CallRoutingWebSocketEndpoint>(root.GetRawText(), options);
+                    case "WHATSAPP":
+                        return JsonSerializer.Deserialize<CallRoutingWhatsAppEndpoint>(root.GetRawText(), options);
                     default:
                         throw new JsonException($"Unknown type: {type}");
                 }

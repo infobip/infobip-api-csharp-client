@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     CallsBulkResponse
+    ///     Bulk response object.
     /// </summary>
     [DataContract(Name = "CallsBulkResponse")]
     [JsonObject]

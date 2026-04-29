@@ -36,6 +36,7 @@ namespace Infobip.Api.Client.Model
         ///     The sender of the 2FA message, an email address with an optional sender name (e.g. &#x60;
         ///     company@example.com&#x60; or &#x60;Jane Smith &lt;jane.smith@somecompany.com&gt;&#x60;)..
         /// </param>
+        /// <param name="landingPageId">Opt out landing page ID that should reference a previously created landing page template..</param>
         /// <param name="messageId">
         ///     The ID of the message template (message body with the PIN placeholder) that is sent to the
         ///     recipient..
@@ -43,11 +44,13 @@ namespace Infobip.Api.Client.Model
         /// <param name="pinLength">PIN code length..</param>
         /// <param name="pinType">pinType.</param>
         public TfaEmailMessage(string applicationId = default, long emailTemplateId = default, string from = default,
-            string messageId = default, int pinLength = default, TfaPinType? pinType = default)
+            string landingPageId = default, string messageId = default, int pinLength = default,
+            TfaPinType? pinType = default)
         {
             ApplicationId = applicationId;
             EmailTemplateId = emailTemplateId;
             From = from;
+            LandingPageId = landingPageId;
             MessageId = messageId;
             PinLength = pinLength;
             PinType = pinType;
@@ -97,6 +100,15 @@ namespace Infobip.Api.Client.Model
         public string From { get; set; }
 
         /// <summary>
+        ///     Opt out landing page ID that should reference a previously created landing page template.
+        /// </summary>
+        /// <value>Opt out landing page ID that should reference a previously created landing page template.</value>
+        [DataMember(Name = "landingPageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "landingPageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("landingPageId")]
+        public string LandingPageId { get; set; }
+
+        /// <summary>
         ///     The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.
         /// </summary>
         /// <value>The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.</value>
@@ -140,6 +152,11 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    LandingPageId == input.LandingPageId ||
+                    (LandingPageId != null &&
+                     LandingPageId.Equals(input.LandingPageId))
+                ) &&
+                (
                     MessageId == input.MessageId ||
                     (MessageId != null &&
                      MessageId.Equals(input.MessageId))
@@ -165,6 +182,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("  EmailTemplateId: ").Append(EmailTemplateId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  LandingPageId: ").Append(LandingPageId).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  PinLength: ").Append(PinLength).Append("\n");
             sb.Append("  PinType: ").Append(PinType).Append("\n");
@@ -205,6 +223,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + EmailTemplateId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
+                if (LandingPageId != null)
+                    hashCode = hashCode * 59 + LandingPageId.GetHashCode();
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();
                 hashCode = hashCode * 59 + PinLength.GetHashCode();

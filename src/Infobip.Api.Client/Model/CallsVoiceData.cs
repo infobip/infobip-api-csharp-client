@@ -43,14 +43,24 @@ namespace Infobip.Api.Client.Model
         /// <param name="duration">Duration of the voice message, in seconds..</param>
         /// <param name="chargedDuration">Charged duration of the voice message, in seconds..</param>
         /// <param name="fileDuration">Duration of the voice message audio file, in seconds..</param>
+        /// <param name="direction">direction.</param>
         /// <param name="dtmfCodes">
         ///     DTMF code entered by user. Can be empty string, if user did not press anything, or &#x60;null
         ///     &#x60; in case of IVR if user did not participate in Collect action..
         /// </param>
+        /// <param name="answeredBy">
+        ///     If machine detection is used, contains the result of the machine detection (&#x60;HUMAN&#x60;
+        ///     or &#x60;MACHINE&#x60;)..
+        /// </param>
+        /// <param name="callRecordingFileId">
+        ///     Call recording file identification, if the call was recorded. Currently, populated
+        ///     only if the call was IVR..
+        /// </param>
         /// <param name="ivr">ivr.</param>
         public CallsVoiceData(string feature = default, string startTime = default, string answerTime = default,
             string endTime = default, int duration = default, int chargedDuration = default,
-            double fileDuration = default, string dtmfCodes = default, CallsIvrData ivr = default)
+            double fileDuration = default, CallsCallDirection? direction = default, string dtmfCodes = default,
+            string answeredBy = default, string callRecordingFileId = default, CallsIvrData ivr = default)
         {
             Feature = feature;
             StartTime = startTime;
@@ -59,9 +69,20 @@ namespace Infobip.Api.Client.Model
             Duration = duration;
             ChargedDuration = chargedDuration;
             FileDuration = fileDuration;
+            Direction = direction;
             DtmfCodes = dtmfCodes;
+            AnsweredBy = answeredBy;
+            CallRecordingFileId = callRecordingFileId;
             Ivr = ivr;
         }
+
+        /// <summary>
+        ///     Gets or Sets Direction
+        /// </summary>
+        [DataMember(Name = "direction", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "direction", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("direction")]
+        public CallsCallDirection? Direction { get; set; }
 
         /// <summary>
         ///     Name of the Infobip Voice service or feature.
@@ -144,6 +165,28 @@ namespace Infobip.Api.Client.Model
         public string DtmfCodes { get; set; }
 
         /// <summary>
+        ///     If machine detection is used, contains the result of the machine detection (&#x60;HUMAN&#x60; or &#x60;MACHINE
+        ///     &#x60;).
+        /// </summary>
+        /// <value>
+        ///     If machine detection is used, contains the result of the machine detection (&#x60;HUMAN&#x60; or &#x60;MACHINE
+        ///     &#x60;).
+        /// </value>
+        [DataMember(Name = "answeredBy", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "answeredBy", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("answeredBy")]
+        public string AnsweredBy { get; set; }
+
+        /// <summary>
+        ///     Call recording file identification, if the call was recorded. Currently, populated only if the call was IVR.
+        /// </summary>
+        /// <value>Call recording file identification, if the call was recorded. Currently, populated only if the call was IVR.</value>
+        [DataMember(Name = "callRecordingFileId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "callRecordingFileId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("callRecordingFileId")]
+        public string CallRecordingFileId { get; set; }
+
+        /// <summary>
         ///     Gets or Sets Ivr
         /// </summary>
         [DataMember(Name = "ivr", EmitDefaultValue = false)]
@@ -195,9 +238,23 @@ namespace Infobip.Api.Client.Model
                     FileDuration.Equals(input.FileDuration)
                 ) &&
                 (
+                    Direction == input.Direction ||
+                    Direction.Equals(input.Direction)
+                ) &&
+                (
                     DtmfCodes == input.DtmfCodes ||
                     (DtmfCodes != null &&
                      DtmfCodes.Equals(input.DtmfCodes))
+                ) &&
+                (
+                    AnsweredBy == input.AnsweredBy ||
+                    (AnsweredBy != null &&
+                     AnsweredBy.Equals(input.AnsweredBy))
+                ) &&
+                (
+                    CallRecordingFileId == input.CallRecordingFileId ||
+                    (CallRecordingFileId != null &&
+                     CallRecordingFileId.Equals(input.CallRecordingFileId))
                 ) &&
                 (
                     Ivr == input.Ivr ||
@@ -221,7 +278,10 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Duration: ").Append(Duration).Append("\n");
             sb.Append("  ChargedDuration: ").Append(ChargedDuration).Append("\n");
             sb.Append("  FileDuration: ").Append(FileDuration).Append("\n");
+            sb.Append("  Direction: ").Append(Direction).Append("\n");
             sb.Append("  DtmfCodes: ").Append(DtmfCodes).Append("\n");
+            sb.Append("  AnsweredBy: ").Append(AnsweredBy).Append("\n");
+            sb.Append("  CallRecordingFileId: ").Append(CallRecordingFileId).Append("\n");
             sb.Append("  Ivr: ").Append(Ivr).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -266,8 +326,13 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + Duration.GetHashCode();
                 hashCode = hashCode * 59 + ChargedDuration.GetHashCode();
                 hashCode = hashCode * 59 + FileDuration.GetHashCode();
+                hashCode = hashCode * 59 + Direction.GetHashCode();
                 if (DtmfCodes != null)
                     hashCode = hashCode * 59 + DtmfCodes.GetHashCode();
+                if (AnsweredBy != null)
+                    hashCode = hashCode * 59 + AnsweredBy.GetHashCode();
+                if (CallRecordingFileId != null)
+                    hashCode = hashCode * 59 + CallRecordingFileId.GetHashCode();
                 if (Ivr != null)
                     hashCode = hashCode * 59 + Ivr.GetHashCode();
                 return hashCode;

@@ -1,4 +1,4 @@
-﻿using Infobip.Api.Client.Api;
+using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 
 namespace ApiClient.Tests.Api;

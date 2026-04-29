@@ -45,8 +45,10 @@ namespace Infobip.Api.Client.Model
         /// <param name="platform">platform.</param>
         /// <param name="timeout">Time to wait, in seconds, for the receiving application to accept the transfer. (default to 30).</param>
         /// <param name="customData">Optional parameter to update a call&#39;s custom data..</param>
+        /// <param name="propagationOptions">propagationOptions.</param>
         public CallsApplicationTransferRequest(string destinationCallsConfigurationId = default,
-            Platform platform = default, int timeout = 30, Dictionary<string, string> customData = default)
+            Platform platform = default, int timeout = 30, Dictionary<string, string> customData = default,
+            CallsApplicationTransferPropagationOptions propagationOptions = default)
         {
             // to ensure "destinationCallsConfigurationId" is required (not null)
             DestinationCallsConfigurationId = destinationCallsConfigurationId ??
@@ -54,6 +56,7 @@ namespace Infobip.Api.Client.Model
             Platform = platform;
             Timeout = timeout;
             CustomData = customData;
+            PropagationOptions = propagationOptions;
         }
 
         /// <summary>
@@ -93,6 +96,14 @@ namespace Infobip.Api.Client.Model
         public Dictionary<string, string> CustomData { get; set; }
 
         /// <summary>
+        ///     Gets or Sets PropagationOptions
+        /// </summary>
+        [DataMember(Name = "propagationOptions", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "propagationOptions", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("propagationOptions")]
+        public CallsApplicationTransferPropagationOptions PropagationOptions { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsApplicationTransferRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsApplicationTransferRequest to be compared</param>
@@ -122,6 +133,11 @@ namespace Infobip.Api.Client.Model
                     (CustomData != null &&
                      input.CustomData != null &&
                      CustomData.SequenceEqual(input.CustomData))
+                ) &&
+                (
+                    PropagationOptions == input.PropagationOptions ||
+                    (PropagationOptions != null &&
+                     PropagationOptions.Equals(input.PropagationOptions))
                 );
         }
 
@@ -137,6 +153,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Platform: ").Append(Platform).Append("\n");
             sb.Append("  Timeout: ").Append(Timeout).Append("\n");
             sb.Append("  CustomData: ").Append(CustomData).Append("\n");
+            sb.Append("  PropagationOptions: ").Append(PropagationOptions).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -176,6 +193,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + Timeout.GetHashCode();
                 if (CustomData != null)
                     hashCode = hashCode * 59 + CustomData.GetHashCode();
+                if (PropagationOptions != null)
+                    hashCode = hashCode * 59 + PropagationOptions.GetHashCode();
                 return hashCode;
             }
         }

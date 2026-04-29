@@ -14,11 +14,12 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     EmailValidationResponse
+    ///     Validation response
     /// </summary>
     [DataContract(Name = "EmailValidationResponse")]
     [JsonObject]
@@ -27,153 +28,159 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailValidationResponse" /> class.
         /// </summary>
-        /// <param name="to">Email address of the recipient..</param>
-        /// <param name="validMailbox">Represents status of recipient email address..</param>
-        /// <param name="validSyntax">Represents syntax of recipient email address..</param>
-        /// <param name="catchAll">Denotes catch all status of recipient email address..</param>
-        /// <param name="didYouMean">Suggests alternate addresses that maybe valid..</param>
-        /// <param name="disposable">disposable.</param>
-        /// <param name="roleBased">roleBased.</param>
-        /// <param name="reason">
-        ///     Reason is provided when validMailbox status is unknown. 1. INBOX_FULL - The user quota exceeded /
-        ///     The user inbox is full / The user doesn&#39;t accept any more requests.  2. UNEXPECTED_FAILURE - The mail Server
-        ///     returned a temporary error. 3. THROTTLED - The mail server is not allowing us momentarily because of too many
-        ///     requests. 4. TIMED_OUT - The Mail Server took a longer time to respond / there was a delay in the network. 5.
-        ///     TEMP_REJECTION - Mail server temporarily rejected. 6. UNABLE_TO_CONNECT - Unable to connect to the Mail Server..
-        /// </param>
-        /// <param name="detailedReasons">
-        ///     Is provided when validMailbox is &#39;unknown&#39; or &#39;false&#39; and lists reasons
-        ///     clarifying why validMailbox has that status..
-        /// </param>
-        /// <param name="risk">
-        ///     Returns one of the following values: &#39;High&#39;, &#39;Medium&#39;, &#39;Low&#39; or &#39;Unknown
-        ///     &#39;. High risk addresses have very high chances of bouncing (and potentially damaging the sender&#39;s
-        ///     reputation), whereas low risk addresses have very low chances of bouncing and damaging the sender&#39;s
-        ///     reputation..
-        /// </param>
-        public EmailValidationResponse(string to = default, string validMailbox = default, bool validSyntax = default,
-            bool catchAll = default, string didYouMean = default, bool disposable = default, bool roleBased = default,
-            string reason = default, string detailedReasons = default, string risk = default)
+        [JsonConstructorAttribute]
+        protected EmailValidationResponse()
         {
-            To = to;
-            ValidMailbox = validMailbox;
-            ValidSyntax = validSyntax;
-            CatchAll = catchAll;
-            DidYouMean = didYouMean;
-            Disposable = disposable;
-            RoleBased = roleBased;
-            Reason = reason;
-            DetailedReasons = detailedReasons;
-            Risk = risk;
         }
 
         /// <summary>
-        ///     Email address of the recipient.
+        ///     Initializes a new instance of the <see cref="EmailValidationResponse" /> class.
         /// </summary>
-        /// <value>Email address of the recipient.</value>
-        [DataMember(Name = "to", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "to", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <param name="to">The validated email address. (required).</param>
+        /// <param name="validMailbox">Indicates whether email address is valid. (required).</param>
+        /// <param name="validSyntax">Indicates whether email address syntax is valid. (required).</param>
+        /// <param name="catchAll">Indicates catch all status of email address. (required).</param>
+        /// <param name="didYouMean">Suggests similar alternate address that may be valid..</param>
+        /// <param name="disposable">
+        ///     Indicates whether email address is disposable. A disposable email address is a temporary
+        ///     address that is often used for short-term purposes and can be discarded after use.  (required).
+        /// </param>
+        /// <param name="roleBased">
+        ///     Indicates whether email address is role-based. A role-based email address is one that is
+        ///     associated with a specific function or group within an organization, such as marketing@example.org, rather than an
+        ///     individual person.  (required).
+        /// </param>
+        /// <param name="reason">reason.</param>
+        /// <param name="risk">risk (required).</param>
+        /// <param name="detailedReasons">
+        ///     This field is provided when the validMailbox status is &#39;unknown&#39; or &#39;false
+        ///     &#39;, offering specific explanations for why the email address has been assigned that status. .
+        /// </param>
+        public EmailValidationResponse(string to = default, string validMailbox = default, bool validSyntax = default,
+            bool catchAll = default, string didYouMean = default, bool disposable = default, bool roleBased = default,
+            EmailValidationReason? reason = default, EmailValidationApiRisk risk = default,
+            string detailedReasons = default)
+        {
+            // to ensure "to" is required (not null)
+            To = to ?? throw new ArgumentNullException("to");
+            // to ensure "validMailbox" is required (not null)
+            ValidMailbox = validMailbox ?? throw new ArgumentNullException("validMailbox");
+            ValidSyntax = validSyntax;
+            CatchAll = catchAll;
+            Disposable = disposable;
+            RoleBased = roleBased;
+            Risk = risk;
+            DidYouMean = didYouMean;
+            Reason = reason;
+            DetailedReasons = detailedReasons;
+        }
+
+        /// <summary>
+        ///     Gets or Sets Reason
+        /// </summary>
+        [DataMember(Name = "reason", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "reason", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("reason")]
+        public EmailValidationReason? Reason { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Risk
+        /// </summary>
+        [DataMember(Name = "risk", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "risk", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("risk")]
+        public EmailValidationApiRisk Risk { get; set; }
+
+        /// <summary>
+        ///     The validated email address.
+        /// </summary>
+        /// <value>The validated email address.</value>
+        [DataMember(Name = "to", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "to", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("to")]
         public string To { get; set; }
 
         /// <summary>
-        ///     Represents status of recipient email address.
+        ///     Indicates whether email address is valid.
         /// </summary>
-        /// <value>Represents status of recipient email address.</value>
-        [DataMember(Name = "validMailbox", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "validMailbox", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <value>Indicates whether email address is valid.</value>
+        [DataMember(Name = "validMailbox", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "validMailbox", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("validMailbox")]
         public string ValidMailbox { get; set; }
 
         /// <summary>
-        ///     Represents syntax of recipient email address.
+        ///     Indicates whether email address syntax is valid.
         /// </summary>
-        /// <value>Represents syntax of recipient email address.</value>
-        [DataMember(Name = "validSyntax", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "validSyntax", DefaultValueHandling = DefaultValueHandling.Include)]
+        /// <value>Indicates whether email address syntax is valid.</value>
+        [DataMember(Name = "validSyntax", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "validSyntax", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("validSyntax")]
         public bool ValidSyntax { get; set; }
 
         /// <summary>
-        ///     Denotes catch all status of recipient email address.
+        ///     Indicates catch all status of email address.
         /// </summary>
-        /// <value>Denotes catch all status of recipient email address.</value>
-        [DataMember(Name = "catchAll", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "catchAll", DefaultValueHandling = DefaultValueHandling.Include)]
+        /// <value>Indicates catch all status of email address.</value>
+        [DataMember(Name = "catchAll", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "catchAll", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("catchAll")]
         public bool CatchAll { get; set; }
 
         /// <summary>
-        ///     Suggests alternate addresses that maybe valid.
+        ///     Suggests similar alternate address that may be valid.
         /// </summary>
-        /// <value>Suggests alternate addresses that maybe valid.</value>
+        /// <value>Suggests similar alternate address that may be valid.</value>
         [DataMember(Name = "didYouMean", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "didYouMean", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("didYouMean")]
         public string DidYouMean { get; set; }
 
         /// <summary>
-        ///     Gets or Sets Disposable
+        ///     Indicates whether email address is disposable. A disposable email address is a temporary address that is often used
+        ///     for short-term purposes and can be discarded after use.
         /// </summary>
-        [DataMember(Name = "disposable", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "disposable", DefaultValueHandling = DefaultValueHandling.Include)]
+        /// <value>
+        ///     Indicates whether email address is disposable. A disposable email address is a temporary address that is often
+        ///     used for short-term purposes and can be discarded after use.
+        /// </value>
+        [DataMember(Name = "disposable", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "disposable", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("disposable")]
         public bool Disposable { get; set; }
 
         /// <summary>
-        ///     Gets or Sets RoleBased
+        ///     Indicates whether email address is role-based. A role-based email address is one that is associated with a specific
+        ///     function or group within an organization, such as marketing@example.org, rather than an individual person.
         /// </summary>
-        [DataMember(Name = "roleBased", EmitDefaultValue = true)]
-        [JsonProperty(PropertyName = "roleBased", DefaultValueHandling = DefaultValueHandling.Include)]
+        /// <value>
+        ///     Indicates whether email address is role-based. A role-based email address is one that is associated with a
+        ///     specific function or group within an organization, such as marketing@example.org, rather than an individual person.
+        /// </value>
+        [DataMember(Name = "roleBased", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "roleBased", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("roleBased")]
         public bool RoleBased { get; set; }
 
         /// <summary>
-        ///     Reason is provided when validMailbox status is unknown. 1. INBOX_FULL - The user quota exceeded / The user inbox is
-        ///     full / The user doesn&#39;t accept any more requests.  2. UNEXPECTED_FAILURE - The mail Server returned a temporary
-        ///     error. 3. THROTTLED - The mail server is not allowing us momentarily because of too many requests. 4. TIMED_OUT -
-        ///     The Mail Server took a longer time to respond / there was a delay in the network. 5. TEMP_REJECTION - Mail server
-        ///     temporarily rejected. 6. UNABLE_TO_CONNECT - Unable to connect to the Mail Server.
+        ///     This field is provided when the validMailbox status is &#39;unknown&#39; or &#39;false&#39;, offering specific
+        ///     explanations for why the email address has been assigned that status.
         /// </summary>
         /// <value>
-        ///     Reason is provided when validMailbox status is unknown. 1. INBOX_FULL - The user quota exceeded / The user inbox
-        ///     is full / The user doesn&#39;t accept any more requests.  2. UNEXPECTED_FAILURE - The mail Server returned a
-        ///     temporary error. 3. THROTTLED - The mail server is not allowing us momentarily because of too many requests. 4.
-        ///     TIMED_OUT - The Mail Server took a longer time to respond / there was a delay in the network. 5. TEMP_REJECTION -
-        ///     Mail server temporarily rejected. 6. UNABLE_TO_CONNECT - Unable to connect to the Mail Server.
-        /// </value>
-        [DataMember(Name = "reason", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "reason", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("reason")]
-        public string Reason { get; set; }
-
-        /// <summary>
-        ///     Is provided when validMailbox is &#39;unknown&#39; or &#39;false&#39; and lists reasons clarifying why validMailbox
-        ///     has that status.
-        /// </summary>
-        /// <value>
-        ///     Is provided when validMailbox is &#39;unknown&#39; or &#39;false&#39; and lists reasons clarifying why
-        ///     validMailbox has that status.
+        ///     This field is provided when the validMailbox status is &#39;unknown&#39; or &#39;false&#39;, offering specific
+        ///     explanations for why the email address has been assigned that status.
         /// </value>
         [DataMember(Name = "detailedReasons", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "detailedReasons", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("detailedReasons")]
         public string DetailedReasons { get; set; }
-
-        /// <summary>
-        ///     Returns one of the following values: &#39;High&#39;, &#39;Medium&#39;, &#39;Low&#39; or &#39;Unknown&#39;. High
-        ///     risk addresses have very high chances of bouncing (and potentially damaging the sender&#39;s reputation), whereas
-        ///     low risk addresses have very low chances of bouncing and damaging the sender&#39;s reputation.
-        /// </summary>
-        /// <value>
-        ///     Returns one of the following values: &#39;High&#39;, &#39;Medium&#39;, &#39;Low&#39; or &#39;Unknown&#39;. High
-        ///     risk addresses have very high chances of bouncing (and potentially damaging the sender&#39;s reputation), whereas
-        ///     low risk addresses have very low chances of bouncing and damaging the sender&#39;s reputation.
-        /// </value>
-        [DataMember(Name = "risk", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "risk", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [JsonPropertyName("risk")]
-        public string Risk { get; set; }
 
         /// <summary>
         ///     Returns true if EmailValidationResponse instances are equal
@@ -219,18 +226,16 @@ namespace Infobip.Api.Client.Model
                 ) &&
                 (
                     Reason == input.Reason ||
-                    (Reason != null &&
-                     Reason.Equals(input.Reason))
+                    Reason.Equals(input.Reason)
+                ) &&
+                (
+                    Risk == input.Risk ||
+                    Risk.Equals(input.Risk)
                 ) &&
                 (
                     DetailedReasons == input.DetailedReasons ||
                     (DetailedReasons != null &&
                      DetailedReasons.Equals(input.DetailedReasons))
-                ) &&
-                (
-                    Risk == input.Risk ||
-                    (Risk != null &&
-                     Risk.Equals(input.Risk))
                 );
         }
 
@@ -250,8 +255,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Disposable: ").Append(Disposable).Append("\n");
             sb.Append("  RoleBased: ").Append(RoleBased).Append("\n");
             sb.Append("  Reason: ").Append(Reason).Append("\n");
-            sb.Append("  DetailedReasons: ").Append(DetailedReasons).Append("\n");
             sb.Append("  Risk: ").Append(Risk).Append("\n");
+            sb.Append("  DetailedReasons: ").Append(DetailedReasons).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -294,12 +299,10 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + DidYouMean.GetHashCode();
                 hashCode = hashCode * 59 + Disposable.GetHashCode();
                 hashCode = hashCode * 59 + RoleBased.GetHashCode();
-                if (Reason != null)
-                    hashCode = hashCode * 59 + Reason.GetHashCode();
+                hashCode = hashCode * 59 + Reason.GetHashCode();
+                hashCode = hashCode * 59 + Risk.GetHashCode();
                 if (DetailedReasons != null)
                     hashCode = hashCode * 59 + DetailedReasons.GetHashCode();
-                if (Risk != null)
-                    hashCode = hashCode * 59 + Risk.GetHashCode();
                 return hashCode;
             }
         }

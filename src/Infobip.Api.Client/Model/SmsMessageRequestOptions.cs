@@ -30,9 +30,10 @@ namespace Infobip.Api.Client.Model
         /// <param name="schedule">schedule.</param>
         /// <param name="tracking">tracking.</param>
         /// <param name="includeSmsCountInResponse">
-        ///     Set to true to return smsCount in the response. Default is false. smsCount is
-        ///     the total count of SMS submitted in the request. SMS messages have a character limit and messages longer than that
-        ///     limit will be split into multiple SMS and reflected in the total count of SMS submitted.  (default to false).
+        ///     Set to true to return &#x60;messageCount&#x60; in the response. The &#x60;
+        ///     messageCount&#x60; is the total count of SMS submitted in the request. SMS messages have a character limit and
+        ///     messages longer than the limit will be split into multiple SMS. Not compatible with &#x60;binary&#x60; message
+        ///     content type. (default to false).
         /// </param>
         /// <param name="conversionTracking">conversionTracking.</param>
         public SmsMessageRequestOptions(SmsRequestSchedulingSettings schedule = default, UrlOptions tracking = default,
@@ -61,14 +62,14 @@ namespace Infobip.Api.Client.Model
         public UrlOptions Tracking { get; set; }
 
         /// <summary>
-        ///     Set to true to return smsCount in the response. Default is false. smsCount is the total count of SMS submitted in
-        ///     the request. SMS messages have a character limit and messages longer than that limit will be split into multiple
-        ///     SMS and reflected in the total count of SMS submitted.
+        ///     Set to true to return &#x60;messageCount&#x60; in the response. The &#x60;messageCount&#x60; is the total count of
+        ///     SMS submitted in the request. SMS messages have a character limit and messages longer than the limit will be split
+        ///     into multiple SMS. Not compatible with &#x60;binary&#x60; message content type.
         /// </summary>
         /// <value>
-        ///     Set to true to return smsCount in the response. Default is false. smsCount is the total count of SMS submitted
-        ///     in the request. SMS messages have a character limit and messages longer than that limit will be split into multiple
-        ///     SMS and reflected in the total count of SMS submitted.
+        ///     Set to true to return &#x60;messageCount&#x60; in the response. The &#x60;messageCount&#x60; is the total count
+        ///     of SMS submitted in the request. SMS messages have a character limit and messages longer than the limit will be
+        ///     split into multiple SMS. Not compatible with &#x60;binary&#x60; message content type.
         /// </value>
         [DataMember(Name = "includeSmsCountInResponse", EmitDefaultValue = true)]
         [JsonProperty(PropertyName = "includeSmsCountInResponse", DefaultValueHandling = DefaultValueHandling.Include)]

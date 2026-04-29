@@ -66,6 +66,7 @@ namespace Infobip.Api.Client.Model
                 AdminStatus.Equals(input.AdminStatus);
         }
 
+
         /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>

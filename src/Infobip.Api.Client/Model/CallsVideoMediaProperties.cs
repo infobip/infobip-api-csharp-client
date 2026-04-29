@@ -29,10 +29,12 @@ namespace Infobip.Api.Client.Model
         /// </summary>
         /// <param name="camera">Indicates whether there is a video feed..</param>
         /// <param name="screenShare">Indicates whether the end user is sharing their screen..</param>
-        public CallsVideoMediaProperties(bool camera = default, bool screenShare = default)
+        /// <param name="blind">Indicates whether the end user can receive remote videos..</param>
+        public CallsVideoMediaProperties(bool camera = default, bool screenShare = default, bool blind = default)
         {
             Camera = camera;
             ScreenShare = screenShare;
+            Blind = blind;
         }
 
         /// <summary>
@@ -54,6 +56,15 @@ namespace Infobip.Api.Client.Model
         public bool ScreenShare { get; set; }
 
         /// <summary>
+        ///     Indicates whether the end user can receive remote videos.
+        /// </summary>
+        /// <value>Indicates whether the end user can receive remote videos.</value>
+        [DataMember(Name = "blind", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "blind", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("blind")]
+        public bool Blind { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsVideoMediaProperties instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsVideoMediaProperties to be compared</param>
@@ -71,6 +82,10 @@ namespace Infobip.Api.Client.Model
                 (
                     ScreenShare == input.ScreenShare ||
                     ScreenShare.Equals(input.ScreenShare)
+                ) &&
+                (
+                    Blind == input.Blind ||
+                    Blind.Equals(input.Blind)
                 );
         }
 
@@ -84,6 +99,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsVideoMediaProperties {\n");
             sb.Append("  Camera: ").Append(Camera).Append("\n");
             sb.Append("  ScreenShare: ").Append(ScreenShare).Append("\n");
+            sb.Append("  Blind: ").Append(Blind).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,6 +134,7 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 hashCode = hashCode * 59 + Camera.GetHashCode();
                 hashCode = hashCode * 59 + ScreenShare.GetHashCode();
+                hashCode = hashCode * 59 + Blind.GetHashCode();
                 return hashCode;
             }
         }

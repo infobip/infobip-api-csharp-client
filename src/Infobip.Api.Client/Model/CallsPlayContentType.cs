@@ -40,6 +40,11 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Enum Text for value: TEXT
         /// </summary>
-        [EnumMember(Value = "TEXT")] Text = 4
+        [EnumMember(Value = "TEXT")] Text = 4,
+
+        /// <summary>
+        ///     Enum Tty for value: TTY
+        /// </summary>
+        [EnumMember(Value = "TTY")] Tty = 5
     }
 }

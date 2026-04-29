@@ -10,6 +10,8 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -41,10 +43,18 @@ namespace Infobip.Api.Client.Model
         ///     Flag indicating whether interim transcription results should be sent. (default to
         ///     false).
         /// </param>
-        public CallsTranscription(CallsLanguage language = default, bool sendInterimResults = false)
+        /// <param name="customDictionary">Array of custom words used for more accurate transcription..</param>
+        /// <param name="advancedFormatting">
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral
+        ///     normalization, and disfluency filtering. Defaults to &#x60;false&#x60;. (default to false).
+        /// </param>
+        public CallsTranscription(CallsTranscriptionLanguage language = default, bool sendInterimResults = false,
+            List<string> customDictionary = default, bool advancedFormatting = false)
         {
             Language = language;
             SendInterimResults = sendInterimResults;
+            CustomDictionary = customDictionary;
+            AdvancedFormatting = advancedFormatting;
         }
 
         /// <summary>
@@ -54,7 +64,7 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "language", Required = Required.DisallowNull,
             DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("language")]
-        public CallsLanguage Language { get; set; }
+        public CallsTranscriptionLanguage Language { get; set; }
 
         /// <summary>
         ///     Flag indicating whether interim transcription results should be sent.
@@ -64,6 +74,28 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "sendInterimResults", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("sendInterimResults")]
         public bool SendInterimResults { get; set; }
+
+        /// <summary>
+        ///     Array of custom words used for more accurate transcription.
+        /// </summary>
+        /// <value>Array of custom words used for more accurate transcription.</value>
+        [DataMember(Name = "customDictionary", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "customDictionary", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("customDictionary")]
+        public List<string> CustomDictionary { get; set; }
+
+        /// <summary>
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral normalization, and disfluency
+        ///     filtering. Defaults to &#x60;false&#x60;.
+        /// </summary>
+        /// <value>
+        ///     Toggles enhanced text formatting features like punctuation, proper casing, numeral normalization, and disfluency
+        ///     filtering. Defaults to &#x60;false&#x60;.
+        /// </value>
+        [DataMember(Name = "advancedFormatting", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "advancedFormatting", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("advancedFormatting")]
+        public bool AdvancedFormatting { get; set; }
 
         /// <summary>
         ///     Returns true if CallsTranscription instances are equal
@@ -83,6 +115,16 @@ namespace Infobip.Api.Client.Model
                 (
                     SendInterimResults == input.SendInterimResults ||
                     SendInterimResults.Equals(input.SendInterimResults)
+                ) &&
+                (
+                    CustomDictionary == input.CustomDictionary ||
+                    (CustomDictionary != null &&
+                     input.CustomDictionary != null &&
+                     CustomDictionary.SequenceEqual(input.CustomDictionary))
+                ) &&
+                (
+                    AdvancedFormatting == input.AdvancedFormatting ||
+                    AdvancedFormatting.Equals(input.AdvancedFormatting)
                 );
         }
 
@@ -96,6 +138,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsTranscription {\n");
             sb.Append("  Language: ").Append(Language).Append("\n");
             sb.Append("  SendInterimResults: ").Append(SendInterimResults).Append("\n");
+            sb.Append("  CustomDictionary: ").Append(CustomDictionary).Append("\n");
+            sb.Append("  AdvancedFormatting: ").Append(AdvancedFormatting).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -130,6 +174,9 @@ namespace Infobip.Api.Client.Model
                 var hashCode = 41;
                 hashCode = hashCode * 59 + Language.GetHashCode();
                 hashCode = hashCode * 59 + SendInterimResults.GetHashCode();
+                if (CustomDictionary != null)
+                    hashCode = hashCode * 59 + CustomDictionary.GetHashCode();
+                hashCode = hashCode * 59 + AdvancedFormatting.GetHashCode();
                 return hashCode;
             }
         }

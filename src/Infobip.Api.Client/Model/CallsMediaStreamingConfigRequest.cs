@@ -38,11 +38,11 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="CallsMediaStreamingConfigRequest" /> class.
         /// </summary>
         /// <param name="securityConfig">securityConfig.</param>
-        /// <param name="type">type (default to CallsRequestMediaStreamConfigType.MediaStreaming).</param>
+        /// <param name="type">type (required) (default to CallsRequestMediaStreamConfigType.MediaStreaming).</param>
         /// <param name="name">Media-stream configuration name. (required).</param>
         /// <param name="url">Destination websocket or load balancer URL. (required).</param>
         public CallsMediaStreamingConfigRequest(SecurityConfig securityConfig = default,
-            CallsRequestMediaStreamConfigType? type = CallsRequestMediaStreamConfigType.MediaStreaming,
+            CallsRequestMediaStreamConfigType type = CallsRequestMediaStreamConfigType.MediaStreaming,
             string name = default, string url = default) : base(type, name, url)
         {
             SecurityConfig = securityConfig;

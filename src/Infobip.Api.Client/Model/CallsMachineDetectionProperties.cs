@@ -30,11 +30,19 @@ namespace Infobip.Api.Client.Model
         ///     Initializes a new instance of the <see cref="CallsMachineDetectionProperties" /> class.
         /// </summary>
         /// <param name="detectionResult">detectionResult.</param>
+        /// <param name="confidenceRating">
+        ///     A map representing the confidence rating for each detection class. The key is a tag
+        ///     indicating the detection class, and the value is a float between &#x60;0.0&#x60; and &#x60;1.0&#x60; representing
+        ///     the confidence rating. Possible classes are: &#x60;HUMAN&#x60;, &#x60;MACHINE&#x60;, &#x60;MUSIC&#x60;, &#x60;
+        ///     RINGING&#x60;, &#x60;NOISE&#x60;, &#x60;SILENCE&#x60; and &#x60;OTHER&#x60;. Each class confidence rating is
+        ///     independent from the other, thereby the sum of all confidence values may not equal 1.0..
+        /// </param>
         /// <param name="customData">Custom data..</param>
         public CallsMachineDetectionProperties(CallsDetectionResult? detectionResult = default,
-            Dictionary<string, string> customData = default)
+            Dictionary<string, double> confidenceRating = default, Dictionary<string, string> customData = default)
         {
             DetectionResult = detectionResult;
+            ConfidenceRating = confidenceRating;
             CustomData = customData;
         }
 
@@ -45,6 +53,25 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "detectionResult", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("detectionResult")]
         public CallsDetectionResult? DetectionResult { get; set; }
+
+        /// <summary>
+        ///     A map representing the confidence rating for each detection class. The key is a tag indicating the detection class,
+        ///     and the value is a float between &#x60;0.0&#x60; and &#x60;1.0&#x60; representing the confidence rating. Possible
+        ///     classes are: &#x60;HUMAN&#x60;, &#x60;MACHINE&#x60;, &#x60;MUSIC&#x60;, &#x60;RINGING&#x60;, &#x60;NOISE&#x60;,
+        ///     &#x60;SILENCE&#x60; and &#x60;OTHER&#x60;. Each class confidence rating is independent from the other, thereby the
+        ///     sum of all confidence values may not equal 1.0.
+        /// </summary>
+        /// <value>
+        ///     A map representing the confidence rating for each detection class. The key is a tag indicating the detection
+        ///     class, and the value is a float between &#x60;0.0&#x60; and &#x60;1.0&#x60; representing the confidence rating.
+        ///     Possible classes are: &#x60;HUMAN&#x60;, &#x60;MACHINE&#x60;, &#x60;MUSIC&#x60;, &#x60;RINGING&#x60;, &#x60;NOISE
+        ///     &#x60;, &#x60;SILENCE&#x60; and &#x60;OTHER&#x60;. Each class confidence rating is independent from the other,
+        ///     thereby the sum of all confidence values may not equal 1.0.
+        /// </value>
+        [DataMember(Name = "confidenceRating", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "confidenceRating", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("confidenceRating")]
+        public Dictionary<string, double> ConfidenceRating { get; set; }
 
         /// <summary>
         ///     Custom data.
@@ -71,6 +98,12 @@ namespace Infobip.Api.Client.Model
                     DetectionResult.Equals(input.DetectionResult)
                 ) &&
                 (
+                    ConfidenceRating == input.ConfidenceRating ||
+                    (ConfidenceRating != null &&
+                     input.ConfidenceRating != null &&
+                     ConfidenceRating.SequenceEqual(input.ConfidenceRating))
+                ) &&
+                (
                     CustomData == input.CustomData ||
                     (CustomData != null &&
                      input.CustomData != null &&
@@ -87,6 +120,7 @@ namespace Infobip.Api.Client.Model
             var sb = new StringBuilder();
             sb.Append("class CallsMachineDetectionProperties {\n");
             sb.Append("  DetectionResult: ").Append(DetectionResult).Append("\n");
+            sb.Append("  ConfidenceRating: ").Append(ConfidenceRating).Append("\n");
             sb.Append("  CustomData: ").Append(CustomData).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -121,6 +155,8 @@ namespace Infobip.Api.Client.Model
             {
                 var hashCode = 41;
                 hashCode = hashCode * 59 + DetectionResult.GetHashCode();
+                if (ConfidenceRating != null)
+                    hashCode = hashCode * 59 + ConfidenceRating.GetHashCode();
                 if (CustomData != null)
                     hashCode = hashCode * 59 + CustomData.GetHashCode();
                 return hashCode;

@@ -14,6 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -27,27 +28,39 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailBulkUpdateStatusResponse" /> class.
         /// </summary>
-        /// <param name="bulkId">bulkId.</param>
-        /// <param name="status">status.</param>
-        public EmailBulkUpdateStatusResponse(string bulkId = default, EmailBulkStatus? status = default)
+        [JsonConstructorAttribute]
+        protected EmailBulkUpdateStatusResponse()
         {
-            BulkId = bulkId;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EmailBulkUpdateStatusResponse" /> class.
+        /// </summary>
+        /// <param name="bulkId">The ID that uniquely identifies the message within the bulk. (required).</param>
+        /// <param name="status">status (required).</param>
+        public EmailBulkUpdateStatusResponse(string bulkId = default, EmailBulkStatus status = default)
+        {
+            // to ensure "bulkId" is required (not null)
+            BulkId = bulkId ?? throw new ArgumentNullException("bulkId");
             Status = status;
         }
 
         /// <summary>
         ///     Gets or Sets Status
         /// </summary>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "status", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "status", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "status", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("status")]
-        public EmailBulkStatus? Status { get; set; }
+        public EmailBulkStatus Status { get; set; }
 
         /// <summary>
-        ///     Gets or Sets BulkId
+        ///     The ID that uniquely identifies the message within the bulk.
         /// </summary>
-        [DataMember(Name = "bulkId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "bulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <value>The ID that uniquely identifies the message within the bulk.</value>
+        [DataMember(Name = "bulkId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "bulkId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("bulkId")]
         public string BulkId { get; set; }
 

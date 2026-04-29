@@ -16,8 +16,9 @@ using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 namespace Infobip.Api.Client.Model
 {
     /// <summary>
-    ///     Defines EmailBulkStatus.
+    ///     Status of scheduled email messages..
     /// </summary>
+    /// <value>Status of scheduled email messages.</value>
     [JsonConverter(typeof(StringEnumConverter))]
     [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumMemberConverter<EmailBulkStatus>))]
     public enum EmailBulkStatus

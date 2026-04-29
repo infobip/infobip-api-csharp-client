@@ -31,18 +31,23 @@ namespace Infobip.Api.Client.Model
         /// <param name="gender">Gender of the voice. Can be &#x60;male&#x60; or &#x60;female&#x60;..</param>
         /// <param name="supplier">Name of the supplier for text to speech synthesis..</param>
         /// <param name="ssmlSupported">Indicates if SSML is supported..</param>
+        /// <param name="default">@default.</param>
+        /// <param name="neural">neural.</param>
         /// <param name="isDefault">
         ///     Indicates whether voice is default voice for a given language. If voice is not chosen for the
         ///     language, then default voice will be used..
         /// </param>
         /// <param name="isNeural">Indicates whether voice is neural. Using neural voice will generate additional cost..</param>
         public CallsSynthesisVoice(string name = default, string gender = default, string supplier = default,
-            bool ssmlSupported = default, bool isDefault = default, bool isNeural = default)
+            bool ssmlSupported = default, bool @default = default, bool neural = default, bool isDefault = default,
+            bool isNeural = default)
         {
             Name = name;
             Gender = gender;
             Supplier = supplier;
             SsmlSupported = ssmlSupported;
+            Default = @default;
+            Neural = neural;
             IsDefault = isDefault;
             IsNeural = isNeural;
         }
@@ -82,6 +87,22 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "ssmlSupported", DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("ssmlSupported")]
         public bool SsmlSupported { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Default
+        /// </summary>
+        [DataMember(Name = "default", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "default", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("default")]
+        public bool Default { get; set; }
+
+        /// <summary>
+        ///     Gets or Sets Neural
+        /// </summary>
+        [DataMember(Name = "neural", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "neural", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("neural")]
+        public bool Neural { get; set; }
 
         /// <summary>
         ///     Indicates whether voice is default voice for a given language. If voice is not chosen for the language, then
@@ -136,6 +157,14 @@ namespace Infobip.Api.Client.Model
                     SsmlSupported.Equals(input.SsmlSupported)
                 ) &&
                 (
+                    Default == input.Default ||
+                    Default.Equals(input.Default)
+                ) &&
+                (
+                    Neural == input.Neural ||
+                    Neural.Equals(input.Neural)
+                ) &&
+                (
                     IsDefault == input.IsDefault ||
                     IsDefault.Equals(input.IsDefault)
                 ) &&
@@ -157,6 +186,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Gender: ").Append(Gender).Append("\n");
             sb.Append("  Supplier: ").Append(Supplier).Append("\n");
             sb.Append("  SsmlSupported: ").Append(SsmlSupported).Append("\n");
+            sb.Append("  Default: ").Append(Default).Append("\n");
+            sb.Append("  Neural: ").Append(Neural).Append("\n");
             sb.Append("  IsDefault: ").Append(IsDefault).Append("\n");
             sb.Append("  IsNeural: ").Append(IsNeural).Append("\n");
             sb.Append("}\n");
@@ -198,6 +229,8 @@ namespace Infobip.Api.Client.Model
                 if (Supplier != null)
                     hashCode = hashCode * 59 + Supplier.GetHashCode();
                 hashCode = hashCode * 59 + SsmlSupported.GetHashCode();
+                hashCode = hashCode * 59 + Default.GetHashCode();
+                hashCode = hashCode * 59 + Neural.GetHashCode();
                 hashCode = hashCode * 59 + IsDefault.GetHashCode();
                 hashCode = hashCode * 59 + IsNeural.GetHashCode();
                 return hashCode;

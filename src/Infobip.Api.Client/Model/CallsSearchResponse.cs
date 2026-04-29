@@ -32,6 +32,12 @@ namespace Infobip.Api.Client.Model
         /// <param name="description">Scenario description..</param>
         /// <param name="id">Scenario key. It is used for launching IVR scenario..</param>
         /// <param name="name">Scenario name..</param>
+        /// <param name="notifyUrl">The URL on the client&#39;s callback server on which the Delivery report will be sent..</param>
+        /// <param name="notifyContentType">
+        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;
+        ///     application/xml&#x60;..
+        /// </param>
+        /// <param name="record">Indicates if all calls using the scenario should be recorded..</param>
         /// <param name="script">script.</param>
         /// <param name="updateTime">Update timestamp.</param>
         /// <param name="lastUsageDate">
@@ -39,13 +45,17 @@ namespace Infobip.Api.Client.Model
         ///     2024-01-01&#x60;..
         /// </param>
         public CallsSearchResponse(DateTimeOffset createTime = default, string description = default,
-            string id = default, string name = default, JRaw script = default, DateTimeOffset updateTime = default,
-            string lastUsageDate = default)
+            string id = default, string name = default, string notifyUrl = default, string notifyContentType = default,
+            bool record = default, JRaw script = default, DateTimeOffset updateTime = default,
+            DateTimeOffset lastUsageDate = default)
         {
             CreateTime = createTime;
             Description = description;
             Id = id;
             Name = name;
+            NotifyUrl = notifyUrl;
+            NotifyContentType = notifyContentType;
+            Record = record;
             Script = script;
             UpdateTime = updateTime;
             LastUsageDate = lastUsageDate;
@@ -89,6 +99,33 @@ namespace Infobip.Api.Client.Model
         public string Name { get; set; }
 
         /// <summary>
+        ///     The URL on the client&#39;s callback server on which the Delivery report will be sent.
+        /// </summary>
+        /// <value>The URL on the client&#39;s callback server on which the Delivery report will be sent.</value>
+        [DataMember(Name = "notifyUrl", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notifyUrl", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("notifyUrl")]
+        public string NotifyUrl { get; set; }
+
+        /// <summary>
+        ///     Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.
+        /// </summary>
+        /// <value>Preferred Delivery report content type. Can be &#x60;application/json&#x60; or &#x60;application/xml&#x60;.</value>
+        [DataMember(Name = "notifyContentType", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "notifyContentType", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("notifyContentType")]
+        public string NotifyContentType { get; set; }
+
+        /// <summary>
+        ///     Indicates if all calls using the scenario should be recorded.
+        /// </summary>
+        /// <value>Indicates if all calls using the scenario should be recorded.</value>
+        [DataMember(Name = "record", EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "record", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonPropertyName("record")]
+        public bool Record { get; set; }
+
+        /// <summary>
         ///     Gets or Sets Script
         /// </summary>
         [DataMember(Name = "script", EmitDefaultValue = false)]
@@ -113,7 +150,7 @@ namespace Infobip.Api.Client.Model
         [DataMember(Name = "lastUsageDate", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "lastUsageDate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("lastUsageDate")]
-        public string LastUsageDate { get; set; }
+        public DateTimeOffset LastUsageDate { get; set; }
 
         /// <summary>
         ///     Returns true if CallsSearchResponse instances are equal
@@ -147,6 +184,20 @@ namespace Infobip.Api.Client.Model
                      Name.Equals(input.Name))
                 ) &&
                 (
+                    NotifyUrl == input.NotifyUrl ||
+                    (NotifyUrl != null &&
+                     NotifyUrl.Equals(input.NotifyUrl))
+                ) &&
+                (
+                    NotifyContentType == input.NotifyContentType ||
+                    (NotifyContentType != null &&
+                     NotifyContentType.Equals(input.NotifyContentType))
+                ) &&
+                (
+                    Record == input.Record ||
+                    Record.Equals(input.Record)
+                ) &&
+                (
                     Script == input.Script ||
                     (Script != null &&
                      Script.Equals(input.Script))
@@ -175,6 +226,9 @@ namespace Infobip.Api.Client.Model
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  NotifyUrl: ").Append(NotifyUrl).Append("\n");
+            sb.Append("  NotifyContentType: ").Append(NotifyContentType).Append("\n");
+            sb.Append("  Record: ").Append(Record).Append("\n");
             sb.Append("  Script: ").Append(Script).Append("\n");
             sb.Append("  UpdateTime: ").Append(UpdateTime).Append("\n");
             sb.Append("  LastUsageDate: ").Append(LastUsageDate).Append("\n");
@@ -218,6 +272,11 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + Id.GetHashCode();
                 if (Name != null)
                     hashCode = hashCode * 59 + Name.GetHashCode();
+                if (NotifyUrl != null)
+                    hashCode = hashCode * 59 + NotifyUrl.GetHashCode();
+                if (NotifyContentType != null)
+                    hashCode = hashCode * 59 + NotifyContentType.GetHashCode();
+                hashCode = hashCode * 59 + Record.GetHashCode();
                 if (Script != null)
                     hashCode = hashCode * 59 + Script.GetHashCode();
                 if (UpdateTime != null)

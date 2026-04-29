@@ -16,6 +16,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using JsonConstructorAttribute = Newtonsoft.Json.JsonConstructorAttribute;
 
 namespace Infobip.Api.Client.Model
 {
@@ -29,27 +30,40 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="EmailBulkScheduleResponse" /> class.
         /// </summary>
-        /// <param name="externalBulkId">externalBulkId.</param>
-        /// <param name="bulks">bulks.</param>
-        public EmailBulkScheduleResponse(string externalBulkId = default, List<EmailBulkInfo> bulks = default)
+        [JsonConstructorAttribute]
+        protected EmailBulkScheduleResponse()
         {
-            ExternalBulkId = externalBulkId;
-            Bulks = bulks;
         }
 
         /// <summary>
-        ///     Gets or Sets ExternalBulkId
+        ///     Initializes a new instance of the <see cref="EmailBulkScheduleResponse" /> class.
         /// </summary>
-        [DataMember(Name = "externalBulkId", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "externalBulkId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        /// <param name="externalBulkId">The ID that uniquely identifies the sent bulk. (required).</param>
+        /// <param name="bulks">bulks (required).</param>
+        public EmailBulkScheduleResponse(string externalBulkId = default, List<EmailBulkInfo> bulks = default)
+        {
+            // to ensure "externalBulkId" is required (not null)
+            ExternalBulkId = externalBulkId ?? throw new ArgumentNullException("externalBulkId");
+            // to ensure "bulks" is required (not null)
+            Bulks = bulks ?? throw new ArgumentNullException("bulks");
+        }
+
+        /// <summary>
+        ///     The ID that uniquely identifies the sent bulk.
+        /// </summary>
+        /// <value>The ID that uniquely identifies the sent bulk.</value>
+        [DataMember(Name = "externalBulkId", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "externalBulkId", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("externalBulkId")]
         public string ExternalBulkId { get; set; }
 
         /// <summary>
         ///     Gets or Sets Bulks
         /// </summary>
-        [DataMember(Name = "bulks", EmitDefaultValue = false)]
-        [JsonProperty(PropertyName = "bulks", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(Name = "bulks", IsRequired = true, EmitDefaultValue = true)]
+        [JsonProperty(PropertyName = "bulks", Required = Required.DisallowNull,
+            DefaultValueHandling = DefaultValueHandling.Include)]
         [JsonPropertyName("bulks")]
         public List<EmailBulkInfo> Bulks { get; set; }
 

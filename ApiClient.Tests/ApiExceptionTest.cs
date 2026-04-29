@@ -1,4 +1,4 @@
-﻿using ApiClient.Tests.Api;
+using ApiClient.Tests.Api;
 using Infobip.Api.Client.Api;
 using Infobip.Api.Client.Model;
 using ApiException = Infobip.Api.Client.ApiException;

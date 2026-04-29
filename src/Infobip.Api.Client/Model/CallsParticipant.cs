@@ -42,9 +42,10 @@ namespace Infobip.Api.Client.Model
         /// <param name="joinTime">Date and time when the participant has joined..</param>
         /// <param name="leaveTime">Date and time when the participant has left..</param>
         /// <param name="media">media.</param>
+        /// <param name="role">role.</param>
         public CallsParticipant(string callId = default, CallEndpoint endpoint = default,
             CallsParticipantState? state = default, DateTimeOffset joinTime = default,
-            DateTimeOffset leaveTime = default, CallsMediaProperties media = default)
+            DateTimeOffset leaveTime = default, CallsMediaProperties media = default, CallsRole role = default)
         {
             // to ensure "endpoint" is required (not null)
             Endpoint = endpoint ?? throw new ArgumentNullException("endpoint");
@@ -53,6 +54,7 @@ namespace Infobip.Api.Client.Model
             JoinTime = joinTime;
             LeaveTime = leaveTime;
             Media = media;
+            Role = role;
         }
 
         /// <summary>
@@ -110,6 +112,14 @@ namespace Infobip.Api.Client.Model
         public CallsMediaProperties Media { get; set; }
 
         /// <summary>
+        ///     Gets or Sets Role
+        /// </summary>
+        [DataMember(Name = "role", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "role", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("role")]
+        public CallsRole Role { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsParticipant instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsParticipant to be compared</param>
@@ -148,6 +158,11 @@ namespace Infobip.Api.Client.Model
                     Media == input.Media ||
                     (Media != null &&
                      Media.Equals(input.Media))
+                ) &&
+                (
+                    Role == input.Role ||
+                    (Role != null &&
+                     Role.Equals(input.Role))
                 );
         }
 
@@ -165,6 +180,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  JoinTime: ").Append(JoinTime).Append("\n");
             sb.Append("  LeaveTime: ").Append(LeaveTime).Append("\n");
             sb.Append("  Media: ").Append(Media).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -208,6 +224,8 @@ namespace Infobip.Api.Client.Model
                     hashCode = hashCode * 59 + LeaveTime.GetHashCode();
                 if (Media != null)
                     hashCode = hashCode * 59 + Media.GetHashCode();
+                if (Role != null)
+                    hashCode = hashCode * 59 + Role.GetHashCode();
                 return hashCode;
             }
         }

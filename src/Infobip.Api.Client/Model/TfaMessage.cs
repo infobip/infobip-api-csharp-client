@@ -40,6 +40,10 @@ namespace Infobip.Api.Client.Model
         ///     company@example.com&#x60; or &#x60;Jane Smith &lt;jane.smith@somecompany.com&gt;&#x60;). This field is present only
         ///     for [Email message templates](#channels/sms/create-2fa-email-message-template)..
         /// </param>
+        /// <param name="landingPageId">
+        ///     Opt out landing page ID that should reference a previously created landing page template.
+        ///     This field is present only for [Email message templates](#channels/sms/create-2fa-email-message-template)..
+        /// </param>
         /// <param name="language">language.</param>
         /// <param name="messageId">
         ///     The ID of the message template (message body with the PIN placeholder) that is sent to the
@@ -66,14 +70,15 @@ namespace Infobip.Api.Client.Model
         ///     (charges will apply)..
         /// </param>
         public TfaMessage(string applicationId = default, long emailTemplateId = default, string from = default,
-            TfaLanguage? language = default, string messageId = default, string messageText = default,
-            int pinLength = default, string pinPlaceholder = default, TfaPinType? pinType = default,
-            TfaRegionalOptions regional = default, string repeatDTMF = default, string senderId = default,
-            double speechRate = default, string voiceName = default)
+            string landingPageId = default, TfaLanguage? language = default, string messageId = default,
+            string messageText = default, int pinLength = default, string pinPlaceholder = default,
+            TfaPinType? pinType = default, TfaRegionalOptions regional = default, string repeatDTMF = default,
+            string senderId = default, double speechRate = default, string voiceName = default)
         {
             ApplicationId = applicationId;
             EmailTemplateId = emailTemplateId;
             From = from;
+            LandingPageId = landingPageId;
             Language = language;
             MessageId = messageId;
             MessageText = messageText;
@@ -143,6 +148,19 @@ namespace Infobip.Api.Client.Model
         [JsonProperty(PropertyName = "from", DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonPropertyName("from")]
         public string From { get; set; }
+
+        /// <summary>
+        ///     Opt out landing page ID that should reference a previously created landing page template. This field is present
+        ///     only for [Email message templates](#channels/sms/create-2fa-email-message-template).
+        /// </summary>
+        /// <value>
+        ///     Opt out landing page ID that should reference a previously created landing page template. This field is present
+        ///     only for [Email message templates](#channels/sms/create-2fa-email-message-template).
+        /// </value>
+        [DataMember(Name = "landingPageId", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "landingPageId", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("landingPageId")]
+        public string LandingPageId { get; set; }
 
         /// <summary>
         ///     The ID of the message template (message body with the PIN placeholder) that is sent to the recipient.
@@ -268,6 +286,11 @@ namespace Infobip.Api.Client.Model
                      From.Equals(input.From))
                 ) &&
                 (
+                    LandingPageId == input.LandingPageId ||
+                    (LandingPageId != null &&
+                     LandingPageId.Equals(input.LandingPageId))
+                ) &&
+                (
                     Language == input.Language ||
                     Language.Equals(input.Language)
                 ) &&
@@ -331,6 +354,7 @@ namespace Infobip.Api.Client.Model
             sb.Append("  ApplicationId: ").Append(ApplicationId).Append("\n");
             sb.Append("  EmailTemplateId: ").Append(EmailTemplateId).Append("\n");
             sb.Append("  From: ").Append(From).Append("\n");
+            sb.Append("  LandingPageId: ").Append(LandingPageId).Append("\n");
             sb.Append("  Language: ").Append(Language).Append("\n");
             sb.Append("  MessageId: ").Append(MessageId).Append("\n");
             sb.Append("  MessageText: ").Append(MessageText).Append("\n");
@@ -379,6 +403,8 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + EmailTemplateId.GetHashCode();
                 if (From != null)
                     hashCode = hashCode * 59 + From.GetHashCode();
+                if (LandingPageId != null)
+                    hashCode = hashCode * 59 + LandingPageId.GetHashCode();
                 hashCode = hashCode * 59 + Language.GetHashCode();
                 if (MessageId != null)
                     hashCode = hashCode * 59 + MessageId.GetHashCode();

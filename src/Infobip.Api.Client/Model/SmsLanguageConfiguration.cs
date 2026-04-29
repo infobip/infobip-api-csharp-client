@@ -31,7 +31,7 @@ namespace Infobip.Api.Client.Model
         /// <param name="transliteration">
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH
         ///     &#x60;, &#x60;GREEK&#x60;, &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;,
-        ///     &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;..
+        ///     &#x60;CENTRAL_EUROPEAN&#x60;, &#x60;BALTIC&#x60;, &#x60;NON_UNICODE&#x60; and &#x60;ALL&#x60;..
         /// </param>
         public SmsLanguageConfiguration(SmsPreviewLanguage language = default, string transliteration = default)
         {
@@ -50,12 +50,12 @@ namespace Infobip.Api.Client.Model
         /// <summary>
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;,
         ///     &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;,
-        ///     &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;.
+        ///     &#x60;BALTIC&#x60;, &#x60;NON_UNICODE&#x60; and &#x60;ALL&#x60;.
         /// </summary>
         /// <value>
         ///     Conversion of a message text from one script to another. Possible values: &#x60;TURKISH&#x60;, &#x60;GREEK&#x60;
         ///     , &#x60;CYRILLIC&#x60;, &#x60;SERBIAN_CYRILLIC&#x60;, &#x60;BULGARIAN_CYRILLIC&#x60;, &#x60;CENTRAL_EUROPEAN&#x60;,
-        ///     &#x60;BALTIC&#x60; and &#x60;NON_UNICODE&#x60;.
+        ///     &#x60;BALTIC&#x60;, &#x60;NON_UNICODE&#x60; and &#x60;ALL&#x60;.
         /// </value>
         [DataMember(Name = "transliteration", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "transliteration", DefaultValueHandling = DefaultValueHandling.Ignore)]

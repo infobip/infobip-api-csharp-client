@@ -10,6 +10,8 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -33,11 +35,16 @@ namespace Infobip.Api.Client.Model
         ///     &#x60; when &#x60;ringbackGeneration&#x60; is enabled. (default to false).
         /// </param>
         /// <param name="ringbackGeneration">ringbackGeneration.</param>
+        /// <param name="role">role.</param>
+        /// <param name="customData">Optional parameter to update a call&#39;s custom data..</param>
         public CallsAddExistingCallRequest(bool connectOnEarlyMedia = false,
-            RingbackGeneration ringbackGeneration = default)
+            RingbackGeneration ringbackGeneration = default, CallsRole role = default,
+            Dictionary<string, string> customData = default)
         {
             ConnectOnEarlyMedia = connectOnEarlyMedia;
             RingbackGeneration = ringbackGeneration;
+            Role = role;
+            CustomData = customData;
         }
 
         /// <summary>
@@ -64,6 +71,23 @@ namespace Infobip.Api.Client.Model
         public RingbackGeneration RingbackGeneration { get; set; }
 
         /// <summary>
+        ///     Gets or Sets Role
+        /// </summary>
+        [DataMember(Name = "role", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "role", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("role")]
+        public CallsRole Role { get; set; }
+
+        /// <summary>
+        ///     Optional parameter to update a call&#39;s custom data.
+        /// </summary>
+        /// <value>Optional parameter to update a call&#39;s custom data.</value>
+        [DataMember(Name = "customData", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "customData", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonPropertyName("customData")]
+        public Dictionary<string, string> CustomData { get; set; }
+
+        /// <summary>
         ///     Returns true if CallsAddExistingCallRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of CallsAddExistingCallRequest to be compared</param>
@@ -82,6 +106,17 @@ namespace Infobip.Api.Client.Model
                     RingbackGeneration == input.RingbackGeneration ||
                     (RingbackGeneration != null &&
                      RingbackGeneration.Equals(input.RingbackGeneration))
+                ) &&
+                (
+                    Role == input.Role ||
+                    (Role != null &&
+                     Role.Equals(input.Role))
+                ) &&
+                (
+                    CustomData == input.CustomData ||
+                    (CustomData != null &&
+                     input.CustomData != null &&
+                     CustomData.SequenceEqual(input.CustomData))
                 );
         }
 
@@ -95,6 +130,8 @@ namespace Infobip.Api.Client.Model
             sb.Append("class CallsAddExistingCallRequest {\n");
             sb.Append("  ConnectOnEarlyMedia: ").Append(ConnectOnEarlyMedia).Append("\n");
             sb.Append("  RingbackGeneration: ").Append(RingbackGeneration).Append("\n");
+            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  CustomData: ").Append(CustomData).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -130,6 +167,10 @@ namespace Infobip.Api.Client.Model
                 hashCode = hashCode * 59 + ConnectOnEarlyMedia.GetHashCode();
                 if (RingbackGeneration != null)
                     hashCode = hashCode * 59 + RingbackGeneration.GetHashCode();
+                if (Role != null)
+                    hashCode = hashCode * 59 + Role.GetHashCode();
+                if (CustomData != null)
+                    hashCode = hashCode * 59 + CustomData.GetHashCode();
                 return hashCode;
             }
         }
