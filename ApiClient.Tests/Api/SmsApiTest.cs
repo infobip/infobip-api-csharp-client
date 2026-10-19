@@ -22,7 +22,7 @@ public class SmsApiTest : ApiTest
     public void ShouldSendSimpleSms()
     {
         var givenBulkId = "2034072219640523072";
-        var givenTo = "41793026727";
+        var givenTo = "41xxxxxxx25";
         var givenMessageId = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
         var givenFrom = "InfoSMS";
         var givenText = "This is a sample message";
@@ -121,7 +121,7 @@ public class SmsApiTest : ApiTest
     public void ShouldSendFlashSms()
     {
         var givenBulkId = "2034072219640523072";
-        var givenTo = "41793026727";
+        var givenTo = "41xxxxxxx25";
         var givenMessageId = "2250be2d4219-3af1-78856-aabe-1362af1edfd2";
         var givenFrom = "InfoSMS";
         var givenText = "This is a sample message";
@@ -219,10 +219,10 @@ public class SmsApiTest : ApiTest
     public void ShouldSendFullyFeaturedSmsMessage()
     {
         var sender1 = "InfoSMS";
-        var sender2 = "41793026700";
-        var destination1 = "41793026727";
-        var destination2 = "41793026834";
-        var destination3 = "41793026700";
+        var sender2 = "41xxxxxxx22";
+        var destination1 = "41xxxxxxx25";
+        var destination2 = "41xxxxxxx30";
+        var destination3 = "41xxxxxxx22";
         var messageId1 = "MESSAGE-ID-123-xyz";
         var text1 = "Artık Ulusal Dil Tanımlayıcısı ile Türkçe karakterli smslerinizi rahatlıkla iletebilirsiniz.";
         var text2 =
@@ -464,10 +464,10 @@ public class SmsApiTest : ApiTest
     public void ShouldSendFullyFeaturedBinarySms()
     {
         var sender1 = "InfoSMS";
-        var sender2 = "41793026700";
-        var destination1 = "41793026727";
-        var destination2 = "41793026834";
-        var destination3 = "41793026700";
+        var sender2 = "41xxxxxxx22";
+        var destination1 = "41xxxxxxx25";
+        var destination2 = "41xxxxxxx30";
+        var destination3 = "41xxxxxxx22";
         var messageId1 = "MESSAGE-ID-123-xyz";
         var validityPeriodAmount = 720;
         var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
@@ -698,10 +698,10 @@ public class SmsApiTest : ApiTest
     public void ShouldSendFlashBinarySms()
     {
         var sender1 = "InfoSMS";
-        var sender2 = "41793026700";
-        var destination1 = "41793026727";
-        var destination2 = "41793026834";
-        var destination3 = "41793026700";
+        var sender2 = "41xxxxxxx22";
+        var destination1 = "41xxxxxxx25";
+        var destination2 = "41xxxxxxx30";
+        var destination3 = "41xxxxxxx22";
         var messageId1 = "MESSAGE-ID-123-xyz";
         var validityPeriodAmount = 720;
         var validityPeriodUnit = ValidityPeriodTimeUnit.Hours;
@@ -935,8 +935,8 @@ public class SmsApiTest : ApiTest
         var bulkId = "BULK-ID-123-xyz";
         var messageId1 = "MESSAGE-ID-123-xyz";
         var messageId2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
-        var destination1 = "41793026727";
-        var destination2 = "41793026834";
+        var destination1 = "41xxxxxxx25";
+        var destination2 = "41xxxxxxx30";
         var sentAt = "2023-08-01T16:10:00+05:30";
         var doneAt = "2023-08-01T16:10:00+05:30";
 
@@ -1072,8 +1072,8 @@ public class SmsApiTest : ApiTest
         var bulkId = "BULK-ID-123-xyz";
         var messageId1 = "MESSAGE-ID-123-xyz";
         var messageId2 = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
-        var to1 = "41793026727";
-        var to2 = "41793026834";
+        var to1 = "41xxxxxxx25";
+        var to2 = "41xxxxxxx30";
         var sender = "InfoSMS";
         var sentAt = "2023-08-01T16:10:00+05:30";
         var doneAt = "2023-08-01T16:10:00+05:30";
@@ -1200,8 +1200,8 @@ public class SmsApiTest : ApiTest
     public void ShouldGetReceivedSmsMessages()
     {
         var expectedMessageId = "817790313235066447";
-        var expectedFrom = "385916242493";
-        var expectedTo = "385921004026";
+        var expectedFrom = "44xxxxxxxx41";
+        var expectedTo = "44xxxxxxxx43";
         var expectedText = "QUIZ Correct answer is Paris";
         var expectedCleanText = "Correct answer is Paris";
         var expectedKeyword = "QUIZ";
@@ -1487,8 +1487,8 @@ public class SmsApiTest : ApiTest
     public void ShouldReceiveInboundMessages()
     {
         var givenMessageId = "817790313235066447";
-        var givenFrom = "385916242493";
-        var givenTo = "385921004026";
+        var givenFrom = "44xxxxxxxx41";
+        var givenTo = "44xxxxxxxx43";
         var givenText = "QUIZ Correct answer is Paris";
         var givenCleanText = "Correct answer is Paris";
         var givenKeyword = "QUIZ";
@@ -1569,7 +1569,7 @@ public class SmsApiTest : ApiTest
         var givenErrorDescription = "No Error";
         var givenErrorPermanent = false;
         var givenMessageId = "MESSAGE-ID-123-xyz";
-        var givenTo = "41793026727";
+        var givenTo = "41xxxxxxx25";
         var givenSender = "InfoSMS";
         var givenSentAt = "2019-11-09T16:00:00.000+0100";
         var givenDoneAt = "2019-11-09T16:00:00.000+0100";
@@ -1593,7 +1593,7 @@ public class SmsApiTest : ApiTest
         var givenSecondErrorDescription = "No Error";
         var givenSecondErrorPermanent = false;
         var givenSecondMessageId = "12db39c3-7822-4e72-a3ec-c87442c0ffc5";
-        var givenSecondTo = "41793026834";
+        var givenSecondTo = "41xxxxxxx30";
         var givenSecondSender = "InfoSMS";
         var givenSecondSentAt = "2019-11-09T17:00:00.000+0100";
         var givenSecondDoneAt = "2019-11-09T17:00:00.000+0100";

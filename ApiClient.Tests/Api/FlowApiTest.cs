@@ -237,7 +237,7 @@ public class FlowApiTest : ApiTest
     public void ShouldRemovePersonFromFlow()
     {
         var givenCampaignId = 10159347;
-        var givenPhone = "19123456789";
+        var givenPhone = "1xxxxxxxx11";
         var givenEmail = "janewilliams@example.com";
         var givenExternalId = "8edb24b5-0319-48cd-a1d9-1e8bc5d577ab";
 

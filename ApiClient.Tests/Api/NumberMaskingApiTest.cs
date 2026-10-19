@@ -313,8 +313,8 @@ public class NumberMaskingApiTest : ApiTest
     [TestMethod]
     public void ShouldNumberMaskingCallbackApi()
     {
-        var expectedPhoneNumber = "41792212112121";
-        var expectedCallerId = "41793026731";
+        var expectedPhoneNumber = "41xxxxxxxxxx66";
+        var expectedCallerId = "41xxxxxxx26";
         var expectedFileUrl = "http://www.audioFileUrl.mp3";
         var expectedFileId = "f9850667-86c8-48d3-a9b2-9a6a372f5d00";
         var expectedEnabled = true;
@@ -347,8 +347,8 @@ public class NumberMaskingApiTest : ApiTest
             JsonSerializer.Deserialize<CallsDialCallbackResponse>(expectedResponse);
         AssertCallsDialCallbackResponse(callsDialCallbackResponseSystemTextJson!);
 
-        var givenFrom = "41793026727";
-        var givenTo = "41793026731";
+        var givenFrom = "41xxxxxxx25";
+        var givenTo = "41xxxxxxx26";
         var givenCorrelationId = "0f754338-1aff-4e09-a933-7d205ca7aed4";
         var givenNmCorrelationId = "7cb72e4b-cf9f-40b6-9fc4-79588d18a666";
 
@@ -394,9 +394,9 @@ public class NumberMaskingApiTest : ApiTest
     public void ShouldNumberMaskingStatusApi()
     {
         var givenAction = "dial";
-        var givenFrom = "41793026727";
-        var givenTo = "41793026731";
-        var givenTransferTo = "41793026785";
+        var givenFrom = "41xxxxxxx25";
+        var givenTo = "41xxxxxxx26";
+        var givenTransferTo = "41xxxxxxx28";
         var givenDuration = 15;
         var givenStatus = "answered";
         var givenNmCorrelationId = "7cb72e4b-cf9f-40b6-9fc4-79588d18a666";

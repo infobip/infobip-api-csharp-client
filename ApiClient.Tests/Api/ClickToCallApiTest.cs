@@ -12,7 +12,7 @@ public class ClickToCallApiTest : ApiTest
     public void ShouldSendClickToCallMessage()
     {
         var expectedBulkId = "4fda521a-c680-470d-b134-83d468f7ac80";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedGroupId = 1;
         var expectedGroupName = "PENDING";
         var expectedId = 26;
@@ -39,10 +39,10 @@ public class ClickToCallApiTest : ApiTest
             }}";
 
         var givenBulkId = "BULK-ID-123-xyz";
-        var givenFrom = "41793026700";
-        var givenFromB = "41793026701";
-        var givenDestinationA = "41793026727";
-        var givenDestinationB = "41793026731";
+        var givenFrom = "41xxxxxxx22";
+        var givenFromB = "41xxxxxxx23";
+        var givenDestinationA = "41xxxxxxx25";
+        var givenDestinationB = "41xxxxxxx26";
         var givenMessageId = "MESSAGE-ID-123-xyz";
         var givenText = "Test Voice message.";
         var givenLanguage = "en";

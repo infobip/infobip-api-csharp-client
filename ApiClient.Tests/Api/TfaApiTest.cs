@@ -802,7 +802,7 @@ public class TfaApiTest : ApiTest
         var givenFirstName = "John";
 
         var expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedNcStatus = "NC_DESTINATION_REACHABLE";
         var expectedSmsStatus = "MESSAGE_SENT";
 
@@ -864,7 +864,7 @@ public class TfaApiTest : ApiTest
         var givenFirstName = "John";
 
         var expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedNcStatus = "NC_DESTINATION_REACHABLE";
         var expectedSmsStatus = "MESSAGE_SENT";
 
@@ -922,7 +922,7 @@ public class TfaApiTest : ApiTest
         var givenFirstName = "John";
 
         var expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedCallStatus = "PENDING_ACCEPTED";
 
         var givenRequest = $@"
@@ -982,7 +982,7 @@ public class TfaApiTest : ApiTest
         var givenFirstName = "John";
 
         var expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B67";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedCallStatus = "MESSAGE_SENT";
 
         var givenRequest = $@"
@@ -995,7 +995,7 @@ public class TfaApiTest : ApiTest
         var expectedResponse = $@"
             {{
                 ""pinId"": ""{expectedPinId}"",
-                ""to"": {expectedTo},
+                ""to"": ""{expectedTo}"",
                 ""callStatus"": ""{expectedCallStatus}""
             }}";
 
@@ -1164,7 +1164,7 @@ public class TfaApiTest : ApiTest
         var givenPin = "1598";
 
         var expectedPinId = "9C817C6F8AF3D48F9FE553282AFA2B68";
-        var expectedMsisdn = "41793026726";
+        var expectedMsisdn = "41xxxxxxx24";
         var expectedVerified = "true";
         var expectedAttemptsRemaining = 0;
 
@@ -1213,7 +1213,7 @@ public class TfaApiTest : ApiTest
     {
         var givenApplicationId = "16A8B5FE2BCD6CA716A2D780CB3F3390";
 
-        var expectedMsisdn = "41793026726";
+        var expectedMsisdn = "41xxxxxxx24";
         var expectedVerified1 = "true";
         var expectedVerifiedAt1 = 1418364366L;
         var expectedSentAt1 = 1418364246L;

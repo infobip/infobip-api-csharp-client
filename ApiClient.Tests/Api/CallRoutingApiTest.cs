@@ -16,7 +16,7 @@ public class CallRoutingApiTest : ApiTest
     {
         var expectedId = "f8fc8aca-786d-4943-9af2-e7ec01b5e80d";
         var expectedName = "SIP endpoint route";
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "string";
         var expectedCustomHeadersString = "string";
         var expectedValueType = "SIP";
@@ -29,7 +29,7 @@ public class CallRoutingApiTest : ApiTest
 
         var expectedSecondId = "f8fc8aca-786d-4943-9af2-e7ec01b5e80d";
         var expectedSecondName = "Phone endpoint route";
-        var expectedSecondPhoneNumber = "41793026834";
+        var expectedSecondPhoneNumber = "41xxxxxxx30";
         var expectedSecondValueType = "PHONE";
         var expectedSecondConnectTimeout = 30;
         var expectedSecondRecordingType = CallRoutingRecordingType.Audio;
@@ -181,7 +181,7 @@ public class CallRoutingApiTest : ApiTest
     {
         var expectedId = "f8fc8aca-786d-4943-9af2-e7ec01b5e80d";
         var expectedName = "SIP endpoint route";
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "string";
         var expectedCustomHeadersString = "string";
         var expectedValueType = "SIP";
@@ -223,7 +223,7 @@ public class CallRoutingApiTest : ApiTest
             }}";
 
         var givenName = "Route with a SIP endpoint destination";
-        var givenUsername = "41793026834";
+        var givenUsername = "41xxxxxxx30";
         var givenSipTrunkId = "60d345fd3a799ec";
         var givenHeaderName = "header value";
         var givenValueType = "SIP";
@@ -323,7 +323,7 @@ public class CallRoutingApiTest : ApiTest
         var givenRouteId = "f8fc8aca-786d-4943-9af2-e7ec01b5e80d";
 
         var expectedName = "Sample Route Name";
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "string";
         var expectedCustomHeadersString = "string";
         var expectedValueType = "SIP";
@@ -402,7 +402,7 @@ public class CallRoutingApiTest : ApiTest
         var givenRouteId = "56b3e3ea-e91f-44ed-9d57-c7f05cd358ba";
 
         var expectedName = "Sample Route Name";
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "string";
         var expectedCustomHeadersString = "string";
         var expectedValueType = "SIP";
@@ -444,7 +444,7 @@ public class CallRoutingApiTest : ApiTest
             }}";
 
         var givenName = "Route with a SIP endpoint destination";
-        var givenUsername = "41793026834";
+        var givenUsername = "41xxxxxxx30";
         var givenSipTrunkId = "60d345fd3a799ec";
         var givenHeaderName = "header value";
         var givenValueType = "SIP";
@@ -546,7 +546,7 @@ public class CallRoutingApiTest : ApiTest
         var givenRouteId = "56b3e3ea-e91f-44ed-9d57-c7f05cd358ba";
 
         var expectedName = "Sample Route Name";
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "string";
         var expectedCustomHeadersString = "string";
         var expectedValueType = "SIP";
@@ -623,7 +623,7 @@ public class CallRoutingApiTest : ApiTest
     [TestMethod]
     public void ShouldUrlDestinationWebhook()
     {
-        var expectedUsername = "41793026834";
+        var expectedUsername = "41xxxxxxx30";
         var expectedSipTrunkId = "60d345fd3a799ec";
         var expectedValueType = "SIP";
         var expectedConnectTimeout = 30;
@@ -655,8 +655,8 @@ public class CallRoutingApiTest : ApiTest
         var givenApplicationId = "CALL_ROUTING";
         var givenRouteId = "f8fc8aca-786d-4943-9af2-e7ec01b5e80d";
         var givenCallId = "d8d84155-3831-43fb-91c9-bb897149a79d";
-        var givenFrom = "44790123456";
-        var givenTo = "44790123456";
+        var givenFrom = "44xxxxxxx32";
+        var givenTo = "44xxxxxxx32";
         var givenStartTime = "2024-01-01T10:00:00Z";
 
         var givenRequest = $@"

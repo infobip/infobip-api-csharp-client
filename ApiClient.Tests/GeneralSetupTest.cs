@@ -20,7 +20,7 @@ public class GeneralSetupTest : ApiTest
                     ""from"": ""InfoSMS"",
                     ""destinations"": [
                         {
-                            ""to"": ""41793026727""
+                            ""to"": ""41xxxxxxx25""
                         }
                       ],
                     ""text"": ""This is a sample message""
@@ -33,7 +33,7 @@ public class GeneralSetupTest : ApiTest
               ""bulkId"": ""2034072219640523072"",
               ""messages"": [
                 {
-                  ""to"": ""41793026727"",
+                  ""to"": ""41xxxxxxx25"",
                   ""status"": {
                       ""groupId"": 1,
                       ""groupName"": ""PENDING"",

@@ -135,8 +135,8 @@ public class CallsApiTest : ApiTest
         var givenType = CallEndpointType.Phone;
         var givenCallsConfigurationId = "dc5942707c704551a00cd2ea";
         var givenApplicationId = "61c060db2675060027d8c7a6";
-        var givenFrom = "44790123456";
-        var givenTo = "44790987654";
+        var givenFrom = "44xxxxxxx32";
+        var givenTo = "44xxxxxxx33";
         var givenDirection = CallDirection.Outbound;
         var givenStatus = CallState.Finished;
         var givenStartTimeAfter = DateTime.Parse("2022-05-01T14:25:45.125+00:00");
@@ -152,11 +152,11 @@ public class CallsApiTest : ApiTest
             {
               ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
-                ""phoneNumber"": ""41792030000"",
+                ""phoneNumber"": ""41xxxxxxx15"",
                 ""type"": ""PHONE""
               },
-              ""from"": ""44790123456"",
-              ""to"": ""44790987654"",
+              ""from"": ""44xxxxxxx32"",
+              ""to"": ""44xxxxxxx33"",
               ""direction"": ""INBOUND"",
               ""state"": ""CALLING"",
               ""media"": {
@@ -233,10 +233,10 @@ public class CallsApiTest : ApiTest
             Results = new List<Call>
             {
                 new(
-                    endpoint: new CallsPhoneEndpoint("41792030000"),
+                    endpoint: new CallsPhoneEndpoint("41xxxxxxx15"),
                     id: "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    from: "44790123456",
-                    to: "44790987654",
+                    from: "44xxxxxxx32",
+                    to: "44xxxxxxx33",
                     direction: CallDirection.Inbound,
                     state: CallState.Calling,
                     media: new CallsMediaProperties
@@ -485,10 +485,10 @@ public class CallsApiTest : ApiTest
           ""id"": ""{givenCallId}"",
           ""endpoint"": {{
             ""type"": ""PHONE"",
-            ""phoneNumber"": ""44790123456""
+            ""phoneNumber"": ""44xxxxxxx32""
           }},
-          ""from"": ""44790123456"",
-          ""to"": ""44790123456"",
+          ""from"": ""44xxxxxxx32"",
+          ""to"": ""44xxxxxxx32"",
           ""direction"": ""OUTBOUND"",
           ""state"": ""CALLING"",
           ""media"": {{
@@ -522,10 +522,10 @@ public class CallsApiTest : ApiTest
         var response = api.GetCall(givenCallId);
 
         var expectedResponse = new Call(
-            endpoint: new CallsPhoneEndpoint("44790123456"),
+            endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
             id: givenCallId,
-            from: "44790123456",
-            to: "44790123456",
+            from: "44xxxxxxx32",
+            to: "44xxxxxxx32",
             direction: CallDirection.Outbound,
             state: CallState.Calling,
             media: new CallsMediaProperties(
@@ -554,8 +554,8 @@ public class CallsApiTest : ApiTest
         var givenType = CallEndpointType.Phone;
         var givenCallsConfigurationId = "dc5942707c704551a00cd2ea";
         var givenApplicationId = "61c060db2675060027d8c7a6";
-        var givenFrom = "44790123456";
-        var givenTo = "44790987654";
+        var givenFrom = "44xxxxxxx32";
+        var givenTo = "44xxxxxxx33";
         var givenDirection = CallDirection.Outbound;
         var givenStatus = CallState.Finished;
         var givenStartTimeAfter = DateTime.Parse("2022-05-01T14:25:45.125+00:00");
@@ -572,11 +572,11 @@ public class CallsApiTest : ApiTest
             {
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
-                ""phoneNumber"": ""41792030000"",
+                ""phoneNumber"": ""41xxxxxxx15"",
                 ""type"": ""PHONE""
               },
-              ""from"": ""44790123456"",
-              ""to"": ""44790987654"",
+              ""from"": ""44xxxxxxx32"",
+              ""to"": ""44xxxxxxx33"",
               ""direction"": ""INBOUND"",
               ""state"": ""CALLING"",
               ""startTime"": ""2024-09-19T09:40:41.000+00:00"",
@@ -657,10 +657,10 @@ public class CallsApiTest : ApiTest
             Results = new List<CallLog>
             {
                 new(
-                    endpoint: new CallsPhoneEndpoint("41792030000"),
+                    endpoint: new CallsPhoneEndpoint("41xxxxxxx15"),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    from: "44790123456",
-                    to: "44790987654",
+                    from: "44xxxxxxx32",
+                    to: "44xxxxxxx33",
                     direction: CallDirection.Inbound,
                     state: CallState.Calling,
                     startTime: DateTime.Parse("2024-09-19T09:40:41.000+00:00"),
@@ -719,10 +719,10 @@ public class CallsApiTest : ApiTest
           ""callId"": ""{givenCallId}"",
           ""endpoint"": {{
             ""type"": ""PHONE"",
-            ""phoneNumber"": ""44790123456""
+            ""phoneNumber"": ""44xxxxxxx32""
           }},
-          ""from"": ""44790123456"",
-          ""to"": ""44790123456"",
+          ""from"": ""44xxxxxxx32"",
+          ""to"": ""44xxxxxxx32"",
           ""direction"": ""OUTBOUND"",
           ""state"": ""FINISHED"",
           ""startTime"": ""2022-01-01T00:00:00.100+00:00"",
@@ -760,10 +760,10 @@ public class CallsApiTest : ApiTest
         var response = api.GetCallHistory(givenCallId);
 
         var expectedResponse = new CallLog(
-            endpoint: new CallsPhoneEndpoint("44790123456"),
+            endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
             callId: givenCallId,
-            from: "44790123456",
-            to: "44790123456",
+            from: "44xxxxxxx32",
+            to: "44xxxxxxx32",
             direction: CallDirection.Outbound,
             state: CallState.Finished,
             startTime: DateTime.Parse("2022-01-01T00:00:00.100+00:00"),
@@ -817,7 +817,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINED"",
               ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -836,7 +836,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINING"",
               ""media"": {
@@ -886,7 +886,7 @@ public class CallsApiTest : ApiTest
             new List<CallsParticipant>
             {
                 new(
-                    endpoint: new CallsPhoneEndpoint("44790123456"),
+                    endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joined,
                     joinTime: DateTime.Parse("2021-12-31T23:59:55.100+00:00"),
@@ -896,7 +896,7 @@ public class CallsApiTest : ApiTest
                     )
                 ),
                 new(
-                    endpoint: new CallsPhoneEndpoint("44790123456"),
+                    endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joining,
                     media: new CallsMediaProperties(
@@ -922,9 +922,9 @@ public class CallsApiTest : ApiTest
           ""callRequest"": {
             ""endpoint"": {
               ""type"": ""PHONE"",
-              ""phoneNumber"": ""41792036727""
+              ""phoneNumber"": ""41xxxxxxx17""
             },
-            ""from"": ""41793026834"",
+            ""from"": ""41xxxxxxx30"",
             ""maxDuration"": 300
           },
           ""connectOnEarlyMedia"": false,
@@ -950,7 +950,7 @@ public class CallsApiTest : ApiTest
                 ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""state"": ""JOINED"",
                 ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -969,7 +969,7 @@ public class CallsApiTest : ApiTest
                 ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""state"": ""JOINING"",
                 ""media"": {
@@ -993,10 +993,10 @@ public class CallsApiTest : ApiTest
             ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
             ""endpoint"": {
               ""type"": ""PHONE"",
-              ""phoneNumber"": ""44790123456""
+              ""phoneNumber"": ""44xxxxxxx32""
             },
-            ""from"": ""44790123456"",
-            ""to"": ""44790123456"",
+            ""from"": ""44xxxxxxx32"",
+            ""to"": ""44xxxxxxx32"",
             ""direction"": ""OUTBOUND"",
             ""state"": ""CALLING"",
             ""media"": {
@@ -1032,9 +1032,9 @@ public class CallsApiTest : ApiTest
         var request = new CallsConnectWithNewCallRequest(
             new CallsActionCallRequest(
                 new CallsPhoneEndpoint(
-                    "41792036727"
+                    "41xxxxxxx17"
                 ),
-                "41793026834",
+                "41xxxxxxx30",
                 maxDuration: 300
             ),
             conferenceRequest: new CallsActionConferenceRequest(
@@ -1059,7 +1059,7 @@ public class CallsApiTest : ApiTest
                 {
                     new(
                         endpoint: new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                         state: CallsParticipantState.Joined,
@@ -1071,7 +1071,7 @@ public class CallsApiTest : ApiTest
                     ),
                     new(
                         endpoint: new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                         state: CallsParticipantState.Joining,
@@ -1088,11 +1088,11 @@ public class CallsApiTest : ApiTest
             ),
             new Call(
                 endpoint: new CallsPhoneEndpoint(
-                    "44790123456"
+                    "44xxxxxxx32"
                 ),
                 id: "d8d84155-3831-43fb-91c9-bb897149a79d",
-                from: "44790123456",
-                to: "44790123456",
+                from: "44xxxxxxx32",
+                to: "44xxxxxxx32",
                 direction: CallDirection.Outbound,
                 state: CallState.Calling,
                 media: new CallsMediaProperties(
@@ -1251,10 +1251,10 @@ public class CallsApiTest : ApiTest
           ""id"": ""{givenCallId}"",
           ""endpoint"": {{
             ""type"": ""PHONE"",
-            ""phoneNumber"": ""44790123456""
+            ""phoneNumber"": ""44xxxxxxx32""
           }},
-          ""from"": ""44790123456"",
-          ""to"": ""44790123456"",
+          ""from"": ""44xxxxxxx32"",
+          ""to"": ""44xxxxxxx32"",
           ""direction"": ""OUTBOUND"",
           ""state"": ""CALLING"",
           ""media"": {{
@@ -1296,11 +1296,11 @@ public class CallsApiTest : ApiTest
         (
             endpoint: new CallsPhoneEndpoint
             (
-                "44790123456"
+                "44xxxxxxx32"
             ),
             id: givenCallId,
-            from: "44790123456",
-            to: "44790123456",
+            from: "44xxxxxxx32",
+            to: "44xxxxxxx32",
             direction: CallDirection.Outbound,
             state: CallState.Calling,
             media: new CallsMediaProperties
@@ -1911,7 +1911,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINED"",
                   ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -1930,7 +1930,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINING"",
                   ""media"": {
@@ -1983,7 +1983,7 @@ public class CallsApiTest : ApiTest
                     {
                         new(
                             "d8d84155-3831-43fb-91c9-bb897149a79d",
-                            new CallsPhoneEndpoint("44790123456"),
+                            new CallsPhoneEndpoint("44xxxxxxx32"),
                             CallsParticipantState.Joined,
                             DateTime.Parse("2021-12-31T23:59:55.100+00:00"),
                             media: new CallsMediaProperties(
@@ -1993,7 +1993,7 @@ public class CallsApiTest : ApiTest
                         ),
                         new(
                             "d8d84155-3831-43fb-91c9-bb897149a79d",
-                            new CallsPhoneEndpoint("44790123456"),
+                            new CallsPhoneEndpoint("44xxxxxxx32"),
                             CallsParticipantState.Joining,
                             media: new CallsMediaProperties(
                                 new CallsAudioMediaProperties(),
@@ -2039,7 +2039,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINED"",
               ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -2058,7 +2058,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINING"",
               ""media"": {
@@ -2104,7 +2104,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    new CallsPhoneEndpoint("44790123456"),
+                    new CallsPhoneEndpoint("44xxxxxxx32"),
                     CallsParticipantState.Joined,
                     DateTime.Parse("2021-12-31T23:59:55.100+00:00"),
                     media: new CallsMediaProperties(
@@ -2114,7 +2114,7 @@ public class CallsApiTest : ApiTest
                 ),
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    new CallsPhoneEndpoint("44790123456"),
+                    new CallsPhoneEndpoint("44xxxxxxx32"),
                     CallsParticipantState.Joining,
                     media: new CallsMediaProperties(
                         new CallsAudioMediaProperties(),
@@ -2145,7 +2145,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINED"",
               ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -2164,7 +2164,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""state"": ""JOINING"",
               ""media"": {
@@ -2198,7 +2198,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     endpoint: new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joined,
@@ -2210,7 +2210,7 @@ public class CallsApiTest : ApiTest
                 ),
                 new(
                     endpoint: new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joining,
@@ -2315,7 +2315,7 @@ public class CallsApiTest : ApiTest
                     ""composedFiles"": [
                       {
                         ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                        ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                        ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                         ""fileFormat"": ""WAV"",
                         ""size"": 67564,
                         ""creationTime"": ""2022-01-01T00:00:00.100+0000"",
@@ -2330,7 +2330,7 @@ public class CallsApiTest : ApiTest
                         ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                         ""endpoint"": {
                           ""type"": ""PHONE"",
-                          ""phoneNumber"": ""44790123456""
+                          ""phoneNumber"": ""44xxxxxxx32""
                         },
                         ""direction"": ""INBOUND"",
                         ""files"": [
@@ -2356,7 +2356,7 @@ public class CallsApiTest : ApiTest
                         ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                         ""endpoint"": {
                           ""type"": ""PHONE"",
-                          ""phoneNumber"": ""44790123456""
+                          ""phoneNumber"": ""44xxxxxxx32""
                         },
                         ""direction"": ""INBOUND"",
                         ""files"": [
@@ -2429,7 +2429,7 @@ public class CallsApiTest : ApiTest
                         {
                             new(
                                 "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                                "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                                "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                                 CallsFileFormat.Wav,
                                 67564,
                                 DateTimeOffset.Parse("2022-01-01T00:00:00.100+0000"),
@@ -2444,7 +2444,7 @@ public class CallsApiTest : ApiTest
                             new(
                                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                                 new CallsPhoneEndpoint(
-                                    "44790123456"
+                                    "44xxxxxxx32"
                                 ),
                                 CallDirection.Inbound,
                                 new List<CallsRecordingFile>
@@ -2471,7 +2471,7 @@ public class CallsApiTest : ApiTest
                             new(
                                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                                 new CallsPhoneEndpoint(
-                                    "44790123456"
+                                    "44xxxxxxx32"
                                 ),
                                 CallDirection.Inbound,
                                 new List<CallsRecordingFile>
@@ -2549,7 +2549,7 @@ public class CallsApiTest : ApiTest
                 ""composedFiles"": [
                   {
                     ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                    ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                    ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                     ""fileFormat"": ""WAV"",
                     ""size"": 67564,
                     ""creationTime"": ""2022-01-01T00:00:00.100+0000"",
@@ -2564,7 +2564,7 @@ public class CallsApiTest : ApiTest
                     ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790123456""
+                      ""phoneNumber"": ""44xxxxxxx32""
                     },
                     ""direction"": ""INBOUND"",
                     ""files"": [
@@ -2590,7 +2590,7 @@ public class CallsApiTest : ApiTest
                     ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790123456""
+                      ""phoneNumber"": ""44xxxxxxx32""
                     },
                     ""direction"": ""INBOUND"",
                     ""files"": [
@@ -2652,7 +2652,7 @@ public class CallsApiTest : ApiTest
                 {
                     new(
                         "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                        "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                        "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                         CallsFileFormat.Wav,
                         67564,
                         DateTimeOffset.Parse("2022-01-01T00:00:00.100+0000"),
@@ -2667,7 +2667,7 @@ public class CallsApiTest : ApiTest
                     new(
                         "d8d84155-3831-43fb-91c9-bb897149a79d",
                         new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         CallDirection.Inbound,
                         new List<CallsRecordingFile>
@@ -2694,7 +2694,7 @@ public class CallsApiTest : ApiTest
                     new(
                         "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                         new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         CallDirection.Inbound,
                         new List<CallsRecordingFile>
@@ -2742,9 +2742,9 @@ public class CallsApiTest : ApiTest
           ""callRequest"": {
             ""endpoint"": {
               ""type"": ""PHONE"",
-              ""phoneNumber"": ""41792036727""
+              ""phoneNumber"": ""41xxxxxxx17""
             },
-            ""from"": ""41793026834"",
+            ""from"": ""41xxxxxxx30"",
             ""maxDuration"": 28800
           },
           ""connectOnEarlyMedia"": false
@@ -2760,7 +2760,7 @@ public class CallsApiTest : ApiTest
                 ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""state"": ""JOINED"",
                 ""joinTime"": ""2021-12-31T23:59:55.100+00:00"",
@@ -2779,7 +2779,7 @@ public class CallsApiTest : ApiTest
                 ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""state"": ""JOINING"",
                 ""media"": {
@@ -2803,10 +2803,10 @@ public class CallsApiTest : ApiTest
             ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
             ""endpoint"": {
               ""type"": ""PHONE"",
-              ""phoneNumber"": ""44790123456""
+              ""phoneNumber"": ""44xxxxxxx32""
             },
-            ""from"": ""44790123456"",
-            ""to"": ""44790123456"",
+            ""from"": ""44xxxxxxx32"",
+            ""to"": ""44xxxxxxx32"",
             ""direction"": ""OUTBOUND"",
             ""state"": ""CALLING"",
             ""media"": {
@@ -2841,8 +2841,8 @@ public class CallsApiTest : ApiTest
 
         var request = new CallsAddNewCallRequest(
             new CallsActionCallRequest(
-                new CallsPhoneEndpoint("41792036727"),
-                "41793026834"
+                new CallsPhoneEndpoint("41xxxxxxx17"),
+                "41xxxxxxx30"
             )
         );
 
@@ -2853,7 +2853,7 @@ public class CallsApiTest : ApiTest
                 new List<CallsParticipant>
                 {
                     new(
-                        endpoint: new CallsPhoneEndpoint("44790123456"),
+                        endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
                         callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                         state: CallsParticipantState.Joined,
                         joinTime: DateTimeOffset.Parse("2021-12-31T23:59:55.100+0000"),
@@ -2863,7 +2863,7 @@ public class CallsApiTest : ApiTest
                         )
                     ),
                     new(
-                        endpoint: new CallsPhoneEndpoint("44790123456"),
+                        endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
                         callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                         state: CallsParticipantState.Joining,
                         media: new CallsMediaProperties(
@@ -2876,10 +2876,10 @@ public class CallsApiTest : ApiTest
                 new Platform(applicationId: "61c060db2675060027d8c7a6")
             ),
             new Call(
-                endpoint: new CallsPhoneEndpoint("44790123456"),
+                endpoint: new CallsPhoneEndpoint("44xxxxxxx32"),
                 id: "d8d84155-3831-43fb-91c9-bb897149a79d",
-                from: "44790123456",
-                to: "44790123456",
+                from: "44xxxxxxx32",
+                to: "44xxxxxxx32",
                 direction: CallDirection.Outbound,
                 state: CallState.Calling,
                 media: new CallsMediaProperties(
@@ -2928,7 +2928,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINED"",
                   ""joinTime"": ""2021-12-31T23:59:55.100+0000"",
@@ -2947,7 +2947,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINING"",
                   ""media"": {
@@ -2986,7 +2986,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    new CallsPhoneEndpoint("44790123456"),
+                    new CallsPhoneEndpoint("44xxxxxxx32"),
                     CallsParticipantState.Joined,
                     DateTimeOffset.Parse("2021-12-31T23:59:55.100+0000"),
                     media: new CallsMediaProperties(
@@ -2996,7 +2996,7 @@ public class CallsApiTest : ApiTest
                 ),
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
-                    new CallsPhoneEndpoint("44790123456"),
+                    new CallsPhoneEndpoint("44xxxxxxx32"),
                     CallsParticipantState.Joining,
                     media: new CallsMediaProperties(
                         new CallsAudioMediaProperties(),
@@ -3090,7 +3090,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINED"",
                   ""joinTime"": ""2021-12-31T23:59:55.100+0000"",
@@ -3109,7 +3109,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""state"": ""JOINING"",
                   ""media"": {
@@ -3142,7 +3142,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     endpoint: new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joined,
@@ -3154,7 +3154,7 @@ public class CallsApiTest : ApiTest
                 ),
                 new(
                     endpoint: new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     callId: "d8d84155-3831-43fb-91c9-bb897149a79d",
                     state: CallsParticipantState.Joining,
@@ -3417,7 +3417,7 @@ public class CallsApiTest : ApiTest
                     ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790123456""
+                      ""phoneNumber"": ""44xxxxxxx32""
                     },
                     ""direction"": ""INBOUND"",
                     ""state"": ""ESTABLISHED"",
@@ -3444,7 +3444,7 @@ public class CallsApiTest : ApiTest
                     ""id"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790987654""
+                      ""phoneNumber"": ""44xxxxxxx33""
                     },
                     ""direction"": ""OUTBOUND"",
                     ""state"": ""ESTABLISHED"",
@@ -3496,7 +3496,7 @@ public class CallsApiTest : ApiTest
                     parentCall: new Call(
                         "d8d84155-3831-43fb-91c9-bb897149a79d",
                         new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         direction: CallDirection.Inbound,
                         state: CallState.Established,
@@ -3516,7 +3516,7 @@ public class CallsApiTest : ApiTest
                     childCall: new Call(
                         "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                         new CallsPhoneEndpoint(
-                            "44790987654"
+                            "44xxxxxxx33"
                         ),
                         direction: CallDirection.Outbound,
                         state: CallState.Established,
@@ -3558,9 +3558,9 @@ public class CallsApiTest : ApiTest
               ""childCallRequest"": {
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790987654""
+                  ""phoneNumber"": ""44xxxxxxx33""
                 },
-                ""from"": ""44790123456"",
+                ""from"": ""44xxxxxxx32"",
                 ""connectTimeout"": 60,
                 ""machineDetection"": {
                   ""enabled"": true
@@ -3597,7 +3597,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""direction"": ""INBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3624,7 +3624,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790987654""
+                  ""phoneNumber"": ""44xxxxxxx33""
                 },
                 ""direction"": ""OUTBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3657,9 +3657,9 @@ public class CallsApiTest : ApiTest
             "d8d84155-3831-43fb-91c9-bb897149a79d",
             new CallsDialogCallRequest(
                 new CallsPhoneEndpoint(
-                    "44790987654"
+                    "44xxxxxxx33"
                 ),
-                "44790123456",
+                "44xxxxxxx32",
                 connectTimeout: 60,
                 machineDetection: new CallsMachineDetectionRequest(
                     true
@@ -3692,7 +3692,7 @@ public class CallsApiTest : ApiTest
             parentCall: new Call(
                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                 new CallsPhoneEndpoint(
-                    "44790123456"
+                    "44xxxxxxx32"
                 ),
                 direction: CallDirection.Inbound,
                 state: CallState.Established,
@@ -3712,7 +3712,7 @@ public class CallsApiTest : ApiTest
             childCall: new Call(
                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                 new CallsPhoneEndpoint(
-                    "44790987654"
+                    "44xxxxxxx33"
                 ),
                 direction: CallDirection.Outbound,
                 state: CallState.Established,
@@ -3779,7 +3779,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""direction"": ""INBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3806,7 +3806,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790987654""
+                  ""phoneNumber"": ""44xxxxxxx33""
                 },
                 ""direction"": ""OUTBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3868,7 +3868,7 @@ public class CallsApiTest : ApiTest
             parentCall: new Call(
                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                 new CallsPhoneEndpoint(
-                    "44790123456"
+                    "44xxxxxxx32"
                 ),
                 direction: CallDirection.Inbound,
                 state: CallState.Established,
@@ -3888,7 +3888,7 @@ public class CallsApiTest : ApiTest
             childCall: new Call(
                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                 new CallsPhoneEndpoint(
-                    "44790987654"
+                    "44xxxxxxx33"
                 ),
                 direction: CallDirection.Outbound,
                 state: CallState.Established,
@@ -3931,7 +3931,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""direction"": ""INBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3958,7 +3958,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790987654""
+                  ""phoneNumber"": ""44xxxxxxx33""
                 },
                 ""direction"": ""OUTBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -3999,7 +3999,7 @@ public class CallsApiTest : ApiTest
             parentCall: new Call(
                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                 new CallsPhoneEndpoint(
-                    "44790123456"
+                    "44xxxxxxx32"
                 ),
                 direction: CallDirection.Inbound,
                 state: CallState.Established,
@@ -4019,7 +4019,7 @@ public class CallsApiTest : ApiTest
             childCall: new Call(
                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                 new CallsPhoneEndpoint(
-                    "44790987654"
+                    "44xxxxxxx33"
                 ),
                 direction: CallDirection.Outbound,
                 state: CallState.Established,
@@ -4087,7 +4087,7 @@ public class CallsApiTest : ApiTest
                     ""composedFiles"": [
                       {
                         ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                        ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                        ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                         ""fileFormat"": ""WAV"",
                         ""size"": 67564,
                         ""creationTime"": ""2022-01-01T00:00:00.100+0000"",
@@ -4103,7 +4103,7 @@ public class CallsApiTest : ApiTest
                         ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                         ""endpoint"": {
                           ""type"": ""PHONE"",
-                          ""phoneNumber"": ""44790123456""
+                          ""phoneNumber"": ""44xxxxxxx32""
                         },
                         ""direction"": ""INBOUND"",
                         ""files"": [
@@ -4129,7 +4129,7 @@ public class CallsApiTest : ApiTest
                         ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                         ""endpoint"": {
                           ""type"": ""PHONE"",
-                          ""phoneNumber"": ""44790123456""
+                          ""phoneNumber"": ""44xxxxxxx32""
                         },
                         ""direction"": ""INBOUND"",
                         ""files"": [
@@ -4192,7 +4192,7 @@ public class CallsApiTest : ApiTest
                         {
                             new(
                                 "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                                "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                                "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                                 CallsFileFormat.Wav,
                                 67564,
                                 DateTimeOffset.Parse("2022-01-01T00:00:00.100+0000"),
@@ -4208,7 +4208,7 @@ public class CallsApiTest : ApiTest
                             new(
                                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                                 new CallsPhoneEndpoint(
-                                    "44790123456"
+                                    "44xxxxxxx32"
                                 ),
                                 CallDirection.Inbound,
                                 new List<CallsRecordingFile>
@@ -4235,7 +4235,7 @@ public class CallsApiTest : ApiTest
                             new(
                                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                                 new CallsPhoneEndpoint(
-                                    "44790123456"
+                                    "44xxxxxxx32"
                                 ),
                                 CallDirection.Inbound,
                                 new List<CallsRecordingFile>
@@ -4304,7 +4304,7 @@ public class CallsApiTest : ApiTest
                 ""composedFiles"": [
                   {
                     ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                    ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                    ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                     ""fileFormat"": ""WAV"",
                     ""size"": 67564,
                     ""creationTime"": ""2022-01-01T00:00:00.100+0000"",
@@ -4320,7 +4320,7 @@ public class CallsApiTest : ApiTest
                     ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790123456""
+                      ""phoneNumber"": ""44xxxxxxx32""
                     },
                     ""direction"": ""INBOUND"",
                     ""files"": [
@@ -4346,7 +4346,7 @@ public class CallsApiTest : ApiTest
                     ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                     ""endpoint"": {
                       ""type"": ""PHONE"",
-                      ""phoneNumber"": ""44790123456""
+                      ""phoneNumber"": ""44xxxxxxx32""
                     },
                     ""direction"": ""INBOUND"",
                     ""files"": [
@@ -4398,7 +4398,7 @@ public class CallsApiTest : ApiTest
                 {
                     new(
                         "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                        "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                        "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                         CallsFileFormat.Wav,
                         67564,
                         DateTimeOffset.Parse("2022-01-01T00:00:00.100+0000"),
@@ -4414,7 +4414,7 @@ public class CallsApiTest : ApiTest
                     new(
                         "d8d84155-3831-43fb-91c9-bb897149a79d",
                         new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         CallDirection.Inbound,
                         new List<CallsRecordingFile>
@@ -4441,7 +4441,7 @@ public class CallsApiTest : ApiTest
                     new(
                         "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                         new CallsPhoneEndpoint(
-                            "44790123456"
+                            "44xxxxxxx32"
                         ),
                         CallDirection.Inbound,
                         new List<CallsRecordingFile>
@@ -4498,7 +4498,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790123456""
+                  ""phoneNumber"": ""44xxxxxxx32""
                 },
                 ""direction"": ""INBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -4525,7 +4525,7 @@ public class CallsApiTest : ApiTest
                 ""id"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                 ""endpoint"": {
                   ""type"": ""PHONE"",
-                  ""phoneNumber"": ""44790987654""
+                  ""phoneNumber"": ""44xxxxxxx33""
                 },
                 ""direction"": ""OUTBOUND"",
                 ""state"": ""ESTABLISHED"",
@@ -4566,7 +4566,7 @@ public class CallsApiTest : ApiTest
             parentCall: new Call(
                 "d8d84155-3831-43fb-91c9-bb897149a79d",
                 new CallsPhoneEndpoint(
-                    "44790123456"
+                    "44xxxxxxx32"
                 ),
                 direction: CallDirection.Inbound,
                 state: CallState.Established,
@@ -4586,7 +4586,7 @@ public class CallsApiTest : ApiTest
             childCall: new Call(
                 "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                 new CallsPhoneEndpoint(
-                    "44790987654"
+                    "44xxxxxxx33"
                 ),
                 direction: CallDirection.Outbound,
                 state: CallState.Established,
@@ -6254,7 +6254,7 @@ public class CallsApiTest : ApiTest
         var givenCallsConfigurationId = "dc5942707c704551a00cd2ea";
         var givenApplicationId = "61c060db2675060027d8c7a6";
         var givenEntityId = "64d214c5-70b7-4ea6-b2a6-8334d1f34fb4";
-        var givenEndpointIdentifier = "44790123456";
+        var givenEndpointIdentifier = "44xxxxxxx32";
         var givenStartTimeAfter = DateTimeOffset.Parse("2022-05-01T14:25:45.134+0000");
         var givenEndTimeBefore = DateTimeOffset.Parse("2022-05-01T14:35:45.154+0000");
         var givenDirection = CallDirection.Outbound;
@@ -6285,7 +6285,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -6311,7 +6311,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -6353,7 +6353,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -6380,7 +6380,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -6436,7 +6436,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""direction"": ""INBOUND"",
               ""files"": [
@@ -6466,7 +6466,7 @@ public class CallsApiTest : ApiTest
         var expectedResponse = new CallRecording(
             "d8d84155-3831-43fb-91c9-bb897149a79d",
             new CallsPhoneEndpoint(
-                "44790123456"
+                "44xxxxxxx32"
             ),
             CallDirection.Inbound,
             new List<CallsRecordingFile>
@@ -6511,7 +6511,7 @@ public class CallsApiTest : ApiTest
               ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
               ""endpoint"": {
                 ""type"": ""PHONE"",
-                ""phoneNumber"": ""44790123456""
+                ""phoneNumber"": ""44xxxxxxx32""
               },
               ""direction"": ""INBOUND"",
               ""files"": [
@@ -6542,7 +6542,7 @@ public class CallsApiTest : ApiTest
         var expectedResponse = new CallRecording(
             "d8d84155-3831-43fb-91c9-bb897149a79d",
             new CallsPhoneEndpoint(
-                "44790123456"
+                "44xxxxxxx32"
             ),
             CallDirection.Inbound,
             new List<CallsRecordingFile>
@@ -6582,7 +6582,7 @@ public class CallsApiTest : ApiTest
         var givenConferenceName = "Conference";
         var givenCallId = "64d214c5-70b7-4ea6-b2a6-8334d1f34fb4";
         var givenCallEndpointType = CallEndpointType.Webrtc;
-        var givenCallEndpointIdentifier = "44790123456";
+        var givenCallEndpointIdentifier = "44xxxxxxx32";
         var givenStartTimeAfter = DateTimeOffset.Parse("2022-05-01T14:25:45.134+0000");
         var givenEndTimeBefore = DateTimeOffset.Parse("2022-05-01T14:35:45.154+0000");
         var givenComposition = true;
@@ -6619,7 +6619,7 @@ public class CallsApiTest : ApiTest
                   ""composedFiles"": [
                     {
                       ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                      ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                      ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                       ""fileFormat"": ""WAV"",
                       ""size"": 67564,
                       ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -6639,7 +6639,7 @@ public class CallsApiTest : ApiTest
                       ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                       ""endpoint"": {
                         ""type"": ""PHONE"",
-                        ""phoneNumber"": ""44790123456""
+                        ""phoneNumber"": ""44xxxxxxx32""
                       },
                       ""direction"": ""INBOUND"",
                       ""files"": [
@@ -6665,7 +6665,7 @@ public class CallsApiTest : ApiTest
                       ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                       ""endpoint"": {
                         ""type"": ""PHONE"",
-                        ""phoneNumber"": ""44790123456""
+                        ""phoneNumber"": ""44xxxxxxx32""
                       },
                       ""direction"": ""INBOUND"",
                       ""files"": [
@@ -6715,7 +6715,7 @@ public class CallsApiTest : ApiTest
                     {
                         new(
                             "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                            "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                            "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                             CallsFileFormat.Wav,
                             67564,
                             DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -6736,7 +6736,7 @@ public class CallsApiTest : ApiTest
                         new(
                             "d8d84155-3831-43fb-91c9-bb897149a79d",
                             new CallsPhoneEndpoint(
-                                "44790123456"
+                                "44xxxxxxx32"
                             ),
                             CallDirection.Inbound,
                             new List<CallsRecordingFile>
@@ -6763,7 +6763,7 @@ public class CallsApiTest : ApiTest
                         new(
                             "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                             new CallsPhoneEndpoint(
-                                "44790123456"
+                                "44xxxxxxx32"
                             ),
                             CallDirection.Inbound,
                             new List<CallsRecordingFile>
@@ -6825,7 +6825,7 @@ public class CallsApiTest : ApiTest
               ""composedFiles"": [
                 {
                   ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                   ""fileFormat"": ""WAV"",
                   ""size"": 67564,
                   ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -6845,7 +6845,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -6871,7 +6871,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -6911,7 +6911,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                    "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                    "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                     CallsFileFormat.Wav,
                     67564,
                     DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -6932,7 +6932,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -6959,7 +6959,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7011,7 +7011,7 @@ public class CallsApiTest : ApiTest
               ""composedFiles"": [
                 {
                   ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                   ""fileFormat"": ""WAV"",
                   ""size"": 67564,
                   ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -7031,7 +7031,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7057,7 +7057,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7097,7 +7097,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                    "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                    "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                     CallsFileFormat.Wav,
                     67564,
                     DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -7118,7 +7118,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7145,7 +7145,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7230,7 +7230,7 @@ public class CallsApiTest : ApiTest
         var givenEntityId = "64d214c5-70b7-4ea6-b2a6-8334d1f34fb4";
         var givenCallId = "64d214c5-70b7-4ea6-b2a6-8334d1f34fb4";
         var givenCallEndpointType = CallEndpointType.Webrtc;
-        var givenCallEndpointIdentifier = "44790123456";
+        var givenCallEndpointIdentifier = "44xxxxxxx32";
         var givenStartTimeAfter = DateTimeOffset.Parse("2022-05-01T14:25:45.134+0000");
         var givenEndTimeBefore = DateTimeOffset.Parse("2022-05-01T14:35:45.154+0000");
         var givenComposition = true;
@@ -7265,7 +7265,7 @@ public class CallsApiTest : ApiTest
                   ""composedFiles"": [
                     {
                       ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                      ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                      ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                       ""fileFormat"": ""WAV"",
                       ""size"": 67564,
                       ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -7284,7 +7284,7 @@ public class CallsApiTest : ApiTest
                       ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                       ""endpoint"": {
                         ""type"": ""PHONE"",
-                        ""phoneNumber"": ""44790123456""
+                        ""phoneNumber"": ""44xxxxxxx32""
                       },
                       ""direction"": ""INBOUND"",
                       ""files"": [
@@ -7310,7 +7310,7 @@ public class CallsApiTest : ApiTest
                       ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                       ""endpoint"": {
                         ""type"": ""PHONE"",
-                        ""phoneNumber"": ""44790123456""
+                        ""phoneNumber"": ""44xxxxxxx32""
                       },
                       ""direction"": ""INBOUND"",
                       ""files"": [
@@ -7359,7 +7359,7 @@ public class CallsApiTest : ApiTest
                     {
                         new(
                             "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                            "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                            "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                             CallsFileFormat.Wav,
                             67564,
                             DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -7379,7 +7379,7 @@ public class CallsApiTest : ApiTest
                         new(
                             "d8d84155-3831-43fb-91c9-bb897149a79d",
                             new CallsPhoneEndpoint(
-                                "44790123456"
+                                "44xxxxxxx32"
                             ),
                             CallDirection.Inbound,
                             new List<CallsRecordingFile>
@@ -7406,7 +7406,7 @@ public class CallsApiTest : ApiTest
                         new(
                             "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                             new CallsPhoneEndpoint(
-                                "44790123456"
+                                "44xxxxxxx32"
                             ),
                             CallDirection.Inbound,
                             new List<CallsRecordingFile>
@@ -7467,7 +7467,7 @@ public class CallsApiTest : ApiTest
               ""composedFiles"": [
                 {
                   ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                   ""fileFormat"": ""WAV"",
                   ""size"": 67564,
                   ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -7486,7 +7486,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7512,7 +7512,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7551,7 +7551,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                    "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                    "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                     CallsFileFormat.Wav,
                     67564,
                     DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -7571,7 +7571,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7598,7 +7598,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7649,7 +7649,7 @@ public class CallsApiTest : ApiTest
               ""composedFiles"": [
                 {
                   ""id"": ""b72cde3c-7d9c-4a5c-8e48-5a947244c013"",
-                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav"",
+                  ""name"": ""d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav"",
                   ""fileFormat"": ""WAV"",
                   ""size"": 67564,
                   ""creationTime"": ""2022-01-01T00:00:00.250+0000"",
@@ -7668,7 +7668,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""d8d84155-3831-43fb-91c9-bb897149a79d"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7694,7 +7694,7 @@ public class CallsApiTest : ApiTest
                   ""callId"": ""3ad8805e-d401-424e-9b03-e02a2016a5e2"",
                   ""endpoint"": {
                     ""type"": ""PHONE"",
-                    ""phoneNumber"": ""44790123456""
+                    ""phoneNumber"": ""44xxxxxxx32""
                   },
                   ""direction"": ""INBOUND"",
                   ""files"": [
@@ -7733,7 +7733,7 @@ public class CallsApiTest : ApiTest
             {
                 new(
                     "b72cde3c-7d9c-4a5c-8e48-5a947244c013",
-                    "d8d84155-3831-43fb-91c9-bb897149a79d_41792030001_1652725357412_recording.wav",
+                    "d8d84155-3831-43fb-91c9-bb897149a79d_41xxxxxxx76_1652725357412_recording.wav",
                     CallsFileFormat.Wav,
                     67564,
                     DateTimeOffset.Parse("2022-01-01T00:00:00.250+0000"),
@@ -7753,7 +7753,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "d8d84155-3831-43fb-91c9-bb897149a79d",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -7780,7 +7780,7 @@ public class CallsApiTest : ApiTest
                 new(
                     "3ad8805e-d401-424e-9b03-e02a2016a5e2",
                     new CallsPhoneEndpoint(
-                        "44790123456"
+                        "44xxxxxxx32"
                     ),
                     CallDirection.Inbound,
                     new List<CallsRecordingFile>
@@ -8149,26 +8149,26 @@ public class CallsApiTest : ApiTest
               },
               ""items"": [
                 {
-                  ""from"": ""41793026834"",
+                  ""from"": ""41xxxxxxx30"",
                   ""callRequests"": [
                     {
                       ""externalId"": ""your-external-id-1"",
                       ""endpoint"": {
-                        ""phoneNumber"": ""41792036727"",
+                        ""phoneNumber"": ""41xxxxxxx17"",
                         ""type"": ""PHONE""
                       }
                     },
                     {
                       ""externalId"": ""your-external-id-2"",
                       ""endpoint"": {
-                        ""phoneNumber"": ""41792036728"",
+                        ""phoneNumber"": ""41xxxxxxx18"",
                         ""type"": ""PHONE""
                       }
                     },
                     {
                       ""externalId"": ""your-external-id-3"",
                       ""endpoint"": {
-                        ""phoneNumber"": ""41792036729"",
+                        ""phoneNumber"": ""41xxxxxxx19"",
                         ""type"": ""PHONE""
                       }
                     }
@@ -8226,9 +8226,9 @@ public class CallsApiTest : ApiTest
                   },
                   ""callId"": ""266f8375-33d3-482f-a258-51e86b5ae9ac"",
                   ""externalId"": ""your-external-id-1"",
-                  ""from"": ""41793026834"",
+                  ""from"": ""41xxxxxxx30"",
                   ""endpoint"": {
-                    ""phoneNumber"": ""41792036727"",
+                    ""phoneNumber"": ""41xxxxxxx17"",
                     ""type"": ""PHONE""
                   },
                   ""status"": ""PENDING""
@@ -8240,9 +8240,9 @@ public class CallsApiTest : ApiTest
                   },
                   ""callId"": ""366f8375-33d3-482f-a258-51e86b5ae9ad"",
                   ""externalId"": ""your-external-id-2"",
-                  ""from"": ""41793026834"",
+                  ""from"": ""41xxxxxxx30"",
                   ""endpoint"": {
-                    ""phoneNumber"": ""41792036728"",
+                    ""phoneNumber"": ""41xxxxxxx18"",
                     ""type"": ""PHONE""
                   },
                   ""status"": ""PENDING""
@@ -8254,9 +8254,9 @@ public class CallsApiTest : ApiTest
                   },
                   ""callId"": ""466f8375-33d3-482f-a258-51e86b5ae9ae"",
                   ""externalId"": ""your-external-id-3"",
-                  ""from"": ""41793026834"",
+                  ""from"": ""41xxxxxxx30"",
                   ""endpoint"": {
-                    ""phoneNumber"": ""41792036729"",
+                    ""phoneNumber"": ""41xxxxxxx19"",
                     ""type"": ""PHONE""
                   },
                   ""status"": ""PENDING""
@@ -8277,25 +8277,25 @@ public class CallsApiTest : ApiTest
             new List<CallsBulkItem>
             {
                 new(
-                    "41793026834",
+                    "41xxxxxxx30",
                     new List<CallsBulkCallRequest>
                     {
                         new(
                             "your-external-id-1",
                             new CallsBulkPhoneEndpoint(
-                                "41792036727"
+                                "41xxxxxxx17"
                             )
                         ),
                         new(
                             "your-external-id-2",
                             new CallsBulkPhoneEndpoint(
-                                "41792036728"
+                                "41xxxxxxx18"
                             )
                         ),
                         new(
                             "your-external-id-3",
                             new CallsBulkPhoneEndpoint(
-                                "41792036729"
+                                "41xxxxxxx19"
                             )
                         )
                     },
@@ -8351,9 +8351,9 @@ public class CallsApiTest : ApiTest
                     ),
                     "266f8375-33d3-482f-a258-51e86b5ae9ac",
                     "your-external-id-1",
-                    "41793026834",
+                    "41xxxxxxx30",
                     new CallsBulkPhoneEndpoint(
-                        "41792036727"
+                        "41xxxxxxx17"
                     ),
                     CallsActionStatus.Pending
                 ),
@@ -8364,9 +8364,9 @@ public class CallsApiTest : ApiTest
                     ),
                     "366f8375-33d3-482f-a258-51e86b5ae9ad",
                     "your-external-id-2",
-                    "41793026834",
+                    "41xxxxxxx30",
                     new CallsBulkPhoneEndpoint(
-                        "41792036728"
+                        "41xxxxxxx18"
                     ),
                     CallsActionStatus.Pending
                 ),
@@ -8377,9 +8377,9 @@ public class CallsApiTest : ApiTest
                     ),
                     "466f8375-33d3-482f-a258-51e86b5ae9ae",
                     "your-external-id-3",
-                    "41793026834",
+                    "41xxxxxxx30",
                     new CallsBulkPhoneEndpoint(
-                        "41792036729"
+                        "41xxxxxxx19"
                     ),
                     CallsActionStatus.Pending
                 )

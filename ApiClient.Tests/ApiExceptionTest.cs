@@ -37,7 +37,7 @@ public class ApiExceptionTest : ApiTest
         var errorPhrase = ErrorResponses[errorResponseIndex].Item3;
         var errorText = ErrorResponses[errorResponseIndex].Item4;
 
-        var to = "41793026727";
+        var to = "41xxxxxxx25";
         var sender = "InfoSMS";
         var message = "This is a sample message";
 

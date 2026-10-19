@@ -32,7 +32,7 @@ public class VoiceApiTest : ApiTest
     public void ShouldSendSingeVoiceMessage()
     {
         var expectedBulkId = "4fda521a-c680-470d-b134-83d468f7ac80";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedGroupId = 1;
         var expectedGroupName = "PENDING";
         var expectedId = 26;
@@ -62,8 +62,8 @@ public class VoiceApiTest : ApiTest
         var givenLanguage = "en";
         var givenName = "Joanna";
         var givenGender = "female";
-        var givenFrom = "442032864231";
-        var givenTo = "41793026727";
+        var givenFrom = "44xxxxxxxx58";
+        var givenTo = "41xxxxxxx25";
 
         var givenRequest = $@"
             {{
@@ -122,14 +122,14 @@ public class VoiceApiTest : ApiTest
     public void ShouldSendMultipleVoiceMessages()
     {
         var expectedBulkId = "5028e2d42f19-42f1-4656-351e-a42c191e5fd2";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedGroupId = 1;
         var expectedGroupName = "PENDING";
         var expectedId = 26;
         var expectedName = "PENDING_ACCEPTED";
         var expectedDescription = "Message accepted, pending for delivery.";
         var expectedMessageId = "4242f196ba50-a356-2f91-831c4aa55f351ed2";
-        var expectedSecondTo = "41793026731";
+        var expectedSecondTo = "41xxxxxxx26";
         var expectedSecondGroupId = 1;
         var expectedSecondGroupName = "PENDING";
         var expectedSecondId = 26;
@@ -167,14 +167,14 @@ public class VoiceApiTest : ApiTest
             }}";
 
         var givenAudioFileUrl = "https://www.example.com/media.mp3";
-        var givenFrom = "41793026700";
-        var givenTo = "41793026727";
+        var givenFrom = "41xxxxxxx22";
+        var givenTo = "41xxxxxxx25";
         var givenText = "Hello world!";
         var givenLanguage = "en";
         var givenName = "Joanna";
         var givenGender = "female";
-        var givenSecondFrom = "41793026800";
-        var givenSecondTo = "41793026731";
+        var givenSecondFrom = "41xxxxxxx29";
+        var givenSecondTo = "41xxxxxxx26";
 
         var givenRequest = $@"
             {{
@@ -271,14 +271,14 @@ public class VoiceApiTest : ApiTest
     public void ShouldSendAdvancedMessage()
     {
         var expectedBulkId = "5028e2d42f19-42f1-4656-351e-a42c191e5fd2";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedGroupId = 1;
         var expectedGroupName = "PENDING";
         var expectedId = 26;
         var expectedName = "PENDING_ACCEPTED";
         var expectedDescription = "Message accepted, pending for delivery.";
         var expectedMessageId = "4242f196ba50-a356-2f91-831c4aa55f351ed2";
-        var expectedSecondTo = "41793026731";
+        var expectedSecondTo = "41xxxxxxx26";
         var expectedSecondGroupId = 1;
         var expectedSecondGroupName = "PENDING";
         var expectedSecondId = 26;
@@ -316,10 +316,10 @@ public class VoiceApiTest : ApiTest
             }}";
 
         var givenBulkId = "BULK-ID-123-xyz";
-        var givenFrom = "41793026700";
-        var givenTo = "41793026727";
+        var givenFrom = "41xxxxxxx22";
+        var givenTo = "41xxxxxxx25";
         var givenMessageId = "MESSAGE-ID-123-xyz";
-        var givenSecondTo = "41793026731";
+        var givenSecondTo = "41xxxxxxx26";
         var givenText = "Test Voice message.";
         var givenLanguage = "en";
         var givenName = "Joanna";
@@ -336,10 +336,10 @@ public class VoiceApiTest : ApiTest
         var givenCallTimeout = 130;
         var givenCallbackData = "DLR callback data";
         var givenEquals = "2";
-        var givenTransferTo = "41793026700";
+        var givenTransferTo = "41xxxxxxx22";
         var givenCallTransferMaxDuration = 45;
         var givenIf = "DTMF";
-        var givenSecondTransferTo = "41793026701";
+        var givenSecondTransferTo = "41xxxxxxx23";
         var givenSecondCallTransferMaxDuration = 45;
         var givenSecondIf = "anyDtmf";
         var givenPause = 3;
@@ -859,8 +859,8 @@ public class VoiceApiTest : ApiTest
     {
         var expectedBulkId = "8c20f086-d82b-48cc-b2b3-3ca5f7aca9fb";
         var expectedMessageId = "ff4804ef-6ab6-4abd-984d-ab3b1387e852";
-        var expectedFrom = "385333444";
-        var expectedTo = "385981178";
+        var expectedFrom = "44xxxxx04";
+        var expectedTo = "44xxxxx05";
         var expectedSentAt = "2018-06-25T13:38:14.730+0000";
         var expectedMccMnc = "21901";
         var expectedCallbackData = "DLR callback data";
@@ -1016,8 +1016,8 @@ public class VoiceApiTest : ApiTest
     {
         var expectedBulkId = "06479ba3-5977-47f6-9346-fee0369bc76b";
         var expectedMessageId = "1f21d8d7-f306-4f53-9f6e-eddfce9849ea";
-        var expectedTo = "41793026727";
-        var expectedFrom = "41793026700";
+        var expectedTo = "41xxxxxxx25";
+        var expectedFrom = "41xxxxxxx22";
         var expectedText = "Test voice message.";
         var expectedSentAt = new DateTimeOffset(2018, 6, 25, 13, 38, 14, 730, TimeSpan.FromHours(0));
         var expectedDoneAt = new DateTimeOffset(2018, 6, 25, 13, 38, 14, 730, TimeSpan.FromHours(0));
@@ -1127,8 +1127,8 @@ public class VoiceApiTest : ApiTest
     {
         var expectedBulkId = "8c20f086-d82b-48cc-b2b3-3ca5f7aca9fb";
         var expectedMessageId = "ff4804ef-6ab6-4abd-984d-ab3b1387e852";
-        var expectedFrom = "385333444";
-        var expectedTo = "385981178";
+        var expectedFrom = "44xxxxx04";
+        var expectedTo = "44xxxxx05";
         var expectedSentAt = "2018-06-25T13:38:14.730+0000";
         var expectedMccMnc = "21901";
         var expectedCallbackData = "DLR callback data";
@@ -1689,14 +1689,14 @@ public class VoiceApiTest : ApiTest
     public void ShouldLaunchVoiceIvrScenarios()
     {
         var expectedBulkId = "5028e2d42f19-42f1-4656-351e-a42c191e5fd2";
-        var expectedTo = "41793026727";
+        var expectedTo = "41xxxxxxx25";
         var expectedGroupId = 1;
         var expectedGroupName = "PENDING";
         var expectedId = 26;
         var expectedName = "PENDING_ACCEPTED";
         var expectedDescription = "Message accepted, pending for delivery.";
         var expectedMessageId = "4242f196ba50-a356-2f91-831c4aa55f351ed2";
-        var expectedSecondTo = "41793026731";
+        var expectedSecondTo = "41xxxxxxx26";
         var expectedSecondGroupId = 1;
         var expectedSecondGroupName = "PENDING";
         var expectedSecondId = 26;
@@ -1735,9 +1735,9 @@ public class VoiceApiTest : ApiTest
 
         var givenBulkId = "BULK-ID-123-xyz";
         var givenScenarioId = "6298AA7707903A4ED680B436929681AD";
-        var givenFrom = "41793026700";
-        var givenTo = "41793026727";
-        var givenSecondTo = "41793026731";
+        var givenFrom = "41xxxxxxx22";
+        var givenTo = "41xxxxxxx25";
+        var givenSecondTo = "41xxxxxxx26";
         var givenNotifyUrl = "https://www.example.com/voice/advanced";
         var givenNotifyContentType = "application/json";
         var givenCallbackData = "DLR callback data";
@@ -1904,16 +1904,16 @@ public class VoiceApiTest : ApiTest
     public void ShouldSearchVoiceIvrRecordedFiles()
     {
         var expectedMessageId = "453e161a-fe4f-4f3c-80c0-ab520de9a969";
-        var expectedFrom = "442032864231";
-        var expectedTo = "38712345678";
+        var expectedFrom = "44xxxxxxxx58";
+        var expectedTo = "387xxxxxx12";
         var expectedScenarioId = "C9CE33CF130511D8E333C1260BABA309";
         var expectedGroupId = "#/script/1";
         var expectedUrl =
             "/voice/ivr/1/files/3C67336FA555A606C85FA9637906A6AB98436B7AFC65D857A416F6521D39F8F0E1D3D2469FF580D8968D3DD89A2DB561";
         var expectedRecordedAt = new DateTimeOffset(2023, 10, 25, 12, 36, 37, 234, TimeSpan.FromHours(0));
         var expectedSecondMessageId = "05b2859d-85c6-4068-9347-2e563b5c9cf4";
-        var expectedSecondFrom = "442032864231";
-        var expectedSecondTo = "38712345678";
+        var expectedSecondFrom = "44xxxxxxxx58";
+        var expectedSecondTo = "387xxxxxx12";
         var expectedSecondScenarioId = "4A6177C9B92039306F1F091708851A2E";
         var expectedSecondGroupId = "#/script/1";
         var expectedSecondUrl =

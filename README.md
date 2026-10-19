@@ -83,7 +83,7 @@ Here's a simple example for sending an SMS message. First prepare the message by
         sender: "SMSInfo",
         destinations: new List<SmsDestination>()
         {
-            new SmsDestination(to: "41793026727")
+            new SmsDestination(to: "41xxxxxxx25")
         },
         content: new SmsMessageContent(
             new SmsTextContent(
